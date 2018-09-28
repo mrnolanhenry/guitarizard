@@ -12,6 +12,7 @@ const assert = require('assert');
 const pentatonicMinor = [0,3,5,7,10];
 const blues = [0,3,5,6,7,10];
 const chromatic = [0,1,2,3,4,5,6,7,8,9,10,11];
+//herp
 const scales = {
   pentatonicMinor,
   blues,
@@ -144,12 +145,12 @@ const guitar = {
 //
 //       _  ____ ___  _
 //      / |/  _ \\  \//
-//      | || / \| \  / 
-//   /\_| || |-|| / /  
-//   \____/\_/ \|/_/   
+//      | || / \| \  /
+//   /\_| || |-|| / /
+//   \____/\_/ \|/_/
 //
 
-/** 
+/**
  * A single note --- nothing more. ;)
  */
 class Note {
@@ -176,7 +177,7 @@ class Note {
 
   toString() {
     return JSON.stringify(this, null, 4);
-  }  
+  }
 }
 
 /**
@@ -196,7 +197,7 @@ class ScaleSystem {
       return note.keys.indexOf(key) !== -1;
     });
   }
-  
+
   getNotesFromKey(key) {
     let notes = [];
     let currentNote = this.getNoteFromKey(key);
@@ -205,7 +206,7 @@ class ScaleSystem {
       notes.push(currentNote);
       currentNote = this.getNextNote(currentNote);
     }
-    
+
     return notes;
   }
 
@@ -233,7 +234,7 @@ class ScaleSystem {
           if (note.keys[i] === fromNote.keys[j]) {
             return true;
           }
-          
+
         }
       }
 
@@ -249,25 +250,25 @@ class ScaleSystem {
    * Returns the next note in the scale system
    * given a starting note.
    *
-   * e.g.  
+   * e.g.
    *
-   *  > if our system is 12EDO, then 
+   *  > if our system is 12EDO, then
    *  >
    *  > Given Note('B'), this will return Note('C')
    *
-   * It will also properly "loop" around if 
+   * It will also properly "loop" around if
    * necessary,
    *
-   * e.g. 
+   * e.g.
    *
    *  > if our system is 12EDO, then
-   *  > 
+   *  >
    *  > Given Note('Ab'), this will return Note('A')
    *
    */
   getNextNote(currentNote) {
     const offset = this.getNoteOffset(currentNote);
-    
+
     return this.notes[(offset + 1) % this.notes.length];
   }
 
@@ -277,11 +278,11 @@ class ScaleSystem {
 
   valueOf() {
     return JSON.stringify(this, null, 4);
-  }  
+  }
 
   toString() {
     return JSON.stringify(this, null, 4);
-  }  
+  }
 }
 
 /**
@@ -300,7 +301,7 @@ class Scale {
 
   getNotesInKey(key) {
     const notes = this.scaleSystem.getNotesFromKey(key);
-    
+
     return this.intervals.map((interval) => {
       return notes[interval];
     });
@@ -316,16 +317,16 @@ class Scale {
 
   valueOf() {
     return JSON.stringify(this, null, 4);
-  }  
+  }
 
   toString() {
     return JSON.stringify(this, null, 4);
-  }  
+  }
 }
 
 
 /**
- *  A single fretted string that exists in 
+ *  A single fretted string that exists in
  *  the given `scaleSystem`
  */
 class FrettedString {
@@ -340,10 +341,10 @@ class FrettedString {
     const frettedNotes = [
       { fret: this.startFret, note: this.startNote }
     ];
-    
+
     let currentNote = this.scaleSystem.getNextNote(this.startNote);
     let i = this.startFret;
-    
+
     while (i < this.endFret) {
       i++;
       frettedNotes.push({ fret: i, note: currentNote });
@@ -364,17 +365,17 @@ class FrettedString {
 
   valueOf() {
     return JSON.stringify(this, null, 4);
-  }  
+  }
 
   toString() {
     return JSON.stringify(this, null, 4);
-  }  
+  }
 }
 
 // ------- test lib code: "fkin"  ----------
 //
 // TODO: * move to '/lib/fkin.js'
-//       * open source for luls 
+//       * open source for luls
 //
 async function fkinTest(tests) {
   const pending = [],
@@ -382,7 +383,7 @@ async function fkinTest(tests) {
 
   let i = 0;
   while (i < tests.length) {
-    
+
     const tags = []; while (typeof tests[i] == 'string')
       tags.push(tests[i++]);
 
@@ -414,14 +415,14 @@ const main = async function () {
   // -------------- Tests ---------------------
   // confirm your shit works for the most part
   // and confirm easily that the whole code base
-  // is working when you make changes! 
+  // is working when you make changes!
   //
-  const tests = []; 
+  const tests = [];
 
   // Docs: This is a temporary test framework I
   //       wrote up. We can use it for now, but
   //       will be replaced soon.
-  
+
   tests.push('Note', 'init', async function() {
     const note = new Note(['A']);
     assert.deepStrictEqual(note.keys, ['A']);
@@ -453,7 +454,7 @@ const main = async function () {
       simpleSystem.getNoteFromKey('A#'),
       new Note(['A#', 'Bb']));
   });
-  
+
   tests.push('ScaleSystem', 'getNoteOffset', async function () {
     const simpleSystem = new ScaleSystem([
       new Note(['A']),
@@ -469,10 +470,10 @@ const main = async function () {
     table.forEach((row, i) => {
       const note = row[0];
       const expected = row[1];
-      
+
       assert.deepStrictEqual(
         simpleSystem.getNoteOffset(note),
-        expected);  
+        expected);
     })
   });
 
@@ -494,9 +495,9 @@ const main = async function () {
 
     assert.deepStrictEqual(
       simpleSystem.getNextNote(new Note(['Ab'])),
-      new Note(['A']))        
+      new Note(['A']))
   });
-  
+
   tests.push('Scale', 'init', async function () {
     const scaleSystems = {
       // diatomic scale with equal temperament
@@ -517,14 +518,14 @@ const main = async function () {
     };
 
     const scales = [
-      new Scale('Pentatonic Minor', 
-                scaleSystems['12EDO'], 
+      new Scale('Pentatonic Minor',
+                scaleSystems['12EDO'],
                 [0, 3, 5, 7, 10]),
-      new Scale('Blues', 
-                scaleSystems['12EDO'], 
+      new Scale('Blues',
+                scaleSystems['12EDO'],
                 [0, 3, 5, 6, 7, 10]),
-      new Scale('Chromatic', 
-                scaleSystems['12EDO'], 
+      new Scale('Chromatic',
+                scaleSystems['12EDO'],
                 [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
     ]
 
@@ -554,9 +555,9 @@ const main = async function () {
       new Note(['G']),
       new Note(['G#', 'Ab'])
     ]);
-    
-    const blues = new Scale('Blues', 
-                            diatomic, 
+
+    const blues = new Scale('Blues',
+                            diatomic,
                             [0, 3, 5, 6, 7, 10]);
 
     const notes = blues.getNotesInKey('F');
@@ -569,7 +570,7 @@ const main = async function () {
       new Note(['C']),
       new Note(['D#', 'Eb'])
     ]);
-    
+
   });
 
 
@@ -579,12 +580,12 @@ const main = async function () {
       new Note(['A#', 'Bb']),
       new Note(['B'])
     ]);
-    
+
     const string = new FrettedString(diatomic,
                                      new Note(['A']),
                                      5,
                                      9);
-    
+
     assert.deepStrictEqual(
       JSON.stringify(string.getFrettedNotes()),
       JSON.stringify([
@@ -595,17 +596,17 @@ const main = async function () {
         { fret: 9, note: { keys: ['A#', 'Bb']} }
       ]));
   });
-  
+
   //
   // ------------- end tests ---------------
 
   const results = await fkinTest(tests);
 
   let hasFailed = false;
-  
+
   results.forEach((result) => {
     const tagMsg = result.tags.join(' -> ');
-    
+
     if (result.error) {
       hasFailed = true;
       console.error(`(FAILURE ((${tagMsg}) (${result.error.stack})))`);
@@ -613,12 +614,12 @@ const main = async function () {
       console.log(`(SUCCESS (${tagMsg}))`);
     }
   });
-  
+
   if (hasFailed) {
     console.error('\n\nsome tests have failed! check the output above :)');
     process.exit(1);
   }
-  
+
 }
 
 main().catch((error) => {
