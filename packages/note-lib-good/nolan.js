@@ -12,7 +12,6 @@ const assert = require('assert');
 const pentatonicMinor = [0,3,5,7,10];
 const blues = [0,3,5,6,7,10];
 const chromatic = [0,1,2,3,4,5,6,7,8,9,10,11];
-//herp
 const scales = {
   pentatonicMinor,
   blues,
@@ -155,20 +154,21 @@ const guitar = {
  */
 class Note {
   // TODO: Don't use array of keys & enforce with type
-  constructor(keys) {
-    this.keys = keys;
+  constructor(id, aliases) {
+    this.id = id;
+    this.aliases = aliases;
   }
 
   isSharp() {
-    return this.keys.indexOf('#') !== -1;
+    return false; // TODO: this.aliases.indexOf('#') !== -1;
   }
 
   isFlat() {
-    return this.keys.indexOf('b') !== -1;
+    return false; // TODO: this.aliases.indexOf('b') !== -1;
   }
 
   toJSON(key) {
-    return { keys: this.keys };
+    return { id: this.id, aliases: this.aliases };
   }
 
   valueOf() {
@@ -192,15 +192,21 @@ class ScaleSystem {
     this.notes = notes;
   }
 
-  getNoteFromKey(key) {
+  // Given an alias, e.g. "A#", return the
+  // "Note" instance, e.g. `new Note('Bb', ['A#', 'Bb'])`
+  getNoteFromAlias(alias) {
     return this.notes.find((note) => {
-      return note.keys.indexOf(key) !== -1;
+      return note.aliases.indexOf(alias) !== -1;
     });
   }
 
-  getNotesFromKey(key) {
+  // TODO: bad name
+  // TODO: docs:
+  //
+  // basically "shifts" the scale system to start at a new note
+  getShiftedNotes(alias) {
     let notes = [];
-    let currentNote = this.getNoteFromKey(key);
+    let currentNote = this.getNoteFromAlias(alias);
 
     for (let i = 0; i < this.notes.length; i++) {
       notes.push(currentNote);
@@ -214,7 +220,7 @@ class ScaleSystem {
    * Given a Note (object), it will return the
    * offset in the context of this Scale System.
    */
-  getNoteOffset(fromNote) {
+  getRelativeNoteOffset(fromNote) {
     // We have a list of notes in this "scale system" (this.notes)
     // and we want the offset that `fromNote` exists in it.
     //
@@ -223,25 +229,20 @@ class ScaleSystem {
     // If we return `true` from any iterations, then we have
     // found the note we were looking for!
     const offset = this.notes.findIndex((note) => {
-
-      // Double 'for loop' to exhaustavly search the
-      // current notes `keys` against the given notes.
-      for (let i = 0; i < note.keys.length; i++) {
-        for (let j = 0; j < fromNote.keys.length; j++) {
-
-          // Finally, if we find a matching keyset,
-          // return from `findIndex` --- we're done!
-          if (note.keys[i] === fromNote.keys[j]) {
-            return true;
-          }
-
-        }
-      }
-
-      return false;
+      return note.id === fromNote.id;
     });
 
     return offset;
+  }
+
+  getNoteOffset(fromNote, toNote) {
+    const fromNoteOffset = this.getRelativeNoteOffset(fromNote);
+    const toNoteOffset = this.getRelativeNoteOffset(toNote);
+    if (toNoteOffset > fromNoteOffset) {
+      return toNoteOffset - fromNoteOffset;
+    } else {
+      return toNoteOffset - fromNoteOffset + this.notes.length;
+    }
   }
 
   /**
@@ -267,7 +268,7 @@ class ScaleSystem {
    *
    */
   getNextNote(currentNote) {
-    const offset = this.getNoteOffset(currentNote);
+    const offset = this.getRelativeNoteOffset(currentNote);
 
     return this.notes[(offset + 1) % this.notes.length];
   }
@@ -300,8 +301,7 @@ class Scale {
   }
 
   getNotesInKey(key) {
-    const notes = this.scaleSystem.getNotesFromKey(key);
-
+    const notes = this.scaleSystem.getShiftedNotes(key);
     return this.intervals.map((interval) => {
       return notes[interval];
     });
@@ -424,21 +424,22 @@ const main = async function () {
   //       will be replaced soon.
 
   tests.push('Note', 'init', async function() {
-    const note = new Note(['A']);
-    assert.deepStrictEqual(note.keys, ['A']);
+    const note = new Note('A', ['A']);
+    assert.deepStrictEqual(note.aliases, ['A']);
   });
 
   tests.push('Note', 'JSON', async function() {
-    const note = new Note(['X', 'Y']);
+    const note = new Note('FOO-BAR', ['X', 'Y']);
     assert.deepStrictEqual(note.toJSON(), {
-      keys: ['X', 'Y']
+      id: 'FOO-BAR',
+      aliases: ['X', 'Y']
     });
   });
 
   tests.push('ScaleSystem', 'init', async function () {
     const simpleSystem = new ScaleSystem([
-      new Note(['A']),
-      new Note(['A#', 'Bb']),
+      new Note('A', ['A']),
+      new Note('Bb', ['A#', 'Bb']),
     ]);
 
     assert.deepStrictEqual(simpleSystem.notes.length, 2);
@@ -446,74 +447,129 @@ const main = async function () {
 
   tests.push('ScaleSystem', 'getNoteFromKey', async function() {
     const simpleSystem = new ScaleSystem([
-      new Note(['A']),
-      new Note(['A#', 'Bb']),
+      new Note('A', ['A']),
+      new Note('Bb', ['A#', 'Bb']),
     ]);
 
     assert.deepStrictEqual(
-      simpleSystem.getNoteFromKey('A#'),
-      new Note(['A#', 'Bb']));
+      simpleSystem.getNoteFromAlias('A#'),
+      new Note('Bb', ['A#', 'Bb']));
   });
 
   tests.push('ScaleSystem', 'getNoteOffset', async function () {
-    const simpleSystem = new ScaleSystem([
-      new Note(['A']),
-      new Note(['A#', 'Bb']),
+    const diatonic = new ScaleSystem([
+      new Note('A', ['A']),
+      new Note('Bb', ['A#', 'Bb']),
+      new Note('B', ['B']),
+      new Note('C', ['C']),
+      new Note('Db', ['C#', 'Db']),
+      new Note('D', ['D']),
+      new Note('Eb', ['D#', 'Eb']),
+      new Note('E', ['E']),
+      new Note('F', ['F']),
+      new Note('Gb', ['F#', 'Gb']),
+      new Note('G', ['G']),
+      new Note('Ab', ['G#', 'Ab'])
     ]);
 
-    const table = [
-      [ new Note(['A']), 0 ],
-      [ new Note(['A#']), 1 ],
-      [ new Note(['Bb']), 1 ]
-    ];
+    assert.deepStrictEqual(
+      diatonic.getNoteOffset(new Note('A', ['A']), new Note('C', ['C'])),
+      3
+    )
 
-    table.forEach((row, i) => {
-      const note = row[0];
-      const expected = row[1];
+    assert.deepStrictEqual(
+      diatonic.getNoteOffset(new Note('Bb', ['A#']), new Note('C', ['C'])),
+      2
+    )
 
-      assert.deepStrictEqual(
-        simpleSystem.getNoteOffset(note),
-        expected);
-    })
+    assert.deepStrictEqual(
+      diatonic.getNoteOffset(new Note('G', ['G']), new Note('A', ['A'])),
+      2
+    )
+
+    // const table = [
+    //   [ new Note('A', ['A']), 0 ],
+    //   [ new Note('A', ['A#']), 1 ],
+    //   [ new Note('B', ['Bb']), 1 ]
+    // ];
+    //
+    // table.forEach((row, i) => {
+    //   const note = row[0];
+    //   const expected = row[1];
+    //
+    //   assert.deepStrictEqual(
+    //     simpleSystem.getNoteOffset(note),
+    //     expected);
+    // })
   });
 
   tests.push('ScaleSystem', 'getNextNote', async function () {
     const simpleSystem = new ScaleSystem([
-      new Note(['A']),
-      new Note(['A#', 'Bb']),
-      new Note(['B']),
-      new Note(['G#', 'Ab'])
+      new Note('A', ['A']),
+      new Note('Bb', ['A#', 'Bb']),
+      new Note('B', ['B']),
+      new Note('Ab', ['G#', 'Ab'])
     ]);
 
     assert.deepStrictEqual(
-      simpleSystem.getNextNote(new Note(['A'])),
-      new Note(['A#', 'Bb']))
+      simpleSystem.getNextNote(new Note('A', ['A'])),
+      new Note('Bb', ['A#', 'Bb']))
 
     assert.deepStrictEqual(
-      simpleSystem.getNextNote(new Note(['G#', 'Ab'])),
-      new Note(['A']))
+      simpleSystem.getNextNote(new Note('G', ['G#', 'Ab'])),
+      new Note('A', ['A']))
 
     assert.deepStrictEqual(
-      simpleSystem.getNextNote(new Note(['Ab'])),
-      new Note(['A']))
+      simpleSystem.getNextNote(new Note('Ab', ['Ab'])),
+      new Note('A', ['A']))
   });
+
+  tests.push('ScaleSystem', 'getNoteOffset', async function () {
+      const diatonic = new ScaleSystem([
+        new Note('A', ['A']),
+        new Note('Bb', ['A#', 'Bb']),
+        new Note('B', ['B']),
+        new Note('C', ['C']),
+        new Note('Db', ['C#', 'Db']),
+        new Note('D', ['D']),
+        new Note('Eb', ['D#', 'Eb']),
+        new Note('E', ['E']),
+        new Note('F', ['F']),
+        new Note('Gb', ['F#', 'Gb']),
+        new Note('G', ['G']),
+        new Note('Ab', ['G#', 'Ab'])
+      ]);
+
+      const a = new Note('A', ['A']);
+      const c = new Note('C', ['C']);
+
+      // assert.deepStrictEqual(
+      //   diatonic.getNoteOffset(a, c),
+      //   3
+      // )
+      //
+      // assert.deepStrictEqual(
+      //   diatonic.getNoteOffset(c, a),
+      //   9
+      // )
+  })
 
   tests.push('Scale', 'init', async function () {
     const scaleSystems = {
-      // diatomic scale with equal temperament
+      // diatonic scale with equal temperament
       '12EDO': new ScaleSystem([
-        new Note(['A']),
-        new Note(['A#', 'Bb']),
-        new Note(['B']),
-        new Note(['C']),
-        new Note(['C#', 'Db']),
-        new Note(['D']),
-        new Note(['D#', 'Eb']),
-        new Note(['E']),
-        new Note(['F']),
-        new Note(['F#', 'Gb']),
-        new Note(['G']),
-        new Note(['G#', 'Ab'])
+        new Note('A', ['A']),
+        new Note('Bb', ['A#', 'Bb']),
+        new Note('B', ['B']),
+        new Note('C', ['C']),
+        new Note('Db', ['C#', 'Db']),
+        new Note('D', ['D']),
+        new Note('Eb', ['D#', 'Eb']),
+        new Note('E', ['E']),
+        new Note('F', ['F']),
+        new Note('Gb', ['F#', 'Gb']),
+        new Note('G', ['G']),
+        new Note('Ab', ['G#', 'Ab'])
       ])
     };
 
@@ -541,59 +597,59 @@ const main = async function () {
   });
 
   tests.push('Scale', 'getNotesInKey', async function() {
-    const diatomic = new ScaleSystem([
-      new Note(['A']),
-      new Note(['A#', 'Bb']),
-      new Note(['B']),
-      new Note(['C']),
-      new Note(['C#', 'Db']),
-      new Note(['D']),
-      new Note(['D#', 'Eb']),
-      new Note(['E']),
-      new Note(['F']),
-      new Note(['F#', 'Gb']),
-      new Note(['G']),
-      new Note(['G#', 'Ab'])
+    const diatonic = new ScaleSystem([
+      new Note('A', ['A']),
+      new Note('Bb', ['A#', 'Bb']),
+      new Note('B', ['B']),
+      new Note('C', ['C']),
+      new Note('Db', ['C#', 'Db']),
+      new Note('D', ['D']),
+      new Note('Eb', ['D#', 'Eb']),
+      new Note('E', ['E']),
+      new Note('F', ['F']),
+      new Note('Gb', ['F#', 'Gb']),
+      new Note('G', ['G']),
+      new Note('Ab', ['G#', 'Ab'])
     ]);
 
     const blues = new Scale('Blues',
-                            diatomic,
+                            diatonic,
                             [0, 3, 5, 6, 7, 10]);
 
     const notes = blues.getNotesInKey('F');
 
     assert.deepStrictEqual(notes, [
-      new Note(['F']),
-      new Note(['G#', 'Ab']),
-      new Note(['A#', 'Bb']),
-      new Note(['B']),
-      new Note(['C']),
-      new Note(['D#', 'Eb'])
+      new Note('F', ['F']),
+      new Note('Ab', ['G#', 'Ab']),
+      new Note('Bb', ['A#', 'Bb']),
+      new Note('B', ['B']),
+      new Note('C', ['C']),
+      new Note('Eb', ['D#', 'Eb'])
     ]);
 
   });
 
 
   tests.push('FrettedString', 'getFrettedNotes', async function() {
-    const diatomic = new ScaleSystem([
-      new Note(['A']),
-      new Note(['A#', 'Bb']),
-      new Note(['B'])
+    const diatonic = new ScaleSystem([
+      new Note('A', ['A']),
+      new Note('Bb', ['A#', 'Bb']),
+      new Note('B', ['B'])
     ]);
 
-    const string = new FrettedString(diatomic,
-                                     new Note(['A']),
+    const string = new FrettedString(diatonic,
+                                     new Note('A', ['A']),
                                      5,
                                      9);
 
     assert.deepStrictEqual(
       JSON.stringify(string.getFrettedNotes()),
       JSON.stringify([
-        { fret: 5, note: { keys: ['A']} },
-        { fret: 6, note: { keys: ['A#', 'Bb']} },
-        { fret: 7, note: { keys: ['B']} },
-        { fret: 8, note: { keys: ['A'] } },
-        { fret: 9, note: { keys: ['A#', 'Bb']} }
+        { fret: 5, note: { id: 'A', aliases: ['A']} },
+        { fret: 6, note: { id: 'Bb', aliases: ['A#', 'Bb']} },
+        { fret: 7, note: { id: 'B', aliases: ['B']} },
+        { fret: 8, note: { id: 'A', aliases: ['A'] } },
+        { fret: 9, note: { id: 'Bb', aliases: ['A#', 'Bb']} }
       ]));
   });
 
