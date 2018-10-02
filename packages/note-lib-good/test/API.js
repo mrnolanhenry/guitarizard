@@ -8,5 +8,6 @@ tap.test('exposed API', function (t) {
   t.ok(API.FrettedString)
   t.ok(API.instruments.Guitar)
   t.equal(API.scaleSystems.length, 1);
+  t.equal(API.scales.length, 110)
   t.end()
 });

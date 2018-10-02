@@ -6,7 +6,8 @@ const API = {
   instruments: {
     Guitar: require('./instruments/Guitar')
   },
-  scaleSystems: require('./scaleSystems')
+  scaleSystems: require('./scaleSystems'),
+  scales: require('./scales')
 };
 
 module.exports = API;
