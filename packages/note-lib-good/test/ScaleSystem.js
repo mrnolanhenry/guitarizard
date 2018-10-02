@@ -16,7 +16,7 @@ tap.test('class ScaleSystem', function (t) {
   const G = new Note('G', ['G']);
   const Ab = new Note('Ab', ['G#', 'Ab']);
   
-  const diatonic = new ScaleSystem([
+  const diatonic = new ScaleSystem('diatonic', [
     A,
     Bb,
     B,

@@ -14,6 +14,8 @@ const Gb = new Note('Gb', ['F#', 'Gb']);
 const G = new Note('G', ['G']);
 const Ab = new Note('Ab', ['G#', 'Ab']);
 
-const diatonic = new ScaleSystem([ A, Bb, B, C, Db, D, Eb, E, F, Gb, G, Ab ]);
+const diatonic = new ScaleSystem(
+  'diatonic',
+  [ A, Bb, B, C, Db, D, Eb, E, F, Gb, G, Ab ]);
 
 module.exports = diatonic;

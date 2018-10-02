@@ -6,7 +6,8 @@
  * If you were a formal person, you'd call this a "scale".
  */
 module.exports = class ScaleSystem {
-  constructor(notes) {
+  constructor(name, notes) {
+    this.name = name;
     this.notes = notes;
   }
 
@@ -35,7 +36,7 @@ module.exports = class ScaleSystem {
   }
 
   /**
-   * Internal function. 
+   * Internal function.
    *
    * Given a Note (object), it will return the
    * offset in the context of this Scale System.
@@ -61,7 +62,7 @@ module.exports = class ScaleSystem {
   getNoteInterval(fromNote, toNote) {
     const fromNoteOffset = this._getRelativeNoteOffset(fromNote);
     const toNoteOffset = this._getRelativeNoteOffset(toNote);
-    
+
     if (toNoteOffset > fromNoteOffset) {
       return toNoteOffset - fromNoteOffset;
     } else {
@@ -73,9 +74,9 @@ module.exports = class ScaleSystem {
    * Note -> Note
    *
    * Returns the next note in the scale system
-   * given a starting note `fromNote`. 
+   * given a starting note `fromNote`.
    *
-   * An optional parameter `stepsAway` allows you 
+   * An optional parameter `stepsAway` allows you
    * specify how steps to travel (default=1)
    *
    * e.g.
@@ -98,7 +99,7 @@ module.exports = class ScaleSystem {
     if (typeof stepsAway === 'undefined') {
       stepsAway = 1;
     }
-    
+
     const offset = this._getRelativeNoteOffset(fromNote);
 
     let index = (offset + stepsAway) % this.notes.length;
@@ -106,12 +107,15 @@ module.exports = class ScaleSystem {
     if (index < 0) {
       index = this.notes.length + index;
     }
-    
+
     return this.notes[index];
   }
 
   toJSON(key) {
-    return { notes: this.notes };
+    return {
+      name: this.name,
+      notes: this.notes
+    };
   }
 
   valueOf() {

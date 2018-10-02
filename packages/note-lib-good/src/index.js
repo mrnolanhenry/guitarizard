@@ -5,7 +5,8 @@ const API = {
   FrettedString: require('./FrettedString'),
   instruments: {
     Guitar: require('./instruments/Guitar')
-  }
+  },
+  scaleSystems: require('./scaleSystems')
 };
 
 module.exports = API;

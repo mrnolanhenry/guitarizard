@@ -5,7 +5,7 @@ const FrettedString = require('../src/FrettedString');
 
 tap.test('class FrettedString', function (t) {
 
-  const smallDiatonic = new ScaleSystem([
+  const smallDiatonic = new ScaleSystem('small', [
     new Note('A', ['A']),
     new Note('Bb', ['A#', 'Bb']),
     new Note('B', ['B'])
