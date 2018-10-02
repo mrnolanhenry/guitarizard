@@ -1,5 +1,5 @@
-const Note = require('../Note');
-const ScaleSystem = require('../ScaleSystem');
+const Note = require('../../Note');
+const ScaleSystem = require('../../ScaleSystem');
 
 const A = new Note('A', ['A']);
 const Bb = new Note('Bb', ['A#', 'Bb']);

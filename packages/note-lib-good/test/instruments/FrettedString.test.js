@@ -1,7 +1,7 @@
 const tap = require('tap');
-const Note = require('../src/Note');
-const ScaleSystem = require('../src/ScaleSystem');
-const FrettedString = require('../src/FrettedString');
+const Note = require('../../src/Note');
+const ScaleSystem = require('../../src/ScaleSystem');
+const FrettedString = require('../../src/instruments/FrettedString');
 
 tap.test('class FrettedString', function (t) {
 
@@ -18,7 +18,7 @@ tap.test('class FrettedString', function (t) {
     AString.getFrettedNotes(0, 0),
     [ new Note('A', ['A']) ],
     'single fret');
-  
+
   t.same(
     AString.getFrettedNotes(0, 1),
     [ new Note('A', ['A']), new Note('Bb', ['A#', 'Bb']) ],
@@ -39,7 +39,7 @@ tap.test('class FrettedString', function (t) {
       new Note('A', ['A']) ],
     'looping scale system');
 
-  
+
   const BFlatString = new FrettedString(smallDiatonic,
                                         new Note('Bb', ['A#', 'Bb']));
 
@@ -50,6 +50,6 @@ tap.test('class FrettedString', function (t) {
 
   t.equal(AString.valueOf(), JSON.stringify(AString));
   t.equal(AString.toString(), JSON.stringify(AString));
-  
+
   t.end();
 });

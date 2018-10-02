@@ -1,3 +1,5 @@
+const { mainIntervals } = require('./data/intervals')
+
 /**
  * A single scale.
  *
@@ -6,17 +8,18 @@
  * If you were a formal person, you'd call this a "mode".
  */
 module.exports = class Scale {
-  constructor(name, scaleSystem, intervals) {
+  constructor(name, scaleSystem, intervalsBySemitones) {
     this.name = name;
     this.scaleSystem = scaleSystem;
-    this.intervals = intervals;
+    this.intervals = intervalsBySemitones.map(semitone =>
+      mainIntervals[semitone]);
   }
 
   getNotesInKey(key) {
     const notes = this.scaleSystem.getShiftedNotes(key);
-    
+
     return this.intervals.map((interval) => {
-      return notes[interval];
+      return notes[interval.semitones];
     });
   }
 

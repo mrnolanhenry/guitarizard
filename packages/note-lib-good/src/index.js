@@ -1,13 +1,11 @@
 const API = {
+  data: require('./data'),
+
   Note: require('./Note'),
   ScaleSystem: require('./ScaleSystem'),
   Scale: require('./Scale'),
-  FrettedString: require('./FrettedString'),
-  instruments: {
-    Guitar: require('./instruments/Guitar')
-  },
-  scaleSystems: require('./scaleSystems'),
-  scales: require('./scales')
+
+  instruments: require('./instruments')
 };
 
 module.exports = API;

@@ -1,4 +1,4 @@
-const Scale = require('../Scale')
+const Scale = require('../../Scale')
 const diatonic = require('../scaleSystems/diatonic');
 
 module.exports = [
@@ -98,8 +98,8 @@ module.exports = [
   new Scale('pelog', diatonic, [0,1,3,7,8,12]),
   new Scale('pelog 2', diatonic, [0,1,3,7,10,12]),
   new Scale('pentatonic blues', diatonic, [0,3,5,6,7,10,12]),
-  new Scale('pentatonic major' [0,2,4,7,9,12]),
-  new Scale('pentatonic minor' [0,3,5,7,10,12]),
+  new Scale('pentatonic major', diatonic, [0,2,4,7,9,12]),
+  new Scale('pentatonic minor', diatonic, [0,3,5,7,10,12]),
   new Scale('pentatonic neutral', diatonic, [0,2,5,7,10,12]),
   new Scale('persian', diatonic, [0,1,4,5,6,8,11,12]),
   new Scale('phrygian', diatonic, [0,1,3,5,7,8,10,12]),

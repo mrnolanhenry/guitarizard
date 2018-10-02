@@ -5,8 +5,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "test": "tap test/*.js --reporter spec",
-    "test:100": "tap test/*.js --reporter spec --100"
+    "test": "tap --reporter spec 'test/**/*.js'",
+    "test:100": "tap --reporter spec --100 'test/**/*.js'"
   },
   "repository": {
     "type": "git",
