@@ -85,4 +85,22 @@ module.exports = class FretBoard {
     })
   }
 
+  toJSON(key) {
+    return { 
+      scaleSystem: this.scaleSystem,
+      tunedStrings: this.tunedStrings,
+      stringConfig: this.stringConfig,
+      fretCount: this.fretCount,
+      stringNotes: this.stringNotes
+    };
+  }
+
+  valueOf() {
+    return JSON.stringify(this);
+  }
+
+  toString() {
+    return JSON.stringify(this);
+  }
+
 }
