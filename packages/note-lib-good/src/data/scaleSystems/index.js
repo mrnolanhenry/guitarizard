@@ -1,3 +1,7 @@
+const diatonic = require('./diatonic')
+
 module.exports = [
-  require('./diatonic')
+  diatonic
 ];
+
+module.exports.diatonic = diatonic;

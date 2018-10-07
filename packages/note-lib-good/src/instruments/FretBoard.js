@@ -81,12 +81,12 @@ module.exports = class FretBoard {
         tunedString: string.tunedString,
         config: string.config,
         notes
-      };      
+      };
     })
   }
 
   toJSON(key) {
-    return { 
+    return {
       scaleSystem: this.scaleSystem,
       tunedStrings: this.tunedStrings,
       stringConfig: this.stringConfig,
