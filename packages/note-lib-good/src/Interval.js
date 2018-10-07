@@ -7,40 +7,31 @@ module.exports = class Interval {
    */
   constructor(semitones, aliases) {
     this.semitones = semitones;
+    this.aliases = aliases;
 
-    this.aliases = aliases.reduce((acc, alias) => {
-      if (alias.name) {
-        acc[alias.name] = alias
-      }
-
-      return acc;
-    }, {})
+    this.isMajor = this.hasAliasName('major');
+    this.isMinor = this.hasAliasName('minor');
+    this.isAugmented = this.hasAliasName('augmented');
+    this.isDiminished = this.hasAliasName('diminished');
+    this.isPerfect = this.hasAliasName('perfect');
+    this.isRoot = this.hasAliasName('root');
   }
 
-  isMajor() {
-    return typeof this.aliases.major !== 'undefined'
+  hasAliasName(name) {
+    const alias = this.aliases.find(a => a.name === name)
+    return typeof alias !== 'undefined'    
   }
-
-  isMinor() {
-    return typeof this.aliases.minor !== 'undefined'
-  }
-
-  isAugmented() {
-    return typeof this.aliases.augmented !== 'undefined'
-  }
-
-  isDiminished() {
-    return typeof this.aliases.diminished !== 'undefined'
-  }
-
-  isPerfect() {
-    return typeof this.aliases.perfect !== 'undefined'
-  }
-
+  
   toJSON(key) {
     return {
       semitones: this.semitones,
-      aliases: this.aliases
+      aliases: this.aliases,
+      isMajor: this.isMajor,
+      isMinor: this.isMinor,
+      isAugmented: this.isAugmented,
+      isDiminished: this.isDiminished,
+      isPerfect: this.isPerfect,
+      isRoot: this.isRoot
     }
   }
 
