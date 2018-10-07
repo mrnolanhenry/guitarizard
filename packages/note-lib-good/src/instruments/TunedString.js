@@ -31,10 +31,9 @@ module.exports = class TunedString {
 
   toJSON(key) {
     return {
-      scaleSystem: this.scaleSystem,
-      startNote: this.startNote,
-      startFret: this.startFret,
-      endFret: this.endFret
+      tuningNote: this.tuningNote,
+      material: this.material,
+      gauge: this.gauge
     };
   }
 
