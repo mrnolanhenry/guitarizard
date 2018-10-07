@@ -6,19 +6,15 @@ module.exports = class Interval {
    *
    */
   constructor(semitones, aliases) {
-    
     this.semitones = semitones;
 
-    this.aliases = Object.keys(aliases).reduce((acc, key) => {
-      const alias = aliases[key];
-
-      if (alias.name && alias.short) {
-        acc[key] = { name: alias.name, short: alias.short };
+    this.aliases = aliases.reduce((acc, alias) => {
+      if (alias.name) {
+        acc[alias.name] = alias
       }
 
       return acc;
     }, {})
-    
   }
 
   isMajor() {
@@ -40,7 +36,7 @@ module.exports = class Interval {
   isPerfect() {
     return typeof this.aliases.perfect !== 'undefined'
   }
-  
+
   toJSON(key) {
     return {
       semitones: this.semitones,

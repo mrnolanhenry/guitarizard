@@ -2,18 +2,18 @@ const tap = require('tap');
 const Interval = require('../src/Interval');
 
 tap.test('class Interval', function (t) {
-  const interval = new Interval(0, {
-    perfect: { name: 'Perfect unison', short: 'P1' },
-    diminished: { name: 'Diminished second', short: 'd2' },
-    alt1: { name: 'root', short: 'R' }
-  });
+  const interval = new Interval(0, [
+    { name: 'perfect', long: 'Perfect unison', short: 'P1' },
+    { name: 'diminished', long: 'Diminished second', short: 'd2' },
+    { name: 'root', short: 'R' }
+  ]);
 
   t.same(interval.toJSON(), {
     semitones: 0,
     aliases: {
-      perfect: { name: 'Perfect unison', short: 'P1' },
-      diminished: { name: 'Diminished second', short: 'd2' },
-      alt1: { name: 'root', short: 'R' }
+      perfect: { name: 'perfect', long: 'Perfect unison', short: 'P1' },
+      diminished: { name: 'diminished', long: 'Diminished second', short: 'd2' },
+      root: { name: 'root', short: 'R' }
     }
   }, 'JSON should be correct');
 
