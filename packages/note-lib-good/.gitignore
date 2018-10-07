@@ -30,3 +30,5 @@ node_modules
 
 # coverage output from nyc/tap
 .nyc_output
+
+result

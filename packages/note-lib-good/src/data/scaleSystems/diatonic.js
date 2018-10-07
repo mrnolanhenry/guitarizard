@@ -19,3 +19,16 @@ const diatonic = new ScaleSystem(
   [ A, Bb, B, C, Db, D, Eb, E, F, Gb, G, Ab ]);
 
 module.exports = diatonic;
+
+module.exports.A = A;
+module.exports.Bb = Bb;
+module.exports.B = B;
+module.exports.C = C;
+module.exports.Db = Db;
+module.exports.D = D;
+module.exports.Eb = Eb;
+module.exports.E = E;
+module.exports.F = F;
+module.exports.Gb = Gb;
+module.exports.G = G;
+module.exports.Ab = Ab;

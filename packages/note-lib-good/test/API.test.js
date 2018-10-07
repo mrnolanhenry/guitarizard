@@ -5,8 +5,7 @@ tap.test('exposed API', function (t) {
   t.ok(API.Note)
   t.ok(API.ScaleSystem)
   t.ok(API.Scale)
-  t.ok(API.instruments.FrettedString)
-  t.ok(API.instruments.Guitar)
+  t.ok(API.instruments)
   
   t.equal(API.data.scaleSystems.length, 1)
   t.ok(API.data.scaleSystems[0].name === 'diatonic')

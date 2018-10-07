@@ -1,9 +1,9 @@
 const tap = require('tap');
 const Note = require('../../src/Note');
 const ScaleSystem = require('../../src/ScaleSystem');
-const FrettedString = require('../../src/instruments/FrettedString');
+const TunedString = require('../../src/instruments/TunedString');
 
-tap.test('class FrettedString', function (t) {
+tap.test('class TunedString', function (t) {
 
   const smallDiatonic = new ScaleSystem('small', [
     new Note('A', ['A']),
@@ -11,28 +11,27 @@ tap.test('class FrettedString', function (t) {
     new Note('B', ['B'])
   ]);
 
-  const AString = new FrettedString(smallDiatonic,
-                                    new Note('A', ['A']));
+  const AString = new TunedString(new Note('A', ['A']));
 
   t.same(
-    AString.getFrettedNotes(0, 0),
+    AString.getFrettedNotes(smallDiatonic, 0),
     [ new Note('A', ['A']) ],
     'single fret');
 
   t.same(
-    AString.getFrettedNotes(0, 1),
+    AString.getFrettedNotes(smallDiatonic, 1),
     [ new Note('A', ['A']), new Note('Bb', ['A#', 'Bb']) ],
     'two frets');
 
   t.same(
-    AString.getFrettedNotes(0, 2),
+    AString.getFrettedNotes(smallDiatonic, 2),
     [ new Note('A', ['A']),
       new Note('Bb', ['A#', 'Bb']),
       new Note('B', ['B']) ],
     'three frets');
 
   t.same(
-    AString.getFrettedNotes(0, 3),
+    AString.getFrettedNotes(smallDiatonic, 3),
     [ new Note('A', ['A']),
       new Note('Bb', ['A#', 'Bb']),
       new Note('B', ['B']),
@@ -40,11 +39,10 @@ tap.test('class FrettedString', function (t) {
     'looping scale system');
 
 
-  const BFlatString = new FrettedString(smallDiatonic,
-                                        new Note('Bb', ['A#', 'Bb']));
+  const BFlatString = new TunedString(new Note('Bb', ['A#', 'Bb']));
 
   t.same(
-    BFlatString.getFrettedNotes(0, 0),
+    BFlatString.getFrettedNotes(smallDiatonic, 0),
     [ new Note('Bb', ['A#', 'Bb']) ],
     'offset single fret');
 

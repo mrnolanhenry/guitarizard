@@ -1,4 +1,4 @@
 module.exports = {
-  FrettedString: require('./FrettedString'),
-  Guitar: require('./Guitar')
+  TunedString: require('./TunedString'),
+  FretBoard: require('./FretBoard')
 }
