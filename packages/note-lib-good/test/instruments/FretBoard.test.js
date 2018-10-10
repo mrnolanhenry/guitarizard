@@ -1,10 +1,10 @@
 const tap = require('tap');
-const diatonic = require('../../src/data/scaleSystems/diatonic');
+const diatonic = require('../../src/data/scaleSystem/diatonic');
 const Note = require('../../src/Note');
 const ScaleSystem = require('../../src/ScaleSystem');
 const Scale = require('../../src/Scale');
-const TunedString = require('../../src/instruments/TunedString');
-const FretBoard = require('../../src/instruments/FretBoard');
+const TunedString = require('../../src/instrument/TunedString');
+const FretBoard = require('../../src/instrument/FretBoard');
 
 tap.test('class FretBoard --- init', function (t) {
 

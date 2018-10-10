@@ -89,9 +89,7 @@ module.exports = class FretBoard {
     return {
       scaleSystem: this.scaleSystem,
       tunedStrings: this.tunedStrings,
-      stringConfig: this.stringConfig,
-      fretCount: this.fretCount,
-      stringNotes: this.stringNotes
+      stringConfig: this.stringConfig
     };
   }
 

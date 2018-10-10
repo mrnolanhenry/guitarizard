@@ -1,4 +1,4 @@
-const Interval = require('../../Interval');
+const Interval = require('../Interval');
 
 const mainIntervals = [
   {

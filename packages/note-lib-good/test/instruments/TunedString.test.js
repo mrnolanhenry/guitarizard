@@ -1,7 +1,7 @@
 const tap = require('tap');
 const Note = require('../../src/Note');
 const ScaleSystem = require('../../src/ScaleSystem');
-const TunedString = require('../../src/instruments/TunedString');
+const TunedString = require('../../src/instrument/TunedString');
 
 tap.test('class TunedString', function (t) {
 

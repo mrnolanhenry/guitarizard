@@ -1,7 +1,7 @@
 const tap = require('tap');
 const Note = require('../src/Note');
 const Scale = require('../src/Scale');
-const diatonic = require('../src/data/scaleSystems/diatonic');
+const diatonic = require('../src/data/scaleSystem/diatonic');
 
 tap.test('class Scale', function (t) {
   const blues = new Scale('Blues',
