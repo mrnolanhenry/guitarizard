@@ -11,8 +11,10 @@ const scales = {
 };
 
 const _7 = [0,4,7,10];
+const _5 = [0,7,0];
 const chords = {
-  _7
+  _7,
+  _5
 };
 
 const notes = [ ['A', 'A#', 'B','C','C#','D','D#','E','F','F#','G','G#'],
@@ -87,6 +89,126 @@ function getNotesInScale(key,scale) {
   { notesFromA: 0, note: 'A' } ]
                         ,'You fucked up');
 
+
+// PERMUTATIONS of array length given an array.
+// FUNKY RECURSION makes nesting this function necessary.
+function permuteArray(input) {
+
+  var permArr = [],
+    usedChars = [];
+
+  function permutate(input) {
+    var i, ch;
+    var newInput = input.slice()
+    for (i = 0; i < newInput.length; i++) {
+      ch = newInput.splice(i, 1)[0];
+      usedChars.push(ch);
+      if (newInput.length === 0) {
+        permArr.push(usedChars.slice());
+      }
+      permutate(newInput);
+      newInput.splice(i, 0, ch);
+      usedChars.pop();
+    }
+    return permArr;
+  };
+
+return permutate(input);
+}
+
+// console.log(JSON.stringify(permuteArray(_7)));
+// console.log(permuteArray(_7).length);
+
+// Given an array, provide an array with each possible arrays with one extra length, made up of one of those elements.
+// Confused?? Example: the _7 chord is [0,4,7,10]. This should generate an array which includes each of the below arrays:
+// [0,4,7,10,0] , [0,4,7,10,4] , [0,4,7,10,7], and [0,4,7,10,10]
+// Each of these would then be permutated using the permuteArray function later on.
+function permuteVoicing (input, inputLength) {
+  var newArr = [];
+  for (let i = 0; i < inputLength; i++) {
+    var newInput = input.slice();
+    newInput.push(input[i]);
+    newArr.push(newInput);
+  }
+  return newArr;
+}
+
+// console.log(JSON.stringify(permuteVoicing(_7,_7.length),null,4));
+// console.log(JSON.stringify(permuteVoicing(_5,_5.length),null,4));
+
+
+//Given array from permuteVoicings function and an original chordLength (i.e. 4 for _7 chord: [0,4,7,10]),
+//Returns another step of permutations within an array.
+function permuteVoicings(newInput,chordLength) {
+  var newArr = [];
+    for (let i = 0; i < newInput.length; i++) {
+      newArr = newArr.concat(permuteVoicing(newInput[i],chordLength));
+    }
+  return newArr;
+}
+
+console.log(JSON.stringify(permuteVoicings(permuteVoicing(_7,_7.length),_7.length),null,4));
+console.log(permuteVoicings(permuteVoicing(_7,_7.length),_7.length).length);
+
+console.log(JSON.stringify(permuteVoicings(permuteVoicings(permuteVoicing(_7,_7.length),_7.length),_7.length),null,4));
+console.log(permuteVoicings(permuteVoicings(permuteVoicing(_7,_7.length),_7.length),_7.length).length);
+
+// //Works the same as the permuteVoicing function, but adds a variable amount of additional elements, based on arrayLength.
+// function oldPermuteVoicings(input, arrayLength) {
+//   var arr = [];
+//   var newArr = [];
+//   var newInput = permuteVoicing(input,input.length);
+//   for (let j = 0; j < arrayLength - input.length - 1; j++){
+//     for (let i = 0; i < newInput.length; i++) {
+//       arr = arr.concat(permuteVoicing(newInput[i],input.length));
+//     }
+//     newArr = newArr.concat(permuteVoicing(arr[j],input.length));
+//   }
+//   return newArr;
+// }
+//
+// // console.log(JSON.stringify(oldPermuteVoicings(_7,7),null,4));
+// // console.log(oldPermuteVoicings(_7,7).length);
+//
+// // console.log(JSON.stringify(oldPermuteVoicings(_5,6),null,4));
+// // console.log(oldPermuteVoicings(_5,6).length);
+
+
+
+// Given an array's index number [n] within a larger array,
+// return true if it is unique up to position n or false if it matches another array[i], where i < n.
+function isUniqueArray (n,withinArray) {
+  var countAppearances = 0;
+  for (let i = 0; i < n; i++){
+    var countEquivElements = 0;
+    for (let j = 0; j < withinArray[i].length; j++) {
+      // console.log('array[',j, '] =',array[j],'withinArray[' , i , '] ' , '[' , j , '] =',withinArray[i][j]);
+      if (withinArray[n][j] === withinArray[i][j] && n !== i) {
+        countEquivElements += 1;
+        // console.log('countEquivElements ',countEquivElements);
+      }
+      if (countEquivElements === withinArray[i].length && withinArray[n].length === withinArray[i].length) {
+        // countAppearances += 1;
+        // console.log('countAppearances ',countAppearances);
+        return false;
+      }
+      if (countAppearances > 1) {
+        // return false;
+      }
+    }
+  }
+  return true;
+}
+
+// console.log(isUniqueArray(1,permuteVoicing(_5,_5.length)));
+
+// Given an array with numeric values, sort them in ascending order.
+function sortNumbers (array){
+  array.sort(function(a, b){return a - b});
+  return array;
+}
+
+// console.log(sortNumbers(permuteVoicing(_5,_5.length)[2]));
 
 // Given a starting Note, starting fret, end fret, and order of String within instrument,
 // create a string: array of objects that have note and fret Number properties.
@@ -220,29 +342,29 @@ function removeInvalidStringsBelow(validStrings, firstValidString){
 // console.log(removeInvalidStringsBelow(getValidStrings(guitar),7));
 
 // Given a Note, Instrument, and String index number, returns Note object on given String with fretNum and other helpful info.
-function findNoteOnString(note,instrument,string) {
-  for (let j = 0; j < instrument.strings[string].notes.length; j++) {
-      if (instrument.strings[string].notes[j].note === note) {
+function findNoteOnString(note,string) {
+  for (let j = 0; j < string.notes.length; j++) {
+      if (string.notes[j].note === note) {
         return {
-          stringTuning: instrument.strings[string].notes[0].note,
-          stringOrder: instrument.strings[string].stringOrder,
-          fretNum: instrument.strings[string].notes[j].fretNum,
-          note: instrument.strings[string].notes[j].note
+          stringTuning: string.notes[0].note,
+          stringOrder: string.stringOrder,
+          fretNum: string.notes[j].fretNum,
+          note: string.notes[j].note
         }
       }
   }
 }
 
-// console.log(findNoteOnString('B',guitar,guitar.strings.length-1));
-// console.log(findNoteOnString('E',stubby,stubby.strings.length-1));
+// console.log(findNoteOnString('B',guitar.strings[5]));
+// console.log(findNoteOnString('E',stubby.strings[5]));
 
 
 // Given a Note, Instrument, and valid strings, finds Note object based on StringOrder with fretNum and other helpful info.
 function findNoteOnInstrument(note,instrument,validStrings) {
   const clonedInstrument = sortByStringOrder(instrument)
   for (let i = validStrings[0]; i < clonedInstrument.strings.length; i++) {
-    if (validStrings.indexOf(i) !== -1 && typeof (findNoteOnString(note,clonedInstrument,i)) !== 'undefined') {
-    return findNoteOnString(note,clonedInstrument,i);
+    if (validStrings.indexOf(i) !== -1 && typeof (findNoteOnString(note,clonedInstrument.strings[i])) !== 'undefined') {
+    return findNoteOnString(note,clonedInstrument.strings[i]);
     }
   }
 }
@@ -252,45 +374,43 @@ function findNoteOnInstrument(note,instrument,validStrings) {
 
 
 // Given a key, scale, instrument, and string returns an object with each Note in the scale found on the string
-function findScaleOnString(key,scale,instrument,string) {
+function findScaleOnString(key,scale,string) {
   const newScale = getNotesInScale(key,scale);
   let newScaleNotes = [];
-  for (let j = 0; j < instrument.strings[string].notes.length; j++) {
+  for (let j = 0; j < string.notes.length; j++) {
     for (let i = 0; i < newScale.length; i++) {
-      if (instrument.strings[string].notes[j].note === newScale[i].note) {
+      if (string.notes[j].note === newScale[i].note) {
          newScaleNotes.push({
-          fretNum: instrument.strings[string].notes[j].fretNum,
-          note: instrument.strings[string].notes[j].note
+          stringTuning: string.notes[0].note,
+          stringOrder: string.stringOrder,
+          fretNum: string.notes[j].fretNum,
+          note: string.notes[j].note
         })
       }
     }
   }
-  const scaleOnString = {
-    stringTuning: instrument.strings[string].notes[0].note,
-    stringOrder: instrument.strings[string].stringOrder,
-    notes: newScaleNotes
-  }
-  return scaleOnString
+  return newScaleNotes;
 }
 
 // console.log(getNotesInScale('B','blues'));
-// console.log(findScaleOnString('B','blues',guitar,guitar.strings.length-1));
+// console.log(findScaleOnString('B','blues',guitar.strings[5]));
 
 // Given a key, scale, and instrument, returns an object with each Note in the scale found on the instrument
 function findScaleOnInstrument(key,scale,instrument) {
-  const newScale = {notes:[]};
-  const clonedInstrument = sortByStringOrder(instrument)
+  const newScale = [];
+  const clonedInstrument = sortByStringOrder(instrument);
   const validStrings = getValidStrings(clonedInstrument);
   for (let i = validStrings[0]; i < clonedInstrument.strings.length; i++) {
 
-    if (validStrings.indexOf(i) !== -1 && typeof (findScaleOnString(key,scale,clonedInstrument,i)) !== 'undefined') {
-    newScale.notes.push(findScaleOnString(key,scale,clonedInstrument,i))
+    if (validStrings.indexOf(i) !== -1 && typeof (findScaleOnString(key,scale,clonedInstrument.strings[i])) !== 'undefined') {
+    newScale.push(findScaleOnString(key,scale,clonedInstrument.strings[i]));
     }
   }
   return newScale;
 }
 
 // console.log(findScaleOnInstrument('B','blues',guitar));
+// console.log(JSON.stringify(findScaleOnInstrument('B','blues',guitar),null,4));
 
 // Given a note, type of chord (e.g. '_7' for 7th chord), and instrument, returns a Root Chord object with each string/note/fret number
 function findRootChord(note,chord,instrument) {
@@ -299,6 +419,7 @@ function findRootChord(note,chord,instrument) {
   let validStrings = getValidStrings(instrument);
   for (let i = 0; i < newChordNotes.length; i++) {
     newChord.strings.push(findNoteOnInstrument(newChordNotes[i].note,instrument,validStrings));
+    // console.log(i,newChord.strings[i]);
     let stringFound = newChord.strings[i].stringOrder;
     // ONLY for ROOT chords
     //-----------------------------------------------------
@@ -313,6 +434,9 @@ function findRootChord(note,chord,instrument) {
 
 // console.log(findRootChord('B','_7',guitar));
 // console.log(findRootChord('B','_7',stubby));
+//
+// console.log(findRootChord('C','_7',guitar));
+// console.log(findRootChord('C','_7',stubby));
 
 
 console.log('guitarcheatcodes.com','guitarizard.com','chordfix.com')
