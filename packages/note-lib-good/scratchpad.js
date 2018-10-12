@@ -159,6 +159,9 @@ function getAllVoicings (chord, upToLength){
 // console.log(JSON.stringify(getAllVoicings(_7,8),null,4));
 // console.log(getAllVoicings(_7,8).length);
 
+// console.log(JSON.stringify(getAllVoicings(_maj13,6),null,4));
+// console.log(getAllVoicings(_maj13,6).length);
+
 
 // Given an array with numeric values, sort them in ascending order.
 function sortArray (array){
@@ -215,9 +218,13 @@ function isUniqueArray (n,withinArray) {
 // THEN sort each voicing numerically to check whether they are unique
 // and only return those that are.
 function getUniqueVoicings (chord, upToLength) {
+  var uniqueVoicings = [];
+  if (chord.length === upToLength){
+    uniqueVoicings = [chord];
+    return uniqueVoicings;
+  }
   var allVoicings = getAllVoicings(chord, upToLength);
   allVoicings = sortEachArray(allVoicings);
-  var uniqueVoicings = [];
   for (let i = 0; i < allVoicings.length; i++) {
     if (isUniqueArray (i,allVoicings)) {
       uniqueVoicings.push(allVoicings[i]);
@@ -274,9 +281,11 @@ function getChordPermutations (chord, upToLength) {
   return allPermutations;
 }
 
-console.log(getChordPermutations(_7,6));
-console.log(getChordPermutations(_7,6).length);
+// console.log(getChordPermutations(_7,6));
+// console.log(getChordPermutations(_7,6).length);
 
+// console.log(getChordPermutations(_maj13,6));
+// console.log(getChordPermutations(_maj13,6).length);
 
 
 // Given a starting Note, starting fret, end fret, and order of String within instrument,
@@ -488,7 +497,12 @@ function findRootChord(note,chord,instrument) {
   let validStrings = getValidStrings(instrument);
   for (let i = 0; i < newChordNotes.length; i++) {
     newChord.strings.push(findNoteOnInstrument(newChordNotes[i].note,instrument,validStrings));
-    // console.log(i,newChord.strings[i]);
+    //FAILURE CASE
+    //-----------------------------------------------------
+    if (typeof newChord.strings[i] === 'undefined') {
+      return;
+    }
+    //-----------------------------------------------------
     let stringFound = newChord.strings[i].stringOrder;
     // ONLY for ROOT chords
     //-----------------------------------------------------
@@ -508,4 +522,10 @@ function findRootChord(note,chord,instrument) {
 // console.log(findRootChord('C','_7',stubby));
 
 
-console.log('guitarcheatcodes.com','guitarizard.com','chordfix.com')
+// Given a note, type of chord (e.g. '_7' for 7th chord), and instrument,
+// returns each available Root Chord object with each string/note/fret number
+function findRootChords(note,chord,instrument) {
+}
+
+
+console.log('guitarcheatcodes.com','guitarizard.com','chordfix.com', 'chordthis.com', 'instrumentalbreakdown.com')
