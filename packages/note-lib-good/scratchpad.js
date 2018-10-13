@@ -443,6 +443,9 @@ function removeFretFromInstrument (fretNum,string,instrument) {
 // console.log(JSON.stringify(moddedGuitar,null,4));
 // console.log(moddedGuitar.strings[4]);
 
+
+
+
 // Given an array of valid strings, set all before first valid string as invalid (based on stringOrder) to no longer loop through
 function removeInvalidStringsBelow(validStrings, firstValidString){
     if (validStrings.indexOf(firstValidString) === -1) {
@@ -557,10 +560,55 @@ function findChord(note,chord,instrument) {
 // console.log(findChord('C','_7',stubby));
 
 
-// Given a note, type of chord (e.g. '_7' for 7th chord), and instrument,
-// returns each available Root Chord object with each string/note/fret number
-function findChords(note,chord,instrument) {
+// Given a stringOrder from a string within a Chord,
+// return full string of instrument
 
+function findFullStringFromStringOrder(stringOrder,instrument) {
+  for (let i = 0; i < instrument.strings.length; i++) {
+    if (stringOrder === instrument.strings[i].stringOrder) {
+      return instrument.strings[i];
+    }
+  }
+}
+
+// console.log(findFullStringFromStringOrder(0,guitar));
+
+// WIP
+// Given a note, type of chord (e.g. '_7' for 7th chord), and instrument,
+// returns each available Chord object with each string/note/fret number
+// FOR SINGLE VOICING OF THAT CHORD
+function findVoicingPositions(note,chord,instrument) {
+  console.log(chord.length);
+  var voicingPositions = [];
+  var newInstrument = instrument;
+  for (let i = chord.length; i >= 0; i--) {
+    // while (typeof findChord(note,chord,newInstrument !== 'undefined')) {
+      // console.log(newInstrument);
+      var currentChord = findChord(note,chord,newInstrument);
+      console.log(i);
+      voicingPositions = voicingPositions.concat(currentChord);
+      currentString = findFullStringFromStringOrder(currentChord.strings[i].stringOrder,instrument);
+      // newInstrument = removeFretFromInstrument (currentChord.strings[i].fretNum, currentString,newInstrument);
+    // }
+  }
+  return voicingPositions;
+}
+
+// console.log(JSON.stringify(findVoicingPositions('B','_7',guitar),null,4));
+// console.log(findChord('B','_7',stubby));
+
+
+// WIP
+// Given a note, type of chord (e.g. '_7' for 7th chord), and instrument,
+// returns each available Chord object with each string/note/fret number
+// FOR ALL VOICINGS OF THAT CHORD
+function findChordPositions(note,chord,instrument) {
+  var chordPositions = [];
+  chordPermutations = getChordPermutations(chord, instrument.length)
+  for (let i = 0; i < chordPermutations.length; i++) {
+    chordPositions = chordPositions.concat(findVoicingPositions(note,chordPermutations[i],instrument));
+  }
+  return chordPositions;
 }
 
 
