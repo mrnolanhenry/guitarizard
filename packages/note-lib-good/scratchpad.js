@@ -318,7 +318,6 @@ function createString(startNote,startFret, endFret, stringOrder) {
   return newString;
 }
 
-// Test - createString function
 // console.log(createString('A',5,21,1));
 
 // Test case error check - getNotesInScale function
@@ -408,6 +407,42 @@ function removeInvalidString(validStrings, invalidString){
 
 // console.log(removeInvalidString(getValidStrings(guitar),7));
 
+// Given a fret (by fretNumber) and string object,
+// return modified version of the string with the fret removed
+// this function to be used in looping through and creating different chords.
+function removeInvalidFret(fretNum,string) {
+  var newString = string;
+
+  for (let j = 0; j < newString.notes.length; j++) {
+      if (newString.notes[j].fretNum === fretNum) {
+        // console.log(newString.notes[j])
+        newString.notes.splice(j,1);
+        }
+      }
+  return newString;
+}
+
+// console.log(guitar.strings[4]);
+// console.log(removeInvalidFret(17,guitar.strings[4]));
+
+
+// Given a fret (by fretNumber), string, and instrument
+// return modified version of the instrument with the fret removed
+// this function to be used in looping through and creating different chords.
+function removeFretFromInstrument (fretNum,string,instrument) {
+  var newInstrument = instrument;
+  for (let i = 0; i < newInstrument.strings.length; i++) {
+    if (string.stringOrder === newInstrument.strings[i].stringOrder) {
+      newInstrument.strings.splice(i,1,removeInvalidFret(fretNum,string));
+    }
+  }
+  return newInstrument;
+}
+
+// const moddedGuitar = removeFretFromInstrument(17,guitar.strings[4],guitar)
+// console.log(JSON.stringify(moddedGuitar,null,4));
+// console.log(moddedGuitar.strings[4]);
+
 // Given an array of valid strings, set all before first valid string as invalid (based on stringOrder) to no longer loop through
 function removeInvalidStringsBelow(validStrings, firstValidString){
     if (validStrings.indexOf(firstValidString) === -1) {
@@ -491,7 +526,7 @@ function findScaleOnInstrument(key,scale,instrument) {
 // console.log(JSON.stringify(findScaleOnInstrument('B','blues',guitar),null,4));
 
 // Given a note, type of chord (e.g. '_7' for 7th chord), and instrument, returns a Root Chord object with each string/note/fret number
-function findRootChord(note,chord,instrument) {
+function findChord(note,chord,instrument) {
   newChordNotes = getNotesInChord(note,chord);
   const newChord = {strings:[]};
   let validStrings = getValidStrings(instrument);
@@ -506,26 +541,29 @@ function findRootChord(note,chord,instrument) {
     let stringFound = newChord.strings[i].stringOrder;
     // ONLY for ROOT chords
     //-----------------------------------------------------
-    if (i === 0) {
-      removeInvalidStringsBelow(validStrings, stringFound)
-    }
+    // if (i === 0) {
+    //   removeInvalidStringsBelow(validStrings, stringFound)
+    // }
     // ----------------------------------------------------
     removeInvalidString(validStrings, stringFound)
   }
   return sortByStringOrder(newChord);
 }
 
-// console.log(findRootChord('B','_7',guitar));
-// console.log(findRootChord('B','_7',stubby));
+// console.log(findChord('B','_7',guitar));
+// console.log(findChord('B','_7',stubby));
 //
-// console.log(findRootChord('C','_7',guitar));
-// console.log(findRootChord('C','_7',stubby));
+// console.log(findChord('C','_7',guitar));
+// console.log(findChord('C','_7',stubby));
 
 
 // Given a note, type of chord (e.g. '_7' for 7th chord), and instrument,
 // returns each available Root Chord object with each string/note/fret number
-function findRootChords(note,chord,instrument) {
+function findChords(note,chord,instrument) {
+
 }
+
+
 
 
 console.log('guitarcheatcodes.com','guitarizard.com','chordfix.com', 'chordthis.com', 'instrumentalbreakdown.com')
