@@ -1,3 +1,4 @@
+
 module.exports = class FretBoard {
 
   /**
@@ -38,6 +39,7 @@ module.exports = class FretBoard {
    */
   _getNotes() {
     return this.tunedStrings.map((tunedString, i) => {
+
       const config = this.stringConfig[i];
 
       const fret = config.fret;
@@ -58,29 +60,36 @@ module.exports = class FretBoard {
   // same result as `_getNotes`, but the notes are filtered
   // out according to the scale given. EG. A chromatic
   // scale will always equal the output of `_getNotes`
-  getNotesInScale(scale, key) {
-    const keyNotes = scale.getNotesInKey(key);
+  getNotesInScale(scale, keyNote) {
+    const keyNotes = scale.getNotesInKey(keyNote);
 
     return this.stringNotes.map(string => {
 
       // filter out any notes that don't exist
       // in the `keyNotes` array
-      const notes = string.notes.filter(note => {
-        for (let i = 0; i < keyNotes.length; i++) {
-          const keyNote = keyNotes[i];
+      const fretNotes = string.notes.filter(fretNote => {
+        return !!(keyNotes.find(keyNote => fretNote.value.isSimilar(keyNote)))
+      });
 
-          if (keyNote === note.value) {
-            return true;
+      // "tune" the notes to the given keyNote. currently
+      // super dumb... makes the notes "sharp" if the
+      // key note is sharp lol.
+      const tunedFretNotes = fretNotes.map(fretNote => {
+        if (keyNote.attributes.isSharp) {
+          const sharpNote = fretNote.value.findSharp();
+
+          if (sharpNote) {
+            fretNote.value = sharpNote;
           }
         }
 
-        return false;
-      })
+        return fretNote;
+      });
 
       return {
         tunedString: string.tunedString,
         config: string.config,
-        notes
+        notes: tunedFretNotes
       };
     })
   }

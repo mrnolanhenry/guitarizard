@@ -2,22 +2,33 @@
 // Project: note-lib
 // Definitions by: Jay Querie <jay@querie.cc>
 
-export type NoteAlias = String;
+type NoteID = string;
+
+type NoteAttribute = 'isSharp' | 'isFlat';
 
 export interface Note {
-  id: string;
-  aliases: Array<NoteAlias>;
+  id: NoteID;
+  attributes: {
+    isSharp?: boolean;
+    isFlat?: boolean;
+  };
+  aliasNotes: Array<Note>;
+  findByAttribute: (attribute: NoteAttribute, value: any) => Note | void;
+  findSharp: () => Note | void;
+  findFlat: () => Note | void;
+  isSimilar: (note: Note) => boolean;
 }
 
 export interface ScaleSystem {
   name: string;
   notes: Array<Note>;
 
-  getNoteFromAlias: (alias: NoteAlias) => Note;
-  getShiftedNotes: (alias: NoteAlias) => Array<Note>;
+  getNoteFromID: (noteID: NoteID) => Note;
+  getShiftedNotes: (fromNote: Note) => Array<Note>;
   _getRelativeNoteOffset: (fromNote: Note) => number;
   getNoteInterval: (fromNote: Note, toNote: Note) => number;
   getNextNote: (fromNote: Note, stepsAway: number) => Note;
+  getKeyNotes: () => Array<Note>;
 }
 
 export type IntervalAlias = String;
@@ -41,7 +52,7 @@ export interface Scale {
   scaleSystem: ScaleSystem;
   intervals: Array<Interval>;
 
-  getNotesInKey: (key: NoteAlias) => Array<Note>;
+  getNotesInKey: (key: Note) => Array<Note>;
 }
 
 export namespace data {
@@ -96,7 +107,7 @@ export namespace instrument {
 
     _getNotes: () => Array<StringScale>;
 
-    getNotesInScale: (scale: Scale, key: NoteAlias) => Array<StringScale>
+    getNotesInScale: (scale: Scale, keyNote: Note) => Array<StringScale>
   }
 
   export interface FrettedInstrument {

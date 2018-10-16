@@ -11,21 +11,62 @@ module.exports = class ScaleSystem {
     this.notes = notes;
   }
 
-  // Given an alias, e.g. "A#", return the
-  // "Note" instance, e.g. `new Note('Bb', ['A#', 'Bb'])`
-  getNoteFromAlias(alias) {
-    return this.notes.find((note) => {
-      return note.aliases.indexOf(alias) !== -1;
-    });
+  // Given an ID, e.g. "A#", return the "Note" instance
+  // from this ScaleSystem.
+  getNoteFromID(noteID) {
+    for (let i = 0; i < this.notes.length; i++) {
+      const note = this.notes[i];
+
+      // ez -- found it right away
+      if (note.id === noteID) {
+        return note;
+      }
+
+      // else, check aliases for this note
+      const aliasNote = note.aliasNotes.find(
+        aliasNote => aliasNote.id === noteID
+      )
+
+      // return the note as it exists in the scale system
+      // order and NOT the alias note. The note will
+      // contain the alias should the consumer need it.
+      if (typeof aliasNote !== 'undefined') {
+        return note;
+      }
+    }
   }
 
-  // TODO: bad name
-  // TODO: docs:
-  //
-  // basically "shifts" the scale system to start at a new note
-  getShiftedNotes(alias) {
+  /**
+   * Gets all notes for this scale system that can be used
+   * as keys. Basically takes all availables notes, and
+   * their aliases, and smushes them together.
+   */
+  getKeyNotes() {
+    return this.notes.reduce((acc, note) => {
+      acc = acc.concat([note]);
+      acc = acc.concat(note.aliasNotes);
+      return acc;
+    }, []);
+  }
+
+  /**
+   * Our scale system defines an "order" that starts at
+   * a given note. This function effectivly "shifts" the
+   * notes so that the scale system starts at a different
+   * note.
+   *
+   * This funtion
+   */
+  getShiftedNotes(fromNote) {
+    // Get the representation of this note as it appears in this system.
+    const internalNote = this.getNoteFromID(fromNote.id);
+
+    if (!internalNote) {
+      throw `fromNote ${fromNote} provided does not exist in scale system`;
+    }
+
     let notes = [];
-    let currentNote = this.getNoteFromAlias(alias);
+    let currentNote = internalNote;
 
     for (let i = 0; i < this.notes.length; i++) {
       notes.push(currentNote);

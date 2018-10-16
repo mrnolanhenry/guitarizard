@@ -1,18 +1,39 @@
 const Note = require('../../Note');
 const ScaleSystem = require('../../ScaleSystem');
 
-const A = new Note('A', ['A']);
-const Bb = new Note('Bb', ['A#', 'Bb']);
-const B = new Note('B', ['B']);
-const C = new Note('C', ['C']);
-const Db = new Note('Db', ['C#', 'Db']);
-const D = new Note('D', ['D']);
-const Eb = new Note('Eb', ['D#', 'Eb']);
-const E = new Note('E', ['E']);
-const F = new Note('F', ['F']);
-const Gb = new Note('Gb', ['F#', 'Gb']);
-const G = new Note('G', ['G']);
-const Ab = new Note('Ab', ['G#', 'Ab']);
+const A = new Note('A');
+
+const As = new Note('A#', { isSharp: true })
+const Bb = new Note('Bb', { isFlat: true }, [ As ]);
+As.addAliasNote(Bb);
+
+const B = new Note('B');
+
+const C = new Note('C');
+
+const Cs = new Note ('C#', { isSharp: true })
+const Db = new Note('Db', { isFlat: true }, [ Cs ]);
+Cs.addAliasNote(Db)
+
+const D = new Note('D');
+
+const Ds = new Note('D#', { isSharp: true });
+const Eb = new Note('Eb', { isFlat: true }, [ Ds ]);
+Ds.addAliasNote(Eb);
+
+const E = new Note('E');
+
+const F = new Note('F');
+
+const Fs = new Note('F#', { isSharp: true });
+const Gb = new Note('Gb', { isFlat: true }, [ Fs ]);
+Fs.addAliasNote(Gb);
+
+const G = new Note('G');
+
+const Gs = new Note('G#', { isSharp: true });
+const Ab = new Note('Ab', { isFlat: true }, [ Gs ]);
+Gs.addAliasNote(Ab);
 
 const diatonic = new ScaleSystem(
   'diatonic',

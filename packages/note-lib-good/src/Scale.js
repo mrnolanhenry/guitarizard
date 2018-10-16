@@ -15,11 +15,23 @@ module.exports = class Scale {
       mainIntervals[semitone]);
   }
 
-  getNotesInKey(key) {
-    const notes = this.scaleSystem.getShiftedNotes(key);
+  getNotesInKey(keyNote) {
+    // start the scale system at the correct note
+    const shiftedNotes = this.scaleSystem.getShiftedNotes(keyNote);
 
+    // pull correct note aliases
+    const notes = shiftedNotes.map(note => {
+      if (keyNote.attributes.isSharp) {
+        const sharpNote = note.findSharp();
+        if (sharpNote) { return sharpNote; }
+      }
+
+      return note;
+    });
+
+    // map notes to given intervals
     return this.intervals.map((interval) => {
-      return notes[interval.semitones];
+      return notes[interval.semitones % (this.scaleSystem.notes.length)];
     });
   }
 
