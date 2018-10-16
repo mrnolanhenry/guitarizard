@@ -94,5 +94,35 @@ tap.test('class ScaleSystem', function (t) {
   t.equal(diatonic.valueOf(), JSON.stringify(diatonic));
   t.equal(diatonic.toString(), JSON.stringify(diatonic));
 
+  t.same(diatonic.getKeyNotes(), [
+    A,
+    As,
+    Bb,
+    B,
+    C,
+    Cs,
+    Db,
+    D,
+    Ds,
+    Eb,
+    E,
+    F,
+    Fs,
+    Gb,
+    G,
+    Gs,
+    Ab
+  ], 'should list all key notes')
+
+  t.equal((() => {
+    try {
+      diatonic.getShiftedNotes(new Note('invalid-note'))
+    } catch (error) {
+      return `${error}` === "fromNote 'invalid-note' does not exist in scale system";
+    }
+
+    return false;
+  })(), true, 'should throw with correct message');
+
   t.end();
 })

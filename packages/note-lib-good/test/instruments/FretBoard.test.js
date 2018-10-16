@@ -126,7 +126,55 @@ tap.test('class FretBoard --- getNotesInScale', function (t) {
         { value: diatonic.D, fretNumber: 5 }
       ]
     }
-  ])
+  ], 'blues scale in A works ok')
+
+  t.same(stubbyBoard.getNotesInScale(blues, new Note('F#', { isSharp: true })), [
+    {
+      tunedString: tunedStrings[0],
+      config: stringConfig[0],
+      notes: [
+        { value: diatonic.E, fretNumber: 0 },
+        { value: diatonic.Fs, fretNumber: 2 },
+        { value: diatonic.A, fretNumber: 5 }
+      ]
+    },
+    {
+      tunedString: tunedStrings[1],
+      config: stringConfig[1],
+      notes: [
+        { value: diatonic.A, fretNumber: 0 },
+        { value: diatonic.B, fretNumber: 2 },
+        { value: diatonic.C, fretNumber: 3 },
+        { value: diatonic.Cs, fretNumber: 4 }
+      ]
+    }
+  ], 'blues scale in F# works ok')
+
 
   t.end()
+});
+
+tap.test('class FretBoard --- toJSON / valueOf / toString', function (t) {
+  const tunedStrings = [
+    new TunedString(diatonic.E, 'metal', 0.2540),
+    new TunedString(diatonic.A, 'metal', 0.3302),
+  ];
+
+  const stringConfig = [
+    { fret: { start: 0, end: 5 } },
+    { fret: { start: 0, end: 5 } }
+  ]
+
+  const stubbyBoard = new FretBoard(diatonic, tunedStrings, stringConfig);
+
+  t.same(stubbyBoard.toJSON(), {
+    scaleSystem: diatonic,
+    tunedStrings,
+    stringConfig
+  }, 'correct json format');
+
+  t.same(stubbyBoard.valueOf(), JSON.stringify(stubbyBoard.toJSON()))
+  t.same(stubbyBoard.toString(), JSON.stringify(stubbyBoard.toJSON()))
+
+  t.end();
 });

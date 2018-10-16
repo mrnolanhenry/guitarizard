@@ -30,10 +30,6 @@ module.exports = class FretBoard {
     this.stringNotes = this._getNotes();
   }
 
-  getString(stringIndex) {
-    return this.tunedStrings[stringIndex];
-  }
-
   /**
    *
    */

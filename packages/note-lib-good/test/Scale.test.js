@@ -19,6 +19,15 @@ tap.test('class Scale', function (t) {
     diatonic.Eb
   ]);
 
+  t.same(blues.getNotesInKey(diatonic.Fs), [
+    diatonic.Fs,
+    diatonic.A,
+    diatonic.B,
+    diatonic.C,
+    diatonic.Cs,
+    diatonic.E
+  ]);
+
   t.equal(blues.valueOf(), JSON.stringify(blues));
   t.equal(blues.toString(), JSON.stringify(blues));
 

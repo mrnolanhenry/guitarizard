@@ -43,8 +43,8 @@ module.exports = class ScaleSystem {
    */
   getKeyNotes() {
     return this.notes.reduce((acc, note) => {
-      acc = acc.concat([note]);
       acc = acc.concat(note.aliasNotes);
+      acc = acc.concat([note]);
       return acc;
     }, []);
   }
@@ -62,7 +62,7 @@ module.exports = class ScaleSystem {
     const internalNote = this.getNoteFromID(fromNote.id);
 
     if (!internalNote) {
-      throw `fromNote ${fromNote} provided does not exist in scale system`;
+      throw `fromNote '${fromNote.id}' does not exist in scale system`;
     }
 
     let notes = [];

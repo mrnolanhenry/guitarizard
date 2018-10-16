@@ -6,19 +6,7 @@ module.exports = class Guitar {
   constructor(fretCount, tuning) {
 
     this.fretCount = fretCount;
-
-    if (typeof tuning === 'undefined') {
-      this.tuning = [
-        diatonic.E,
-        diatonic.A,
-        diatonic.D,
-        diatonic.G,
-        diatonic.B,
-        diatonic.E
-      ]
-    } else {
-      this.tuning = tuning;
-    }
+    this.tuning = tuning;
 
     const tunedStrings = [
       new TunedString(this.tuning[0], 'metal', 0.2540),

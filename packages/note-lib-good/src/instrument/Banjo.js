@@ -6,18 +6,7 @@ module.exports = class Banjo {
   constructor(fretCount, tuning) {
 
     this.fretCount = fretCount;
-
-    if (typeof tuning === 'undefined') {
-      this.tuning = [
-        diatonic.G,
-        diatonic.D,
-        diatonic.G,
-        diatonic.B,
-        diatonic.D
-      ]
-    } else {
-      this.tuning = tuning;
-    }
+    this.tuning = tuning;
 
     const tunedStrings = [
       new TunedString(this.tuning[0], 'metal', 0.11),

@@ -103,8 +103,6 @@ export namespace instrument {
 
     stringNotes: Array<StringScale>;
 
-    getString: (stringIndex: number) => TunedString;
-
     _getNotes: () => Array<StringScale>;
 
     getNotesInScale: (scale: Scale, keyNote: Note) => Array<StringScale>
