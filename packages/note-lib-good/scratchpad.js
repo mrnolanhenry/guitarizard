@@ -1,4 +1,4 @@
-const assert = require('assert');
+// const assert = require('assert');
 
 //Data Dump of individual scales that go into scales array
 const pentatonicMinor = [0,3,5,7,10];
@@ -73,12 +73,12 @@ function getNotesInScale(key,scale) {
  // console.log(getNotesInChord('E',_maj13));
 
  // Test case error check - getNotesInScale function
- assert.deepStrictEqual (getNotesInChord('B',_7), [
-  { note: 'B' },
-  { note: 'Eb' },
-  { note: 'Gb' },
-  { note: 'A' } ]
-                        ,'You fucked up');
+ // assert.deepStrictEqual (getNotesInChord('B',_7), [
+ //  { note: 'B' },
+ //  { note: 'Eb' },
+ //  { note: 'Gb' },
+ //  { note: 'A' } ]
+ //                        ,'You fucked up');
 
 
 // Given an array representing a chord and the amount of notes in that chord,
@@ -124,16 +124,17 @@ function getMultipleVoicings(chordVoicings,chordLength) {
 function getAllVoicings (chord, upToLength){
   var voicings = [];
   var newVoicings = [[]];
-  var iterations = upToLength - chord.length;
+  var chordLength = chord.length;
+  var iterations = upToLength - chordLength;
   if (iterations <= 0) {
     return chord;
   }
-  voicings = voicings.concat(getChordVoicings(chord, chord.length));
+  voicings = voicings.concat(getChordVoicings(chord, chordLength));
   iterations -= 1;
   if (iterations >= 1) {
     for (let i = 0; i < iterations; i++) {
-      newVoicings[i+1] = getMultipleVoicings(voicings,chord.length);
-      voicings = voicings.concat(getMultipleVoicings(voicings,chord.length));
+      newVoicings[i+1] = getMultipleVoicings(voicings,chordLength);
+      voicings = voicings.concat(newVoicings[i+1]);
       voicings.splice(newVoicings[i].length,newVoicings[i].length);
     }
   }
@@ -174,22 +175,14 @@ function sortEachArray (array){
 // Given an array's index number [n] within a larger array,
 // return true if it is unique up to position n or false if it matches another array[i], where i < n.
 function isUniqueArray (n,withinArray) {
-  var countAppearances = 0;
   for (let i = 0; i < n; i++){
     var countEquivElements = 0;
     for (let j = 0; j < withinArray[i].length; j++) {
-      // console.log('array[',j, '] =',array[j],'withinArray[' , i , '] ' , '[' , j , '] =',withinArray[i][j]);
       if (withinArray[n][j] === withinArray[i][j] && n !== i) {
         countEquivElements += 1;
-        // console.log('countEquivElements ',countEquivElements);
       }
       if (countEquivElements === withinArray[i].length && withinArray[n].length === withinArray[i].length) {
-        // countAppearances += 1;
-        // console.log('countAppearances ',countAppearances);
         return false;
-      }
-      if (countAppearances > 1) {
-        // return false;
       }
     }
   }
@@ -309,22 +302,22 @@ function createString(startNote,startFret, endFret, stringOrder) {
 // console.log(createString('A',5,21,1));
 
 // Test case error check - createString function
-assert.deepStrictEqual (createString('A',5,16,1), { stringTuning: 'A',
-  stringOrder: 1,
-  notes:
-   [ { fretNum: 5, note: 'A' },
-     { fretNum: 6, note: 'Bb' },
-     { fretNum: 7, note: 'B' },
-     { fretNum: 8, note: 'C' },
-     { fretNum: 9, note: 'Db' },
-     { fretNum: 10, note: 'D' },
-     { fretNum: 11, note: 'Eb' },
-     { fretNum: 12, note: 'E' },
-     { fretNum: 13, note: 'F' },
-     { fretNum: 14, note: 'Gb' },
-     { fretNum: 15, note: 'G' },
-     { fretNum: 16, note: 'Ab' } ] }
-                       ,'You fucked up');
+// assert.deepStrictEqual (createString('A',5,16,1), { stringTuning: 'A',
+//   stringOrder: 1,
+//   notes:
+//    [ { fretNum: 5, note: 'A' },
+//      { fretNum: 6, note: 'Bb' },
+//      { fretNum: 7, note: 'B' },
+//      { fretNum: 8, note: 'C' },
+//      { fretNum: 9, note: 'Db' },
+//      { fretNum: 10, note: 'D' },
+//      { fretNum: 11, note: 'Eb' },
+//      { fretNum: 12, note: 'E' },
+//      { fretNum: 13, note: 'F' },
+//      { fretNum: 14, note: 'Gb' },
+//      { fretNum: 15, note: 'G' },
+//      { fretNum: 16, note: 'Ab' } ] }
+//                        ,'You fucked up');
 
 
 // Example - create a guitar using createString function
@@ -386,10 +379,11 @@ function getValidStrings(instrument) {
 
 // Given an array of valid strings, set one as invalid (based on stringOrder) to no longer loop through
 function removeInvalidString(validStrings, invalidString){
-    if (validStrings.indexOf(invalidString) === -1) {
+    const invalidStringIndex = validStrings.indexOf(invalidString)
+    if (invalidStringIndex === -1) {
       return validStrings;
     }
-    validStrings.splice(validStrings.indexOf(invalidString),1);
+    validStrings.splice(invalidStringIndex,1);
     return validStrings;
 }
 
@@ -419,9 +413,10 @@ function removeInvalidFret(fretNum,string) {
 // this function to be used in looping through and creating different chords.
 function removeFretFromInstrument (fretNum,string,instrument) {
   var newInstrument = JSON.parse(JSON.stringify(instrument));
+  const newString = removeInvalidFret(fretNum,string)
   for (let i = 0; i < newInstrument.strings.length; i++) {
     if (string.stringOrder === newInstrument.strings[i].stringOrder) {
-      newInstrument.strings.splice(i,1,removeInvalidFret(fretNum,string));
+      newInstrument.strings.splice(i,1,newString);
     }
   }
   return newInstrument;
@@ -434,12 +429,13 @@ function removeFretFromInstrument (fretNum,string,instrument) {
 
 
 
-// Given an array of valid strings, set all before first valid string as invalid (based on stringOrder) to no longer loop through
+// Given an array of valid strings, set all including first valid string as invalid (based on stringOrder) to no longer loop through
 function removeInvalidStringsBelow(validStrings, firstValidString){
-    if (validStrings.indexOf(firstValidString) === -1) {
+    const stringIndex = validStrings.indexOf(firstValidString)
+    if (stringIndex === -1) {
       return validStrings;
     }
-    validStrings.splice(0,validStrings.indexOf(firstValidString));
+    validStrings.splice(0,stringIndex + 1);
     return validStrings;
 }
 
@@ -465,10 +461,10 @@ function findNoteOnString(note,string) {
 
 // Given a Note, Instrument, and valid strings, finds Note object based on StringOrder with fretNum and other helpful info.
 function findNoteOnInstrument(note,instrument,validStrings) {
-  const clonedInstrument = sortByStringOrder(instrument)
-  for (let i = validStrings[0]; i < clonedInstrument.strings.length; i++) {
-    if (validStrings.indexOf(i) !== -1 && typeof (findNoteOnString(note,clonedInstrument.strings[i])) !== 'undefined') {
-    return findNoteOnString(note,clonedInstrument.strings[i]);
+  for (let i = validStrings[0]; i < instrument.strings.length; i++) {
+    const noteFound = findNoteOnString(note,instrument.strings[i]);
+    if (validStrings.indexOf(i) !== -1 && typeof noteFound !== 'undefined') {
+    return noteFound;
     }
   }
 }
@@ -505,7 +501,6 @@ function findScaleOnInstrument(key,scale,instrument) {
   const clonedInstrument = sortByStringOrder(instrument);
   const validStrings = getValidStrings(clonedInstrument);
   for (let i = validStrings[0]; i < clonedInstrument.strings.length; i++) {
-
     if (validStrings.indexOf(i) !== -1 && typeof (findScaleOnString(key,scale,clonedInstrument.strings[i])) !== 'undefined') {
     newScale.push(findScaleOnString(key,scale,clonedInstrument.strings[i]));
     }
@@ -519,26 +514,21 @@ function findScaleOnInstrument(key,scale,instrument) {
 // Given a note, type of chord (e.g. '_7' for 7th chord), and instrument, returns a Root Chord object with each string/note/fret number
 function findChord(note,chord,instrument) {
   newChordNotes = getNotesInChord(note,chord);
+  const clonedInstrument = sortByStringOrder(instrument)
   const newChord = {strings:[]};
-  let validStrings = getValidStrings(instrument);
+  let validStrings = getValidStrings(clonedInstrument);
   for (let i = 0; i < newChordNotes.length; i++) {
-    newChord.strings.push(findNoteOnInstrument(newChordNotes[i].note,instrument,validStrings));
+    newChord.strings.push(findNoteOnInstrument(newChordNotes[i].note,clonedInstrument,validStrings));
     //FAILURE CASE
     //-----------------------------------------------------
     if (typeof newChord.strings[i] === 'undefined') {
       return;
     }
-    //-----------------------------------------------------
     let stringFound = newChord.strings[i].stringOrder;
-    // ONLY for ROOT chords
-    //-----------------------------------------------------
-    // if (i === 0) {
-    //   removeInvalidStringsBelow(validStrings, stringFound)
-    // }
-    // ----------------------------------------------------
-    removeInvalidString(validStrings, stringFound)
+    removeInvalidStringsBelow(validStrings, stringFound);
+
   }
-  return sortByStringOrder(newChord);
+  return newChord;
 }
 
 // console.log(findChord('B',_7,guitar));
@@ -552,8 +542,9 @@ function findChord(note,chord,instrument) {
 
 function findFullStringFromStringOrder(stringOrder,instrument) {
   for (let i = 0; i < instrument.strings.length; i++) {
-    if (stringOrder === instrument.strings[i].stringOrder) {
-      return instrument.strings[i];
+    const stringFound = instrument.strings[i]
+    if (stringOrder === stringFound.stringOrder) {
+      return stringFound;
     }
   }
 }
@@ -561,7 +552,6 @@ function findFullStringFromStringOrder(stringOrder,instrument) {
 // console.log(findFullStringFromStringOrder(0,guitar));
 
 
-// WIP
 // Given a note, type of chord (e.g. '_7' for 7th chord), and instrument, and stringIndexNumber of a single Note within Chord
 // returns each available Chord object based on only changing ONE note within the chord
 // TO BE NESTED WITHIN findVoicingPositions function to handle each note within the Chord
@@ -569,9 +559,9 @@ function findSomeVoicingPositions(note,chord,instrument,string) {
   var positions = [];
   var currentString = [];
   var newInstrument = JSON.parse(JSON.stringify(instrument));
-  var currentChord = [];
-  while (typeof findChord(note,chord,newInstrument) !== 'undefined') {
-    currentChord = findChord(note,chord,newInstrument);
+  var currentChord;
+  while (currentChord = findChord(note,chord,newInstrument)) {
+    // currentChord = findChord(note,chord,newInstrument);
     positions = positions.concat(currentChord);
     currentString = findFullStringFromStringOrder(currentChord.strings[string].stringOrder,newInstrument);
     newInstrument = removeFretFromInstrument (currentChord.strings[string].fretNum, currentString, newInstrument);
@@ -630,11 +620,11 @@ function findChordPositions(note,chord,instrument) {
   return chordPositions;
 }
 
-console.log('ALL Chord Positions' ,findChordPositions('B',_7,stubby));
-console.log(findChordPositions('B',_7,stubby).length);
+// console.log('ALL Chord Positions' ,findChordPositions('B',_7,stubby));
+// console.log(findChordPositions('B',_7,stubby).length);
 
 // console.log('ALL Chord Positions' ,findChordPositions('B',_7,guitar));
-// console.log(findChordPositions('B',_7,guitar).length);
+console.log(findChordPositions('B',_7,guitar).length);
 
 
 
