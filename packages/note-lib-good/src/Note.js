@@ -58,7 +58,11 @@ module.exports = class Note {
     return {
       id: this.id,
       attributes: this.attributes,
-      aliases: this.aliases
+      // remove recursive nature of note aliases
+      aliasNotes: this.aliasNotes.map(aliasNote => ({
+        id: aliasNote.id,
+        attributes: aliasNote.attributes
+      }))
     };
   }
 

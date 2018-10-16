@@ -10,13 +10,13 @@ tap.test('class Scale', function (t) {
 
   t.equal(blues.name, 'Blues');
 
-  t.same(blues.getNotesInKey('F'), [
-    new Note('F', ['F']),
-    new Note('Ab', ['G#', 'Ab']),
-    new Note('Bb', ['A#', 'Bb']),
-    new Note('B', ['B']),
-    new Note('C', ['C']),
-    new Note('Eb', ['D#', 'Eb'])
+  t.same(blues.getNotesInKey(new Note('F')), [
+    diatonic.F,
+    diatonic.Ab,
+    diatonic.Bb,
+    diatonic.B,
+    diatonic.C,
+    diatonic.Eb
   ]);
 
   t.equal(blues.valueOf(), JSON.stringify(blues));

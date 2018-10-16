@@ -3,82 +3,96 @@ const Note = require('../src/Note');
 const ScaleSystem = require('../src/ScaleSystem');
 
 tap.test('class ScaleSystem', function (t) {
-  const A = new Note('A', ['A']);
-  const Bb = new Note('Bb', ['A#', 'Bb']);
-  const B = new Note('B', ['B']);
-  const C = new Note('C', ['C']);
-  const Db = new Note('Db', ['C#', 'Db']);
-  const D = new Note('D', ['D']);
-  const Eb = new Note('Eb', ['D#', 'Eb']);
-  const E = new Note('E', ['E']);
-  const F = new Note('F', ['F']);
-  const Gb = new Note('Gb', ['F#', 'Gb']);
-  const G = new Note('G', ['G']);
-  const Ab = new Note('Ab', ['G#', 'Ab']);
-  
+  const A = new Note('A');
+
+  const As = new Note('A#', { isSharp: true })
+  const Bb = new Note('Bb', { isFlat: true }, [ As ]);
+  As.addAliasNote(Bb);
+
+  const B = new Note('B');
+
+  const C = new Note('C');
+
+  const Cs = new Note ('C#', { isSharp: true })
+  const Db = new Note('Db', { isFlat: true }, [ Cs ]);
+  Cs.addAliasNote(Db)
+
+  const D = new Note('D');
+
+  const Ds = new Note('D#', { isSharp: true });
+  const Eb = new Note('Eb', { isFlat: true }, [ Ds ]);
+  Ds.addAliasNote(Eb);
+
+  const E = new Note('E');
+
+  const F = new Note('F');
+
+  const Fs = new Note('F#', { isSharp: true });
+  const Gb = new Note('Gb', { isFlat: true }, [ Fs ]);
+  Fs.addAliasNote(Gb);
+
+  const G = new Note('G');
+
+  const Gs = new Note('G#', { isSharp: true });
+  const Ab = new Note('Ab', { isFlat: true }, [ Gs ]);
+  Gs.addAliasNote(Ab);
+
   const diatonic = new ScaleSystem('diatonic', [
     A,
     Bb,
     B,
     C,
     Db,
-    D, 
-    Eb, 
-    E, 
-    F, 
-    Gb, 
-    G, 
-    Ab, 
+    D,
+    Eb,
+    E,
+    F,
+    Gb,
+    G,
+    Ab,
   ]);
-  
+
   t.equal(diatonic.notes.length, 12, 'should have 12 notes');
 
-  t.same(diatonic.getNoteFromAlias('A#'),
-          new Note('Bb', ['A#', 'Bb']),
-          'pluck note given an alias');
+  t.same(diatonic.getNoteFromID('A#'),
+         Bb,
+         'pluck note given an id');
 
 
-  t.equal(diatonic.getNoteInterval(new Note('A', ['A']), new Note('C', ['C'])),
+  t.equal(diatonic.getNoteInterval(A, C),
           3,
           'correct offset (basic)');
 
-  t.equal(diatonic.getNoteInterval(new Note('G', ['G']), new Note('A', ['A'])),
+  t.equal(diatonic.getNoteInterval(G, A),
           2,
           'correct offset ("loop")');
 
-  t.same(
-    diatonic.getNextNote(new Note('A', ['A'])),
-    new Note('Bb', ['A#', 'Bb']),
-    'next note simple step')
+  t.same(diatonic.getNextNote(A), Bb, 'next note simple step')
+
+  t.same(diatonic.getNextNote(Gs), A, 'next note loop');
+
+  t.same(diatonic.getNextNote(Ab),
+         A,
+         'next note loop (different note, matching alias)');
 
   t.same(
-    diatonic.getNextNote(new Note('G#', ['G#', 'Ab'])),
-    new Note('A', ['A']),
-    'next note loop');
-
-  t.same(
-    diatonic.getNextNote(new Note('Ab', ['Ab'])),
-    new Note('A', ['A']),
-    'next note loop (different note, matching alias)');
-
-  t.same(
-    diatonic.getNextNote(new Note('A', ['A']), 2),
-    new Note('B', ['B']),
+    diatonic.getNextNote(A, 2),
+    B,
     'two steps away')
 
   t.same(
-    diatonic.getNextNote(new Note('A', ['A']), -1),
-    new Note('Ab', ['G#', 'Ab']),
+    diatonic.getNextNote(A, -1),
+    Ab,
     'backward steps!')
 
   t.same(
-    diatonic.getNextNote(new Note('A', ['A']), -12),
-    new Note('A', ['A']),
+    diatonic.getNextNote(A, -12),
+    A,
     'backward steps!')
 
 
   t.equal(diatonic.valueOf(), JSON.stringify(diatonic));
   t.equal(diatonic.toString(), JSON.stringify(diatonic));
-  
+
   t.end();
 })

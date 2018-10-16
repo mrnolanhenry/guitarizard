@@ -70,7 +70,7 @@ tap.test('class FretBoard --- getNotesInScale', function (t) {
 
   const chromatic = new Scale('chromatic', diatonic, [0,1,2,3,4,5,6,7,8,9,10,11,12])
 
-  t.same(stubbyBoard.getNotesInScale(chromatic, 'A'), [
+  t.same(stubbyBoard.getNotesInScale(chromatic, new Note('A')), [
     {
       tunedString: tunedStrings[0],
       config: stringConfig[0],
@@ -97,17 +97,17 @@ tap.test('class FretBoard --- getNotesInScale', function (t) {
     }
   ])
 
-  t.same(stubbyBoard.getNotesInScale(chromatic, 'A'),
-         stubbyBoard.getNotesInScale(chromatic, 'B'),
+  t.same(stubbyBoard.getNotesInScale(chromatic, new Note('A')),
+         stubbyBoard.getNotesInScale(chromatic, new Note('B')),
          'chromatic scale does not change based on key')
 
-  t.same(stubbyBoard.getNotesInScale(chromatic, 'A'),
+  t.same(stubbyBoard.getNotesInScale(chromatic, new Note('A')),
          stubbyBoard._getNotes(),
          'chromatic scale is the same as `_getNotes()`')
 
   const blues = new Scale('blues', diatonic, [0,3,5,6,7,10,12])
 
-  t.same(stubbyBoard.getNotesInScale(blues, 'A'), [
+  t.same(stubbyBoard.getNotesInScale(blues, new Note('A')), [
     {
       tunedString: tunedStrings[0],
       config: stringConfig[0],
