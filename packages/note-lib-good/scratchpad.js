@@ -23,8 +23,8 @@ const notes = [ ['A', 'A#', 'B','C','C#','D','D#','E','F','F#','G','G#'],
                 ['A', 'Bb', 'B','C','Db','D','Eb','E','F','Gb','G','Ab']];
 
 // Given a "key" or a note
-function noteExists(key) {
-  return notes[0].indexOf(key) !== -1 || notes[1].indexOf(key) !== -1;
+function noteExists(note) {
+  return notes[0].indexOf(note) !== -1 || notes[1].indexOf(note) !== -1;
 }
 
 // Given a key (e.g. 'Gb') and a scale (e.g. 'blues'), this function spits out an array 'newScale' of objects, with each note in the scale.
@@ -33,27 +33,21 @@ function getNotesInScale(key,scale) {
     return;
   }
 
-  if (typeof scales[scale] === 'undefined') {
-    return;
-  }
-
   const newNotes = (notes[1].indexOf(key) === -1) ? notes[0] : notes[1]
   const stepsFromA = newNotes.indexOf(key);
-  const intervals = scales[scale];
   const newScale = [];
 
-  for (let i = 0; i < intervals.length; i++) {
-    const notesFromA = (intervals[i] + stepsFromA) % 12;
+  for (let i = 0; i < scale.length; i++) {
+    const notesFromA = (scale[i] + stepsFromA) % 12;
     newScale.push({
-      notesFromA: notesFromA,
       note: newNotes[notesFromA],
     });
   }
   return newScale;
 }
 
-// console.log(getNotesInScale('F','blues'));
-// console.log(getNotesInScale('A','blues'));
+// console.log(getNotesInScale('F',blues));
+// console.log(getNotesInScale('A',blues));
 
  // Given a note and a chord (e.g. '_7 this function spits out an array 'newChord' of objects, with each note in the Chord.
  function getNotesInChord(note,chord) {
@@ -61,19 +55,13 @@ function getNotesInScale(key,scale) {
      return;
    }
 
-   if (typeof chords[chord] === 'undefined') {
-     return;
-   }
-
    const newNotes = (notes[1].indexOf(note) === -1) ? notes[0] : notes[1]
    const stepsFromA = newNotes.indexOf(note);
-   const intervals = chords[chord];
    const newChord = [];
 
-   for (let i = 0; i < intervals.length; i++) {
-     const notesFromA = (intervals[i] + stepsFromA) % 12;
+   for (let i = 0; i < chord.length; i++) {
+     const notesFromA = (chord[i] + stepsFromA) % 12;
      newChord.push({
-       notesFromA: notesFromA,
        note: newNotes[notesFromA],
      });
    }
@@ -81,15 +69,15 @@ function getNotesInScale(key,scale) {
 
  }
  // Test - getNotesInChord function
- // console.log(getNotesInChord('B','_7'));
- // console.log(getNotesInChord('E','_maj13'));
+ // console.log(getNotesInChord('B',_7));
+ // console.log(getNotesInChord('E',_maj13));
 
  // Test case error check - getNotesInScale function
- assert.deepStrictEqual (getNotesInChord('B','_7'), [
-  { notesFromA: 2, note: 'B' },
-  { notesFromA: 6, note: 'Eb' },
-  { notesFromA: 9, note: 'Gb' },
-  { notesFromA: 0, note: 'A' } ]
+ assert.deepStrictEqual (getNotesInChord('B',_7), [
+  { note: 'B' },
+  { note: 'Eb' },
+  { note: 'Gb' },
+  { note: 'A' } ]
                         ,'You fucked up');
 
 
@@ -320,7 +308,7 @@ function createString(startNote,startFret, endFret, stringOrder) {
 
 // console.log(createString('A',5,21,1));
 
-// Test case error check - getNotesInScale function
+// Test case error check - createString function
 assert.deepStrictEqual (createString('A',5,16,1), { stringTuning: 'A',
   stringOrder: 1,
   notes:
@@ -508,8 +496,8 @@ function findScaleOnString(key,scale,string) {
   return newScaleNotes;
 }
 
-// console.log(getNotesInScale('B','blues'));
-// console.log(findScaleOnString('B','blues',guitar.strings[5]));
+// console.log(getNotesInScale('B',blues));
+// console.log(findScaleOnString('B',blues,guitar.strings[5]));
 
 // Given a key, scale, and instrument, returns an object with each Note in the scale found on the instrument
 function findScaleOnInstrument(key,scale,instrument) {
@@ -525,8 +513,8 @@ function findScaleOnInstrument(key,scale,instrument) {
   return newScale;
 }
 
-// console.log(findScaleOnInstrument('B','blues',guitar));
-// console.log(JSON.stringify(findScaleOnInstrument('B','blues',guitar),null,4));
+// console.log(findScaleOnInstrument('B',blues,guitar));
+// console.log(JSON.stringify(findScaleOnInstrument('B',blues,guitar),null,4));
 
 // Given a note, type of chord (e.g. '_7' for 7th chord), and instrument, returns a Root Chord object with each string/note/fret number
 function findChord(note,chord,instrument) {
@@ -553,11 +541,10 @@ function findChord(note,chord,instrument) {
   return sortByStringOrder(newChord);
 }
 
-// console.log(findChord('B','_7',guitar));
-// console.log(findChord('B','_7',stubby));
-//
-// console.log(findChord('C','_7',guitar));
-// console.log(findChord('C','_7',stubby));
+// console.log(findChord('B',_7,guitar));
+// console.log(findChord('B',_7,stubby));
+// console.log(findChord('C',_7,guitar));
+// console.log(findChord('C',_7,stubby));
 
 
 // Given a stringOrder from a string within a Chord,
@@ -592,27 +579,25 @@ function findSomeVoicingPositions(note,chord,instrument,string) {
   return positions;
 }
 
-// console.log('SOME VOICING POSITIONS ',JSON.stringify(findSomeVoicingPositions('B','_7',guitar,3),null,4));
-// console.log('SOME VOICING POSITIONS ',findSomeVoicingPositions('B','_7',guitar,3).length);
+// console.log('SOME VOICING POSITIONS ',JSON.stringify(findSomeVoicingPositions('B',_7,guitar,3),null,4));
+// console.log('SOME VOICING POSITIONS ',findSomeVoicingPositions('B',_7,guitar,3).length);
 
-// console.log('SOME VOICING POSITIONS ',JSON.stringify(findSomeVoicingPositions('B','_7',guitar,2),null,4));
-// console.log('SOME VOICING POSITIONS ',findSomeVoicingPositions('B','_7',guitar,2).length);
+// console.log('SOME VOICING POSITIONS ',JSON.stringify(findSomeVoicingPositions('B',_7,guitar,2),null,4));
+// console.log('SOME VOICING POSITIONS ',findSomeVoicingPositions('B',_7,guitar,2).length);
 
-// console.log('SOME VOICING POSITIONS ',JSON.stringify(findSomeVoicingPositions('B','_7',guitar,1),null,4));
-// console.log('SOME VOICING POSITIONS ',findSomeVoicingPositions('B','_7',guitar,1).length);
+// console.log('SOME VOICING POSITIONS ',JSON.stringify(findSomeVoicingPositions('B',_7,guitar,1),null,4));
+// console.log('SOME VOICING POSITIONS ',findSomeVoicingPositions('B',_7,guitar,1).length);
 
-// console.log('SOME VOICING POSITIONS ',JSON.stringify(findSomeVoicingPositions('B','_7',guitar,0),null,4));
-// console.log('SOME VOICING POSITIONS ',findSomeVoicingPositions('B','_7',guitar,0).length);
+// console.log('SOME VOICING POSITIONS ',JSON.stringify(findSomeVoicingPositions('B',_7,guitar,0),null,4));
+// console.log('SOME VOICING POSITIONS ',findSomeVoicingPositions('B',_7,guitar,0).length);
 
 
-// WIP
 // Given a note, type of chord (e.g. '_7' for 7th chord), and instrument,
 // returns each available Chord object with each string/note/fret number
 // FOR SINGLE VOICING OF THAT CHORD
 function findVoicingPositions(note,chord,instrument) {
   var voicingPositions = [];
-  var chordLength = chords[chord].length;
-  for (let i = 0; i < chordLength; i++) {
+  for (let i = 0; i < chord.length; i++) {
     var newPositions = [];
     newPositions = findSomeVoicingPositions(note,chord,instrument,i)
     if (i !== 0) {
@@ -624,12 +609,12 @@ function findVoicingPositions(note,chord,instrument) {
 }
 
 
-// console.log('ALL Voicing Positions' ,JSON.stringify(findVoicingPositions('B','_7',guitar),null,4));
-// console.log(findVoicingPositions('B','_7',guitar).length);
-// console.log('ALL Voicing Positions' ,findVoicingPositions('B','_7',guitar));
+// console.log('ALL Voicing Positions' ,JSON.stringify(findVoicingPositions('B',_7,guitar),null,4));
+// console.log(findVoicingPositions('B',_7,guitar).length);
+// console.log('ALL Voicing Positions' ,findVoicingPositions('B',_7,guitar));
 
-// console.log('ALL Voicing Positions' ,JSON.stringify(findVoicingPositions('B','_7',stubby),null,4));
-// console.log(findVoicingPositions('B','_7',stubby).length);
+// console.log('ALL Voicing Positions' ,JSON.stringify(findVoicingPositions('B',_7,stubby),null,4));
+// console.log(findVoicingPositions('B',_7,stubby).length);
 
 
 // WIP
@@ -644,6 +629,13 @@ function findChordPositions(note,chord,instrument) {
   }
   return chordPositions;
 }
+
+console.log('ALL Chord Positions' ,findChordPositions('B',_7,stubby));
+console.log(findChordPositions('B',_7,stubby).length);
+
+// console.log('ALL Chord Positions' ,findChordPositions('B',_7,guitar));
+// console.log(findChordPositions('B',_7,guitar).length);
+
 
 
 // Chord properties / qualities to consider sorting by:
