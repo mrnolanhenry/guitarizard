@@ -87,9 +87,9 @@ function getNotesInScale(key,scale) {
 // [0,4,7,10,0] , [0,4,7,10,4] , [0,4,7,10,7], and [0,4,7,10,10]
 // Each of these would then be permutated using the permuteArray function later on.
 function getChordVoicings (chord, chordLength) {
-  var newArr = [];
+  let newArr = [];
   for (let i = 0; i < chordLength; i++) {
-    var newInput = chord.slice();
+    let newInput = chord.slice();
     newInput.push(chord[i]);
     newArr.push(newInput);
   }
@@ -104,7 +104,7 @@ function getChordVoicings (chord, chordLength) {
 //Given array from getChordVoicings function and an original chordLength (i.e. 4 for _7 chord: [0,4,7,10]),
 //Returns another set of voicings within an array.
 function getMultipleVoicings(chordVoicings,chordLength) {
-  var newArr = [];
+  let newArr = [];
     for (let i = 0; i < chordVoicings.length; i++) {
       newArr = newArr.concat(getChordVoicings(chordVoicings[i],chordLength));
     }
@@ -122,10 +122,10 @@ function getMultipleVoicings(chordVoicings,chordLength) {
 // based on length of given chord and how long you want the chord to be
 // e.g. if limited to six strings, upToLength would be 6
 function getAllVoicings (chord, upToLength){
-  var voicings = [];
-  var newVoicings = [[]];
-  var chordLength = chord.length;
-  var iterations = upToLength - chordLength;
+  let voicings = [];
+  let newVoicings = [[]];
+  let chordLength = chord.length;
+  let iterations = upToLength - chordLength;
   if (iterations <= 0) {
     return chord;
   }
@@ -161,7 +161,7 @@ function sortArray (array){
 // console.log(sortArray(getChordVoicings(_5,_5.length)[2]));
 
 function sortEachArray (array){
-  var newArr = [];
+  let newArr = [];
   for (let i = 0; i < array.length; i++) {
     newArr.push(sortArray(array[i]));
   }
@@ -176,7 +176,7 @@ function sortEachArray (array){
 // return true if it is unique up to position n or false if it matches another array[i], where i < n.
 function isUniqueArray (n,withinArray) {
   for (let i = 0; i < n; i++){
-    var countEquivElements = 0;
+    let countEquivElements = 0;
     for (let j = 0; j < withinArray[i].length; j++) {
       if (withinArray[n][j] === withinArray[i][j] && n !== i) {
         countEquivElements += 1;
@@ -199,12 +199,12 @@ function isUniqueArray (n,withinArray) {
 // THEN sort each voicing numerically to check whether they are unique
 // and only return those that are.
 function getUniqueVoicings (chord, upToLength) {
-  var uniqueVoicings = [];
+  let uniqueVoicings = [];
   if (chord.length === upToLength){
     uniqueVoicings = [chord];
     return uniqueVoicings;
   }
-  var allVoicings = getAllVoicings(chord, upToLength);
+  let allVoicings = getAllVoicings(chord, upToLength);
   allVoicings = sortEachArray(allVoicings);
   for (let i = 0; i < allVoicings.length; i++) {
     if (isUniqueArray (i,allVoicings)) {
@@ -225,12 +225,12 @@ function getUniqueVoicings (chord, upToLength) {
 // FUNKY RECURSION makes nesting this function necessary.
 function permuteArray(input) {
 
-  var permArr = [],
+  let permArr = [],
     usedChars = [];
 
   function permutate(input) {
-    var i, ch;
-    var newInput = input.slice()
+    let i, ch;
+    let newInput = input.slice()
     for (i = 0; i < newInput.length; i++) {
       ch = newInput.splice(i, 1)[0];
       usedChars.push(ch);
@@ -251,12 +251,11 @@ return permutate(input);
 // console.log(permuteArray(_7).length);
 
 function getChordPermutations (chord, upToLength) {
-  var allPermutations = [];
-  var permutation = [];
-  var uniqueVoicings = getUniqueVoicings(chord, upToLength);
+  let allPermutations = [];
+  let permutation = [];
+  let uniqueVoicings = getUniqueVoicings(chord, upToLength);
   for (let i = 0; i < uniqueVoicings.length; i++) {
     permutation[i] = permuteArray(uniqueVoicings[i]);
-    // console.log(permutation[i]);
     allPermutations = allPermutations.concat(permutation[i]);
   }
   return allPermutations;
@@ -393,7 +392,7 @@ function removeInvalidString(validStrings, invalidString){
 // return modified version of the string with the fret removed
 // this function to be used in looping through and creating different chords.
 function removeInvalidFret(fretNum,string) {
-  var newString = string;
+  let newString = string;
 
   for (let j = 0; j < newString.notes.length; j++) {
       if (newString.notes[j].fretNum === fretNum) {
@@ -412,7 +411,7 @@ function removeInvalidFret(fretNum,string) {
 // return modified version of the instrument with the fret removed
 // this function to be used in looping through and creating different chords.
 function removeFretFromInstrument (fretNum,string,instrument) {
-  var newInstrument = JSON.parse(JSON.stringify(instrument));
+  let newInstrument = JSON.parse(JSON.stringify(instrument));
   const newString = removeInvalidFret(fretNum,string)
   for (let i = 0; i < newInstrument.strings.length; i++) {
     if (string.stringOrder === newInstrument.strings[i].stringOrder) {
@@ -501,8 +500,9 @@ function findScaleOnInstrument(key,scale,instrument) {
   const clonedInstrument = sortByStringOrder(instrument);
   const validStrings = getValidStrings(clonedInstrument);
   for (let i = validStrings[0]; i < clonedInstrument.strings.length; i++) {
-    if (validStrings.indexOf(i) !== -1 && typeof (findScaleOnString(key,scale,clonedInstrument.strings[i])) !== 'undefined') {
-    newScale.push(findScaleOnString(key,scale,clonedInstrument.strings[i]));
+    const scaleFound = findScaleOnString(key,scale,clonedInstrument.strings[i])
+    if (validStrings.indexOf(i) !== -1 && typeof scaleFound !== 'undefined') {
+    newScale.push(scaleFound);
     }
   }
   return newScale;
@@ -515,19 +515,52 @@ function findScaleOnInstrument(key,scale,instrument) {
 function findChord(note,chord,instrument) {
   newChordNotes = getNotesInChord(note,chord);
   const clonedInstrument = sortByStringOrder(instrument)
-  const newChord = {strings:[]};
+  const newChord = {position: null,
+    rootFreq: 0,
+    fretWidth: null,
+    strings:[]
+  };
   let validStrings = getValidStrings(clonedInstrument);
+  let fretLower, fretUpper;
+  let rootCount = 0;
   for (let i = 0; i < newChordNotes.length; i++) {
-    newChord.strings.push(findNoteOnInstrument(newChordNotes[i].note,clonedInstrument,validStrings));
+    const notesLeft = newChordNotes.length - i;
     //FAILURE CASE
     //-----------------------------------------------------
-    if (typeof newChord.strings[i] === 'undefined') {
+    if (validStrings.length < notesLeft) {
       return;
     }
+    //-----------------------------------------------------
+    const noteFound = findNoteOnInstrument(newChordNotes[i].note,clonedInstrument,validStrings);
+    //FAILURE CASE
+    //-----------------------------------------------------
+    if (typeof noteFound === 'undefined') {
+      return;
+    }
+    //-----------------------------------------------------
+    if (noteFound.note === note) {
+      rootCount += 1
+    }
+    currentFret = noteFound.fretNum;
+    if (currentFret !== 0){
+      if (currentFret < fretLower || typeof fretLower === 'undefined') {
+        fretLower = currentFret;
+      }
+      if (currentFret > fretUpper || typeof fretUpper === 'undefined') {
+        fretUpper = currentFret;
+      }
+    }
+    newChord.strings.push(noteFound);
     let stringFound = newChord.strings[i].stringOrder;
     removeInvalidStringsBelow(validStrings, stringFound);
-
   }
+  if (chord[0] === 0){
+    newChord.position = 'Root';
+  } else {
+    newChord.position = 'Inversion';
+  }
+  newChord.rootFreq = rootCount;
+  newChord.fretWidth = fretUpper - fretLower;
   return newChord;
 }
 
@@ -556,12 +589,11 @@ function findFullStringFromStringOrder(stringOrder,instrument) {
 // returns each available Chord object based on only changing ONE note within the chord
 // TO BE NESTED WITHIN findVoicingPositions function to handle each note within the Chord
 function findSomeVoicingPositions(note,chord,instrument,string) {
-  var positions = [];
-  var currentString = [];
-  var newInstrument = JSON.parse(JSON.stringify(instrument));
-  var currentChord;
+  let positions = [];
+  let currentString = [];
+  let newInstrument = JSON.parse(JSON.stringify(instrument));
+  let currentChord;
   while (currentChord = findChord(note,chord,newInstrument)) {
-    // currentChord = findChord(note,chord,newInstrument);
     positions = positions.concat(currentChord);
     currentString = findFullStringFromStringOrder(currentChord.strings[string].stringOrder,newInstrument);
     newInstrument = removeFretFromInstrument (currentChord.strings[string].fretNum, currentString, newInstrument);
@@ -586,9 +618,9 @@ function findSomeVoicingPositions(note,chord,instrument,string) {
 // returns each available Chord object with each string/note/fret number
 // FOR SINGLE VOICING OF THAT CHORD
 function findVoicingPositions(note,chord,instrument) {
-  var voicingPositions = [];
+  let voicingPositions = [];
   for (let i = 0; i < chord.length; i++) {
-    var newPositions = [];
+    let newPositions = [];
     newPositions = findSomeVoicingPositions(note,chord,instrument,i)
     if (i !== 0) {
       newPositions.shift()
@@ -612,7 +644,7 @@ function findVoicingPositions(note,chord,instrument) {
 // returns each available Chord object with each string/note/fret number
 // FOR ALL VOICINGS OF THAT CHORD
 function findChordPositions(note,chord,instrument) {
-  var chordPositions = [];
+  let chordPositions = [];
   chordPermutations = getChordPermutations(chord, instrument.length)
   for (let i = 0; i < chordPermutations.length; i++) {
     chordPositions = chordPositions.concat(findVoicingPositions(note,chordPermutations[i],instrument));
@@ -623,15 +655,16 @@ function findChordPositions(note,chord,instrument) {
 // console.log('ALL Chord Positions' ,findChordPositions('B',_7,stubby));
 // console.log(findChordPositions('B',_7,stubby).length);
 
+// console.log('ALL Chord Positions' ,JSON.stringify(findChordPositions('B',_7,guitar),null,4));
 // console.log('ALL Chord Positions' ,findChordPositions('B',_7,guitar));
-console.log(findChordPositions('B',_7,guitar).length);
+// console.log(findChordPositions('B',_7,guitar).length);
 
 
 
 // Chord properties / qualities to consider sorting by:
-// Position: (Root Chord / first Inversion / second Inversion)
-// RootFreq: (amount of times root note appears in the chord)
-// FretWidth: (lowest fretNum to highest fretNum)
+// position: (Root Chord / first Inversion / second Inversion)
+// rootFreq: (amount of times root note appears in the chord)
+// fretWidth: (lowest fretNum to highest fretNum)
 // Length: (# of notes / fullness)
 
-console.log('guitarcheatcodes.com','guitarizard.com','chordfix.com')
+// console.log('guitarcheatcodes.com','guitarizard.com','chordfix.com')
