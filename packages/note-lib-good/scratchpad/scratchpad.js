@@ -645,7 +645,7 @@ function findVoicingPositions(note,chord,instrument) {
 // FOR ALL VOICINGS OF THAT CHORD
 function findChordPositions(note,chord,instrument) {
   let chordPositions = [];
-  chordPermutations = getChordPermutations(chord, instrument.length)
+  chordPermutations = getChordPermutations(chord, instrument.strings.length)
   for (let i = 0; i < chordPermutations.length; i++) {
     chordPositions = chordPositions.concat(findVoicingPositions(note,chordPermutations[i],instrument));
   }
@@ -656,7 +656,7 @@ function findChordPositions(note,chord,instrument) {
 // console.log(findChordPositions('B',_7,stubby).length);
 
 // console.log('ALL Chord Positions' ,JSON.stringify(findChordPositions('B',_7,guitar),null,4));
-// console.log('ALL Chord Positions' ,findChordPositions('B',_7,guitar));
+console.log('ALL Chord Positions' ,findChordPositions('B',_7,guitar));
 // console.log(findChordPositions('B',_7,guitar).length);
 
 
