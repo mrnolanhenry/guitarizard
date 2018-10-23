@@ -1,12 +1,14 @@
 {
   "name": "choo-web",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "bin": {
+    "choo-web": "./bin/choo-web.js"
+  },
   "scripts": {
-    "dev": "while true; do echo 'while true.... Ctrl+C to exit'; rm -rf ./dist; tsc; node dist/index.js; done",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "while true; do echo '{*}'; rm -rf ./dist; tsc; node dist/index.js; done"
   },
   "repository": {
     "type": "git",
@@ -14,16 +16,18 @@
   },
   "author": "Jay Querie <jay@querie.cc>",
   "license": "",
+  "dependencies": {
+    "browserify": "^16.2.3",
+    "choo": "^6.13.0",
+    "main": "^100.0.0",
+    "node-watch": "^0.5.8",
+    "note-lib": "https://sixstring-bot:9ttC8vxHFmfbGPU3oxKFyHiUgbLpGo4NYGh28wKFDLPAjH7NZXJHmXF47gDqc6ZCCdEWajM8wG5iEqrAhrbT8ofMsffYjcYc6vxPzzvCq8QVNeHND2heLPKy25RavmQK@git.querie.cc/sixstring/note-lib/archive/0001.tar.gz"
+  },
   "devDependencies": {
     "@types/browserify": "^12.0.36",
     "@types/node": "^10.12.0",
     "choo-devtools": "^2.5.1",
     "prettier": "^1.14.3",
     "typescript": "^3.1.3"
-  },
-  "dependencies": {
-    "browserify": "^16.2.3",
-    "choo": "^6.13.0",
-    "node-watch": "^0.5.8"
   }
 }
