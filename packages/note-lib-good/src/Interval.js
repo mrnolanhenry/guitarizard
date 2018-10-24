@@ -19,9 +19,9 @@ module.exports = class Interval {
 
   hasAliasName(name) {
     const alias = this.aliases.find(a => a.name === name)
-    return typeof alias !== 'undefined'    
+    return typeof alias !== 'undefined'
   }
-  
+
   toJSON(key) {
     return {
       semitones: this.semitones,

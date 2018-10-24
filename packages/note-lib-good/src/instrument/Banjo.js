@@ -5,6 +5,7 @@ const TunedString = require('./TunedString');
 module.exports = class Banjo {
   constructor(fretCount, tuning) {
 
+    this.name = 'banjo';
     this.fretCount = fretCount;
     this.tuning = tuning;
 

@@ -6,7 +6,7 @@ A note library :)
 
 Tests are written with: https://www.node-tap.org/asserts/
 
-Run with: `npm test`
+Run with: `npm test` or `npm run test:100` (for 100% cov testing)
 
 ## Authors
 

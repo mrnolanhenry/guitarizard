@@ -19,6 +19,11 @@ export interface Note {
   isSimilar: (note: Note) => boolean;
 }
 
+declare var Note: {
+  prototype: Note;
+  new(): Note;
+};
+
 export interface ScaleSystem {
   name: string;
   notes: Array<Note>;
@@ -30,6 +35,11 @@ export interface ScaleSystem {
   getNextNote: (fromNote: Note, stepsAway: number) => Note;
   getKeyNotes: () => Array<Note>;
 }
+
+declare var ScaleSystem: {
+  prototype: ScaleSystem;
+  new(): ScaleSystem;
+};
 
 export type IntervalAlias = String;
 
@@ -47,6 +57,11 @@ export interface Interval {
   hasAliasName: (alias: IntervalAlias) => boolean;
 }
 
+declare var Interval: {
+  prototype: Interval;
+  new(): Interval;
+};
+
 export interface Scale {
   name: string;
   scaleSystem: ScaleSystem;
@@ -54,6 +69,11 @@ export interface Scale {
 
   getNotesInKey: (key: Note) => Array<Note>;
 }
+
+declare var Scale: {
+  prototype: Scale;
+  new(): Scale;
+};
 
 export namespace data {
   export const scaleSystem: {
@@ -109,12 +129,14 @@ export namespace instrument {
   }
 
   export interface FrettedInstrument {
+    name: string;
     fretCount: number;
     tuning: Array<Note>;
     fretBoard: FretBoard;
   }
 
   export class Guitar implements FrettedInstrument {
+    name: 'guitar';
     fretCount: number;
     tuning: Array<Note>;
     fretBoard: FretBoard;
@@ -123,6 +145,7 @@ export namespace instrument {
   }
 
   export class Banjo implements FrettedInstrument {
+    name: 'banjo';
     fretCount: number;
     tuning: Array<Note>;
     fretBoard: FretBoard;

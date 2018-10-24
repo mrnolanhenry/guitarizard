@@ -111,7 +111,7 @@ mainIntervals.forEach(interval => {
   const aliases = interval.aliases;
   aliases.forEach(alias => {
     if (alias.short) {
-      exports[alias.short] = alias;
+      exports[alias.short] = interval;
     }
   });
 })
