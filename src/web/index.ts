@@ -1,8 +1,20 @@
-import AppClient, { AppState } from "./client";
+import AppClient from "./client";
+import { ServerGlobal } from "../server";
 
-const initialState = ((window as any) as { initialState: AppState })
-  .initialState;
+// Below is a hack to NOT use the `initialState` functionality
+// in choo, but instead defining globals that the client can
+// then interpret for itself / load up / etc. OUTSIDE of just
+// initial state...
 
-console.log(">>>>>", initialState);
+const server = ((window as any) as {
+  __SERVER: ServerGlobal;
+}).__SERVER;
 
-new AppClient({ initialState });
+new AppClient({
+  appServerState: server.appServerState,
+  isDev: server.isDev,
+  isServer: false,
+  initialRoute: server.initialRoute
+});
+
+delete (window as any).__SERVER;

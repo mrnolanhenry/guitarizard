@@ -1,33 +1,47 @@
 import * as EventEmitter from "events";
-import html from "choo/html";
 import * as Choo from "choo";
+import * as noteLib from "note-lib";
+import { Note, Scale, ScaleSystem, instrument } from "note-lib";
+import mainView from "./views/main";
+import { AppServerState } from "../server";
 const devtools = require("choo-devtools");
 
-type ChooEmit = (name: string, ...args: any[]) => void;
+export type ChooEmit = (name: string, ...args: any[]) => void;
 
 export interface AppState {
-  count?: number;
+  count: number;
+
+  instruments: Array<instrument.FrettedInstrument>;
+  activeInstrument: instrument.FrettedInstrument;
+  activeScale: Scale;
+  keyNote: Note;
+  scaleSystem: ScaleSystem;
 }
 
 interface ChooAppState extends Choo.IState, AppState {}
 
 export interface AppClient {
-  state?: AppState;
-  render?: string;
+  state: AppState;
+  render: string;
   app: Choo;
 }
 
 interface AppClientOptions {
-  isServer?: boolean;
-  isDev?: boolean;
-  initialState?: AppState;
-  initialRoute?: string;
+  isServer: boolean;
+  isDev: boolean;
+  appServerState: AppServerState;
+  initialRoute: string;
 }
 
 export class AppClient {
-  constructor(options: AppClientOptions = {}) {
-    this.state = options.initialState || {};
+  constructor(options: AppClientOptions) {
+    this.state = initStateFromServer(options.appServerState);
+
     this.render = "";
+
+    if (!options.isServer) {
+      (window as any).initialState = this.state;
+    }
 
     this.app = new Choo();
 
@@ -36,29 +50,20 @@ export class AppClient {
     if (options.isServer) {
       const route = options.initialRoute || "/";
       const state = this.state as ChooAppState;
+
       this.render = this.app.toString(route, state);
     } else {
       if (options.isDev) this.app.use(devtools());
-      this.app.use(store);
+      this.app.use((state, emitter, app) => {
+        state = this.state as ChooAppState;
+        store(state as ChooAppState, emitter, app);
+      });
       this.app.mount("#app");
     }
   }
 }
 
 export default AppClient;
-
-function mainView(state: AppState, emit: ChooEmit) {
-  return html`
-    <div id="app">
-      <h1>count is ${state.count}</h1>
-      <button onclick=${onclick}>Increment</button>
-    </div>
-  `;
-
-  function onclick() {
-    emit("increment", 1);
-  }
-}
 
 function store(state: ChooAppState, emitter: EventEmitter, _app: Choo) {
   emitter.on("increment", function(count: number) {
@@ -70,4 +75,45 @@ function store(state: ChooAppState, emitter: EventEmitter, _app: Choo) {
 
     emitter.emit("render");
   });
+}
+
+/**
+ * Given the server's state, return an initialized version of the
+ * app state with the proper classes, etc.
+ *
+ */
+export function initStateFromServer(appServerState: AppServerState): AppState {
+  const diatonic = noteLib.data.scaleSystem.diatonic;
+  const scales = noteLib.data.scales;
+
+  const instruments = [
+    new noteLib.instrument.Guitar(
+      21,
+      ["E", "A", "D", "G", "B", "E"].map(noteID =>
+        diatonic.getNoteFromID(noteID)
+      )
+    ),
+    new noteLib.instrument.Banjo(
+      21,
+      ["G", "D", "G", "B", "D"].map(noteID => diatonic.getNoteFromID(noteID))
+    )
+  ];
+
+  const activeInstrument =
+    instruments[appServerState.activeInstrumentName === "guitar" ? 0 : 1];
+
+  const activeScale =
+    scales.find(s => s.name === appServerState.activeScaleName) || scales[14];
+
+  const keyNote = diatonic.getNoteFromID(appServerState.keyNoteID);
+  const scaleSystem = diatonic;
+
+  return {
+    count: 4,
+    instruments,
+    activeInstrument,
+    activeScale,
+    keyNote,
+    scaleSystem
+  };
 }

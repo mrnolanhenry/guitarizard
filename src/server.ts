@@ -2,7 +2,7 @@ import * as http from "http";
 import * as browserify from "browserify";
 import { Readable, Writable } from "stream";
 import { createReadStream, ReadStream } from "fs";
-import { AppState, AppClient } from "./web/client";
+import { AppClient } from "./web/client";
 
 const end = async (stream: Readable) =>
   new Promise((resolve, reject) => {
@@ -26,13 +26,38 @@ const sendText = async (str: string, wStream: Writable) => {
   return send(rs, wStream);
 };
 
+export interface ServerGlobal {
+  isDev: boolean;
+  appServerState: AppServerState;
+  initialRoute: string;
+}
+
 async function handleRequest(
   _req: http.IncomingMessage,
   res: http.ServerResponse,
+  appServerState: AppServerState,
+  initialRoute: string,
   appClient: AppClient,
+  isDev: boolean,
   appBundle?: string
 ) {
   res.setHeader("Content-Type", "text/html; charset=utf-8");
+
+  const __SERVER: ServerGlobal = {
+    isDev,
+    appServerState,
+    initialRoute
+  };
+
+  const jsGlobals =
+    `<script>` +
+    `window.__SERVER = ${
+      isDev ? JSON.stringify(__SERVER, null, 4) : JSON.stringify(__SERVER)
+    }` +
+    `</script>`;
+
+  const jsBundle =
+    `<script>` + (appBundle || "console.log('no bundle')") + `</script>`;
 
   const elements = [
     "<!DOCTYPE html><html><head><style>",
@@ -41,12 +66,8 @@ async function handleRequest(
     }),
     `</style></head><body>`,
     appClient.render ? appClient.render : "no rendering",
-    appBundle
-      ? `<script>
-    window.initialState = ${JSON.stringify(appClient.state)};
-    ${appBundle}
-    </script>`
-      : "no bundle",
+    jsGlobals,
+    jsBundle,
     "</body></html>"
   ];
 
@@ -79,31 +100,40 @@ async function buildApp(entryPoint: string, isDev: boolean): Promise<string> {
   });
 }
 
+export interface AppServerState {
+  activeInstrumentName: string;
+  activeScaleName: string;
+  scaleSystemName: string;
+  keyNoteID: string;
+}
+
+interface AppServerOptions {
+  isDev: boolean;
+  appServerState: AppServerState;
+}
+
 interface AppServer {
+  appEntry: string;
   port: number;
+  options: AppServerOptions;
 
   appClient: AppClient;
-  appEntry: string;
+
   appBundle?: string;
 
   server?: http.Server;
 }
 
-interface AppServerOptions {
-  isDev?: boolean;
-  isServer?: boolean;
-  initialState?: AppState;
-}
-
 class AppServer {
-  constructor(appEntry: string, port: number, options: AppServerOptions = {}) {
+  constructor(appEntry: string, port: number, options: AppServerOptions) {
     this.port = port;
     this.appEntry = appEntry;
+    this.options = options;
 
     this.appClient = new AppClient({
       isServer: true,
       isDev: options.isDev,
-      initialState: options.initialState,
+      appServerState: options.appServerState,
       initialRoute: "/"
     });
 
@@ -116,12 +146,18 @@ class AppServer {
     if (this.server) return;
 
     this.server = http.createServer((req, res) => {
-      return handleRequest(req, res, this.appClient, this.appBundle).catch(
-        error => {
-          console.error(error.stack ? error : error.stack);
-          res.end();
-        }
-      );
+      return handleRequest(
+        req,
+        res,
+        this.options.appServerState,
+        "/",
+        this.appClient,
+        this.options.isDev,
+        this.appBundle
+      ).catch(error => {
+        console.error(error.stack ? error : error.stack);
+        res.end();
+      });
 
       res.end();
     });
