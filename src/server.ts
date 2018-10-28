@@ -55,23 +55,8 @@ async function handleRequest(
     initialRoute: args.initialRoute
   };
 
-  const devBundle = !args.isDev
-    ? ""
-    : `
-const socket = new WebSocket('ws://localhost:5000');
-
-socket.addEventListener('message', function (event) {
-  console.log('Message from server ', event.data);
-
-  if (event.data === 'reload') {
-    location.reload();
-  }
-});
-`;
-
   const jsGlobals =
     `<script>` +
-    devBundle +
     `window.__SERVER = ${
       args.isDev ? JSON.stringify(__SERVER, null, 4) : JSON.stringify(__SERVER)
     }` +

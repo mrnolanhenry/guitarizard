@@ -53,11 +53,23 @@ export class AppClient {
 
       this.render = this.app.toString(route, state);
     } else {
-      if (options.isDev) this.app.use(devtools());
+      if (options.isDev) {
+        this.app.use(devtools());
+
+        const socket = new WebSocket("ws://localhost:5000");
+
+        socket.addEventListener("message", function(event) {
+          if (event.data === "reload") {
+            location.reload();
+          }
+        });
+      }
+
       this.app.use((state, emitter, app) => {
         state = this.state as ChooAppState;
         store(state as ChooAppState, emitter, app);
       });
+
       this.app.mount("#app");
     }
   }

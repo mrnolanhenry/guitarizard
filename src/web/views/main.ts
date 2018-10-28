@@ -1,6 +1,6 @@
 import html from "choo/html";
 import { AppState, ChooEmit } from "../client";
-import chordbook from "./chordbook";
+import chordbook from "../components/chordbook";
 import { Note, instrument } from "note-lib";
 
 export default function mainView(state: AppState, emit: ChooEmit) {

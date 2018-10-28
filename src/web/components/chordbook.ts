@@ -36,6 +36,6 @@ export default function chordbook({
         <tr><td>keyNote:</td><td>${keyNote.id}</td></tr>
         <tr><td>scaleSystem:</td><td>${scaleSystem.name}</td></tr>
       </table>
-      <h1 style="font-family: monospace">guitarizard!! ...</h1>
+      <h1 style="font-family: monospace">Guitarizard</h1>
     </div>`;
 }
