@@ -8,7 +8,7 @@
     "choo-web": "./bin/choo-web.js"
   },
   "scripts": {
-    "dev": "while true; do echo '{*}'; rm -rf ./dist; tsc; node dist/index.js; done"
+    "dev": "tsc; ./bin/choo-web.js --dev --port '8080'"
   },
   "repository": {
     "type": "git",
@@ -19,9 +19,10 @@
   "dependencies": {
     "browserify": "^16.2.3",
     "choo": "^6.13.0",
-    "main": "^100.0.0",
+    "main": "https://git.querie.cc/libs/main/archive/101.0.0.tar.gz",
     "node-watch": "^0.5.8",
-    "note-lib": "https://sixstring-bot:9ttC8vxHFmfbGPU3oxKFyHiUgbLpGo4NYGh28wKFDLPAjH7NZXJHmXF47gDqc6ZCCdEWajM8wG5iEqrAhrbT8ofMsffYjcYc6vxPzzvCq8QVNeHND2heLPKy25RavmQK@git.querie.cc/sixstring/note-lib/archive/0001.tar.gz"
+    "note-lib": "https://sixstring-bot:9ttC8vxHFmfbGPU3oxKFyHiUgbLpGo4NYGh28wKFDLPAjH7NZXJHmXF47gDqc6ZCCdEWajM8wG5iEqrAhrbT8ofMsffYjcYc6vxPzzvCq8QVNeHND2heLPKy25RavmQK@git.querie.cc/sixstring/note-lib/archive/alpha-0.0.1.tar.gz",
+    "tsify": "^4.0.0"
   },
   "devDependencies": {
     "@types/browserify": "^12.0.36",
