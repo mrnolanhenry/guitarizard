@@ -36,7 +36,8 @@ interface Main {
         activeInstrumentName: "banjo",
         activeScaleName: "blues",
         scaleSystemName: "diatonic",
-        keyNoteID: "E"
+        keyNoteID: "E",
+        activeToolName: "chordbook"
       }
     });
 

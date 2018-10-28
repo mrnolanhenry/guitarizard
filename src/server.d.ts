@@ -3,4 +3,5 @@ export interface AppServerState {
   activeScaleName: string;
   scaleSystemName: string;
   keyNoteID: string;
+  activeToolName: string;
 }

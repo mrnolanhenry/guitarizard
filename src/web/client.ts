@@ -1,24 +1,27 @@
-import * as EventEmitter from "events";
 import * as Choo from "choo";
 import * as noteLib from "note-lib";
 import { Note, Scale, ScaleSystem, instrument } from "note-lib";
+import store from "./store";
 import mainView from "./views/main";
+import { ToolName } from "./components/toolSelector";
 import { AppServerState } from "../server.d";
+import { Base16Theme } from "./colors";
+import { bespin as theme } from "./colors";
 const devtools = require("choo-devtools");
 
 export type ChooEmit = (name: string, ...args: any[]) => void;
 
 export interface AppState {
-  count: number;
-
   instruments: Array<instrument.FrettedInstrument>;
   activeInstrument: instrument.FrettedInstrument;
   activeScale: Scale;
   keyNote: Note;
   scaleSystem: ScaleSystem;
+  activeToolName: ToolName;
+  theme: Base16Theme;
 }
 
-interface ChooAppState extends Choo.IState, AppState {}
+export interface ChooAppState extends Choo.IState, AppState {}
 
 export interface AppClient {
   state: AppState;
@@ -40,7 +43,9 @@ export class AppClient {
     this.render = "";
 
     if (!options.isServer) {
-      (window as any).initialState = this.state;
+      (window as any).initialState = initStateFromServer(
+        options.appServerState
+      );
     }
 
     this.app = new Choo();
@@ -66,7 +71,7 @@ export class AppClient {
       }
 
       this.app.use((state, emitter, app) => {
-        state = this.state as ChooAppState;
+        state = state as ChooAppState;
         store(state as ChooAppState, emitter, app);
       });
 
@@ -76,18 +81,6 @@ export class AppClient {
 }
 
 export default AppClient;
-
-function store(state: ChooAppState, emitter: EventEmitter, _app: Choo) {
-  emitter.on("increment", function(count: number) {
-    if (typeof state.count === "undefined") {
-      state.count = count;
-    } else {
-      state.count += count;
-    }
-
-    emitter.emit("render");
-  });
-}
 
 /**
  * Given the server's state, return an initialized version of the
@@ -120,12 +113,15 @@ export function initStateFromServer(appServerState: AppServerState): AppState {
   const keyNote = diatonic.getNoteFromID(appServerState.keyNoteID);
   const scaleSystem = diatonic;
 
+  const activeToolName = appServerState.activeToolName as ToolName;
+
   return {
-    count: 4,
+    theme,
     instruments,
     activeInstrument,
     activeScale,
     keyNote,
-    scaleSystem
+    scaleSystem,
+    activeToolName
   };
 }

@@ -1,37 +1,26 @@
-import html from "choo/html";
 import { instrument } from "note-lib";
+import { Base16Theme } from "../colors";
+import selector from "./selector";
 
 interface Props {
   instruments: Array<instrument.FrettedInstrument>;
   activeInstrument: instrument.FrettedInstrument;
   onInstrumentSelect: (instrument: instrument.FrettedInstrument) => void;
+  theme: Base16Theme;
 }
 
-export default function instrumentSelector({
+export default function instrumentsSelector({
   instruments,
   activeInstrument,
-  onInstrumentSelect
+  onInstrumentSelect,
+  theme
 }: Props) {
-  const options = instruments.map((i: instrument.FrettedInstrument) => {
-    return html`<option selected=${i.name === activeInstrument.name}
-                        value="${i.name}">${i.name}</option>`;
+  return selector<instrument.FrettedInstrument>({
+    items: instruments,
+    getKey: (inst: instrument.FrettedInstrument) => inst.name,
+    getValue: (inst: instrument.FrettedInstrument) => inst.name,
+    activeItem: activeInstrument,
+    onChange: onInstrumentSelect,
+    theme
   });
-
-  return html`<select onchange=${onChange}>${options}</select>`;
-
-  function onChange(e: Event) {
-    e.preventDefault();
-
-    const instrumentName = e.target
-      ? (e.target as HTMLSelectElement).value
-      : "";
-
-    const instrument:
-      | instrument.FrettedInstrument
-      | undefined = instruments.find(i => i.name === instrumentName);
-
-    if (typeof instrument !== "undefined") {
-      onInstrumentSelect(instrument);
-    }
-  }
 }

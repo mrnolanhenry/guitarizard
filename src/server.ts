@@ -44,39 +44,70 @@ async function handleRequest(
     initialRoute: string;
     appClient: AppClient;
     isDev: boolean;
-    appBundle?: string;
+    appJS?: string;
+    appCSS?: string;
   }
 ) {
+  if (
+    typeof conn.req.url !== "undefined" &&
+    conn.req.url.startsWith("/static")
+  ) {
+    const fileName = path.basename(conn.req.url);
+
+    conn.res.setHeader("Content-Type", "image/png");
+
+    const filePath = path.resolve(__dirname, "..", "..", "static", fileName);
+
+    await send(createReadStream(filePath), conn.res);
+
+    return conn.res.end();
+  }
+
+  if (conn.req.url === "/app.js") {
+    conn.res.setHeader("Content-Type", "application/javascript; charset=utf-8");
+
+    const __SERVER: ServerGlobal = {
+      isDev: args.isDev,
+      appServerState: args.appServerState,
+      initialRoute: args.initialRoute
+    };
+
+    const jsGlobals = `window.__SERVER = ${
+      args.isDev ? JSON.stringify(__SERVER, null, 4) : JSON.stringify(__SERVER)
+    };
+    `;
+
+    await sendText(jsGlobals, conn.res);
+    await sendText(args.appJS || "/* no bundle */", conn.res);
+
+    return conn.res.end();
+  }
+
+  if (conn.req.url === "/app.css") {
+    conn.res.setHeader("Content-Type", "text/css; charset=utf-8");
+    await sendText(args.appCSS || "/* no bundle */", conn.res);
+    return conn.res.end();
+  }
+
   conn.res.setHeader("Content-Type", "text/html; charset=utf-8");
 
-  const __SERVER: ServerGlobal = {
-    isDev: args.isDev,
-    appServerState: args.appServerState,
-    initialRoute: args.initialRoute
-  };
+  const elements: Array<string | ReadStream> = [
+    "<!DOCTYPE html><html><head>",
 
-  const jsGlobals =
-    `<script>` +
-    `window.__SERVER = ${
-      args.isDev ? JSON.stringify(__SERVER, null, 4) : JSON.stringify(__SERVER)
-    }` +
-    `</script>`;
-
-  const jsBundle =
-    `<script>` + (args.appBundle || "console.log('no bundle')") + `</script>`;
-
-  const elements = [
-    "<!DOCTYPE html><html><head><style>",
+    "<style>",
     createReadStream(
-      path.resolve(__dirname, "..", "..", "src", "web", "dark.css"),
+      path.resolve(__dirname, "..", "..", "src", "web", "head.css"),
       {
         encoding: "utf8"
       }
     ),
-    `</style></head><body>`,
+    "</style>",
+
+    '<link rel="stylesheet" type="text/css" href="app.css" >',
+
+    "</head><body>",
     args.appClient.render ? args.appClient.render : "no rendering",
-    jsGlobals,
-    jsBundle,
+    '<script src="app.js"></script>',
     "</body></html>"
   ];
 
@@ -93,20 +124,46 @@ async function handleRequest(
   return conn.res.end();
 }
 
-function buildAppBundle(
+function getBrowserifyObj(
   entryPoint: string,
-  isDev: boolean
+  isDev: boolean,
+  getCssExtractWritable: () => Writable
 ): browserify.BrowserifyObject {
-  return browserify({
-    entries: [entryPoint],
+  let browserifyObject = browserify([entryPoint], {
     debug: isDev,
     cache: {},
     packageCache: {},
     plugin: isDev ? [watchify] : []
-  }).plugin(tsify, {
-    project: path.dirname(entryPoint),
-    files: [] // only use browserify entry points.
-  });
+  })
+    .plugin(tsify, {
+      project: path.dirname(entryPoint),
+      files: [] // only use browserify entry points.
+    })
+    .transform("sheetify", { transform: [] });
+
+  if (!isDev) {
+    browserifyObject = browserifyObject.plugin("css-extract", {
+      out: () => getCssExtractWritable()
+    });
+  }
+
+  return browserifyObject;
+}
+
+async function buildApp(
+  browserifyObj: browserify.BrowserifyObject
+): Promise<string> {
+  let js = "";
+
+  return new Promise<string>((ok, fail) =>
+    browserifyObj
+      .bundle()
+      .on("data", chunk => {
+        js += chunk.toString();
+      })
+      .on("error", fail)
+      .on("end", () => ok(js))
+  );
 }
 
 interface AppServer {
@@ -116,12 +173,10 @@ interface AppServer {
 
   appClient: AppClient;
 
-  appBundle?: string;
+  appJS?: string;
+  appCSS?: string;
 
   server?: http.Server;
-  wss?: WebSocket.Server;
-
-  browserifyObject: browserify.BrowserifyObject;
 }
 
 interface AppServerOptions {
@@ -145,57 +200,52 @@ class AppServer {
 
     const isDev = !!options.isDev;
 
-    const handleErr = (error: any) => {
-      console.error(error.stack ? error.stack : error);
-    };
+    let wss: WebSocket.Server;
+    if (isDev) {
+      wss = new WebSocket.Server({
+        port: this.options.devPort || 5000
+      });
+    }
 
-    this.browserifyObject = buildAppBundle(this.appEntry, isDev);
+    let css = "";
+
+    const browserifyObj = getBrowserifyObj(this.appEntry, isDev, () => {
+      css = "";
+      return new Writable({
+        write(chunk, _encoding, callback) {
+          css += chunk.toString();
+          callback();
+        }
+      });
+    });
 
     const build = () => {
-      console.log("building frontend...");
-      return this.bundle()
-        .catch(handleErr)
-        .then(() => console.log("...done building frontend"));
+      console.log("Building Frontend...");
+      buildApp(browserifyObj)
+        .then(js => {
+          console.log("Frontend Built!");
+          this.appJS = js;
+          this.appCSS = css;
+
+          if (isDev && typeof wss !== "undefined") {
+            wss.clients.forEach(function each(client) {
+              if (client.readyState === WebSocket.OPEN) {
+                client.send("reload");
+              }
+            });
+          }
+        })
+        .catch(error => console.error(error.stack ? error.stack : error));
     };
 
     build();
 
     if (isDev) {
-      this.wss = new WebSocket.Server({
-        port: this.options.devPort || 5000
-      });
-
-      this.browserifyObject.on("update", () => {
-        build().then(() => {
-          if (typeof this.wss === "undefined") {
-            return;
-          }
-
-          this.wss.clients.forEach(function each(client) {
-            if (client.readyState === WebSocket.OPEN) {
-              client.send("reload");
-            }
-          });
-        });
-      });
+      browserifyObj.on("update", () => build());
     }
   }
 
-  async bundle(): Promise<void> {
-    let bundleStr = "";
-
-    await new Promise<string>((ok, fail) =>
-      this.browserifyObject
-        .bundle()
-        .on("data", chunk => {
-          bundleStr += chunk.toString();
-        })
-        .on("error", fail)
-        .on("end", _ => ok(bundleStr))
-    );
-
-    this.appBundle = bundleStr;
-  }
+  async bundle(): Promise<void> {}
 
   async start(): Promise<void> {
     if (this.server) return Promise.resolve();
@@ -208,7 +258,8 @@ class AppServer {
           initialRoute: "/",
           appClient: this.appClient,
           isDev: this.options.isDev,
-          appBundle: this.appBundle
+          appJS: this.appJS,
+          appCSS: this.appCSS
         }
       ).catch(error => {
         console.error(error.stack ? error : error.stack);
