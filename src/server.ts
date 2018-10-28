@@ -2,7 +2,10 @@ import * as http from "http";
 import * as browserify from "browserify";
 import { Readable, Writable } from "stream";
 import { createReadStream, ReadStream } from "fs";
+import * as path from "path";
 import { AppClient } from "./web/client";
+const watch: any = require("node-watch");
+const tsify: any = require("tsify");
 
 const end = async (stream: Readable) =>
   new Promise((resolve, reject) => {
@@ -61,9 +64,12 @@ async function handleRequest(
 
   const elements = [
     "<!DOCTYPE html><html><head><style>",
-    createReadStream(`${__dirname}/../src/web/dark.css`, {
-      encoding: "utf8"
-    }),
+    createReadStream(
+      path.resolve(__dirname, "..", "..", "src", "web", "dark.css"),
+      {
+        encoding: "utf8"
+      }
+    ),
     `</style></head><body>`,
     appClient.render ? appClient.render : "no rendering",
     jsGlobals,
@@ -84,11 +90,19 @@ async function handleRequest(
   return res.end();
 }
 
-async function buildApp(entryPoint: string, isDev: boolean): Promise<string> {
+async function buildAppBundle(
+  entryPoint: string,
+  isDev: boolean
+): Promise<string> {
   process.stdout.write("\nbuilding frontend app.....");
   return new Promise<string>((resolve, reject) => {
     let bundle = "";
-    const b = browserify([entryPoint], { debug: isDev }).bundle();
+    const b = browserify([entryPoint], { debug: isDev })
+      .plugin(tsify, {
+        project: path.join(__dirname, ".."),
+        files: [] // only use browserify entry points.
+      })
+      .bundle();
     b.on("data", chunk => {
       bundle += chunk.toString();
     });
@@ -137,16 +151,48 @@ class AppServer {
       initialRoute: "/"
     });
 
-    buildApp(this.appEntry, !!options.isDev).then(bundle => {
-      this.appBundle = bundle;
-    });
+    const isDev = !!options.isDev;
+
+    const handleErr = (error: any) => {
+      console.error(error.stack ? error.stack : error);
+    };
+
+    buildAppBundle(this.appEntry, isDev)
+      .then(this.setAppBundle.bind(this))
+      .catch(handleErr);
+
+    if (options.isDev) {
+      watch(
+        path.dirname(appEntry),
+        { recursive: true },
+        (_evt: any, filePath: string) => {
+          // todo: support other "non-standard" tmp files as needed.
+          // todo: this is a hack---Emacs (by default?) creates tmp
+          //   files in the directory under .#<filename>, which causes
+          //   this fn to trigger when it really isn't necessary. This
+          //   hack is to prevent needless rebuilds when editing files
+          //   that haven't been saved yet.
+          const needsUpdate = /^(?!\.#).+$/.test(path.basename(filePath));
+
+          if (needsUpdate) {
+            buildAppBundle(this.appEntry, isDev)
+              .then(this.setAppBundle.bind(this))
+              .catch(handleErr);
+          }
+        }
+      );
+    }
   }
 
-  async start() {
-    if (this.server) return;
+  setAppBundle(bundle: string) {
+    this.appBundle = bundle;
+  }
 
-    this.server = http.createServer((req, res) => {
-      return handleRequest(
+  async start(): Promise<void> {
+    if (this.server) return Promise.resolve();
+
+    this.server = http.createServer((req, res) =>
+      handleRequest(
         req,
         res,
         this.options.appServerState,
@@ -157,25 +203,23 @@ class AppServer {
       ).catch(error => {
         console.error(error.stack ? error : error.stack);
         res.end();
-      });
+      })
+    );
 
-      res.end();
-    });
-
-    return new Promise(
-      (s, f) =>
+    await new Promise(
+      (ok, fail) =>
         this.server
-          ? this.server.listen(this.port, (e: Error) => (e ? f(e) : s()))
-          : Promise.reject(new Error("no server defined"))
+          ? this.server.listen(this.port, (e: Error) => (e ? fail(e) : ok()))
+          : fail(new Error("no server defined"))
     );
   }
 
-  async stop() {
+  async stop(): Promise<void> {
     await new Promise(
-      (s, f) =>
+      (ok, fail) =>
         this.server
-          ? this.server.close((e: Error) => (e ? f(e) : s()))
-          : Promise.resolve()
+          ? this.server.close((e: Error) => (e ? fail(e) : ok()))
+          : ok()
     );
 
     delete this.server;
