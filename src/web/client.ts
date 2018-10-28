@@ -3,7 +3,7 @@ import * as Choo from "choo";
 import * as noteLib from "note-lib";
 import { Note, Scale, ScaleSystem, instrument } from "note-lib";
 import mainView from "./views/main";
-import { AppServerState } from "../server";
+import { AppServerState } from "../server.d";
 const devtools = require("choo-devtools");
 
 export type ChooEmit = (name: string, ...args: any[]) => void;

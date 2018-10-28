@@ -4,7 +4,9 @@ import { Readable, Writable } from "stream";
 import { createReadStream, ReadStream } from "fs";
 import * as path from "path";
 import { AppClient } from "./web/client";
-const watch: any = require("node-watch");
+import * as watchify from "watchify";
+import * as WebSocket from "ws";
+import { AppServerState } from "./server.d";
 const tsify: any = require("tsify");
 
 const end = async (stream: Readable) =>
@@ -36,31 +38,47 @@ export interface ServerGlobal {
 }
 
 async function handleRequest(
-  _req: http.IncomingMessage,
-  res: http.ServerResponse,
-  appServerState: AppServerState,
-  initialRoute: string,
-  appClient: AppClient,
-  isDev: boolean,
-  appBundle?: string
+  conn: { req: http.IncomingMessage; res: http.ServerResponse },
+  args: {
+    appServerState: AppServerState;
+    initialRoute: string;
+    appClient: AppClient;
+    isDev: boolean;
+    appBundle?: string;
+  }
 ) {
-  res.setHeader("Content-Type", "text/html; charset=utf-8");
+  conn.res.setHeader("Content-Type", "text/html; charset=utf-8");
 
   const __SERVER: ServerGlobal = {
-    isDev,
-    appServerState,
-    initialRoute
+    isDev: args.isDev,
+    appServerState: args.appServerState,
+    initialRoute: args.initialRoute
   };
+
+  const devBundle = !args.isDev
+    ? ""
+    : `
+const socket = new WebSocket('ws://localhost:5000');
+
+socket.addEventListener('message', function (event) {
+  console.log('Message from server ', event.data);
+
+  if (event.data === 'reload') {
+    location.reload();
+  }
+});
+`;
 
   const jsGlobals =
     `<script>` +
+    devBundle +
     `window.__SERVER = ${
-      isDev ? JSON.stringify(__SERVER, null, 4) : JSON.stringify(__SERVER)
+      args.isDev ? JSON.stringify(__SERVER, null, 4) : JSON.stringify(__SERVER)
     }` +
     `</script>`;
 
   const jsBundle =
-    `<script>` + (appBundle || "console.log('no bundle')") + `</script>`;
+    `<script>` + (args.appBundle || "console.log('no bundle')") + `</script>`;
 
   const elements = [
     "<!DOCTYPE html><html><head><style>",
@@ -71,7 +89,7 @@ async function handleRequest(
       }
     ),
     `</style></head><body>`,
-    appClient.render ? appClient.render : "no rendering",
+    args.appClient.render ? args.appClient.render : "no rendering",
     jsGlobals,
     jsBundle,
     "</body></html>"
@@ -81,49 +99,29 @@ async function handleRequest(
     const element = elements[i];
 
     if (typeof element === "string") {
-      await sendText(element, res);
+      await sendText(element, conn.res);
     } else if (element instanceof ReadStream) {
-      await send(element, res);
+      await send(element, conn.res);
     }
   }
 
-  return res.end();
+  return conn.res.end();
 }
 
-async function buildAppBundle(
+function buildAppBundle(
   entryPoint: string,
   isDev: boolean
-): Promise<string> {
-  process.stdout.write("\nbuilding frontend app.....");
-  return new Promise<string>((resolve, reject) => {
-    let bundle = "";
-    const b = browserify([entryPoint], { debug: isDev })
-      .plugin(tsify, {
-        project: path.join(__dirname, ".."),
-        files: [] // only use browserify entry points.
-      })
-      .bundle();
-    b.on("data", chunk => {
-      bundle += chunk.toString();
-    });
-    b.on("error", err => reject(err));
-    b.on("end", _ => resolve(bundle));
-  }).then(bundle => {
-    process.stdout.write("done!\n");
-    return bundle;
+): browserify.BrowserifyObject {
+  return browserify({
+    entries: [entryPoint],
+    debug: isDev,
+    cache: {},
+    packageCache: {},
+    plugin: isDev ? [watchify] : []
+  }).plugin(tsify, {
+    project: path.dirname(entryPoint),
+    files: [] // only use browserify entry points.
   });
-}
-
-export interface AppServerState {
-  activeInstrumentName: string;
-  activeScaleName: string;
-  scaleSystemName: string;
-  keyNoteID: string;
-}
-
-interface AppServerOptions {
-  isDev: boolean;
-  appServerState: AppServerState;
 }
 
 interface AppServer {
@@ -136,6 +134,15 @@ interface AppServer {
   appBundle?: string;
 
   server?: http.Server;
+  wss?: WebSocket.Server;
+
+  browserifyObject: browserify.BrowserifyObject;
+}
+
+interface AppServerOptions {
+  appServerState: AppServerState;
+  isDev: boolean;
+  devPort?: number;
 }
 
 class AppServer {
@@ -157,35 +164,52 @@ class AppServer {
       console.error(error.stack ? error.stack : error);
     };
 
-    buildAppBundle(this.appEntry, isDev)
-      .then(this.setAppBundle.bind(this))
-      .catch(handleErr);
+    this.browserifyObject = buildAppBundle(this.appEntry, isDev);
 
-    if (options.isDev) {
-      watch(
-        path.dirname(appEntry),
-        { recursive: true },
-        (_evt: any, filePath: string) => {
-          // todo: support other "non-standard" tmp files as needed.
-          // todo: this is a hack---Emacs (by default?) creates tmp
-          //   files in the directory under .#<filename>, which causes
-          //   this fn to trigger when it really isn't necessary. This
-          //   hack is to prevent needless rebuilds when editing files
-          //   that haven't been saved yet.
-          const needsUpdate = /^(?!\.#).+$/.test(path.basename(filePath));
+    const build = () => {
+      console.log("building frontend...");
+      return this.bundle()
+        .catch(handleErr)
+        .then(() => console.log("...done building frontend"));
+    };
 
-          if (needsUpdate) {
-            buildAppBundle(this.appEntry, isDev)
-              .then(this.setAppBundle.bind(this))
-              .catch(handleErr);
+    build();
+
+    if (isDev) {
+      this.wss = new WebSocket.Server({
+        port: this.options.devPort || 5000
+      });
+
+      this.browserifyObject.on("update", () => {
+        build().then(() => {
+          if (typeof this.wss === "undefined") {
+            return;
           }
-        }
-      );
+
+          this.wss.clients.forEach(function each(client) {
+            if (client.readyState === WebSocket.OPEN) {
+              client.send("reload");
+            }
+          });
+        });
+      });
     }
   }
 
-  setAppBundle(bundle: string) {
-    this.appBundle = bundle;
+  async bundle(): Promise<void> {
+    let bundleStr = "";
+
+    await new Promise<string>((ok, fail) =>
+      this.browserifyObject
+        .bundle()
+        .on("data", chunk => {
+          bundleStr += chunk.toString();
+        })
+        .on("error", fail)
+        .on("end", _ => ok(bundleStr))
+    );
+
+    this.appBundle = bundleStr;
   }
 
   async start(): Promise<void> {
@@ -193,13 +217,14 @@ class AppServer {
 
     this.server = http.createServer((req, res) =>
       handleRequest(
-        req,
-        res,
-        this.options.appServerState,
-        "/",
-        this.appClient,
-        this.options.isDev,
-        this.appBundle
+        { req, res },
+        {
+          appServerState: this.options.appServerState,
+          initialRoute: "/",
+          appClient: this.appClient,
+          isDev: this.options.isDev,
+          appBundle: this.appBundle
+        }
       ).catch(error => {
         console.error(error.stack ? error : error.stack);
         res.end();
