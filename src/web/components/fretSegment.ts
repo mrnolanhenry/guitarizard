@@ -10,8 +10,8 @@ const prefix = css`
     align-items: center;
     justify-content: center;
 
-    border-width: 0 5px 0 0;
-    border-style: solid;
+    height: 3px;
+    align-self: center;
   }
 
   :host > .inner {
@@ -20,6 +20,14 @@ const prefix = css`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    border-radius: 0.5em;
+  }
+
+  :host > .horiz-line {
+    height: 3px;
+    width: 100%;
+    min-width: 2em;
   }
 `;
 
@@ -37,14 +45,25 @@ export default function fretSegment({ stringScale, fret, theme }: Props) {
 
   const noteDisplay = note ? note.value.id : "";
 
+  const innerStyle = [
+    `background-color: ${theme.base01}`,
+    `color: ${theme.base0B}`
+  ].join(";");
+
+  const horzLineStyle = `background-color: ${theme.base07}`;
+
   const style = [
-    `background-color: ${noteDisplay ? theme.base01 : theme.base00}`,
+    `background-color: ${theme.base07}`,
     `color: ${noteDisplay ? theme.base06 : theme.base03}`,
     `font-weight: ${noteDisplay ? 900 : 300}`,
-    `border-color: ${theme.base09}`
+    `border-color: ${noteDisplay ? theme.base09 : theme.base09}`
   ].join(";");
 
   return html`<div class=${prefix} style=${style}>
-    <div class="inner">${note ? noteDisplay : "-"}</div>
+    ${
+      note
+        ? html`<div class="inner" style=${innerStyle}>${noteDisplay}</div>`
+        : html`<div class="horiz-line" style=${horzLineStyle}></div>`
+    }
   </div>`;
 }

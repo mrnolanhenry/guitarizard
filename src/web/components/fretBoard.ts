@@ -23,6 +23,7 @@ const prefix = css`
   }
 
   :host > .fret-labels > div {
+    flex-grow: 1;
     width: 2.5em;
     height: 2em;
     display: flex;
@@ -44,6 +45,7 @@ const prefix = css`
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0.5em;
   }
 
   :host > .board {
@@ -55,6 +57,7 @@ const prefix = css`
   }
 
   :host > .board > .string {
+    flex-grow: 1;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -102,7 +105,13 @@ export default function fretBoard({
       })}
     </div>`;
 
-  const tuningPegs = html`<div class="tuning-pegs">
+  const tuningPegsStyle = [
+    `background-color: ${theme.base07}`,
+    `color: ${theme.base04}`,
+    `border-color: ${theme.base03}`
+  ].join(";");
+
+  const tuningPegs = html`<div class="tuning-pegs" style=${tuningPegsStyle}>
     ${tunedStrings
       .map(string =>
         noteSelector({
