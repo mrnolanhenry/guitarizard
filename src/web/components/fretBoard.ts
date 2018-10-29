@@ -128,11 +128,9 @@ export default function fretBoard({
 
   const board = html`<div class="board">
     ${stringScales.map(stringScale => {
-      const fretSegments = [...Array(fretCount)]
-        .map((_, i) => {
-          return fretSegment({ stringScale, fret: i, theme });
-        })
-        .reverse();
+      const fretSegments = [...Array(fretCount)].map((_, i) => {
+        return fretSegment({ stringScale, fret: i, theme });
+      });
 
       return html`<div class="string" style=${stringStyle}>
         ${fretSegments}
