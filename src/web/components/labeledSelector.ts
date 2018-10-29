@@ -11,7 +11,7 @@ const prefix = css`
 `;
 
 interface Props<T> {
-  label: string;
+  label?: string;
   items: Array<T>;
   activeItem: T;
   onChange: (value: T) => void;

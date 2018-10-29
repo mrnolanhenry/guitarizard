@@ -1,9 +1,11 @@
 import html from "choo/html";
 import { Note, Scale, ScaleSystem, instrument } from "note-lib";
-import keySelector from "./keySelector";
+import noteSelector from "./noteSelector";
 import instrumentSelector from "./instrumentSelector";
+import scaleSelector from "./scaleSelector";
 import * as css from "sheetify";
 import { Base16Theme } from "../colors";
+import guitar from "./guitar";
 
 const prefix = css`
   :host {
@@ -29,6 +31,7 @@ interface Props {
   scaleSystem: ScaleSystem;
   onKeySelect: (keyNote: Note) => void;
   onInstrumentSelect: (instrument: instrument.FrettedInstrument) => void;
+  onScaleSelect: (scale: Scale) => void;
   theme: Base16Theme;
 }
 
@@ -40,6 +43,7 @@ export default function chordbook({
   scaleSystem,
   onKeySelect,
   onInstrumentSelect,
+  onScaleSelect,
   theme
 }: Props) {
   const settingsBarStyle = [`background-color: ${theme.base01}`].join(";");
@@ -55,15 +59,23 @@ export default function chordbook({
           theme
         })}
 
-        ${keySelector({ scaleSystem, keyNote, onKeySelect, theme })}
+        ${noteSelector({
+          label: "key",
+          scaleSystem,
+          note: keyNote,
+          onNoteSelect: onKeySelect,
+          theme
+        })}
+
+        ${scaleSelector({ activeScale, onScaleSelect, theme })}
       </div>
 
-
-      <table>
-        <tr><td>activeInstrument:</td><td>${activeInstrument.name}</td></tr>
-        <tr><td>activeScaleName:</td><td>${activeScale.name}</td></tr>
-        <tr><td>keyNote:</td><td>${keyNote.id}</td></tr>
-        <tr><td>scaleSystem:</td><td>${scaleSystem.name}</td></tr>
-      </table>
+      ${guitar({
+        fretCount: 21,
+        tuningNoteIDs: ["E", "A", "D", "G", "B", "E"],
+        keyNote,
+        scale: activeScale,
+        theme
+      })}
     </div>`;
 }

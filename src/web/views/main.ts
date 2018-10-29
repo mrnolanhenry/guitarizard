@@ -4,7 +4,7 @@ import chordbook from "../components/chordbook";
 import songbook from "../components/songbook";
 import topBar from "../components/topBar";
 import { ToolName } from "../components/toolSelector";
-import { Note, instrument } from "note-lib";
+import { Note, instrument, Scale } from "note-lib";
 import * as css from "sheetify";
 
 const prefix = css`
@@ -30,6 +30,7 @@ export default function mainView(state: AppState, emit: ChooEmit) {
         activeInstrument: state.activeInstrument,
         onKeySelect,
         onInstrumentSelect,
+        onScaleSelect,
         theme: state.theme
       });
       break;
@@ -80,5 +81,9 @@ export default function mainView(state: AppState, emit: ChooEmit) {
 
   function onInstrumentSelect(instrument: instrument.FrettedInstrument) {
     emit("set-instrument", instrument);
+  }
+
+  function onScaleSelect(scale: Scale) {
+    emit("set-scale", scale);
   }
 }

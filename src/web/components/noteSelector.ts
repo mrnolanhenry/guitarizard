@@ -5,25 +5,27 @@ import labeledSelector from "./labeledSelector";
 export type ToolName = "chordbook" | "songbook";
 
 interface Props {
+  label?: string;
   scaleSystem: ScaleSystem;
-  keyNote: Note;
-  onKeySelect: (note: Note) => void;
+  note: Note;
+  onNoteSelect: (note: Note) => void;
   theme: Base16Theme;
 }
 
-export default function keySelector({
+export default function noteSelector({
+  label,
   scaleSystem,
-  keyNote,
-  onKeySelect,
+  note,
+  onNoteSelect,
   theme
 }: Props) {
   return labeledSelector<Note>({
-    label: "Key: ",
+    label,
     items: scaleSystem.getKeyNotes(),
     getKey: (note: Note) => note.id,
     getValue: (note: Note) => note.id,
-    activeItem: keyNote,
-    onChange: onKeySelect,
+    activeItem: note,
+    onChange: onNoteSelect,
     theme
   });
 }

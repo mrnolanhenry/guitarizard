@@ -19,22 +19,18 @@ const prefix = css`
   }
 
   :host > .center {
-    flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 5px;
   }
 
   :host > .center > .logo {
     height: 20px;
     width: 20px;
-    opacity: 0.3;
     display: block;
+    opacity: 0.7;
     margin-right: 5px;
-  }
-
-  :host > .center > .logo:hover {
-    opacity: 1;
   }
 
   :host > select::-ms-expand {
@@ -70,20 +66,27 @@ export default function topBar({
 
   const logo = html`<img class="logo" src="static/guitarizard-logo-20.png">`;
 
+  const centerStyle = [
+    `color: ${theme.base06}`,
+    `text-shadow: 0 0 1px ${theme.base00}`
+  ].join(";");
+
   const style = [
-    `background-color: ${theme.base01}`,
+    `background-color: ${theme.base00}`,
     `color: ${theme.base04}`,
     `border-color: ${theme.base03}`
   ].join(";");
 
   return html`<div class=${prefix} style=${style}>
-  <div class="left">
-    ${toolSelector({ activeToolName, theme, onToolSelect })}
-  </div>
-  <div class="center">
-    ${logo}
-    <span>guitarizard</span>
-  </div>
-  <div class="right">${auth}</div>
+    <div class="left">
+      ${toolSelector({ activeToolName, theme, onToolSelect })}
+    </div>
+    <div class="center" style=${centerStyle}>
+      ${logo}
+      <span>guitarizard</span>
+    </div>
+    <div class="right">
+      ${auth}
+    </div>
   </div>`;
 }

@@ -9,26 +9,27 @@ const prefix = css`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    border-width: 0 5px 0 0;
+    border-style: solid;
   }
 
   :host > .inner {
-    background-color: pink;
+    width: 2em;
+    height: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
 interface Props {
   stringScale: instrument.StringScale;
   fret: number;
-  selected: boolean;
   theme: Base16Theme;
 }
 
-export default function fretSegment({
-  stringScale,
-  fret,
-  selected,
-  theme
-}: Props) {
+export default function fretSegment({ stringScale, fret, theme }: Props) {
   // Get the note on this string (if it exists)
   const note = stringScale.notes.find(note => {
     return note.fretNumber === fret;
@@ -37,10 +38,13 @@ export default function fretSegment({
   const noteDisplay = note ? note.value.id : "";
 
   const style = [
-    `background-color: ${selected ? theme.base02 : theme.base01}`
+    `background-color: ${noteDisplay ? theme.base01 : theme.base00}`,
+    `color: ${noteDisplay ? theme.base06 : theme.base03}`,
+    `font-weight: ${noteDisplay ? 900 : 300}`,
+    `border-color: ${theme.base09}`
   ].join(";");
 
   return html`<div class=${prefix} style=${style}>
-    <div class="inner">${note ? noteDisplay : ""}</div>
+    <div class="inner">${note ? noteDisplay : "-"}</div>
   </div>`;
 }
