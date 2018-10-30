@@ -3,39 +3,80 @@ const diatonic = require('./scaleSystem/diatonic');
 
 module.exports = [
   new Scale('aeolian', diatonic, [0,2,3,5,7,8,10,12]),
-  new Scale('algerian', diatonic, [0,2,3,5,6,7,8,11,12]),
-  new Scale('altered', diatonic, [0,1,3,4,6,7,8,10,12]),
-  new Scale('arabian (a)', diatonic, [0,2,3,5,6,8,9,11,12]),
-  new Scale('arabian (b)', diatonic, [0,2,4,5,6,8,10,12]),
-  new Scale('augmented', diatonic, [0,3,4,6,8,11,12]),
-  new Scale('auxiliary augmented', diatonic, [0,2,4,6,8,10,12]),
+
+  // new Scale('algerian', diatonic, [0,2,3,5,6,7,8,11,12]),
+  // algerian scale is super funky changes based on octave -- more accurately [0,2,3,6,7,8,11,12,14,15,17,19,20,23,24]
+
+  new Scale('altered', diatonic, [0,1,3,4,6,8,10,12]),
+
+  // new Scale('arabian (a)', diatonic, [0,2,3,5,6,8,9,11,12]),
+  // arabian (a) wasn't found
+
+  // new Scale('arabian (b)', diatonic, [0,2,4,5,6,8,10,12]),
+  // arabian (b) is the same as major locrian
+
+  new Scale('augmented', diatonic, [0,3,4,7,8,11,12]),
+
+  // new Scale('auxiliary augmented', diatonic, [0,2,4,6,8,10,12]),
+  // auxiliary augment AKA Lydian auxiliary augmented AKA whole tone
+
   new Scale('auxiliary diminished', diatonic, [0,2,3,5,6,8,9,11,12]),
   new Scale('auxiliary diminished blues', diatonic, [0,1,3,4,6,7,9,10,12]),
+
   new Scale('balinese', diatonic, [0,1,3,7,8,12]),
   new Scale('bebop dominant', diatonic, [0,2,4,5,7,9,10,11,12]),
+
   new Scale('bebop half diminished', diatonic, [0,1,3,5,6,7,8,11,12]),
+  // bebop half diminished AKA Phrygiolocrian MAYBE??
+
   new Scale('bebop major', diatonic, [0,2,4,5,7,8,9,11,12]),
+
   new Scale('bebop minor', diatonic, [0,2,3,4,5,7,9,10,12]),
+  // bebop minor AKA bebop Dorian
+
+  new Scale('bebop minor 2', diatonic, [0,2,3,5,7,9,10,11,12]),
+  // bebop minor 2 AKA bebop Dorian second or alternate form
+
   new Scale('blues', diatonic, [0,3,5,6,7,10,12]),
+  // AKA pentatonic blues
+
   new Scale('blues variation 1', diatonic, [0,3,5,6,7,10,11,12]),
   new Scale('blues variation 2', diatonic, [0,3,4,5,6,7,10,11,12]),
   new Scale('blues variation 3', diatonic, [0,3,4,5,6,7,9,10,11,12]),
+
   new Scale('byzantine', diatonic, [0,1,4,5,7,8,11,12]),
+  // byzantine AKA double harmonic major
+
   new Scale('chinese', diatonic, [0,4,6,7,11,12]),
   new Scale('chinese 2', diatonic, [0,2,5,7,9,12]),
-  new Scale('chinese mongolian', diatonic, [0,2,4,7,9,12]),
+
+  // new Scale('chinese mongolian', diatonic, [0,2,4,7,9,12]),
+  // chinese mongolian AKA mongolian AKA diatonic
+
   new Scale('chromatic', diatonic, [0,1,2,3,4,5,6,7,8,9,10,11,12]),
+
   new Scale('diatonic', diatonic, [0,2,4,7,9,12]),
+  // diatonic AKA chinese mongolian AKA mongolian
+
   new Scale('diminished', diatonic, [0,2,3,5,6,8,9,11,12]),
-  new Scale('diminished sevenths', diatonic, [0,3,6,9,12]),
-  new Scale('diminished, half', diatonic, [0,1,3,4,6,7,9,10,12]),
-  new Scale('diminished, whole', diatonic, [0,12]),
-  new Scale('diminished, whole tone', diatonic, [0,1,3,4,6,8,10,12]),
+  // diminished AKA diminished minor
+
+  // new Scale('diminished sevenths', diatonic, [0,3,6,9,12]),
+  // diminished sevenths scale not found
+
+  new Scale('diminished half/whole', diatonic, [0,1,3,4,6,7,9,10,12]),
+  // diminished half/whole AKA diminished half
+
+  new Scale('diminished, whole/half', diatonic, [0,2,3,5,6,8,9,11,12]),
+
   new Scale('dominant pentatonic', diatonic, [0,2,4,7,10,12]),
-  new Scale('dominant sevenths', diatonic, [0,4,7,10,12]),
+
   new Scale('dorian', diatonic, [0,2,3,5,7,9,10,12]),
-  new Scale('dorian #4', diatonic, [0,2,3,6,7,9,10,12]),
+
   new Scale('double harmonic', diatonic, [0,1,4,5,7,8,11,12]),
+  // double Harmonic AKA byzantine
+
+  // STOPPED BEFORE egyptian
   new Scale('egyptian', diatonic, [0,2,5,7,10,12]),
   new Scale('eight tone spanish', diatonic, [0,1,3,4,5,6,8,10,12]),
   new Scale('enigmatic', diatonic, [0,1,4,6,8,10,11,12]),
@@ -76,8 +117,10 @@ module.exports = [
   new Scale('lydian minor', diatonic, [0,2,4,6,7,8,10,12]),
   new Scale('major', diatonic, [0,2,4,5,7,9,11,12]),
   new Scale('major arpeggio', diatonic, [0,4,7,12]),
-  new Scale('major blues scale', diatonic, [0,2,3,4,7,9,12]),
+  new Scale('major blues', diatonic, [0,2,3,4,7,9,12]),
   new Scale('major locrian', diatonic, [0,2,4,5,6,8,10,12]),
+  // major locrian AKA arabian (b)?
+
   new Scale('melodic minor ascending', diatonic, [0,2,3,5,7,9,11,12]),
   new Scale('melodic minor descending', diatonic, [0,2,3,5,7,8,10,12]),
   new Scale('minor', diatonic, [0,2,3,5,7,8,10,12]),
@@ -110,6 +153,12 @@ module.exports = [
   new Scale('six tone symmetrical', diatonic, [0,1,4,5,8,9,12]),
   new Scale('spanish gypsy', diatonic, [0,1,4,5,7,8,10,12]),
   new Scale('super locrian', diatonic, [0,1,3,4,6,8,10,12]),
+
+  new Scale('ukranian dorian', diatonic, [0,2,3,6,7,9,10,12]),
+  // ukranian dorian AKA ukranian minor AKA dorian #4 AKA Romanian minor AKA altered Dorian
+
   new Scale('ultralocrian', diatonic, [0,1,3,4,6,8,9,12]),
+
   new Scale('whole tone', diatonic, [0,2,4,6,8,10,12])
+  // auxiliary augment AKA Lydian auxiliary augmented AKA whole tone
 ];

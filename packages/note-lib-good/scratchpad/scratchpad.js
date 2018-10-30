@@ -472,112 +472,57 @@ function getStringOffsets(array) {
 // Generates a 1d array of strings for x number of strings
 // with the first argument being amount of frets
 // and second being starting fret
-// e.g. oldGenericString(11,4)
+// e.g. genericString(11,4)
 // produces an array with [4,5,6,7,8,9,10,11]
-function oldGenericString(frets,startFret){
-  let oldGenericString = [];
-  for (let i = 0; i <= frets; i++) {
-    if (i >= startFret) {
-      oldGenericString.push(i);
-    }
-    else {
-      oldGenericString.push();
-    }
-  }
-  return oldGenericString;
-}
-
-// console.log(oldGenericString(21,5));
-
-
-// Generates a 2d array of strings for x number of strings
-// arguments are passed like genericString function
-// with the first being amount of frets
-// and second being starting fret
-// e.g. oldGenericStrings(21,0,21,0,21,0,21,0,21,5)
-// produces an array representing 5 strings, each up to fret 21,
-// with the last string starting at 5
-function oldGenericStrings() {
-  let oldGenericStrings = [];
-  for (let i=0; i < arguments.length; i++) {
-    oldGenericStrings.push(oldGenericString(arguments[i],arguments[i+1]));
-    i++;
-    }
-  return oldGenericStrings;
-}
-
-// console.log(oldGenericStrings(21,0,21,0,21,0,21,0,21,5));
-// console.log(oldGenericStrings(21,0,21,0,21,0,21,0,21,0,21,0));
-
-
-// Generates a 1d array of strings
-// Given an array
-// with the first array element being amount of frets
-// and second being starting fret
-// e.g. genericString([11,4])
-// produces an array with [4,5,6,7,8,9,10,11]
-function genericString(array){
+function genericString(frets,startFret){
   let genericString = [];
-  let frets = array[0];
-  let startFret = array[1];
   for (let i = 0; i <= frets; i++) {
     if (i >= startFret) {
       genericString.push(i);
     }
     else {
-      genericString.push();
+      genericString.push(null);
     }
   }
   return genericString;
 }
 
-// console.log(genericString([21,5]));
-
-
-// Generates a 2d array of strings for x number of strings
-// arguments are passed like genericString function
-// with the first being amount of frets
-// and second being starting fret
-// e.g. genericStrings(21,0,21,0,21,0,21,0,21,5)
-// produces an array representing 5 strings, each up to fret 21,
-// with the last string starting at 5
-function genericStrings(array) {
-  let genericStrings = [];
-  for (let i=0; i < array.length; i++) {
-    genericStrings.push(genericString([array[i],array[i+1]]));
-    i++;
-    }
-  return genericStrings;
-}
-
-// console.log(genericStrings([21,0,21,0,21,0,21,0,21,5]));
-// console.log(genericStrings([21,0,21,0,21,0,21,0,21,0,21,0]));
-
-
+// console.log(genericString(21,5));
 
 function modifyString(genericString,offsetNum) {
   let newString = [];
+  // console.log(genericString.length);
   for (let i = 0; i < genericString.length; i++){
-    newString.push(genericString[i] + offsetNum)
-  }
+    if (genericString[i] === null) {
+      newString.push(genericString[i])
+    } else {
+      newString.push(genericString[i] + offsetNum)
+    }
+}
   return newString;
 }
 
-// console.log(modifyString(genericString([21,5]),7));
+// console.log(modifyString(genericString(21,5),7));
 
 
-function modifyStrings (instrument){
+function genericFretBoard(instrument){
   let newStrings = [];
   let simpleInstrument = simplifyInstrument(instrument);
   let stringOffsets = getStringOffsets(simpleInstrument.strings);
   let startFrets = simpleInstrument.startFrets;
   let lastFretNum = simpleInstrument.lastFret;
   for (let i = 0; i < stringOffsets.length; i++) {
-    let genericString = oldGenericString(lastFretNum,startFrets[i]);
-    newStrings.push(modifyString(genericString,stringOffsets[i]));
+    let currentString = genericString(lastFretNum,startFrets[i]);
+    newStrings.push(modifyString(currentString,stringOffsets[i] - startFrets[i]));
   }
   return newStrings;
 }
 
-console.log(JSON.stringify(modifyStrings(banjo),null,4));
-// console.log(JSON.stringify(modifyStrings(guitar),null,4));
+// console.log(JSON.stringify(genericFretBoard(banjo),null,4));
+console.log(JSON.stringify(genericFretBoard(guitar),null,4));
+
+
+function createCrossSection(instrument,length) {
+  let crossSection = [];
+  
+}
