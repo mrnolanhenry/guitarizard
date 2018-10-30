@@ -576,8 +576,8 @@ function removeFretFromInstrument (fretNum,string,instrument) {
 
 
 // Given an array of valid strings, set all including first valid string as invalid (based on stringOrder) to no longer loop through
-function removeInvalidStringsBelow(validStrings, firstValidString){
-    const stringIndex = validStrings.indexOf(firstValidString)
+function removeInvalidStringsBelow(validStrings, firstInvalidString){
+    const stringIndex = validStrings.indexOf(firstInvalidString)
     if (stringIndex === -1) {
       return validStrings;
     }
@@ -603,21 +603,21 @@ function findNoteOnString(note,string,minFret,maxFret) {
         var minFret = 0;
       }
       const startFret = string.notes[0].fretNum
-      if (typeof maxFret === 'undefined' || isNaN(maxFret) || maxFret >= string.notes.length){
+      if (typeof maxFret === 'undefined' || isNaN(maxFret) || maxFret >= string.notes.length + startFret){
         // VAR needed here to allow maxFret to be function-specific, not block-specific
         var maxFret = string.notes.length - 1 + startFret;
       }
       // console.log('note',note,'stringOrder',string.stringOrder,'minFret',minFret,'maxFret',maxFret);
-      for (let j = Math.max(0, minFret - startFret); j <= maxFret - startFret; j++) {
-        // console.log('findNoteOnString:','minFret',minFret,'maxFret',maxFret);
-        // console.log('j',j,'string.notes[j]',string.notes[j], 'noteToFind:',note);
-          if (string.notes[j].note === note) {
+      for (let j = Math.max(0, minFret); j <= maxFret; j++) {
+          if (typeof string.notes[j - startFret] !=='undefined' && string.notes[j - startFret].note === note) {
+            // console.log('findNoteOnString:','minFret',minFret,'maxFret',maxFret);
+            // console.log('j',j,'string.notes[j]',string.notes[j], 'noteToFind:',note);
             // console.log('noteFound!')
             return {
               stringTuning: string.stringTuning,
               stringOrder: string.stringOrder,
-              fretNum: string.notes[j].fretNum,
-              note: string.notes[j].note
+              fretNum: string.notes[j - startFret].fretNum,
+              note: string.notes[j - startFret].note
             }
           }
         }
@@ -629,7 +629,7 @@ function findNoteOnString(note,string,minFret,maxFret) {
 // console.log(findNoteOnString('E',stubby.strings[5],7));
 
 // console.log(findNoteOnString('Db',banjo.strings[4]));
-// console.log(findNoteOnString('Gb',banjo.strings[4],0,15));
+// console.log(findNoteOnString('Gb',banjo.strings[4],5,15));
 
 
 // Given a Note, Instrument, and valid strings, finds Note object based on StringOrder with fretNum and other helpful info.
@@ -744,7 +744,9 @@ function findChord(note,chord,instrument,maxWidth) {
   newChord.rootFreq = rootCount;
   newChord.fretWidth = fretUpper - fretLower + 1;
   newChord.lowestFret = fretLower;
-  return newChord;
+  if (newChord.fretWidth <= maxWidth || typeof maxWidth === 'undefined') {
+    return newChord;
+  }
 }
 
 // console.log(findChord('B',_7,guitar,4));
@@ -869,14 +871,22 @@ function findChordPositions(note,chord,instrument,maxWidth) {
 // console.log('ALL Chord Positions' ,JSON.stringify(findChordPositions('B',_7,banjo,4),null,4));
 // console.log(findChordPositions('B',_7,guitar,4).length);
 //
-const resultsLimitless = findChordPositions('B',_7,banjo).length
-// console.log(resultsLimitless);
-const resultsLimited = findChordPositions('B',_7,banjo,21).length
-// console.log(resultsLimited);
+const resultsLimitless = findChordPositions('B',_7,banjo)
+console.log(resultsLimitless.length);
+const resultsLimited = findChordPositions('B',_7,banjo,21)
+console.log(resultsLimited.length);
+const resultsLimited2 = findChordPositions('B',_7,banjo,4)
+console.log(resultsLimited2.length);
 
 // for (let i = 0; i < resultsLimitless.length; i++){
 //   if(typeof resultsLimited[i] !== 'undefined' && resultsLimited[i].fretWidth !== resultsLimitless[i].fretWidth){
-//     console.log("LIMITLESS", 'i', i, resultsLimitless[i],"LIMITED", resultsLimited[i]);
+//     console.log('i', i, "LIMITLESS", resultsLimitless[i],"LIMITED", resultsLimited[i]);
+//   }
+// }
+
+// for (let i = 0; i < resultsLimited.length; i++){
+//   if(typeof resultsLimited2[i] !== 'undefined' && resultsLimited[i].fretWidth !== resultsLimited2[i].fretWidth){
+//     console.log('i', i, "LIMIT of 21", resultsLimited[i],"LIMIT of 4", resultsLimited2[i]);
 //   }
 // }
 
@@ -887,6 +897,14 @@ for (let i = 0; i < 21; i++) {
     });
   console.log('i', i, 'results ', res.length, 'results less than 4 frets wide',res4.length);
 }
+
+// for (let i = 0; i < 21; i++) {
+//   let res = findChordPositions('B',_7,banjo,i)
+//   let res4 = findChordPositions('B',_7,banjo,i).filter(data => {
+//       return data.fretWidth <= i;
+//     });
+//   console.log('i', i, 'results ', res.length, 'results less than i frets wide',res4.length);
+// }
 
 // console.log(findChordPositions('B',_7,stubbyBanjo).length);
 // console.log(findChordPositions('B',_7,stubbyBanjo,15).length);
@@ -909,16 +927,16 @@ for (let i = 0; i < 21; i++) {
 //         return data.fretWidth > 4;
 //     }),null,4));
 
-const poop = findChordPositions('B',_7,banjo).filter(data => {
-    return data.fretWidth <= 4;
-});
+// const poop = findChordPositions('B',_7,banjo).filter(data => {
+//     return data.fretWidth <= 4;
+// });
 // console.log('NO LIMIT',JSON.stringify(poop,null,4));
 // console.log(poop.length);
 
 // const poo = findChordPositions('B',_7,banjo,4)
-const poo = findChordPositions('B',_7,banjo,4).filter(data => {
-    return data.fretWidth <= 4;
-});
+// const poo = findChordPositions('B',_7,banjo,4).filter(data => {
+//     return data.fretWidth <= 4;
+// });
 // console.log('WITH LIMIT',JSON.stringify(poo,null,4));
 // console.log(poo.length);
 

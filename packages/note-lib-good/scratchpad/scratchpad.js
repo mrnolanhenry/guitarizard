@@ -22,6 +22,7 @@ const chords = {
 const notes = [ ['A', 'A#', 'B','C','C#','D','D#','E','F','F#','G','G#'],
                 ['A', 'Bb', 'B','C','Db','D','Eb','E','F','Gb','G','Ab']];
 
+
 // Given a "key" or a note
 function noteExists(note) {
   return notes[0].indexOf(note) !== -1 || notes[1].indexOf(note) !== -1;
@@ -305,6 +306,118 @@ function getUniquePermutations(chord,upToLength){
 // console.log(getUniquePermutations(_7,6).length);
 
 
+// Given a starting Note, starting fret, end fret, and order of String within instrument,
+// create a string: array of objects that have note and fret Number properties.
+function createString(startNote,startFret, endFret, stringOrder) {
+  if (!noteExists(startNote) || isNaN(endFret)) {
+    return;
+  }
+  if (isNaN(startFret)) {
+    startFret = 0
+  }
+  const newNotes = (notes[1].indexOf(startNote) === -1) ? notes[0] : notes[1]
+  const stepsFromA = newNotes.indexOf(startNote);
+  const newStringNotes = [];
+
+  for (let i = startFret; i <= endFret; i++) {
+    const fretNum = i;
+    const notesFromA = (i - startFret + stepsFromA) % 12;
+    newStringNotes.push({
+      fretNum: fretNum,
+      note: newNotes[notesFromA],
+    });
+  }
+  const newString = {
+    stringTuning: startNote,
+    stringOrder: stringOrder,
+    notes: newStringNotes
+  }
+
+  return newString;
+}
+
+// console.log(createString('A',5,21,1));
+
+
+
+// Example - create a guitar using createString function
+const guitar = {
+  strings: [
+    createString('E',0,21,5),
+    createString('B',0,21,4),
+    createString('G',0,21,3),
+    createString('D',0,21,2),
+    createString('A',0,21,1),
+    createString('E',0,21,0)
+  ]
+};
+
+// Example - create a banjo using createString function
+const banjo = {
+  strings: [
+    createString('D',0,21,3),
+    createString('B',0,21,2),
+    createString('G',0,21,1),
+    createString('D',0,21,0),
+    createString('G',5,21,4)
+  ]
+};
+
+// Example - create a made up instrument using createString function
+const stubby = {
+  strings: [
+    createString('E',0,5,5),
+    createString('B',0,5,4),
+    createString('G',0,5,3),
+    createString('D',0,5,2),
+    createString('A',0,5,1),
+    createString('E',0,5,0)
+  ]
+};
+
+// Example - create a made up instrument using createString function
+const stubbyBanjo = {
+  strings: [
+    createString('D',0,15,3),
+    createString('B',0,15,2),
+    createString('G',0,15,1),
+    createString('D',0,15,0),
+    createString('G',5,15,4)
+  ]
+};
+
+// console.log(banjo);
+
+// Given an instrument, sort it by string Order and return a new instrument
+function sortByStringOrder(instrument) {
+  const   clonedInstrument = JSON.parse(JSON.stringify(instrument));
+  clonedInstrument.strings.sort(function(a, b){return a.stringOrder - b.stringOrder})
+  return clonedInstrument;
+}
+
+// console.log(JSON.stringify(sortByStringOrder(banjo),null,4));
+// console.log(JSON.stringify(banjo,null,4));
+
+
+function simplifyInstrument(instrument){
+  let clonedInstrument = sortByStringOrder(instrument);
+  let simpleInstrument = {};
+  let simpleStrings = [];
+  let simpleStartFrets = [];
+  for (let i = 0; i < clonedInstrument.strings.length;i++){
+    simpleStrings.push(clonedInstrument.strings[i].stringTuning);
+    simpleStartFrets.push(clonedInstrument.strings[i].notes[0].fretNum);
+  }
+  simpleInstrument.strings = simpleStrings;
+  simpleInstrument.startFrets = simpleStartFrets;
+  let fretAmount = clonedInstrument.strings[0].notes.length - 1;
+  simpleInstrument.lastFret = clonedInstrument.strings[0].notes[fretAmount].fretNum
+  return simpleInstrument;
+}
+
+// console.log('simple banjo',simplifyInstrument(banjo));
+// console.log('simple guitar',simplifyInstrument(guitar));
+
 
 //Given a from note and to note, get distance between 2 notes in semitones
 function getNoteDistance(fromNote,toNote) {
@@ -337,13 +450,76 @@ function offsetChord(chord,offsetNum) {
 // const exChord = offsetChord(_7,getNoteDistance('E','B'));
 // console.log(getChordPermutations(exChord,6));
 
+// Given a series of string's open notes, e.g. ('E','A','D','G','B','E'),
+// return an array of note distances from first String's open note e.g. [0,5,10,15,19,24]
+function getStringOffsets(array) {
+  let stringOffsets = [0];
+  for (let i=0; i < array.length - 1; i++) {
+    let currentOffset = getNoteDistance(array[i],array[i+1]);
+    if (i !== 0) {
+      currentOffset += stringOffsets[i]
+    }
+    stringOffsets.push(currentOffset);
+    }
+  return stringOffsets;
+}
+
+// console.log(getStringOffsets(['E','A','D','G','B','E']));
+// console.log(getStringOffsets(['D','G','B','D','G']));
+
+
+
 // Generates a 1d array of strings for x number of strings
 // with the first argument being amount of frets
 // and second being starting fret
-// e.g. genericStrings(11,4)
+// e.g. oldGenericString(11,4)
 // produces an array with [4,5,6,7,8,9,10,11]
-function genericString(frets,startFret){
+function oldGenericString(frets,startFret){
+  let oldGenericString = [];
+  for (let i = 0; i <= frets; i++) {
+    if (i >= startFret) {
+      oldGenericString.push(i);
+    }
+    else {
+      oldGenericString.push();
+    }
+  }
+  return oldGenericString;
+}
+
+// console.log(oldGenericString(21,5));
+
+
+// Generates a 2d array of strings for x number of strings
+// arguments are passed like genericString function
+// with the first being amount of frets
+// and second being starting fret
+// e.g. oldGenericStrings(21,0,21,0,21,0,21,0,21,5)
+// produces an array representing 5 strings, each up to fret 21,
+// with the last string starting at 5
+function oldGenericStrings() {
+  let oldGenericStrings = [];
+  for (let i=0; i < arguments.length; i++) {
+    oldGenericStrings.push(oldGenericString(arguments[i],arguments[i+1]));
+    i++;
+    }
+  return oldGenericStrings;
+}
+
+// console.log(oldGenericStrings(21,0,21,0,21,0,21,0,21,5));
+// console.log(oldGenericStrings(21,0,21,0,21,0,21,0,21,0,21,0));
+
+
+// Generates a 1d array of strings
+// Given an array
+// with the first array element being amount of frets
+// and second being starting fret
+// e.g. genericString([11,4])
+// produces an array with [4,5,6,7,8,9,10,11]
+function genericString(array){
   let genericString = [];
+  let frets = array[0];
+  let startFret = array[1];
   for (let i = 0; i <= frets; i++) {
     if (i >= startFret) {
       genericString.push(i);
@@ -355,11 +531,8 @@ function genericString(frets,startFret){
   return genericString;
 }
 
-// console.log(genericString(21,5));
+// console.log(genericString([21,5]));
 
-function modifyString(){
-  
-}
 
 // Generates a 2d array of strings for x number of strings
 // arguments are passed like genericString function
@@ -368,14 +541,43 @@ function modifyString(){
 // e.g. genericStrings(21,0,21,0,21,0,21,0,21,5)
 // produces an array representing 5 strings, each up to fret 21,
 // with the last string starting at 5
-function genericStrings() {
+function genericStrings(array) {
   let genericStrings = [];
-  for (let i=0; i < arguments.length; i++) {
-    genericStrings.push(genericString(arguments[i],arguments[i+1]));
+  for (let i=0; i < array.length; i++) {
+    genericStrings.push(genericString([array[i],array[i+1]]));
     i++;
     }
   return genericStrings;
 }
 
-// console.log(genericStrings(21,0,21,0,21,0,21,0,21,5));
-console.log(genericStrings(21,0,21,0,21,0,21,0,21,0,21,0));
+// console.log(genericStrings([21,0,21,0,21,0,21,0,21,5]));
+// console.log(genericStrings([21,0,21,0,21,0,21,0,21,0,21,0]));
+
+
+
+function modifyString(genericString,offsetNum) {
+  let newString = [];
+  for (let i = 0; i < genericString.length; i++){
+    newString.push(genericString[i] + offsetNum)
+  }
+  return newString;
+}
+
+// console.log(modifyString(genericString([21,5]),7));
+
+
+function modifyStrings (instrument){
+  let newStrings = [];
+  let simpleInstrument = simplifyInstrument(instrument);
+  let stringOffsets = getStringOffsets(simpleInstrument.strings);
+  let startFrets = simpleInstrument.startFrets;
+  let lastFretNum = simpleInstrument.lastFret;
+  for (let i = 0; i < stringOffsets.length; i++) {
+    let genericString = oldGenericString(lastFretNum,startFrets[i]);
+    newStrings.push(modifyString(genericString,stringOffsets[i]));
+  }
+  return newStrings;
+}
+
+console.log(JSON.stringify(modifyStrings(banjo),null,4));
+// console.log(JSON.stringify(modifyStrings(guitar),null,4));
