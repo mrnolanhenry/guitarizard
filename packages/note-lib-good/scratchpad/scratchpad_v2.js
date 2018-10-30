@@ -370,6 +370,136 @@ const stubby = {
   ]
 };
 
+// Example - create a made up instrument using createString function
+const stubbyBanjo = {
+  strings: [
+    createString('D',0,15,3),
+    createString('B',0,15,2),
+    createString('G',0,15,1),
+    createString('D',0,15,0),
+    createString('G',5,15,4)
+  ]
+};
+
+const testInstrument = { strings:
+   [ { stringTuning: 'D',
+       stringOrder: 3,
+       notes:
+        [ { fretNum: 0, note: 'D' },
+          { fretNum: 1, note: 'Eb' },
+          { fretNum: 2, note: 'E' },
+          { fretNum: 3, note: 'F' },
+          { fretNum: 4, note: 'Gb' },
+          { fretNum: 5, note: 'G' },
+          { fretNum: 6, note: 'Ab' },
+          { fretNum: 8, note: 'Bb' },
+          { fretNum: 9, note: 'B' },
+          { fretNum: 10, note: 'C' },
+          { fretNum: 11, note: 'Db' },
+          { fretNum: 12, note: 'D' },
+          { fretNum: 13, note: 'Eb' },
+          { fretNum: 14, note: 'E' },
+          { fretNum: 15, note: 'F' },
+          { fretNum: 16, note: 'Gb' },
+          { fretNum: 17, note: 'G' },
+          { fretNum: 18, note: 'Ab' },
+          { fretNum: 20, note: 'Bb' },
+          { fretNum: 21, note: 'B' } ] },
+     { stringTuning: 'B',
+       stringOrder: 2,
+       notes:
+        [ { fretNum: 0, note: 'B' },
+          { fretNum: 1, note: 'C' },
+          { fretNum: 2, note: 'Db' },
+          { fretNum: 3, note: 'D' },
+          { fretNum: 4, note: 'Eb' },
+          { fretNum: 5, note: 'E' },
+          { fretNum: 6, note: 'F' },
+          { fretNum: 7, note: 'Gb' },
+          { fretNum: 8, note: 'G' },
+          { fretNum: 9, note: 'Ab' },
+          { fretNum: 10, note: 'A' },
+          { fretNum: 11, note: 'Bb' },
+          { fretNum: 12, note: 'B' },
+          { fretNum: 13, note: 'C' },
+          { fretNum: 14, note: 'Db' },
+          { fretNum: 15, note: 'D' },
+          { fretNum: 16, note: 'Eb' },
+          { fretNum: 17, note: 'E' },
+          { fretNum: 18, note: 'F' },
+          { fretNum: 19, note: 'Gb' },
+          { fretNum: 20, note: 'G' },
+          { fretNum: 21, note: 'Ab' } ] },
+     { stringTuning: 'G',
+       stringOrder: 1,
+       notes:
+        [ { fretNum: 0, note: 'G' },
+          { fretNum: 1, note: 'Ab' },
+          { fretNum: 2, note: 'A' },
+          { fretNum: 3, note: 'Bb' },
+          { fretNum: 4, note: 'B' },
+          { fretNum: 5, note: 'C' },
+          { fretNum: 6, note: 'Db' },
+          { fretNum: 7, note: 'D' },
+          { fretNum: 8, note: 'Eb' },
+          { fretNum: 9, note: 'E' },
+          { fretNum: 10, note: 'F' },
+          { fretNum: 11, note: 'Gb' },
+          { fretNum: 12, note: 'G' },
+          { fretNum: 13, note: 'Ab' },
+          { fretNum: 14, note: 'A' },
+          { fretNum: 15, note: 'Bb' },
+          { fretNum: 16, note: 'B' },
+          { fretNum: 17, note: 'C' },
+          { fretNum: 18, note: 'Db' },
+          { fretNum: 19, note: 'D' },
+          { fretNum: 20, note: 'Eb' },
+          { fretNum: 21, note: 'E' } ] },
+     { stringTuning: 'D',
+       stringOrder: 0,
+       notes:
+        [ { fretNum: 0, note: 'D' },
+          { fretNum: 1, note: 'Eb' },
+          { fretNum: 2, note: 'E' },
+          { fretNum: 3, note: 'F' },
+          { fretNum: 4, note: 'Gb' },
+          { fretNum: 5, note: 'G' },
+          { fretNum: 6, note: 'Ab' },
+          { fretNum: 7, note: 'A' },
+          { fretNum: 8, note: 'Bb' },
+          { fretNum: 9, note: 'B' },
+          { fretNum: 10, note: 'C' },
+          { fretNum: 11, note: 'Db' },
+          { fretNum: 12, note: 'D' },
+          { fretNum: 13, note: 'Eb' },
+          { fretNum: 14, note: 'E' },
+          { fretNum: 15, note: 'F' },
+          { fretNum: 16, note: 'Gb' },
+          { fretNum: 17, note: 'G' },
+          { fretNum: 18, note: 'Ab' },
+          { fretNum: 19, note: 'A' },
+          { fretNum: 20, note: 'Bb' },
+          { fretNum: 21, note: 'B' } ] },
+     { stringTuning: 'G',
+       stringOrder: 4,
+       notes:
+        [ { fretNum: 5, note: 'G' },
+          { fretNum: 6, note: 'Ab' },
+          { fretNum: 8, note: 'Bb' },
+          { fretNum: 9, note: 'B' },
+          { fretNum: 10, note: 'C' },
+          { fretNum: 11, note: 'Db' },
+          { fretNum: 12, note: 'D' },
+          { fretNum: 13, note: 'Eb' },
+          { fretNum: 14, note: 'E' },
+          { fretNum: 15, note: 'F' },
+          { fretNum: 16, note: 'Gb' },
+          { fretNum: 17, note: 'G' },
+          { fretNum: 18, note: 'Ab' },
+          { fretNum: 19, note: 'A' },
+          { fretNum: 20, note: 'Bb' },
+          { fretNum: 21, note: 'B' } ] } ] } ;
+
 // Given an instrument, sort it by string Order and return a new instrument
 function sortByStringOrder(instrument) {
   const   clonedInstrument = JSON.parse(JSON.stringify(instrument));
@@ -421,6 +551,7 @@ function removeInvalidFret(fretNum,string) {
 
 // console.log(guitar.strings[4]);
 // console.log(removeInvalidFret(17,guitar.strings[4]));
+// console.log(removeInvalidFret(17,banjo.strings[4]));
 
 
 // Given a fret (by fretNumber), string, and instrument
@@ -471,12 +602,17 @@ function findNoteOnString(note,string,minFret,maxFret) {
         // VAR needed here to allow maxFret to be function-specific, not block-specific
         var minFret = 0;
       }
+      const startFret = string.notes[0].fretNum
       if (typeof maxFret === 'undefined' || isNaN(maxFret) || maxFret >= string.notes.length){
         // VAR needed here to allow maxFret to be function-specific, not block-specific
-        var maxFret = string.notes.length - 1;
+        var maxFret = string.notes.length - 1 + startFret;
       }
-      for (let j = minFret; j <= maxFret; j++) {
+      // console.log('note',note,'stringOrder',string.stringOrder,'minFret',minFret,'maxFret',maxFret);
+      for (let j = Math.max(0, minFret - startFret); j <= maxFret - startFret; j++) {
+        // console.log('findNoteOnString:','minFret',minFret,'maxFret',maxFret);
+        // console.log('j',j,'string.notes[j]',string.notes[j], 'noteToFind:',note);
           if (string.notes[j].note === note) {
+            // console.log('noteFound!')
             return {
               stringTuning: string.stringTuning,
               stringOrder: string.stringOrder,
@@ -491,6 +627,9 @@ function findNoteOnString(note,string,minFret,maxFret) {
 // console.log(findNoteOnString('B',guitar.strings[5],7));
 // console.log(findNoteOnString('B',guitar.strings[5]));
 // console.log(findNoteOnString('E',stubby.strings[5],7));
+
+// console.log(findNoteOnString('Db',banjo.strings[4]));
+// console.log(findNoteOnString('Gb',banjo.strings[4],0,15));
 
 
 // Given a Note, Instrument, and valid strings, finds Note object based on StringOrder with fretNum and other helpful info.
@@ -550,7 +689,7 @@ function findScaleOnInstrument(key,scale,instrument) {
 // Given a note, type of chord (e.g. '_7' for 7th chord), and instrument, returns a Root Chord object with each string/note/fret number
 //OPTIONAL maxWidth argument to limit the chord to be x many fretsWide
 function findChord(note,chord,instrument,maxWidth) {
-  newChordNotes = getNotesInChord(note,chord);
+  let newChordNotes = getNotesInChord(note,chord);
   const clonedInstrument = sortByStringOrder(instrument)
   const newChord = {position: null,
     rootFreq: 0,
@@ -572,14 +711,17 @@ function findChord(note,chord,instrument,maxWidth) {
     let minFret = fretUpper - maxWidth + 1;
     let maxFret = fretLower + maxWidth - 1;
     const noteFound = findNoteOnInstrument(newChordNotes[i].note,clonedInstrument,validStrings,minFret,maxFret);
+    // console.log('noteFound', noteFound);
     //FAILURE CASE
     //-----------------------------------------------------
     if (typeof noteFound === 'undefined') {
+      // console.log('clonedInstrument',clonedInstrument,'newChordNotes[i].note', newChordNotes[i].note,'validStrings',validStrings,
+      // 'minFret',minFret,'maxFret',maxFret);
       return;
     }
     //-----------------------------------------------------
     if (noteFound.note === note) {
-      rootCount += 1
+      rootCount += 1;
     }
     currentFret = noteFound.fretNum;
     if (currentFret !== 0){
@@ -605,8 +747,10 @@ function findChord(note,chord,instrument,maxWidth) {
   return newChord;
 }
 
-// console.log(findChord('B',_7,guitar,5));
-// console.log(findChord('B',_7,banjo,5));
+// console.log(findChord('B',_7,guitar,4));
+// console.log(findChord('B',_7,banjo));
+// console.log(findChord('B',_7,testInstrument));
+// console.log(findChord('B',[10,4,7,10,0],banjo,4));
 // console.log(findChord('B',_7,stubby));
 // console.log(findChord('C',_7,guitar));
 // console.log(findChord('C',_7,stubby));
@@ -655,6 +799,22 @@ function findSomeVoicingPositions(note,chord,instrument,string,maxWidth) {
 // console.log('SOME VOICING POSITIONS ',JSON.stringify(findSomeVoicingPositions('B',_7,guitar,0),null,4));
 // console.log('SOME VOICING POSITIONS ',findSomeVoicingPositions('B',_7,guitar,0).length);
 
+// const changingNote0 = findSomeVoicingPositions('B',_7,banjo,0);
+// console.log('SOME VOICING POSITIONS ',JSON.stringify(changingNote0,null,4));
+// console.log(changingNote0.length);
+
+// const changingNote1 = findSomeVoicingPositions('B',_7,banjo,1);
+// console.log('SOME VOICING POSITIONS ',JSON.stringify(changingNote1,null,4));
+// console.log(changingNote1.length);
+//
+// const changingNote2 = findSomeVoicingPositions('B',_7,banjo,2);
+// console.log('SOME VOICING POSITIONS ',JSON.stringify(changingNote2,null,4));
+// console.log(changingNote2.length);
+//
+// const changingNote3 = findSomeVoicingPositions('B',_7,testInstrument,3);
+// console.log('SOME VOICING POSITIONS ',JSON.stringify(changingNote3,null,4));
+// console.log(changingNote3.length);
+
 
 // Given a note, type of chord (e.g. '_7' for 7th chord), and instrument,
 // returns each available Chord object with each string/note/fret number
@@ -673,16 +833,19 @@ function findVoicingPositions(note,chord,instrument,maxWidth) {
 }
 
 
+
 // console.log('ALL Voicing Positions' ,JSON.stringify(findVoicingPositions('B',_7,guitar),null,4));
-// console.log('ALL Voicing Positions' ,JSON.stringify(findVoicingPositions('B',_7,banjo,5),null,4));
+// console.log('ALL Voicing Positions' ,JSON.stringify(findVoicingPositions('B',_7,banjo,4),null,4));
 // console.log(findVoicingPositions('B',_7,guitar).length);
 // console.log('ALL Voicing Positions' ,findVoicingPositions('B',_7,guitar));
+
+// console.log('ALL Voicing Positions' ,JSON.stringify(findVoicingPositions('B',_7,banjo),null,4));
+// console.log(findVoicingPositions('B',_7,banjo).length);
 
 // console.log('ALL Voicing Positions' ,JSON.stringify(findVoicingPositions('B',_7,stubby),null,4));
 // console.log(findVoicingPositions('B',_7,stubby).length);
 
 
-// WIP
 // Given a note, type of chord (e.g. '_7' for 7th chord), and instrument,
 // returns each available Chord object with each string/note/fret number
 // FOR ALL VOICINGS OF THAT CHORD
@@ -690,18 +853,81 @@ function findChordPositions(note,chord,instrument,maxWidth) {
   let chordPositions = [];
   chordPermutations = getChordPermutations(chord, instrument.strings.length)
   for (let i = 0; i < chordPermutations.length; i++) {
-    chordPositions = chordPositions.concat(findVoicingPositions(note,chordPermutations[i],instrument,maxWidth));
+    let currentPositions = findVoicingPositions(note,chordPermutations[i],instrument,maxWidth)
+    // console.log('i',i,'chordPermutations[i]',chordPermutations[i],'positions at i:', currentPositions.length);
+    // if(currentPositions.length !== 0){
+    //   // console.log('result:',JSON.stringify(currentPositions,null,4));
+    //   // console.log('notes:',JSON.stringify(getNotesInChord('B',chordPermutations[i]),null,4));
+    // }
+    chordPositions = chordPositions.concat(currentPositions);
+    // console.log('i',i,'chordPermutations[i]',chordPermutations[i],'positions at i:', currentPositions.length, 'total positions: ', chordPositions.length);
   }
   return chordPositions;
 }
 
-// console.log('ALL Chord Positions' ,findChordPositions('B',_7,stubby));
-// console.log(findChordPositions('B',_7,stubby).length);
+// console.log('ALL Chord Positions' ,JSON.stringify(findChordPositions('B',_7,guitar,4),null,4));
+// console.log('ALL Chord Positions' ,JSON.stringify(findChordPositions('B',_7,banjo,4),null,4));
+// console.log(findChordPositions('B',_7,guitar,4).length);
+//
+const resultsLimitless = findChordPositions('B',_7,banjo).length
+// console.log(resultsLimitless);
+const resultsLimited = findChordPositions('B',_7,banjo,21).length
+// console.log(resultsLimited);
 
-// console.log('ALL Chord Positions' ,JSON.stringify(findChordPositions('B',_7,guitar),null,4));
+// for (let i = 0; i < resultsLimitless.length; i++){
+//   if(typeof resultsLimited[i] !== 'undefined' && resultsLimited[i].fretWidth !== resultsLimitless[i].fretWidth){
+//     console.log("LIMITLESS", 'i', i, resultsLimitless[i],"LIMITED", resultsLimited[i]);
+//   }
+// }
 
-// console.log('ALL Chord Positions' ,JSON.stringify(findChordPositions('B',_7,guitar,5),null,4));
-// console.log(findChordPositions('B',_7,guitar,5).length);
+for (let i = 0; i < 21; i++) {
+  let res = findChordPositions('B',_7,banjo,i)
+  let res4 = findChordPositions('B',_7,banjo,i).filter(data => {
+      return data.fretWidth <= 4;
+    });
+  console.log('i', i, 'results ', res.length, 'results less than 4 frets wide',res4.length);
+}
+
+// console.log(findChordPositions('B',_7,stubbyBanjo).length);
+// console.log(findChordPositions('B',_7,stubbyBanjo,15).length);
+
+// // FILTER GUITAR
+// console.log(
+//   'ALL Chord Positions WIDER THAN 4 FRETS' ,
+//   JSON.stringify(findChordPositions('B',_7,guitar,4).filter(data => {
+//       return data.fretWidth > 4;
+//   }),null,4));
+
+// const results = findChordPositions('B',_7,banjo,4);
+// // console.log(JSON.stringify(results,null,4));
+// console.log(results.length);
+
+// // FILTER BANJO
+//   console.log(
+//     'ALL Chord Positions WIDER THAN 4 FRETS' ,
+//     JSON.stringify(findChordPositions('B',_7,banjo,4).filter(data => {
+//         return data.fretWidth > 4;
+//     }),null,4));
+
+const poop = findChordPositions('B',_7,banjo).filter(data => {
+    return data.fretWidth <= 4;
+});
+// console.log('NO LIMIT',JSON.stringify(poop,null,4));
+// console.log(poop.length);
+
+// const poo = findChordPositions('B',_7,banjo,4)
+const poo = findChordPositions('B',_7,banjo,4).filter(data => {
+    return data.fretWidth <= 4;
+});
+// console.log('WITH LIMIT',JSON.stringify(poo,null,4));
+// console.log(poo.length);
+
+// for (let i = 0; i < poo.length; i++){
+//   if(typeof poop[i] !== 'undefined' && poop[i].fretWidth !== poo[i].fretWidth ){
+//     console.log('i', i, "NO LIMIT", poop[i]);
+//     console.log("LIMIT", poo[i]);
+//   }
+// }
 
 // // ARROW FUNCTION VERSION of MAP
 // console.log(
@@ -722,12 +948,7 @@ function findChordPositions(note,chord,instrument,maxWidth) {
 //       return data.position;
 //   }));
 
-
-// console.log('ALL Chord Positions' ,JSON.stringify(findChordPositions('B',_7,guitar,4),null,4));
-// console.log('ALL Chord Positions' ,JSON.stringify(findChordPositions('B',_7,banjo,4),null,4));
-console.log(findChordPositions('B',_7,guitar,4).length);
-// console.log(findChordPositions('B',_7,banjo).length);
-
+// FILTER
 // console.log(
 //   'ALL Chord Positions' ,
 //   JSON.stringify(findChordPositions('B',_7,guitar,5).filter(data => {
@@ -743,7 +964,7 @@ console.log(findChordPositions('B',_7,guitar,4).length);
 
 
 // Chord properties / qualities to consider sorting by:
-// position: (Root Chord / first Inversion / second Inversion)
+// position: (Root Chord vs. Inversion)
 // rootFreq: (amount of times root note appears in the chord)
 // fretWidth: (lowest fretNum to highest fretNum)
 // length: (# of notes / fullness)

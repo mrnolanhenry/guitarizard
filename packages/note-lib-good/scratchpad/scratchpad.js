@@ -266,7 +266,7 @@ function permuteUnique(input) {
 // console.log(permuteUnique(_7).length);
 
 // console.log(JSON.stringify(permuteUnique([0,4,7,10,0,4,7])));
-console.log(permuteUnique([0,4,7,10,0,4,7]).length);
+// console.log(permuteUnique([0,4,7,10,0,4,7]).length);
 
 
 
@@ -276,7 +276,6 @@ function getChordPermutations (chord, upToLength) {
   let uniqueVoicings = getUniqueVoicings(chord, upToLength);
   for (let i = 0; i < uniqueVoicings.length; i++) {
     permutation[i] = permuteArray(uniqueVoicings[i]);
-    console.log('i',i,'uniqueVoicings[i]',uniqueVoicings[i],'permutation[i]',permutation[i]);
     allPermutations = allPermutations.concat(permutation[i]);
   }
   return allPermutations;
@@ -337,3 +336,46 @@ function offsetChord(chord,offsetNum) {
 
 // const exChord = offsetChord(_7,getNoteDistance('E','B'));
 // console.log(getChordPermutations(exChord,6));
+
+// Generates a 1d array of strings for x number of strings
+// with the first argument being amount of frets
+// and second being starting fret
+// e.g. genericStrings(11,4)
+// produces an array with [4,5,6,7,8,9,10,11]
+function genericString(frets,startFret){
+  let genericString = [];
+  for (let i = 0; i <= frets; i++) {
+    if (i >= startFret) {
+      genericString.push(i);
+    }
+    else {
+      genericString.push();
+    }
+  }
+  return genericString;
+}
+
+// console.log(genericString(21,5));
+
+function modifyString(){
+  
+}
+
+// Generates a 2d array of strings for x number of strings
+// arguments are passed like genericString function
+// with the first being amount of frets
+// and second being starting fret
+// e.g. genericStrings(21,0,21,0,21,0,21,0,21,5)
+// produces an array representing 5 strings, each up to fret 21,
+// with the last string starting at 5
+function genericStrings() {
+  let genericStrings = [];
+  for (let i=0; i < arguments.length; i++) {
+    genericStrings.push(genericString(arguments[i],arguments[i+1]));
+    i++;
+    }
+  return genericStrings;
+}
+
+// console.log(genericStrings(21,0,21,0,21,0,21,0,21,5));
+console.log(genericStrings(21,0,21,0,21,0,21,0,21,0,21,0));
