@@ -40,9 +40,7 @@ module.exports = class FretBoard {
 
     this.tunedStrings = this.tunedStrings.map(tunedString => {
       if (tunedString.id === tunedStringID) {
-        console.log('FretBoard::tunedString.tuningNote.id before:', tunedString.tuningNote.id);
         tunedString.setTuningNote(tuningNote);
-        console.log('FretBoard::tuningString.tuningNote.id after:', tunedString.tuningNote.id);
       }
 
       return tunedString;

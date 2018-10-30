@@ -149,4 +149,18 @@ export namespace instrument {
 
     constructor(fretCount: number, tuning: Array<Note>);
   }
+
+  export class Bass implements FrettedInstrument {
+    name: 'bass';
+    fretBoard: FretBoard;
+
+    constructor(fretCount: number, tuning: Array<Note>);
+  }
+
+  export class Ukulele implements FrettedInstrument {
+    name: 'ukulele';
+    fretBoard: FretBoard;
+
+    constructor(fretCount: number, tuning: Array<Note>);
+  }
 }

@@ -16,7 +16,9 @@ const API = {
     TunedString: require('./instrument/TunedString'),
     FretBoard: require('./instrument/FretBoard'),
     Guitar: require('./instrument/Guitar'),
-    Banjo: require('./instrument/Banjo')
+    Banjo: require('./instrument/Banjo'),
+    Bass: require('./instrument/Bass'),
+    Ukulele: require('./instrument/Ukulele')
   }
 };
 
