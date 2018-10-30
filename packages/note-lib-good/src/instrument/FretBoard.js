@@ -21,19 +21,40 @@ module.exports = class FretBoard {
     this.scaleSystem = scaleSystem;
     this.tunedStrings = tunedStrings;
     this.stringConfig = stringConfig;
+  }
 
-    // calculate fretCount as the longest given bound
-    this.fretCount = this.stringConfig.reduce((max, config) => {
+  /**
+   * calculate fretCount as the longest given bound
+   */
+  getFretCount() {
+    return this.stringConfig.reduce((max, config) => {
       return (config.fret.end > max) ? config.fret.end : max;
     }, 0)
+  }
 
-    this.stringNotes = this._getNotes();
+  /**
+   * Set a single string's tuning on this fretboard
+   */
+  setStringTuningNote(tunedStringID, tuningNote) {
+    const newTunedStrings = this.tunedStrings.slice();
+
+    this.tunedStrings = this.tunedStrings.map(tunedString => {
+      if (tunedString.id === tunedStringID) {
+        console.log('FretBoard::tunedString.tuningNote.id before:', tunedString.tuningNote.id);
+        tunedString.setTuningNote(tuningNote);
+        console.log('FretBoard::tuningString.tuningNote.id after:', tunedString.tuningNote.id);
+      }
+
+      return tunedString;
+    });
+
+    console.log('FretBoard::tunedStrings', this.tunedStrings);
   }
 
   /**
    *
    */
-  _getNotes() {
+  getNotes() {
     return this.tunedStrings.map((tunedString, i) => {
 
       const config = this.stringConfig[i];
@@ -53,13 +74,13 @@ module.exports = class FretBoard {
     });
   }
 
-  // same result as `_getNotes`, but the notes are filtered
+  // same result as `getNotes`, but the notes are filtered
   // out according to the scale given. EG. A chromatic
-  // scale will always equal the output of `_getNotes`
+  // scale will always equal the output of `getNotes`
   getNotesInScale(scale, keyNote) {
     const keyNotes = scale.getNotesInKey(keyNote);
 
-    return this.stringNotes.map(string => {
+    return this.getNotes().map(string => {
 
       // filter out any notes that don't exist
       // in the `keyNotes` array

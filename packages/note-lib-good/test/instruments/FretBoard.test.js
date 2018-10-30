@@ -14,8 +14,8 @@ tap.test('class FretBoard --- init', function (t) {
   ])
 
   const tunedStrings = [
-    new TunedString(new Note('X'), 'metal', 0.25),
-    new TunedString(new Note('Y'), 'metal', 0.33)
+    new TunedString('X', new Note('X'), 'metal', 0.25),
+    new TunedString('X', new Note('Y'), 'metal', 0.33)
   ];
 
   const stringConfig = [
@@ -31,7 +31,7 @@ tap.test('class FretBoard --- init', function (t) {
                                   tunedStrings,
                                   stringConfig)
 
-  t.same(fretBoard._getNotes(), [
+  t.same(fretBoard.getNotes(), [
     {
       tunedString: tunedStrings[0],
       config: stringConfig[0],
@@ -57,8 +57,8 @@ tap.test('class FretBoard --- init', function (t) {
 tap.test('class FretBoard --- getNotesInScale', function (t) {
 
   const tunedStrings = [
-    new TunedString(diatonic.E, 'metal', 0.2540),
-    new TunedString(diatonic.A, 'metal', 0.3302),
+    new TunedString('0', diatonic.E, 'metal', 0.2540),
+    new TunedString('1', diatonic.A, 'metal', 0.3302),
   ];
 
   const stringConfig = [
@@ -102,8 +102,8 @@ tap.test('class FretBoard --- getNotesInScale', function (t) {
          'chromatic scale does not change based on key')
 
   t.same(stubbyBoard.getNotesInScale(chromatic, new Note('A')),
-         stubbyBoard._getNotes(),
-         'chromatic scale is the same as `_getNotes()`')
+         stubbyBoard.getNotes(),
+         'chromatic scale is the same as `getNotes()`')
 
   const blues = new Scale('blues', diatonic, [0,3,5,6,7,10,12])
 
@@ -156,8 +156,8 @@ tap.test('class FretBoard --- getNotesInScale', function (t) {
 
 tap.test('class FretBoard --- toJSON / valueOf / toString', function (t) {
   const tunedStrings = [
-    new TunedString(diatonic.E, 'metal', 0.2540),
-    new TunedString(diatonic.A, 'metal', 0.3302),
+    new TunedString('0', diatonic.E, 'metal', 0.2540),
+    new TunedString('1', diatonic.A, 'metal', 0.3302),
   ];
 
   const stringConfig = [
@@ -175,6 +175,48 @@ tap.test('class FretBoard --- toJSON / valueOf / toString', function (t) {
 
   t.same(stubbyBoard.valueOf(), JSON.stringify(stubbyBoard.toJSON()))
   t.same(stubbyBoard.toString(), JSON.stringify(stubbyBoard.toJSON()))
+
+  t.end();
+});
+
+tap.test('setStringTuningNote()', (t) => {
+  const tunedStrings = [
+    new TunedString('x', diatonic.E, 'metal', 0.2540),
+    new TunedString('y', diatonic.A, 'metal', 0.3302),
+  ];
+
+  const stringConfig = [
+    { fret: { start: 0, end: 5 } },
+    { fret: { start: 0, end: 5 } }
+  ]
+
+  const stubbyBoard = new FretBoard(diatonic, tunedStrings, stringConfig);
+
+  t.equal(stubbyBoard.tunedStrings[0].tuningNote, diatonic.E);
+  t.equal(stubbyBoard.tunedStrings[1].tuningNote, diatonic.A);
+
+  stubbyBoard.setStringTuningNote('x', diatonic.C);
+
+  t.equal(stubbyBoard.tunedStrings[0].tuningNote, diatonic.C);
+  t.equal(stubbyBoard.tunedStrings[1].tuningNote, diatonic.A);
+
+  t.end();
+});
+
+tap.test('getFretCount()', (t) => {
+  const tunedStrings = [
+    new TunedString('x', diatonic.E, 'metal', 0.2540),
+    new TunedString('y', diatonic.A, 'metal', 0.3302),
+  ];
+
+  const stringConfig = [
+    { fret: { start: 0, end: 5 } },
+    { fret: { start: 0, end: 5 } }
+  ]
+
+  const stubbyBoard = new FretBoard(diatonic, tunedStrings, stringConfig);
+
+  t.equal(stubbyBoard.getFretCount(), 5);
 
   t.end();
 });

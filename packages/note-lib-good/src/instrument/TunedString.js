@@ -7,10 +7,15 @@
  * @param 'gauge' - what gauge (in millimeters) is this string?
  */
 module.exports = class TunedString {
-  constructor(tuningNote, material, gauge) {
+  constructor(id, tuningNote, material, gauge) {
+    this.id = id;
     this.tuningNote = tuningNote;
     this.material = material;
     this.gauge = gauge;
+  }
+
+  setTuningNote(note) {
+    this.tuningNote = note;
   }
 
   /**

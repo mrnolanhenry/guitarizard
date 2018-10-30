@@ -11,7 +11,7 @@ tap.test('class TunedString', function (t) {
     new Note('B', ['B'])
   ]);
 
-  const AString = new TunedString(new Note('A', ['A']));
+  const AString = new TunedString('A', new Note('A', ['A']));
 
   t.same(
     AString.getFrettedNotes(smallDiatonic, 0),
@@ -39,7 +39,7 @@ tap.test('class TunedString', function (t) {
     'looping scale system');
 
 
-  const BFlatString = new TunedString(new Note('Bb', ['A#', 'Bb']));
+  const BFlatString = new TunedString('Bb', new Note('Bb', ['A#', 'Bb']));
 
   t.same(
     BFlatString.getFrettedNotes(smallDiatonic, 0),
@@ -48,6 +48,19 @@ tap.test('class TunedString', function (t) {
 
   t.equal(AString.valueOf(), JSON.stringify(AString));
   t.equal(AString.toString(), JSON.stringify(AString));
+
+
+  t.test('setTuningNote', (t) => {
+    const testString = new TunedString('x', new Note('x'));
+
+    t.equal(testString.tuningNote.id, 'x');
+
+    testString.setTuningNote(new Note('y'));
+
+    t.equal(testString.tuningNote.id, 'y');
+
+    t.end();
+  });
 
   t.end();
 });

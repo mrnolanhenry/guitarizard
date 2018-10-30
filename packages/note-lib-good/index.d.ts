@@ -89,13 +89,15 @@ type GaugeMilliMeters = number;
 export namespace instrument {
 
   export class TunedString {
+    id: string;
     tuningNote: Note;
     material: MaterialType;
     gauge: GaugeMilliMeters;
 
-    getFrettedNotes: (scaleSystem: ScaleSystem, fretSpan: number) => Array<Note>
+    constructor(id: string, tuningNote: Note, material: MaterialType, gauge: GaugeMilliMeters);
 
-    constructor(tuningNote: Note, material: MaterialType, gauge: GaugeMilliMeters);
+    setTuningNote: (tuningNote: Note) => void;
+    getFrettedNotes: (scaleSystem: ScaleSystem, fretSpan: number) => Array<Note>
   }
 
   export interface StringConfig {
@@ -119,26 +121,23 @@ export namespace instrument {
     tunedStrings: Array<TunedString>;
     stringConfig: Array<StringConfig>;
 
-    fretCount: number;
+    getFretCount: () => number;
 
     stringNotes: Array<StringScale>;
 
-    _getNotes: () => Array<StringScale>;
+    getNotes: () => Array<StringScale>;
 
-    getNotesInScale: (scale: Scale, keyNote: Note) => Array<StringScale>
+    getNotesInScale: (scale: Scale, keyNote: Note) => Array<StringScale>;
+    setStringTuningNote: (stringID: string, tuningNote: Note) => void;
   }
 
   export interface FrettedInstrument {
     name: string;
-    fretCount: number;
-    tuning: Array<Note>;
     fretBoard: FretBoard;
   }
 
   export class Guitar implements FrettedInstrument {
     name: 'guitar';
-    fretCount: number;
-    tuning: Array<Note>;
     fretBoard: FretBoard;
 
     constructor(fretCount: number, tuning: Array<Note>);
@@ -146,8 +145,6 @@ export namespace instrument {
 
   export class Banjo implements FrettedInstrument {
     name: 'banjo';
-    fretCount: number;
-    tuning: Array<Note>;
     fretBoard: FretBoard;
 
     constructor(fretCount: number, tuning: Array<Note>);
