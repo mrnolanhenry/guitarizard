@@ -1,5 +1,5 @@
 import html from "choo/html";
-import { instrument, ScaleSystem, Note } from "note-lib";
+import { instrument, Note, Scale } from "note-lib";
 import * as css from "sheetify";
 import { Base16Theme } from "../colors";
 import fretSegment from "./fretSegment";
@@ -36,7 +36,7 @@ const prefix = css`
   :host > .tuning-pegs {
     grid-area: tuning;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     justify-content: space-evenly;
   }
 
@@ -52,7 +52,7 @@ const prefix = css`
     grid-area: board;
 
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     justify-content: space-evenly;
   }
 
@@ -65,30 +65,22 @@ const prefix = css`
 `;
 
 interface Props {
-  scaleSystem: ScaleSystem;
-  fretCount: number;
-  tunedStrings: Array<instrument.TunedString>;
-  stringScales: Array<instrument.StringScale>;
+  fretBoard: instrument.FretBoard;
+  scale: Scale;
+  keyNote: Note;
   showFretBar: boolean;
-  onTune: (
-    stringNumber: number,
-    oldTuning: instrument.TunedString,
-    newTuning: instrument.TunedString
-  ) => void;
+  onTune: (stringID: string, newTuning: Note) => void;
   theme: Base16Theme;
 }
 
 export default function fretBoard({
-  scaleSystem,
-  fretCount,
-  tunedStrings,
-  stringScales,
+  fretBoard,
+  scale,
+  keyNote,
   showFretBar,
   onTune,
   theme
 }: Props) {
-  console.log("onTune", onTune);
-
   const fretBarStyle = [
     `background-color: ${theme.base00}`,
     `border-color: ${theme.base03}`
@@ -97,7 +89,7 @@ export default function fretBoard({
   const fretBar =
     showFretBar &&
     html`<div class="fret-labels" style=${fretBarStyle}>
-      ${[...Array(fretCount)].map((_, i) => {
+      ${[...Array(fretBoard.getFretCount())].map((_, i) => {
         if (i === 0) {
           return html`<div>[*]</div>`;
         }
@@ -112,23 +104,22 @@ export default function fretBoard({
   ].join(";");
 
   const tuningPegs = html`<div class="tuning-pegs" style=${tuningPegsStyle}>
-    ${tunedStrings
-      .map(string =>
-        noteSelector({
-          scaleSystem,
-          note: string.tuningNote,
-          onNoteSelect: (_n: Note) => {},
-          theme
-        })
-      )
-      .reverse()}
+    ${fretBoard.tunedStrings.map(string =>
+      noteSelector({
+        scaleSystem: fretBoard.scaleSystem,
+        note: string.tuningNote,
+        onNoteSelect: (n: Note) => onTune(string.id, n),
+        theme
+      })
+    )}
   </div>`;
 
   const stringStyle = `border-color: ${theme.base09}`;
+  const stringScales = fretBoard.getNotesInScale(scale, keyNote);
 
   const board = html`<div class="board">
     ${stringScales.map(stringScale => {
-      const fretSegments = [...Array(fretCount)].map((_, i) => {
+      const fretSegments = [...Array(fretBoard.getFretCount())].map((_, i) => {
         return fretSegment({ stringScale, fret: i, theme });
       });
 

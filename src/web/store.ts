@@ -17,7 +17,7 @@ export default function store(
   emitter.on("set-instrument", function(
     instrument: instrument.FrettedInstrument
   ) {
-    state.activeInstrument = instrument;
+    state.activeInstrumentName = instrument.name;
     emitter.emit("render");
   });
 
@@ -28,6 +28,26 @@ export default function store(
 
   emitter.on("set-scale", function(scale: Scale) {
     state.activeScale = scale;
+    emitter.emit("render");
+  });
+
+  emitter.on("set-instrument-tuning", function({
+    instrumentName,
+    stringID,
+    newTuning
+  }: {
+    instrumentName: string;
+    stringID: string;
+    newTuning: Note;
+  }) {
+    const instrument = state.instruments.get(instrumentName);
+
+    if (typeof instrument === "undefined") {
+      return;
+    }
+
+    instrument.fretBoard.setStringTuningNote(stringID, newTuning);
+
     emitter.emit("render");
   });
 }

@@ -8,7 +8,7 @@
     "choo-web": "./bin/choo-web.js"
   },
   "scripts": {
-    "dev": "tsc; ./bin/choo-web.js --dev --port '8080'"
+    "dev": "tsc && node ./dist/bin/choo-web.js --dev --port 8080"
   },
   "repository": {
     "type": "git",

@@ -27,10 +27,11 @@ export default function mainView(state: AppState, emit: ChooEmit) {
         scaleSystem: state.scaleSystem,
         keyNote: state.keyNote,
         instruments: state.instruments,
-        activeInstrument: state.activeInstrument,
+        activeInstrumentName: state.activeInstrumentName,
         onKeySelect,
         onInstrumentSelect,
         onScaleSelect,
+        onGuitarTune,
         theme: state.theme
       });
       break;
@@ -85,5 +86,13 @@ export default function mainView(state: AppState, emit: ChooEmit) {
 
   function onScaleSelect(scale: Scale) {
     emit("set-scale", scale);
+  }
+
+  function onGuitarTune(stringID: string, newTuning: Note) {
+    emit("set-instrument-tuning", {
+      instrumentName: "guitar",
+      stringID,
+      newTuning
+    });
   }
 }

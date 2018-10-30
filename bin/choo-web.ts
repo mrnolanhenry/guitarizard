@@ -33,11 +33,13 @@ interface Main {
     const server = new AppServer(appEntry, $<number>("port"), {
       isDev: $("dev"),
       appServerState: {
-        activeInstrumentName: "banjo",
+        activeInstrumentName: "guitar",
         activeScaleName: "blues",
         scaleSystemName: "diatonic",
         keyNoteID: "E",
-        activeToolName: "chordbook"
+        activeToolName: "chordbook",
+        guitarTuningNoteIDs :["E", "A", "D", "G", "B", "E"],
+        banjoTuningNoteIDs: ["G", "D", "G", "B", "D"]
       }
     });
 

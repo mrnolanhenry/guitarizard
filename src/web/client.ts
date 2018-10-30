@@ -11,9 +11,11 @@ const devtools = require("choo-devtools");
 
 export type ChooEmit = (name: string, ...args: any[]) => void;
 
+type InstrumentMap = Map<string, instrument.FrettedInstrument>;
+
 export interface AppState {
-  instruments: Array<instrument.FrettedInstrument>;
-  activeInstrument: instrument.FrettedInstrument;
+  instruments: InstrumentMap;
+  activeInstrumentName?: string;
   activeScale: Scale;
   keyNote: Note;
   scaleSystem: ScaleSystem;
@@ -91,21 +93,26 @@ export function initStateFromServer(appServerState: AppServerState): AppState {
   const diatonic = noteLib.data.scaleSystem.diatonic;
   const scales = noteLib.data.scales;
 
-  const instruments = [
+  const instruments: InstrumentMap = new Map();
+  instruments.set(
+    "guitar",
     new noteLib.instrument.Guitar(
       21,
-      ["E", "A", "D", "G", "B", "E"].map(noteID =>
+      appServerState.guitarTuningNoteIDs.map(noteID =>
         diatonic.getNoteFromID(noteID)
       )
-    ),
+    )
+  );
+
+  instruments.set(
+    "banjo",
     new noteLib.instrument.Banjo(
       21,
-      ["G", "D", "G", "B", "D"].map(noteID => diatonic.getNoteFromID(noteID))
+      appServerState.banjoTuningNoteIDs.map(noteID =>
+        diatonic.getNoteFromID(noteID)
+      )
     )
-  ];
-
-  const activeInstrument =
-    instruments[appServerState.activeInstrumentName === "guitar" ? 0 : 1];
+  );
 
   const activeScale =
     scales.find(s => s.name === appServerState.activeScaleName) || scales[14];
@@ -118,7 +125,7 @@ export function initStateFromServer(appServerState: AppServerState): AppState {
   return {
     theme,
     instruments,
-    activeInstrument,
+    activeInstrumentName: appServerState.activeInstrumentName,
     activeScale,
     keyNote,
     scaleSystem,

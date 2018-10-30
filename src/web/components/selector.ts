@@ -16,7 +16,7 @@ const prefix = css`
 
 interface Props<T> {
   items: Array<T>;
-  activeItem: T;
+  activeItem?: T;
   onChange: (value: T) => void;
   getKey?: (value: T) => string;
   getValue?: (value: T) => string;
@@ -38,7 +38,10 @@ export default function selector<T>({
   const options = items.map((item: T) => {
     const k = keyFn(item);
     const v = valueFn(item);
-    return html`<option selected=${k === keyFn(activeItem)}
+
+    const isSelected = activeItem ? k === keyFn(activeItem) : false;
+
+    return html`<option selected=${isSelected}
                         value="${k}">${v}</option>`;
   });
 
