@@ -84,17 +84,16 @@ export default function fretBoard({
 }: Props) {
   const fretBarStyle = [
     `background-color: ${theme.base00}`,
-    `border-color: ${theme.base03}`
+    `border-color: ${theme.base01}`
   ].join(";");
 
   const fretBar =
     showFretBar &&
-    html`<div class="fret-labels" style=${fretBarStyle}>
+    html`<div class="fret-labels">
       ${[...Array(fretBoard.getFretCount())].map((_, i) => {
-        if (i === 0) {
-          return html`<div>*</div>`;
-        }
-        return html`<div>${i}</div>`;
+        return html`<div style=${fretBarStyle}>
+          ${i === 0 ? '*' : i}
+        </div>`;
       })}
     </div>`;
 

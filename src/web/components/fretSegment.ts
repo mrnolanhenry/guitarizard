@@ -10,6 +10,8 @@ const prefix = css`
     align-items: center;
     justify-content: center;
     align-self: center;
+    position: relative;
+    height: 100%;
   }
 
   :host > .inner {
@@ -54,6 +56,17 @@ const prefix = css`
     bottom: 0;
     width: 2px;
   }
+
+  :host > .inner > .fret-line:nth-child(1) {
+    width: 7px;
+  }
+
+  :host > .background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+  }
 `;
 
 interface Props {
@@ -70,38 +83,24 @@ export default function fretSegment({ stringScale, fret, theme }: Props) {
 
   const noteDisplay = note ? note.value.id : "";
 
-  const style = [
-    // `background-color: ${theme.base07}`,
-    // `color: ${noteDisplay ? theme.base06 : theme.base03}`,
-    // `font-weight: ${noteDisplay ? 900 : 300}`,
-    // `border-color: ${theme.base0D}`
-  ].join(";");
-
-  const innerStyle = [
-    // `background-color: ${theme.base01}`,
-    // `color: ${theme.base0B}`
-  ].join(";");
-
   const fretLineStyle = `background-color: ${theme.base01}`;
 
   const stringLineStyle = `background-color: ${theme.base07}`;
 
-  const noteContainerStyle = [
-    // `background-color: ${theme.base01}`,
-    // `color: ${theme.base05}`
-  ].join(";");
-
   const noteTextStyle = [
-    `background-color: ${theme.base01}`,
+    `background-color: ${theme.base00}`,
     `color: ${theme.base05}`
   ].join(";");
 
-  return html`<div class=${prefix} style=${style}>
-    <div class="inner" style=${innerStyle}>
+  const backgroundStyle = fret === 0 ? `background-color: ${theme.base01}` : "";
+
+  return html`<div class=${prefix}>
+    <div class="background" style=${backgroundStyle}></div>
+    <div class="inner">
       <div class="string-line" style=${stringLineStyle}></div>
       ${note &&
         html`
-        <div class="note-container" style=${noteContainerStyle}>
+        <div class="note-container">
           <div class="note-text" style=${noteTextStyle}>${noteDisplay}</div>
         </div>`}
       <div class="fret-line" style=${fretLineStyle}></div>
