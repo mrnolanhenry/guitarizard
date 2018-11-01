@@ -48,13 +48,31 @@ async function handleRequest(
     appCSS?: string;
   }
 ) {
+  if (conn.req.url === "/favicon.ico") {
+    const filePath = path.resolve(
+      __dirname,
+      "..",
+      "..",
+      "static",
+      "favicon.ico"
+    );
+
+    conn.res.setHeader("Content-Type", "image/x-icon");
+    await send(createReadStream(filePath), conn.res);
+    return conn.res.end();
+  }
+
   if (
     typeof conn.req.url !== "undefined" &&
     conn.req.url.startsWith("/static")
   ) {
     const fileName = path.basename(conn.req.url);
 
-    conn.res.setHeader("Content-Type", "image/png");
+    if (conn.req.url.endsWith(".png")) {
+      conn.res.setHeader("Content-Type", "image/png");
+    } else {
+      return conn.res.end();
+    }
 
     const filePath = path.resolve(__dirname, "..", "..", "static", fileName);
 
