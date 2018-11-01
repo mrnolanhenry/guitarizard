@@ -141,7 +141,7 @@ export default function chordbook({
       })}
 
       ${noteSelector({
-        label: "key",
+        label: "Key:",
         scaleSystem,
         note: keyNote,
         onNoteSelect: onKeySelect,

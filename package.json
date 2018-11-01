@@ -22,7 +22,7 @@
     "css-extract": "^1.3.0",
     "main": "https://git.querie.cc/libs/main/archive/101.0.0.tar.gz",
     "node-watch": "^0.5.8",
-    "note-lib": "https://sixstring-bot:9ttC8vxHFmfbGPU3oxKFyHiUgbLpGo4NYGh28wKFDLPAjH7NZXJHmXF47gDqc6ZCCdEWajM8wG5iEqrAhrbT8ofMsffYjcYc6vxPzzvCq8QVNeHND2heLPKy25RavmQK@git.querie.cc/sixstring/note-lib/archive/0.0.3-alpha2.tar.gz",
+    "note-lib": "https://sixstring-bot:9ttC8vxHFmfbGPU3oxKFyHiUgbLpGo4NYGh28wKFDLPAjH7NZXJHmXF47gDqc6ZCCdEWajM8wG5iEqrAhrbT8ofMsffYjcYc6vxPzzvCq8QVNeHND2heLPKy25RavmQK@git.querie.cc/sixstring/note-lib/archive/0.0.4-alpha.tar.gz",
     "sheetify": "^7.3.3",
     "tsify": "^4.0.0",
     "watchify": "^3.11.0",

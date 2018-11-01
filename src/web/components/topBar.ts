@@ -62,7 +62,7 @@ export default function topBar({
 }: Props) {
   const auth = isAuthenticated
     ? html`<div onclick=${onLogoutClick}>logout</div>`
-    : html`<div onclick=${onLoginClick}>login</div>`;
+    : html`<div onclick=${onLoginClick}></div>`;
 
   const logo = html`<img class="logo" src="static/guitarizard_logo_sq_20.png">`;
 

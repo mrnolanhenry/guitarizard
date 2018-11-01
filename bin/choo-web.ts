@@ -34,7 +34,7 @@ interface Main {
       isDev: $("dev"),
       appServerState: {
         activeInstrumentName: "guitar",
-        activeScaleName: "blues",
+        activeScaleName: "pentatonic major",
         scaleSystemName: "diatonic",
         keyNoteID: "E",
         activeToolName: "chordbook",
