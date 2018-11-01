@@ -92,7 +92,12 @@ export default function fretSegment({ stringScale, fret, theme }: Props) {
     `color: ${theme.base05}`
   ].join(";");
 
-  const backgroundStyle = fret === 0 ? `background-color: ${theme.base01}` : "";
+  console.log(stringScale);
+
+  const backgroundStyle =
+    fret <= stringScale.config.fret.start
+      ? `background-color: ${theme.base01}`
+      : "";
 
   return html`<div class=${prefix}>
     <div class="background" style=${backgroundStyle}></div>
