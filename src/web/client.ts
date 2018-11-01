@@ -114,6 +114,46 @@ export function initStateFromServer(appServerState: AppServerState): AppState {
     )
   );
 
+  instruments.set(
+    "ukulele",
+    new noteLib.instrument.Ukulele(
+      19,
+      appServerState.ukuleleTuningNoteIDs.map(noteID =>
+        diatonic.getNoteFromID(noteID)
+      )
+    )
+  );
+
+  instruments.set(
+    "bass-4",
+    new noteLib.instrument.Bass(
+      21,
+      appServerState.bassFourTuningNoteIDs.map(noteID =>
+        diatonic.getNoteFromID(noteID)
+      )
+    )
+  );
+
+  instruments.set(
+    "bass-5",
+    new noteLib.instrument.Bass(
+      21,
+      appServerState.bassFiveTuningNoteIDs.map(noteID =>
+        diatonic.getNoteFromID(noteID)
+      )
+    )
+  );
+
+  instruments.set(
+    "bass-6",
+    new noteLib.instrument.Bass(
+      21,
+      appServerState.bassSixTuningNoteIDs.map(noteID =>
+        diatonic.getNoteFromID(noteID)
+      )
+    )
+  );
+
   const activeScale =
     scales.find(s => s.name === appServerState.activeScaleName) || scales[14];
 

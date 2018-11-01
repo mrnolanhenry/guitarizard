@@ -6,4 +6,8 @@ export interface AppServerState {
   activeToolName: string;
   guitarTuningNoteIDs: string[];
   banjoTuningNoteIDs: string[];
+  ukuleleTuningNoteIDs: string[];
+  bassFourTuningNoteIDs: string[];
+  bassFiveTuningNoteIDs: string[];
+  bassSixTuningNoteIDs: string[];
 }

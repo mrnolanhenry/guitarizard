@@ -11,6 +11,7 @@ const prefix = css`
     border-style: solid;
     cursor: pointer;
     padding: 0.2em;
+    height: 2em;
   }
 `;
 

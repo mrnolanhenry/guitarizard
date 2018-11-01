@@ -6,6 +6,9 @@ import scaleSelector from "./scaleSelector";
 import * as css from "sheetify";
 import { Base16Theme } from "../colors";
 import guitar from "./guitar";
+import banjo from "./banjo";
+import ukulele from "./ukulele";
+import bass from "./bass";
 
 const prefix = css`
   :host {
@@ -33,6 +36,11 @@ interface Props {
   onInstrumentSelect: (instrument: instrument.FrettedInstrument) => void;
   onScaleSelect: (scale: Scale) => void;
   onGuitarTune: (stringID: string, newTuning: Note) => void;
+  onBanjoTune: (stringID: string, newTuning: Note) => void;
+  onUkuleleTune: (stringID: string, newTuning: Note) => void;
+  onBassFourTune: (stringID: string, newTuning: Note) => void;
+  onBassFiveTune: (stringID: string, newTuning: Note) => void;
+  onBassSixTune: (stringID: string, newTuning: Note) => void;
   theme: Base16Theme;
 }
 
@@ -46,6 +54,11 @@ export default function chordbook({
   onInstrumentSelect,
   onScaleSelect,
   onGuitarTune,
+  onBanjoTune,
+  onUkuleleTune,
+  onBassFourTune,
+  onBassFiveTune,
+  onBassSixTune,
   theme
 }: Props) {
   const settingsBarStyle = [`background-color: ${theme.base01}`].join(";");
@@ -66,8 +79,58 @@ export default function chordbook({
     });
   }
 
+  if (instrument && instrument.name === "banjo") {
+    instrumentComponent = banjo({
+      banjo: instrument as instrument.Banjo,
+      keyNote,
+      scale: activeScale,
+      onTune: onBanjoTune,
+      theme
+    });
+  }
+
+  if (instrument && instrument.name === "ukulele") {
+    instrumentComponent = ukulele({
+      ukulele: instrument as instrument.Ukulele,
+      keyNote,
+      scale: activeScale,
+      onTune: onUkuleleTune,
+      theme
+    });
+  }
+
+  if (instrument && instrument.name === "bass-4") {
+    instrumentComponent = bass({
+      bass: instrument as instrument.Bass,
+      keyNote,
+      scale: activeScale,
+      onTune: onBassFourTune,
+      theme
+    });
+  }
+
+  if (instrument && instrument.name === "bass-5") {
+    instrumentComponent = bass({
+      bass: instrument as instrument.Bass,
+      keyNote,
+      scale: activeScale,
+      onTune: onBassFiveTune,
+      theme
+    });
+  }
+
+  if (instrument && instrument.name === "bass-6") {
+    instrumentComponent = bass({
+      bass: instrument as instrument.Bass,
+      keyNote,
+      scale: activeScale,
+      onTune: onBassSixTune,
+      theme
+    });
+  }
+
   return html`
-  <div class=${prefix}>
+    <div class=${prefix}>
 
     <div class="settings-bar" style=${settingsBarStyle}>
       ${instrumentSelector({
@@ -86,8 +149,8 @@ export default function chordbook({
       })}
 
       ${scaleSelector({ activeScale, onScaleSelect, theme })}
-     </div>
+    </div>
 
-     ${instrumentComponent}
-  </div>`;
+      ${instrumentComponent}
+    </div>`;
 }

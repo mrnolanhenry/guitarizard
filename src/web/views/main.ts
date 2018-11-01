@@ -32,6 +32,11 @@ export default function mainView(state: AppState, emit: ChooEmit) {
         onInstrumentSelect,
         onScaleSelect,
         onGuitarTune,
+        onBanjoTune,
+        onUkuleleTune,
+        onBassFourTune,
+        onBassFiveTune,
+        onBassSixTune,
         theme: state.theme
       });
       break;
@@ -91,6 +96,46 @@ export default function mainView(state: AppState, emit: ChooEmit) {
   function onGuitarTune(stringID: string, newTuning: Note) {
     emit("set-instrument-tuning", {
       instrumentName: "guitar",
+      stringID,
+      newTuning
+    });
+  }
+
+  function onBanjoTune(stringID: string, newTuning: Note) {
+    emit("set-instrument-tuning", {
+      instrumentName: "banjo",
+      stringID,
+      newTuning
+    });
+  }
+
+  function onUkuleleTune(stringID: string, newTuning: Note) {
+    emit("set-instrument-tuning", {
+      instrumentName: "ukulele",
+      stringID,
+      newTuning
+    });
+  }
+
+  function onBassFourTune(stringID: string, newTuning: Note) {
+    emit("set-instrument-tuning", {
+      instrumentName: "bass-4",
+      stringID,
+      newTuning
+    });
+  }
+
+  function onBassFiveTune(stringID: string, newTuning: Note) {
+    emit("set-instrument-tuning", {
+      instrumentName: "bass-5",
+      stringID,
+      newTuning
+    });
+  }
+
+  function onBassSixTune(stringID: string, newTuning: Note) {
+    emit("set-instrument-tuning", {
+      instrumentName: "bass-6",
       stringID,
       newTuning
     });

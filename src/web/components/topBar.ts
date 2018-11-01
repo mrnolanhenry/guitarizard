@@ -64,7 +64,7 @@ export default function topBar({
     ? html`<div onclick=${onLogoutClick}>logout</div>`
     : html`<div onclick=${onLoginClick}>login</div>`;
 
-  const logo = html`<img class="logo" src="static/guitarizard-logo-20.png">`;
+  const logo = html`<img class="logo" src="static/guitarizard_logo_sq_20.png">`;
 
   const centerStyle = [
     `color: ${theme.base06}`,
@@ -78,15 +78,15 @@ export default function topBar({
   ].join(";");
 
   return html`<div class=${prefix} style=${style}>
-    <div class="left">
-      ${toolSelector({ activeToolName, theme, onToolSelect })}
-    </div>
-    <div class="center" style=${centerStyle}>
-      ${logo}
+  <div class="left">
+    ${toolSelector({ activeToolName, theme, onToolSelect })}
+  </div>
+  <div class="center" style=${centerStyle}>
+    ${logo}
       <span>guitarizard</span>
-    </div>
-    <div class="right">
-      ${auth}
-    </div>
+  </div>
+  <div class="right">
+    ${auth}
+  </div>
   </div>`;
 }

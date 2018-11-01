@@ -38,8 +38,12 @@ interface Main {
         scaleSystemName: "diatonic",
         keyNoteID: "E",
         activeToolName: "chordbook",
-        guitarTuningNoteIDs :["E", "A", "D", "G", "B", "E"],
-        banjoTuningNoteIDs: ["G", "D", "G", "B", "D"]
+        guitarTuningNoteIDs: ["E", "A", "D", "G", "B", "E"],
+        banjoTuningNoteIDs: ["G", "D", "G", "B", "D"],
+        ukuleleTuningNoteIDs: ["G", "C", "E", "A"],
+        bassFourTuningNoteIDs: ["E", "A", "D", "G"],
+        bassFiveTuningNoteIDs: ["B", "E", "A", "D", "G"],
+        bassSixTuningNoteIDs: ["B", "E", "A", "D", "G", "C"]
       }
     });
 

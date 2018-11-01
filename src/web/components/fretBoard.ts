@@ -29,7 +29,7 @@ const prefix = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    border-width: 0 1px 1px 0;
+    border-width: 0 0 0 2px;
     border-style: solid;
   }
 
@@ -58,6 +58,7 @@ const prefix = css`
 
   :host > .board > .string {
     flex-grow: 1;
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
@@ -91,7 +92,7 @@ export default function fretBoard({
     html`<div class="fret-labels" style=${fretBarStyle}>
       ${[...Array(fretBoard.getFretCount())].map((_, i) => {
         if (i === 0) {
-          return html`<div>[*]</div>`;
+          return html`<div>*</div>`;
         }
         return html`<div>${i}</div>`;
       })}
@@ -117,7 +118,9 @@ export default function fretBoard({
   const stringStyle = `border-color: ${theme.base09}`;
   const stringScales = fretBoard.getNotesInScale(scale, keyNote);
 
-  const board = html`<div class="board">
+  const boardStyle = `background-color: ${theme.base0F}`;
+
+  const board = html`<div class="board" style=${boardStyle}>
     ${stringScales.map(stringScale => {
       const fretSegments = [...Array(fretBoard.getFretCount())].map((_, i) => {
         return fretSegment({ stringScale, fret: i, theme });
