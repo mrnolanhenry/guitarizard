@@ -5,10 +5,13 @@
   "description": "",
   "main": "./dist/index.js",
   "bin": {
-    "choo-web": "./bin/choo-web.js"
+    "choo-web": "./dist/bin/choo-web.js"
   },
   "scripts": {
-    "dev": "tsc && node ./dist/bin/choo-web.js --dev --port 8080"
+    "dev": "tsc && node ./dist/bin/choo-web.js --dev --port 8080",
+    "clean": "rm -fr node_modules dist result",
+    "build:node2nix": "npm run clean && node2nix --nodejs-10 -l package-lock.json --supplement-input supplement.json",
+    "build:nix": "npm run build:node2nix; nix-build override.nix -A package"
   },
   "repository": {
     "type": "git",
@@ -17,25 +20,26 @@
   "author": "Jay Querie <jay@querie.cc>",
   "license": "",
   "dependencies": {
+    "@types/browserify": "^12.0.36",
+    "@types/node": "^10.12.0",
+    "@types/sheetify": "^6.0.1",
+    "@types/watchify": "^3.7.4",
+    "@types/ws": "^6.0.1",
     "browserify": "^16.2.3",
+    "typescript": "^3.1.3",
     "choo": "^6.13.0",
     "css-extract": "^1.3.0",
     "main": "https://git.querie.cc/libs/main/archive/101.0.0.tar.gz",
     "node-watch": "^0.5.8",
     "note-lib": "https://sixstring-bot:9ttC8vxHFmfbGPU3oxKFyHiUgbLpGo4NYGh28wKFDLPAjH7NZXJHmXF47gDqc6ZCCdEWajM8wG5iEqrAhrbT8ofMsffYjcYc6vxPzzvCq8QVNeHND2heLPKy25RavmQK@git.querie.cc/sixstring/note-lib/archive/0.0.4-alpha.tar.gz",
     "sheetify": "^7.3.3",
+    "ws": "^6.1.0",
+    "choo-devtools": "^2.5.1",
     "tsify": "^4.0.0",
-    "watchify": "^3.11.0",
-    "ws": "^6.1.0"
+    "watchify": "^3.11.0"
   },
   "devDependencies": {
-    "@types/browserify": "^12.0.36",
-    "@types/node": "^10.12.0",
-    "@types/sheetify": "^6.0.1",
-    "@types/watchify": "^3.7.4",
-    "@types/ws": "^6.0.1",
-    "choo-devtools": "^2.5.1",
-    "prettier": "^1.14.3",
-    "typescript": "^3.1.3"
+    "node2nix": "^1.6.0",
+    "prettier": "^1.14.3"
   }
 }
