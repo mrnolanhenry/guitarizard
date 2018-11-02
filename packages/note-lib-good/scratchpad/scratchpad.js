@@ -398,18 +398,20 @@ function sortByStringOrder(instrument) {
 // console.log(JSON.stringify(sortByStringOrder(banjo),null,4));
 // console.log(JSON.stringify(banjo,null,4));
 
-
+// Given a full instrument with strings, notes, frets, etc.
+// create a simpler instrument object with only necessary properties used to create numerical fretBoard for chord functions:
+// strings, openFrets, and lastFret
 function simplifyInstrument(instrument){
   let clonedInstrument = sortByStringOrder(instrument);
   let simpleInstrument = {};
   let simpleStrings = [];
-  let simpleStartFrets = [];
+  let simpleopenFrets = [];
   for (let i = 0; i < clonedInstrument.strings.length;i++){
     simpleStrings.push(clonedInstrument.strings[i].stringTuning);
-    simpleStartFrets.push(clonedInstrument.strings[i].notes[0].fretNum);
+    simpleopenFrets.push(clonedInstrument.strings[i].notes[0].fretNum);
   }
   simpleInstrument.strings = simpleStrings;
-  simpleInstrument.startFrets = simpleStartFrets;
+  simpleInstrument.openFrets = simpleopenFrets;
   let fretAmount = clonedInstrument.strings[0].notes.length - 1;
   simpleInstrument.lastFret = clonedInstrument.strings[0].notes[fretAmount].fretNum
   return simpleInstrument;
@@ -467,8 +469,6 @@ function getStringOffsets(array) {
 // console.log(getStringOffsets(['E','A','D','G','B','E']));
 // console.log(getStringOffsets(['D','G','B','D','G']));
 
-
-
 // Generates a 1d array of strings for x number of strings
 // with the first argument being amount of frets
 // and second being starting fret
@@ -489,6 +489,7 @@ function genericString(frets,startFret){
 
 // console.log(genericString(21,5));
 
+//Given a string and a number of semitones to offset by, creates a new modified string
 function modifyString(genericString,offsetNum) {
   let newString = [];
   // console.log(genericString.length);
@@ -504,25 +505,138 @@ function modifyString(genericString,offsetNum) {
 
 // console.log(modifyString(genericString(21,5),7));
 
-
-function genericFretBoard(instrument){
+// Given an instrument, creates a 2d array of numbers corresponding to intervals/semitones from lowest note
+function genericFretBoard(simpleInstrument){
   let newStrings = [];
-  let simpleInstrument = simplifyInstrument(instrument);
   let stringOffsets = getStringOffsets(simpleInstrument.strings);
-  let startFrets = simpleInstrument.startFrets;
+  let openFrets = simpleInstrument.openFrets;
   let lastFretNum = simpleInstrument.lastFret;
   for (let i = 0; i < stringOffsets.length; i++) {
-    let currentString = genericString(lastFretNum,startFrets[i]);
-    newStrings.push(modifyString(currentString,stringOffsets[i] - startFrets[i]));
+    let currentString = genericString(lastFretNum,openFrets[i]);
+    let currentModString = modifyString(currentString,stringOffsets[i] - openFrets[i]);
+    newStrings.push(currentModString);
   }
   return newStrings;
 }
 
-// console.log(JSON.stringify(genericFretBoard(banjo),null,4));
-console.log(JSON.stringify(genericFretBoard(guitar),null,4));
+// console.log(JSON.stringify(genericFretBoard(simplifyInstrument(banjo)),null,4));
+// console.log(JSON.stringify(genericFretBoard(simplifyInstrument(guitar)),null,4));
+
+// Given a simplified instrument, startingFret, and fretWidth,
+// creates a 2d array of numbers corresponding to intervals/semitones from lowest note
+// represents a cross section of the instrument to check Chords against.
+function createCrossSection(simpleInstrument,startFret,fretWidth){
+  let newStrings = [];
+  let stringOffsets = getStringOffsets(simpleInstrument.strings);
+  let openFrets = simpleInstrument.openFrets;
+  let lastFretNum = simpleInstrument.lastFret;
+  for (let i = 0; i < stringOffsets.length; i++) {
+    let currentStringOpen = genericString(lastFretNum,openFrets[i]).splice(openFrets[i],1);
+    let currentStringPressed = genericString(lastFretNum,openFrets[i]).splice(startFret,fretWidth);
+    let openFretIndex = currentStringPressed.indexOf(currentStringOpen[0])
+    if (openFretIndex !== -1) {
+      currentStringPressed[openFretIndex] = null;
+    }
+    let currentString = currentStringOpen.concat(currentStringPressed);
+    let currentModString = modifyString(currentString,stringOffsets[i] - openFrets[i]);
+    newStrings.push(currentModString);
+  }
+  return newStrings;
+}
+
+// console.log(JSON.stringify(createCrossSection(simplifyInstrument(banjo),1,5),null,4));
+// console.log(JSON.stringify(createCrossSection(simplifyInstrument(guitar),1,5),null,4));
+
+// Given an instrument, get a list of valid strings to loop through when finding chords
+function getValidStrings(simpleInstrument) {
+  let validStrings = [];
+  for (let i = 0; i < simpleInstrument.strings.length; i++) {
+    validStrings.push(i)
+    }
+  return validStrings;
+}
+
+// console.log(getValidStrings(simplifyInstrument(guitar)));
+
+// Given an array of valid strings, set one as invalid (based on stringOrder) to no longer loop through
+function removeInvalidString(validStrings, invalidString){
+    const invalidStringIndex = validStrings.indexOf(invalidString)
+    if (invalidStringIndex === -1) {
+      return validStrings;
+    }
+    validStrings.splice(invalidStringIndex,1);
+    return validStrings;
+}
+
+// console.log(removeInvalidString(getValidStrings(simplifyInstrument(guitar)),3));
 
 
-function createCrossSection(instrument,length) {
-  let crossSection = [];
-  
+// Given an array of valid strings, set all including first valid string as invalid (based on stringOrder) to no longer loop through
+function removeInvalidStringsBelow(validStrings, firstValidString){
+    const stringIndex = validStrings.indexOf(firstValidString)
+    if (stringIndex === -1) {
+      return validStrings;
+    }
+    validStrings.splice(0,stringIndex + 1);
+    return validStrings;
+}
+
+// console.log(removeInvalidStringsBelow(getValidStrings(simplifyInstrument(guitar)),3));
+
+// Given an interval number and a generic string, find the index of that interval on the string
+function findIntervalOnString(interval,string) {
+  let newString = [];
+  for (let i = 0; i < string.length; i++) {
+    if (string[i] !== null){
+      newString[i] = string[i] % 12;
+    } else {
+      newString[i] = string[i];
+    }
+  }
+  // console.log(JSON.stringify(string,null,4));
+  // console.log(JSON.stringify(newString,null,4));
+  return newString.indexOf(interval);
+}
+
+
+
+const simpleBanjo = simplifyInstrument(banjo);
+const simpleBanjoBoard = genericFretBoard(simpleBanjo);
+const simpleBanjoStrings = getValidStrings(simpleBanjo);
+const simpleGuitar = simplifyInstrument(guitar);
+const simpleGuitarStrings = getValidStrings(simpleGuitar);
+
+
+// console.log(findIntervalOnString(7,simpleBanjoBoard[0]));
+// console.log(findIntervalOnString(7,simpleBanjoBoard[1]));
+// console.log(findIntervalOnString(7,createCrossSection(simpleBanjo,1,5)[1]));
+
+// console.log(findIntervalOnString(7,genericString(21,5)));
+// console.log(findIntervalOnString(21,modifyString(genericString(21,5),7)));
+
+
+function findIntervalOnBoard(interval,fretBoard, validStrings) {
+  for (let i = validStrings[0]; i < fretBoard.length; i++) {
+    const indexFound = findIntervalOnString(interval,fretBoard[i]);
+    if (validStrings.indexOf(i) !== -1 && indexFound !== -1) {
+      return {
+        interval: interval,
+        string: i,
+        fretNum: indexFound
+      }
+    }
+  }
+}
+
+const remainingBanjoStrings = removeInvalidStringsBelow(simpleBanjoStrings,2);
+console.log(remainingBanjoStrings);
+console.log(findIntervalOnBoard(7,simpleBanjoBoard, remainingBanjoStrings));
+// console.log(findIntervalOnBoard(7,createCrossSection(simpleBanjo,1,5), simpleBanjoStrings));
+
+//Given a simplified instrument, return an offset chord at a given cross-section
+function findChordAtSection(offsetChord,simpleInstrument,startFret,fretWidth) {
+  let crossSection = createCrossSection(simpleInstrument,startFret,fretWidth);
+  for (let i = 0; i < crossSection.length; i++){
+
+  }
 }
