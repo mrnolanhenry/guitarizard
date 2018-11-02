@@ -4,8 +4,9 @@ const diatonic = require('./scaleSystem/diatonic');
 module.exports = [
   new Scale('aeolian', diatonic, [0,2,3,5,7,8,10,12]),
 
-  // new Scale('algerian', diatonic, [0,2,3,5,6,7,8,11,12]),
-  // algerian scale is super funky changes based on octave -- more accurately [0,2,3,6,7,8,11,12,14,15,17,19,20,23,24]
+  new Scale('algerian (1st octave)', diatonic, [0,2,3,6,7,8,11,12]),
+  new Scale('algerian (2nd octave)', diatonic, [0,2,3,5,7,8,11,12]),
+  // algerian scale is super funky - changes based on octave
 
   new Scale('altered', diatonic, [0,1,3,4,6,8,10,12]),
   // altered scale AKA super Locrian AKA Locrian b4
