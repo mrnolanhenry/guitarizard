@@ -6,12 +6,7 @@ import { Base16Theme } from "../colors";
 const prefix = css`
   :host {
     flex-grow: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-self: center;
     position: relative;
-    height: 100%;
   }
 
   :host > .inner {
@@ -35,7 +30,11 @@ const prefix = css`
   }
 
   :host > .inner > .note-container {
-    position: relative;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 3;
     display: flex;
     align-items: center;
@@ -91,8 +90,6 @@ export default function fretSegment({ stringScale, fret, theme }: Props) {
     `background-color: ${theme.base00}`,
     `color: ${theme.base05}`
   ].join(";");
-
-  console.log(stringScale);
 
   const backgroundStyle =
     fret <= stringScale.config.fret.start
