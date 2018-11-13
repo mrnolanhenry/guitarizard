@@ -1,23 +1,8 @@
-# choo-web server
+# guitarizard
 
-SSR'd choo frontend.
+Guitarizard's monorepo!
 
+## directory: web
 
-## SYNOPSIS
-
-choo-web [flags]
-
-
-## OPTIONS
-
-### -p PORT, --port PORT (required, default=80)
-
-The port that this web server listens on.
-
-### --dev
-
-Should we start as a development server?
-
-## AUTHORS
-
-Jay Querie <jay@querie.cc> ~ http://jayquerie.com
+Hold's the web frontend for guitarizard. Navigate
+there for further instructions.
