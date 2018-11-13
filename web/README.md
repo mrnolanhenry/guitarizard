@@ -2,6 +2,12 @@
 
 SSR'd choo frontend.
 
+## DEVELOPMENT
+
+```
+npm install
+npm run dev
+```
 
 ## SYNOPSIS
 
@@ -20,4 +26,4 @@ Should we start as a development server?
 
 ## AUTHORS
 
-Jay Querie <jay@querie.cc> ~ http://jayquerie.com
+Jay Querie <jay@querie.cc> ~ https://jayquerie.com
