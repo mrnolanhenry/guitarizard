@@ -3502,7 +3502,7 @@ let
   args = {
     name = "choo-web";
     packageName = "choo-web";
-    version = "0.0.0";
+    version = "0.0.3";
     src = ./.;
     dependencies = [
       sources."@choojs/findup-0.2.1"
