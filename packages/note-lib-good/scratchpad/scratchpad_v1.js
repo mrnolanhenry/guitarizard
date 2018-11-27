@@ -831,7 +831,7 @@ function findChordPositions(note,chord,instrument) {
 // console.log('ALL Chord Positions' ,findChordPositions('B',_7,guitar));
 // console.log('ALL Chord Positions' ,JSON.stringify(findChordPositions('B',_7,banjo),null,4));
 // console.log(findChordPositions('B',_7,guitar).length);
-console.log(findChordPositions('B',_7,banjo).length);
+console.log(findChordPositions('B',_7,banjo));
 
 
 const results = findChordPositions('B',_7,banjo).filter(data => {
