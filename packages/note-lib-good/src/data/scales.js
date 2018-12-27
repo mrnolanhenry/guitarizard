@@ -3,6 +3,7 @@ const diatonic = require('./scaleSystem/diatonic');
 
 module.exports = [
   new Scale('aeolian', diatonic, [0,2,3,5,7,8,10,12]),
+  // aeolian AKA natural minor AKA ethiopian Geez AKA ethiopian Ezel AKA melodic minor descending AKA natural (pure) minor
 
   new Scale('algerian (1st octave)', diatonic, [0,2,3,6,7,8,11,12]),
   new Scale('algerian (2nd octave)', diatonic, [0,2,3,5,7,8,11,12]),
@@ -86,8 +87,8 @@ module.exports = [
   // new Scale('ethiopian (a raray)', diatonic, [0,2,4,5,7,9,11,12]),
   // ethiopian (a raray) AKA ethiopian araray AKA major scale
 
-  new Scale('ethiopian (Geez)', diatonic, [0,2,3,5,7,8,10,12]),
-  // ethiopian Geez AKA ethiopian Ezel
+  // new Scale('ethiopian (Geez)', diatonic, [0,2,3,5,7,8,10,12]),
+  // natural minor AKA aeolian AKA ethiopian Geez AKA ethiopian Ezel AKA melodic minor descending AKA natural (pure) minor
 
   new Scale('half diminished', diatonic, [0,2,3,5,6,8,10,12]),
   // half diminished AKA locrian #2 AKA maybe half diminished #2
@@ -181,14 +182,16 @@ module.exports = [
   new Scale('moorish phrygian', diatonic, [0,1,3,4,5,7,8,10,11,12]),
   // moorish phrygian AKA phrygian/double harmonic major mixed
 
-  new Scale('natural minor', diatonic, [0,2,3,5,7,8,10,12]),
-  // natural minor AKA melodic minor descending AKA natural (pure) minor
+  // new Scale('natural minor', diatonic, [0,2,3,5,7,8,10,12]),
+  // natural minor AKA melodic minor descending AKA natural (pure) minor AKA aeolian AKA ethiopian Geez AKA ethiopian Ezel
 
   // new Scale('neapolitan', diatonic, [0,1,3,5,7,8,11,12]),
   // neapolitan scale in this form not found - only the major and minor versions
 
   new Scale('neapolitan major', diatonic, [0,1,3,5,7,9,11,12]),
   new Scale('neapolitan minor', diatonic, [0,1,3,5,7,8,10,12]),
+  // neapolitan minor AKA phrygian
+
   new Scale('nine tone scale', diatonic, [0,2,3,4,6,7,8,9,11,12]),
 
   // new Scale('octatonic (H-W)', diatonic, [0,1,3,4,6,7,9,10,12]),
@@ -211,7 +214,9 @@ module.exports = [
   new Scale('pentatonic minor', diatonic, [0,3,5,7,10,12]),
   new Scale('pentatonic neutral', diatonic, [0,2,5,7,10,12]),
   new Scale('persian', diatonic, [0,1,4,5,6,8,11,12]),
-  new Scale('phrygian', diatonic, [0,1,3,5,7,8,10,12]),
+
+  // new Scale('phrygian', diatonic, [0,1,3,5,7,8,10,12]),
+  // phrygian AKA neapolitan minor
 
   // new Scale('phrygian major', diatonic, [0,1,4,5,7,8,10,12]),
   // phrygian major AKA phrygian dominant AKA jewish (ahava rabba) AKA Freygish AKA altered Phrygian AKA dominant b2 b6 AKA Spanish Phrygian AKA Spanish Gypsy AKA Hijaz-Nahawand AKA Bayati maqam AKA Dastgāh-e Homāyoun
