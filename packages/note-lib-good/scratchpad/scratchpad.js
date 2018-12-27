@@ -681,9 +681,9 @@ function findChordAtSection(chord,simpleInstrument,startFret,fretWidth) {
 }
 
 // console.log(findChordAtSection(B7OnBanjo,simpleBanjo,1,21))
-console.log(findChordAtSection(B7OnBanjo,simpleBanjo,1,9))
-console.log(findChordAtSection(B7OnBanjo,simpleBanjo,2,8))
-console.log(simpleBanjo.strings);
+// console.log(findChordAtSection(B7OnBanjo,simpleBanjo,1,9))
+// console.log(findChordAtSection(B7OnBanjo,simpleBanjo,2,8))
+// console.log(simpleBanjo.strings);
 
 // console.log(findChordAtSection(B7OnGuitar,simpleGuitar,1,9))
 // console.log(findChordAtSection(B7OnGuitar,simpleGuitar,1,5))
@@ -692,4 +692,3 @@ console.log(simpleBanjo.strings);
 function findChordPositionsAtSection(chord,simpleInstrument,startFret,fretWidth) {
 
 }
-
