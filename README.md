@@ -2,7 +2,12 @@
 
 Guitarizard's monorepo!
 
-## directory: web
+## Development
 
-Hold's the web frontend for guitarizard. Navigate
-there for further instructions.
+In this directory:
+
+```
+npm install
+npx lerna bootstrap
+(cd packages/web; npm run dev)
+```
