@@ -1,0 +1,14 @@
+{
+  "name": "guitarizard",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Guitarizard's monorepo!",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://git.querie.cc/sixstring/guitarizard.git"
+  },
+  "dependencies": {
+    "lerna": "^3.8.0"
+  }
+}
