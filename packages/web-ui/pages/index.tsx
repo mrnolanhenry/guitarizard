@@ -1,9 +1,18 @@
 import { Component } from 'react';
 
+// interface Props {}
+// interface State {}
+//
+let whatever: string;
+
+whatever = 'foo';
+
+console.log(whatever);
+
 export default class Main extends Component {
-  constructor() {
-    super();
-  }
+  /* constructor() {
+   *   // super();
+   * } */
 
   render() {
     return <div>
