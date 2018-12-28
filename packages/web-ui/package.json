@@ -1,0 +1,21 @@
+{
+  "name": "guitarizard-web-ui",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@types/node": "^10.12.18",
+    "@zeit/next-typescript": "^1.1.1",
+    "next": "^7.0.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  },
+  "devDependencies": {
+    "@types/react": "^16.7.18",
+    "typescript": "^3.2.2"
+  }
+}
