@@ -1,0 +1,57 @@
+.fret-board {
+  display: grid;
+  grid-template-areas:
+    ".        fretLabels"
+    "tuning   board";
+  grid-template-columns: min-content auto;
+}
+
+.fret-board > .fret-labels {
+  grid-area: fretLabels;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.fret-board > .fret-labels > div {
+  flex-grow: 1;
+  width: 2.5em;
+  height: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-width: 0 0 0 2px;
+  border-style: solid;
+}
+
+.fret-board > .tuning-pegs {
+  grid-area: tuning;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-evenly;
+}
+
+.fret-board > .tuning-pegs > div {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5em;
+}
+
+.fret-board > .board {
+  grid-area: board;
+
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-evenly;
+}
+
+.fret-board > .board > .string {
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}

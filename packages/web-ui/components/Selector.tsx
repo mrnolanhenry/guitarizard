@@ -4,7 +4,7 @@ import { Base16Theme } from "../lib/colors";
 interface Props<T> {
   items: Array<T>; // list of items for the select
   activeItem?: T; // what is the active item?
-  onChange: (value: string) => void; // callback for user changes
+  onChange: (item: T) => void; // callback for user changes
   getValue?: (item: T) => string; // given an item, what is the option value?
   getDisplay?: (item: T) => any; // given an item, what should we display?
   theme: Base16Theme; // what theme should this component be?
@@ -19,15 +19,33 @@ export default class Selector<T> extends Component<Props<T>> {
   }
 
   onChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const activeValue = e.target.value;
-    this.props.onChange(activeValue);
-    this.setState({ activeValue });
+    e.preventDefault();
+
+    const key: string = e.target.value;
+
+    const item: T | undefined = this.props.items.find((item: T) => this.value(item) === key);
+
+    if (typeof item !== "undefined") {
+      this.props.onChange(item as T);
+    }
+  }
+
+  value(item: T) {
+    const fn = typeof this.props.getValue === "undefined" ?
+               (a: T) => String(a) : this.props.getValue;
+
+    return fn(item);
+  }
+
+  display(item: T) {
+    const fn = typeof this.props.getDisplay === "undefined" ?
+               (a: T) => String(a) : this.props.getDisplay;
+
+    return fn(item);
   }
 
   render() {
-    const {
-      theme, getValue, getDisplay, activeItem
-    } = this.props;
+    const { theme, activeItem } = this.props;
 
     const style = {
       backgroundColor: theme.base00,
@@ -40,19 +58,13 @@ export default class Selector<T> extends Component<Props<T>> {
       height: '2em'
     };
 
-    const valueFn = typeof getValue === "undefined" ?
-                  (a: T) => String(a) : getValue;
-
-    const displayFn = typeof getDisplay === "undefined" ?
-                      (a: T) => String(a) : getDisplay;
-
     const options = this.props.items.map((item: T) => {
-      const value = valueFn(item);
-      const display = displayFn(item);
+      const value = this.value(item);
+      const display = this.display(item);
       return <option key={value} value={value}>{display}</option>;
     });
 
-    const selectedValue = activeItem ? valueFn(activeItem) : undefined;
+    const selectedValue = activeItem ? this.value(activeItem) : undefined;
 
     return <select value={selectedValue} onChange={this.onChange} style={style}>
       {options}

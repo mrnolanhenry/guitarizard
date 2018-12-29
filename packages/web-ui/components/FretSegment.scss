@@ -1,0 +1,62 @@
+.fret-segment {
+  flex-grow: 1;
+  position: relative;
+}
+
+.fret-segment > .inner {
+  width: 100%;
+  min-width: 2em;
+}
+
+.fret-segment > .inner > .string-line {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  margin: auto;
+
+  height: 3px;
+  width: 100%;
+  min-width: 2em;
+  z-index: 2;
+}
+
+.fret-segment > .inner > .note-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fret-segment > .inner > .note-container > .note-text {
+  padding: 0.2em;
+  border-radius: 1em;
+  text-align: center;
+  font-size: 0.7em;
+  width: 2em;
+}
+
+.fret-segment > .inner > .fret-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+}
+
+.fret-segment > .inner > .fret-line:nth-child(1) {
+  width: 7px;
+}
+
+.fret-segment > .background {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
