@@ -134,6 +134,11 @@ export default class Main extends Component<Props, State> {
     }
 
     instrument.fretBoard.setStringTuningNote(stringID, newTuning);
+
+    // TODO: hella shit
+    this.setState({
+      instruments: this.state.instruments
+    });
   }
 
   onGuitarTune(stringID: string, newTuning: Note) {
