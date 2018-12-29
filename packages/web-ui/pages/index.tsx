@@ -91,7 +91,7 @@ export default class Main extends Component<Props, State> {
 
     this.state = {
       instruments,
-      activeInstrumentName: "",
+      activeInstrumentName: "guitar",
       activeScale: scales[14],
       keyNote: diatonic.getNoteFromID("A"),
       scaleSystem: diatonic,
