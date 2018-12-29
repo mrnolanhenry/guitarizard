@@ -22,7 +22,9 @@ export default function FretBoard(props: Props) {
 
   const fretBar = props.showFretBar && <div className="fret-labels">
     {[...Array(props.fretBoard.getFretCount())].map((_, i) => {
-       return <div style={fretBarStyle}>{i === 0 ? '*' : i}</div>;
+       // TODO: this is a terrible key
+       return <div key={`${i}:${Math.random()}`}
+                   style={fretBarStyle}>{i === 0 ? '*' : i}</div>;
     })}
   </div>;
 
@@ -33,12 +35,13 @@ export default function FretBoard(props: Props) {
   };
 
   const tuningPegs = <div className="tuning-pegs" style={tuningPegsStyle}>
-  {props.fretBoard.tunedStrings.map(string => {
-    return <NoteSelector scaleSystem={props.fretBoard.scaleSystem}
-                         note={string.tuningNote}
-                         onNoteSelect={(n: Note) => props.onTune(string.id, n)}
-                         theme={props.theme} />;
-  })}
+    {props.fretBoard.tunedStrings.map(string => {
+       return <NoteSelector key={string.id}
+                            scaleSystem={props.fretBoard.scaleSystem}
+                            note={string.tuningNote}
+                            onNoteSelect={(n: Note) => props.onTune(string.id, n)}
+                            theme={props.theme} />;
+    })}
   </div>;
 
   const stringStyle = { borderColor: props.theme.base09 };
@@ -47,14 +50,21 @@ export default function FretBoard(props: Props) {
 
   const boardStyle = { backgroundColor: props.theme.base0F };
 
-  const strings = stringScales.map(stringScale => {
+  const strings = stringScales.map((stringScale, idx) => {
     const fretSegments = [
       ...Array(props.fretBoard.getFretCount())
     ].map((_, i) => {
-      return <FretSegment stringScale={stringScale} fret={i} theme={props.theme} />;
+      // TODO: this is a terrible key
+      return <FretSegment key={`${i}:${Math.random()}`}
+                          stringScale={stringScale}
+                          fret={i}
+                          theme={props.theme} />;
     });
 
-    return (<div className="string" style={stringStyle}>
+    // TODO: this is a terrible key
+    return (<div key={`${idx}:${Math.random()}`}
+                 className="string"
+                 style={stringStyle}>
       {fretSegments}
     </div>);
   });
