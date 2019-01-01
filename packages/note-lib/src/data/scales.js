@@ -121,9 +121,6 @@ module.exports = [
   new Scale('ionian #5', diatonic, [0,2,4,5,8,9,11,12]),
   new Scale('iwato', diatonic, [0,1,5,6,10,12]),
 
-  new Scale('a kumoi scale', diatonic, [0,1,5,7,8,12]),
-  // kumoi AKA japanese (a) AKA maybe kumoi 2
-
   new Scale('japanese 2', diatonic, [0,2,5,7,8,12]),
   // japanese 2 AKA maybe japanese (b)
 

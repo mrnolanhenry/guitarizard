@@ -4,52 +4,58 @@ const Scales = require('../src/data/scales');
 const { mainIntervals } = require('../src/data/intervals')
 
 
-// WIP -- changing starting from getScalesArray function
+
+module.exports = class Key {
+    constructor(name, scale) {
+      this.name = name;
+      this.scale = scale;
+    }
+
+
 // Given a key's note and scale, return equivalent keys if you were to transpose into other note & scale
 function getEquivKeys(note, scaleName) {
     let equivKeys = [];
-    let transposedScales = [];
-    let noteOffset = getNoteOffset(note);
-    let scaleSemitones = getScaleArray(scaleName);
-    scaleSemitones.pop();
-    // console.log('Equivalents to ',note, scaleName, scaleSemitones)
-
+    let noteOffsetInput = getNoteOffset(note);
+    let scaleArrayInput = getScaleArray(scaleName);
     // Remove last semitone, which should be the duplicate '12' note.
+    scaleArrayInput.pop();
+
     for (let h = 0; h < diatonic.notes.length; h++) {
-        let hNoteOffset = getNoteOffset(diatonic.notes[h].id);
-        let delta = ((noteOffset - hNoteOffset + 12) % 12);
+        let noteOffset = getNoteOffset(diatonic.notes[h].id);
+        let delta = (noteOffset - noteOffsetInput + 12) % 12;
         for (let i = 0; i < Scales.length; i++) {
-            let semitoneArr = [];
-            for (let j = 0; j < Scales[i].intervals.length; j++) {
-                let offsetSemitone = (Scales[i].intervals[j].semitones - delta + 12) % 12;
-                semitoneArr.push(offsetSemitone);
+            let scaleArray = getScaleArray(Scales[i].name);
+            for (let j = 0; j < scaleArray.length; j++) {
+                scaleArray[j] = (scaleArray[j] + delta) % 12;
             }
 
             // Remove last semitone, which should be some offset of the duplicate '12' note.
-            semitoneArr.pop();
-            sortArray(semitoneArr);
-            if (isEqual1DArray(scaleSemitones, semitoneArr)) {
-                // console.log(diatonic.notes[h].id,Scales[i].name,getScaleArray(Scales[i].name));
+            scaleArray.pop();
+            sortArray(scaleArray);
+            if (isEqual1DArray(scaleArrayInput, scaleArray)) {
                 let key = {
                     note: diatonic.notes[h].id,
                     scale: Scales[i]
                 }
-                transposedScales.push(key);
+                equivKeys.push(key);
             }
         }
     }
-    return transposedScales;
+    return equivKeys;
 }
 
 let equivKeys = getEquivKeys("B", "lydian");
+for (let i = 0; i < equivKeys.length; i++) {
+    console.log(equivKeys[i].note,equivKeys[i].scale.name );
+}
 // console.log(equivKeys);
+
 
 // Given an array with numeric values, sort them in ascending order.
 function sortArray(array) {
     array.sort(function (a, b) { return a - b });
     return array;
 }
-
 
 function isEqual1DArray(array1, array2) {
     let len = array1.length
@@ -74,33 +80,18 @@ let equalCheck = isEqual1DArray(arr1, arr2);
 // Given a scale's name, return its simplified array in terms of semitones
 function getScaleArray(scaleName) {
     for (let i = 0; i < Scales.length; i++) {
-        let semitoneArrj = [];
+        let scaleArray = [];
         if (scaleName === Scales[i].name) {
             for (let j = 0; j < Scales[i].intervals.length; j++) {
-                semitoneArrj.push(Scales[i].intervals[j].semitones);
+                scaleArray.push(Scales[i].intervals[j].semitones);
             }
-            return semitoneArrj;
+            return scaleArray;
         }
-
     }
 }
 
 let aeolianArray = getScaleArray('aeolian')
 // console.log(aeolianArray);
-
-
-// Returns scales.js export in simplified array in terms of semitones.
-function getScalesArray() {
-    let semitoneArri = [];
-    for (let i = 0; i < Scales.length; i++) {
-        let semitoneArrj = [];
-        for (let j = 0; j < Scales[i].intervals.length; j++) {
-            semitoneArrj.push(Scales[i].intervals[j].semitones);
-        }
-        semitoneArri.push(semitoneArrj);
-    }
-    return semitoneArri;
-}
 
 let scalesArray = getScalesArray()
 // console.log(scalesArray);
@@ -116,3 +107,5 @@ function getNoteOffset(note) {
 
 let noteOffset = getNoteOffset('B');
 // console.log(noteOffset);
+
+}
