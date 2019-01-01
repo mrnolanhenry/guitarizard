@@ -1,6 +1,6 @@
 import './global.scss';
 import { Component } from 'react';
-import { bespin, Base16Theme } from "../lib/colors";
+import { tomorrow, bespin, Base16Theme } from "../lib/colors";
 import { ToolName } from '../components/ToolSelector';
 import TopBar from "../components/TopBar";
 import Chordbook from '../components/Chordbook';
@@ -217,6 +217,9 @@ export default class Main extends Component<Props, State> {
                 theme={bespin} />
 
         {tool}
+
+        {/* Nolan mess-around zone */}
+        
       </div>
     </div>;
   }
