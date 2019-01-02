@@ -2,7 +2,7 @@ const tap = require('tap');
 const Note = require('../src/Note');
 const Scale = require('../src/Scale');
 const diatonic = require('../src/data/scaleSystem/diatonic');
-const Key = require('../scratchpad/Key');
+const Key = require('../src/Key');
 
 // WIP - will finish test file once Key.js is finalized
 tap.test('class Key', function (t) {

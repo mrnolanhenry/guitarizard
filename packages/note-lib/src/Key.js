@@ -1,4 +1,4 @@
-const Scales = require('../src/data/scales');
+const Scales = require('./data/scales');
 const util = require('./util.js');
 
 module.exports = class Key {
