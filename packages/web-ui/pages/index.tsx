@@ -224,9 +224,9 @@ export default class Main extends Component<Props, State> {
     const equivKeysDiv = {
       padding: '5px',
       margin: 'auto',
-      'text-align': 'left',
-      'list-style-position': 'inside',
-      'max-width': '400px'
+      textAlign: 'left',
+      listStylePosition: 'inside',
+      maxWidth: '400px'
     }
 
     let equivKeys = this.state.activeKey.getEquivKeys();
