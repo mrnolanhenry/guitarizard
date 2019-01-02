@@ -6,6 +6,16 @@ type NoteID = string;
 
 type NoteAttribute = 'isSharp' | 'isFlat';
 
+declare class Key {
+  constructor(
+    note: Note,
+    scale: Scale);
+
+  note: Note;
+  scale: Scale;
+  getEquivKeys: () => Array<Key>;
+}
+
 export interface Note {
   id: NoteID;
   attributes: {

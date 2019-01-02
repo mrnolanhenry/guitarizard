@@ -1,7 +1,7 @@
 const Scales = require('./data/scales');
 const util = require('./util.js');
 
-module.exports = class Key {
+class Key {
     constructor(note, scale) {
         this.note = note;
         this.scale = scale;
@@ -40,10 +40,10 @@ module.exports = class Key {
 
                     // Check if arrays are equal after having sorted the newScale
                     if (util.isEqualArray1D(scaleArray, newScaleArray)) {
-                        let key = {
-                            note: this.scale.scaleSystem.notes[j].id,
-                            scale: Scales[k]
-                        }
+                        let key = new Key(
+                            this.scale.scaleSystem.notes[j],
+                            Scales[k]
+                        );
                         equivKeys.push(key);
                     }
                 }
@@ -67,18 +67,21 @@ module.exports = class Key {
         return JSON.stringify(this);
       }
 }
+
+module.exports = Key;
 // -- END of MODULE
 
 // -- TESTING - please leave until Key.js implemented with UI
 
-// const Scale = require('../src/Scale');
-// const Note = require('../src/Note');
-// const diatonic = require('../src/data/scaleSystem/diatonic');
-// const Key = require('./Key.js');
+const Scale = require('../src/Scale');
+const Note = require('../src/Note');
+const diatonic = require('../src/data/scaleSystem/diatonic');
 
-// let testKey = new Key(new Note('A#'),new Scale('lydian',diatonic,[0,2,4,6,7,9,11,12]))
+let testKey = new Key(new Note('A#'),new Scale('lydian',diatonic,[0,2,4,6,7,9,11,12]))
 
-// let equivKeys = testKey.getEquivKeys();
-// for (let i = 0; i < equivKeys.length; i++) {
-//     console.log(equivKeys[i].note, equivKeys[i].scale.name);
-// }
+let equivKeys = testKey.getEquivKeys();
+for (let i = 0; i < equivKeys.length; i++) {
+    // console.log(equivKeys[i].note.id, equivKeys[i].scale.name);
+}
+
+console.log(equivKeys);

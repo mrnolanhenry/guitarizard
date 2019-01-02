@@ -2,6 +2,7 @@ const API = {
   Note: require('./Note'),
   ScaleSystem: require('./ScaleSystem'),
   Scale: require('./Scale'),
+  Key: require('./Key'),
   Interval: require('./Interval'),
 
   data: {

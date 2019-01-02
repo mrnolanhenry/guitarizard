@@ -4,7 +4,9 @@ import { tomorrow, bespin, Base16Theme } from "../lib/colors";
 import { ToolName } from '../components/ToolSelector';
 import TopBar from "../components/TopBar";
 import Chordbook from '../components/Chordbook';
-import { Note, Scale, ScaleSystem, instrument, data } from "guitarizard-note-lib";
+import { Key, Note, Scale, ScaleSystem, instrument, data } from "guitarizard-note-lib";
+
+console.log(Key);
 
 type InstrumentMap = Map<string, instrument.FrettedInstrument>;
 
@@ -13,12 +15,13 @@ interface State {
   activeInstrumentName?: string;
   activeScale: Scale;
   keyNote: Note;
+  activeKey: Key;
   scaleSystem: ScaleSystem;
   activeToolName: ToolName;
   theme: Base16Theme;
 }
 
-interface Props {}
+interface Props { }
 
 export default class Main extends Component<Props, State> {
   constructor(props: Props) {
@@ -89,15 +92,21 @@ export default class Main extends Component<Props, State> {
       )
     );
 
+    let activeScale = scales[13];
+    let keyNote = diatonic.getNoteFromID("A");
+
     this.state = {
       instruments,
       activeInstrumentName: "guitar",
-      activeScale: scales[13],
-      keyNote: diatonic.getNoteFromID("A"),
+      activeScale,
+      keyNote,
+      activeKey: new Key(keyNote, activeScale),
       scaleSystem: diatonic,
       activeToolName: "chordbook",
       theme: bespin
     };
+
+
 
     this.onKeySelect = this.onKeySelect.bind(this);
     this.onInstrumentSelect = this.onInstrumentSelect.bind(this);
@@ -111,7 +120,10 @@ export default class Main extends Component<Props, State> {
   }
 
   onKeySelect(keyNote: Note) {
-    this.setState({ keyNote });
+    this.setState({
+      keyNote,
+      activeKey: new Key(keyNote, this.state.activeScale)
+    });
   }
 
   onInstrumentSelect(instrument: instrument.FrettedInstrument) {
@@ -119,7 +131,11 @@ export default class Main extends Component<Props, State> {
   }
 
   onScaleSelect(scale: Scale) {
-    this.setState({ activeScale: scale });
+    this.setState({
+      activeScale: scale,
+      activeKey: new Key(this.state.keyNote, scale)
+    });
+
   }
 
   setInstrumentTuning(
@@ -172,21 +188,21 @@ export default class Main extends Component<Props, State> {
     switch (this.state.activeToolName) {
       case "chordbook": {
         tool = <Chordbook
-                 activeScale={this.state.activeScale}
-                 scaleSystem={this.state.scaleSystem}
-                 keyNote={this.state.keyNote}
-                 instruments={this.state.instruments}
-                 activeInstrumentName={this.state.activeInstrumentName}
-                 onKeySelect={this.onKeySelect}
-                 onInstrumentSelect={this.onInstrumentSelect}
-                 onScaleSelect={this.onScaleSelect}
-                 onGuitarTune={this.onGuitarTune}
-                 onBanjoTune={this.onBanjoTune}
-                 onUkuleleTune={this.onUkuleleTune}
-                 onBassFourTune={this.onBassFourTune}
-                 onBassFiveTune={this.onBassFiveTune}
-                 onBassSixTune={this.onBassSixTune}
-                 theme={this.state.theme} />;
+          activeScale={this.state.activeScale}
+          scaleSystem={this.state.scaleSystem}
+          keyNote={this.state.keyNote}
+          instruments={this.state.instruments}
+          activeInstrumentName={this.state.activeInstrumentName}
+          onKeySelect={this.onKeySelect}
+          onInstrumentSelect={this.onInstrumentSelect}
+          onScaleSelect={this.onScaleSelect}
+          onGuitarTune={this.onGuitarTune}
+          onBanjoTune={this.onBanjoTune}
+          onUkuleleTune={this.onUkuleleTune}
+          onBassFourTune={this.onBassFourTune}
+          onBassFiveTune={this.onBassFiveTune}
+          onBassSixTune={this.onBassSixTune}
+          theme={this.state.theme} />;
         break;
       }
       case "songbook": {
@@ -205,22 +221,39 @@ export default class Main extends Component<Props, State> {
       left: 0
     };
 
+    const equivKeysDiv = {
+      padding: '5px',
+      margin: 'auto',
+      'text-align': 'left',
+      'list-style-position': 'inside',
+      'max-width': '400px'
+    }
+
+    let equivKeys = this.state.activeKey.getEquivKeys();
+
     return <div id="app">
       <div style={style}>
         <TopBar isAuthenticated={false}
-                onLoginClick={() => false}
-                onLogoutClick={() => false}
-                onToolSelect={(activeToolName) => {
-                    this.setState({ activeToolName })
-                }}
-                activeToolName={this.state.activeToolName}
-                theme={bespin} />
+          onLoginClick={() => false}
+          onLogoutClick={() => false}
+          onToolSelect={(activeToolName) => {
+            this.setState({ activeToolName })
+          }}
+          activeToolName={this.state.activeToolName}
+          theme={bespin} />
 
         {tool}
 
         {/* Nolan mess-around zone */}
-        
+        <div id="equivKeys" style={equivKeysDiv}>
+          <br />
+          <ul>Equivalent Keys to {`${this.state.activeKey.note.id} ${this.state.activeKey.scale.name}: `}
+            {equivKeys.map(key => <li >{key.note.id} {key.scale.name} </li>)}
+          </ul>
+        </div>
       </div>
     </div>;
+
+
   }
 }
