@@ -13,7 +13,7 @@ tap.test('exposed API', function (t) {
 
   t.ok(API.data.scaleSystem.diatonic, 'expect diatonic scale system')
 
-  t.equal(API.data.scales.length, 110, 'expect correct scale length')
+  t.equal(API.data.scales.length, 86, 'expect correct scale length')
 
   t.equal(API.data.intervals.mainIntervals.length, 13, 'correct main intervals');
 
