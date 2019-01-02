@@ -9,8 +9,10 @@ tap.test('class Key', function (t) {
     const BbLydian = new Key(new Note('Bb'), new Scale('lydian', diatonic, [0, 2, 4, 6, 7, 9, 11, 12]));
     const AsLydian = new Key(new Note('A#'), new Scale('lydian', diatonic, [0, 2, 4, 6, 7, 9, 11, 12]));
 
-    t.same(BbLydian.note, new Note('Bb'),'flat note identified');
     t.same(BbLydian.scale, new Scale('lydian', diatonic, [0, 2, 4, 6, 7, 9, 11, 12]),'scale identified');
+
+    t.same(BbLydian.note, new Note('Bb'),'flat note identified');
+    t.same(AsLydian.note, new Note('A#'),'sharp note identified');
 
     t.same(BbLydian.getEquivKeys(), [
         new Key('A', new Scale('neapolitan minor', diatonic, [0, 1, 3, 5, 7, 8, 10, 12])),
@@ -23,10 +25,6 @@ tap.test('class Key', function (t) {
         new Key('G', new Scale('dorian', diatonic, [0, 2, 3, 5, 7, 9, 10, 12]))
     ],'equivalent keys identified given flat note');
 
-
-    t.same(AsLydian.note, new Note('A#'),'sharp note identified');
-    t.same(AsLydian.scale, new Scale('lydian', diatonic, [0, 2, 4, 6, 7, 9, 11, 12]),'scale identified');
-
     t.same(AsLydian.getEquivKeys(), [
         new Key('A', new Scale('neapolitan minor', diatonic, [0, 1, 3, 5, 7, 8, 10, 12])),
         new Key('Bb', new Scale('lydian', diatonic, [0, 2, 4, 6, 7, 9, 11, 12])),
@@ -37,6 +35,9 @@ tap.test('class Key', function (t) {
         new Key('F', new Scale('major', diatonic, [0, 2, 4, 5, 7, 9, 11, 12])),
         new Key('G', new Scale('dorian', diatonic, [0, 2, 3, 5, 7, 9, 10, 12]))
     ],'equivalent keys identified given sharp note');
+
+    t.equal(BbLydian.valueOf(), JSON.stringify(BbLydian),'valueOf works');
+    t.equal(BbLydian.toString(), JSON.stringify(BbLydian),'toString works');
 
     t.end();
 });

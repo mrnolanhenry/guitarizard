@@ -51,10 +51,25 @@ module.exports = class Key {
         }
         return equivKeys;
     }
+
+    toJSON(key) {
+        return {
+          note: this.note,
+          scale: this.scale
+        };
+      }
+    
+      valueOf() {
+        return JSON.stringify(this);
+      }
+    
+      toString() {
+        return JSON.stringify(this);
+      }
 }
 // -- END of MODULE
 
-// -- TESTING
+// -- TESTING - please leave until Key.js implemented with UI
 
 // const Scale = require('../src/Scale');
 // const Note = require('../src/Note');
