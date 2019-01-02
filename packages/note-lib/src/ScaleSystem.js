@@ -1,3 +1,5 @@
+const Note = require('./Note');
+
 /**
  * A scale system defines the scale universe.
  *
@@ -93,8 +95,11 @@ module.exports = class ScaleSystem {
     //
     // If we return `true` from any iterations, then we have
     // found the note we were looking for!
+
     const offset = this.notes.findIndex((note) => {
-      return note.id === fromNote.id;
+      // "Sorry for replacing the following line! This solution didn't work properly if fromNote was a sharpNote" -- Nolan
+      //   return note.id === fromNote.id;
+      return note.id === this.getNoteFromID(fromNote.id).id;
     });
 
     return offset;

@@ -6,21 +6,21 @@ tap.test('class ScaleSystem', function (t) {
   const A = new Note('A');
 
   const As = new Note('A#', { isSharp: true })
-  const Bb = new Note('Bb', { isFlat: true }, [ As ]);
+  const Bb = new Note('Bb', { isFlat: true }, [As]);
   As.addAliasNote(Bb);
 
   const B = new Note('B');
 
   const C = new Note('C');
 
-  const Cs = new Note ('C#', { isSharp: true })
-  const Db = new Note('Db', { isFlat: true }, [ Cs ]);
+  const Cs = new Note('C#', { isSharp: true })
+  const Db = new Note('Db', { isFlat: true }, [Cs]);
   Cs.addAliasNote(Db)
 
   const D = new Note('D');
 
   const Ds = new Note('D#', { isSharp: true });
-  const Eb = new Note('Eb', { isFlat: true }, [ Ds ]);
+  const Eb = new Note('Eb', { isFlat: true }, [Ds]);
   Ds.addAliasNote(Eb);
 
   const E = new Note('E');
@@ -28,13 +28,13 @@ tap.test('class ScaleSystem', function (t) {
   const F = new Note('F');
 
   const Fs = new Note('F#', { isSharp: true });
-  const Gb = new Note('Gb', { isFlat: true }, [ Fs ]);
+  const Gb = new Note('Gb', { isFlat: true }, [Fs]);
   Fs.addAliasNote(Gb);
 
   const G = new Note('G');
 
   const Gs = new Note('G#', { isSharp: true });
-  const Ab = new Note('Ab', { isFlat: true }, [ Gs ]);
+  const Ab = new Note('Ab', { isFlat: true }, [Gs]);
   Gs.addAliasNote(Ab);
 
   const diatonic = new ScaleSystem('diatonic', [
@@ -55,25 +55,33 @@ tap.test('class ScaleSystem', function (t) {
   t.equal(diatonic.notes.length, 12, 'should have 12 notes');
 
   t.same(diatonic.getNoteFromID('A#'),
-         Bb,
-         'pluck note given an id');
+    Bb,
+    'pluck note given an id');
 
 
   t.equal(diatonic.getNoteInterval(A, C),
-          3,
-          'correct offset (basic)');
+    3,
+    'correct offset (basic)');
 
   t.equal(diatonic.getNoteInterval(G, A),
-          2,
-          'correct offset ("loop")');
+    2,
+    'correct offset ("loop")');
+
+  t.equal(diatonic.getNoteInterval(As, A),
+    11,
+    'correct offset ("loop starting from sharp note")');
+
+  t.equal(diatonic.getNoteInterval(Bb, A),
+    11,
+    'correct offset ("loop starting from flat note")');
 
   t.same(diatonic.getNextNote(A), Bb, 'next note simple step')
 
   t.same(diatonic.getNextNote(Gs), A, 'next note loop');
 
   t.same(diatonic.getNextNote(Ab),
-         A,
-         'next note loop (different note, matching alias)');
+    A,
+    'next note loop (different note, matching alias)');
 
   t.same(
     diatonic.getNextNote(A, 2),
