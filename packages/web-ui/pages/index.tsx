@@ -6,8 +6,6 @@ import TopBar from "../components/TopBar";
 import Chordbook from '../components/Chordbook';
 import { Key, Note, Scale, ScaleSystem, instrument, data } from "guitarizard-note-lib";
 
-console.log(Key);
-
 type InstrumentMap = Map<string, instrument.FrettedInstrument>;
 
 interface State {
@@ -93,7 +91,7 @@ export default class Main extends Component<Props, State> {
     );
 
     let activeScale = scales[13];
-    let keyNote = diatonic.getNoteFromID("A");
+    let keyNote = diatonic.getNoteFromID("E");
 
     this.state = {
       instruments,
@@ -212,7 +210,7 @@ export default class Main extends Component<Props, State> {
     }
 
     const style = {
-      backgroundColor: this.state.theme.base00,
+      backgroundColor: this.state.theme.base01,
       color: this.state.theme.base05,
       position: "fixed" as "fixed", // lol what the fuck typescript
       top: 0,
@@ -227,6 +225,15 @@ export default class Main extends Component<Props, State> {
       textAlign: 'left',
       listStylePosition: 'inside',
       maxWidth: '400px'
+    }
+
+    const btnStyle = {
+      backgroundColor: this.state.theme.base00,
+      color: this.state.theme.base05,
+      borderColor: this.state.theme.base03,
+      borderWidth:'1px',
+      minWidth:'185.9px',
+      maxWidth:'380px'
     }
 
     let equivKeys = this.state.activeKey.getEquivKeys();
@@ -248,7 +255,7 @@ export default class Main extends Component<Props, State> {
         <div id="equivKeys" style={equivKeysDiv}>
           <br />
           <ul>Equivalent Keys to {`${this.state.activeKey.note.id} ${this.state.activeKey.scale.name}: `}
-            {equivKeys.map(key => <li >{key.note.id} {key.scale.name} </li>)}
+            {equivKeys.map(key => <li><button className="btn-equiv-key" style={btnStyle} theme={bespin}>{key.note.id} {key.scale.name}</button></li>)}
           </ul>
         </div>
       </div>

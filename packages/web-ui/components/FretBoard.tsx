@@ -71,7 +71,8 @@ export default function FretBoard(props: Props) {
 
   const board = <div className="board" style={boardStyle}>{strings}</div>;
 
-  const style = { backgroundColor: props.theme.base00 }
+  const style = { backgroundColor: props.theme.base00,
+  borderColor: props.theme.base00 }
 
   return <div className="fret-board" style={style}>
     {fretBar}

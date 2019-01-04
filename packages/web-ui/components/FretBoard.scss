@@ -4,6 +4,8 @@
     ".        fretLabels"
     "tuning   board";
   grid-template-columns: min-content auto;
+  border-width: 0 0 1px 0;
+  border-style: solid;
 }
 
 .fret-board > .fret-labels {
