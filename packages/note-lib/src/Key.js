@@ -86,6 +86,6 @@ for (let i = 0; i < equivKeys.length; i++) {
 
 // console.log(equivKeys);
 
-console.log(equivKeys[0]);
-console.log('compare');
-console.log(new Key(new Note('A'), new Scale('neapolitan minor', diatonic, [0, 1, 3, 5, 7, 8, 10, 12])));
+// console.log(equivKeys[0]);
+// console.log('compare');
+// console.log(new Key(new Note('A'), new Scale('neapolitan minor', diatonic, [0, 1, 3, 5, 7, 8, 10, 12])));

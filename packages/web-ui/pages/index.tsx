@@ -106,7 +106,7 @@ export default class Main extends Component<Props, State> {
 
 
 
-    this.onKeySelect = this.onKeySelect.bind(this);
+    this.onKeyNoteSelect = this.onKeyNoteSelect.bind(this);
     this.onInstrumentSelect = this.onInstrumentSelect.bind(this);
     this.onScaleSelect = this.onScaleSelect.bind(this);
     this.onGuitarTune = this.onGuitarTune.bind(this);
@@ -117,11 +117,13 @@ export default class Main extends Component<Props, State> {
     this.onBassSixTune = this.onBassSixTune.bind(this);
   }
 
-  onKeySelect(keyNote: Note) {
+  onKeyNoteSelect(keyNote: Note) {
+    console.log("passing in note ", keyNote.id)
     this.setState({
-      keyNote,
-      activeKey: new Key(keyNote, this.state.activeScale)
+      keyNote
     });
+    this.updateKey(keyNote,this.state.activeScale);
+    console.log(this.state.keyNote.id, " should be ", keyNote.id)
   }
 
   onInstrumentSelect(instrument: instrument.FrettedInstrument) {
@@ -129,11 +131,19 @@ export default class Main extends Component<Props, State> {
   }
 
   onScaleSelect(scale: Scale) {
+    console.log("passing in scale ", scale.name)
     this.setState({
-      activeScale: scale,
-      activeKey: new Key(this.state.keyNote, scale)
+      activeScale: scale
     });
+    this.updateKey(this.state.keyNote, scale);
+    console.log(this.state.activeScale.name, " should be ", scale.name)
+    // console.log(this.state.activeKey.note.id,this.state.activeKey.scale.name,this.state.keyNote.id,this.state.activeScale.name);
+  }
 
+  updateKey(keyNote: Note,scale: Scale) {
+    this.setState({
+      activeKey: new Key(keyNote, scale)
+    });
   }
 
   setInstrumentTuning(
@@ -191,7 +201,7 @@ export default class Main extends Component<Props, State> {
           keyNote={this.state.keyNote}
           instruments={this.state.instruments}
           activeInstrumentName={this.state.activeInstrumentName}
-          onKeySelect={this.onKeySelect}
+          onKeyNoteSelect={this.onKeyNoteSelect}
           onInstrumentSelect={this.onInstrumentSelect}
           onScaleSelect={this.onScaleSelect}
           onGuitarTune={this.onGuitarTune}
@@ -231,9 +241,9 @@ export default class Main extends Component<Props, State> {
       backgroundColor: this.state.theme.base00,
       color: this.state.theme.base05,
       borderColor: this.state.theme.base03,
-      borderWidth:'1px',
-      minWidth:'185.9px',
-      maxWidth:'380px'
+      borderWidth: '1px',
+      minWidth: '185.9px',
+      maxWidth: '380px'
     }
 
     let equivKeys = this.state.activeKey.getEquivKeys();
@@ -254,11 +264,22 @@ export default class Main extends Component<Props, State> {
         {/* Nolan mess-around zone */}
         <div id="equivKeys" style={equivKeysDiv}>
           <br />
-          <ul>Equivalent Keys to {`${this.state.activeKey.note.id} ${this.state.activeKey.scale.name}: `}
-            {equivKeys.map(key => <li><button className="btn-equiv-key" style={btnStyle} theme={bespin}>{key.note.id} {key.scale.name}</button></li>)}
+          <ul>Equivalent Keys to {`${this.state.keyNote.id} ${this.state.activeScale.name}: `}
+            {equivKeys.map(key =>
+              <li><button className="btn-equiv-key" style={btnStyle} onClick={() => {
+                //  console.log('Before onKeyNoteSelect:',this.state.activeKey.note.id,this.state.activeKey.scale.name, key.note.id,key.scale.name)
+                this.onKeyNoteSelect(key.note);
+                //  console.log('Before onScaleSelect: ',this.state.activeKey.note.id,this.state.activeKey.scale.name, key.note.id,key.scale.name)
+                this.onScaleSelect(key.scale);
+                //  console.log('After: ',this.state.activeKey.note.id,this.state.activeKey.scale.name, key.note.id,key.scale.name)
+              }}>
+                {key.note.id} {key.scale.name}
+              </button></li>
+            )}
           </ul>
         </div>
       </div>
+      {console.log('After all: ', this.state.activeKey.note.id, ' ', this.state.activeKey.scale.name)}
     </div>;
 
 
