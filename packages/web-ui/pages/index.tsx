@@ -118,12 +118,10 @@ export default class Main extends Component<Props, State> {
   }
 
   onKeyNoteSelect(keyNote: Note) {
-    console.log("passing in note ", keyNote.id)
     this.setState({
-      keyNote
+      keyNote,
+      activeKey: new Key(keyNote, this.state.activeScale)
     });
-    this.updateKey(keyNote,this.state.activeScale);
-    console.log(this.state.keyNote.id, " should be ", keyNote.id)
   }
 
   onInstrumentSelect(instrument: instrument.FrettedInstrument) {
@@ -131,17 +129,16 @@ export default class Main extends Component<Props, State> {
   }
 
   onScaleSelect(scale: Scale) {
-    console.log("passing in scale ", scale.name)
     this.setState({
-      activeScale: scale
+      activeScale: scale,
+      activeKey: new Key(this.state.keyNote, scale)
     });
-    this.updateKey(this.state.keyNote, scale);
-    console.log(this.state.activeScale.name, " should be ", scale.name)
-    // console.log(this.state.activeKey.note.id,this.state.activeKey.scale.name,this.state.keyNote.id,this.state.activeScale.name);
   }
 
   updateKey(keyNote: Note,scale: Scale) {
     this.setState({
+      keyNote,
+      activeScale: scale,
       activeKey: new Key(keyNote, scale)
     });
   }
@@ -265,13 +262,10 @@ export default class Main extends Component<Props, State> {
         <div id="equivKeys" style={equivKeysDiv}>
           <br />
           <ul>Equivalent Keys to {`${this.state.keyNote.id} ${this.state.activeScale.name}: `}
-            {equivKeys.map(key =>
-              <li><button className="btn-equiv-key" style={btnStyle} onClick={() => {
-                //  console.log('Before onKeyNoteSelect:',this.state.activeKey.note.id,this.state.activeKey.scale.name, key.note.id,key.scale.name)
-                this.onKeyNoteSelect(key.note);
-                //  console.log('Before onScaleSelect: ',this.state.activeKey.note.id,this.state.activeKey.scale.name, key.note.id,key.scale.name)
-                this.onScaleSelect(key.scale);
-                //  console.log('After: ',this.state.activeKey.note.id,this.state.activeKey.scale.name, key.note.id,key.scale.name)
+           {/* TODO: KEY sucks */}
+            {equivKeys.map((key, i) =>
+              <li key={`${i}:${Math.random()}`}><button className="btn-equiv-key" style={btnStyle} onClick={() => {
+                this.updateKey(key.note,key.scale);
               }}>
                 {key.note.id} {key.scale.name}
               </button></li>
@@ -279,7 +273,6 @@ export default class Main extends Component<Props, State> {
           </ul>
         </div>
       </div>
-      {console.log('After all: ', this.state.activeKey.note.id, ' ', this.state.activeKey.scale.name)}
     </div>;
 
 

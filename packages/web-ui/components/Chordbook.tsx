@@ -15,7 +15,7 @@ interface Props {
   activeScale: Scale;
   keyNote: Note;
   scaleSystem: ScaleSystem;
-  onKeySelect: (keyNote: Note) => void;
+  onKeyNoteSelect: (keyNote: Note) => void;
   onInstrumentSelect: (instrument: instrument.FrettedInstrument) => void;
   onScaleSelect: (scale: Scale) => void;
   onGuitarTune: (stringID: string, newTuning: Note) => void;
@@ -99,7 +99,7 @@ export default function Chordbook(props: Props) {
         label="Key:"
         scaleSystem={props.scaleSystem}
         note={props.keyNote}
-        onNoteSelect={props.onKeySelect}
+        onNoteSelect={props.onKeyNoteSelect}
         theme={props.theme} />
 
       <ScaleSelector activeScale={props.activeScale}
