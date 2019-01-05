@@ -90,7 +90,7 @@ export default class Main extends Component<Props, State> {
       )
     );
 
-    let activeScale = scales[13];
+    let activeScale = scales[22];
     let keyNote = diatonic.getNoteFromID("E");
 
     this.state = {
@@ -239,7 +239,7 @@ export default class Main extends Component<Props, State> {
       color: this.state.theme.base05,
       borderColor: this.state.theme.base03,
       borderWidth: '1px',
-      minWidth: '185.9px',
+      minWidth: '199.21px',
       maxWidth: '380px'
     }
 
