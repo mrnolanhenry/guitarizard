@@ -113,6 +113,7 @@ export default class Main extends Component<Props, State> {
     this.onKeyNoteSelect = this.onKeyNoteSelect.bind(this);
     this.onInstrumentSelect = this.onInstrumentSelect.bind(this);
     this.onScaleSelect = this.onScaleSelect.bind(this);
+    this.updateKey = this.updateKey.bind(this);
     this.onGuitarTune = this.onGuitarTune.bind(this);
     this.onBanjoTune = this.onBanjoTune.bind(this);
     this.onUkuleleTune = this.onUkuleleTune.bind(this);
@@ -139,11 +140,11 @@ export default class Main extends Component<Props, State> {
     });
   }
 
-  updateKey(keyNote: Note, scale: Scale) {
+  updateKey(key: Key) {
     this.setState({
-      keyNote,
-      activeScale: scale,
-      activeKey: new Key(keyNote, scale)
+      keyNote: key.note,
+      activeScale: key.scale,
+      activeKey: new Key(key.note, key.scale)
     });
   }
 
@@ -200,11 +201,13 @@ export default class Main extends Component<Props, State> {
           activeScale={this.state.activeScale}
           scaleSystem={this.state.scaleSystem}
           keyNote={this.state.keyNote}
+          activeKey = {this.state.activeKey}
           instruments={this.state.instruments}
           activeInstrumentName={this.state.activeInstrumentName}
           onKeyNoteSelect={this.onKeyNoteSelect}
           onInstrumentSelect={this.onInstrumentSelect}
           onScaleSelect={this.onScaleSelect}
+          updateKey={this.updateKey}
           onGuitarTune={this.onGuitarTune}
           onBanjoTune={this.onBanjoTune}
           onUkuleleTune={this.onUkuleleTune}
@@ -253,7 +256,6 @@ export default class Main extends Component<Props, State> {
       maxWidth: '380px'
     }
 
-    let equivScales = this.state.activeScale.getEquivScales(data.scales);
     let equivKeys = this.state.activeKey.getEquivKeys();
 
     return <div id="app">
@@ -271,31 +273,20 @@ export default class Main extends Component<Props, State> {
 
         {/* Nolan mess-around zone */}
         <div id="row" style = {rowDiv}>
-          <div id="equivScales" style={listDiv}>
-            <ul>Equivalent Scales to {`${this.state.activeScale.name}: `}
-              {/* TODO: KEY sucks */}
-              {equivScales.map((scale, i) =>
-                <li key={`${i}:${Math.random()}`}><button className="btn-equiv-key" style={btnStyle} onClick={() => {
-                  this.onScaleSelect(scale);
-                }}>
-                  {scale.name}
-                </button></li>
-              )}
-            </ul>
-          </div>
 
-          <div id="equivKeys" style={listDiv}>
+          {/* <div id="equivKeys" style={listDiv}>
             <ul>Equivalent Keys to {`${this.state.keyNote.id} ${this.state.activeScale.name}: `}
-              {/* TODO: KEY sucks */}
+              {/* TODO: KEY sucks 
               {equivKeys.map((key, i) =>
                 <li key={`${i}:${Math.random()}`}><button className="btn-equiv-key" style={btnStyle} onClick={() => {
-                  this.updateKey(key.note, key.scale);
+                  this.updateKey(key);
                 }}>
                   {key.note.id} {key.scale.name}
                 </button></li>
               )}
             </ul>
-          </div>
+          </div> */}
+
         </div>
 
       </div>

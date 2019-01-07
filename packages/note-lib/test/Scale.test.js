@@ -37,7 +37,7 @@ tap.test('class Scale', function (t) {
     ethiopianAraray,
     ionian,
     major
-  ],"equivalentScales found");
+  ],"equivalent Scales found");
 
   t.equal(blues.valueOf(), JSON.stringify(blues));
   t.equal(blues.toString(), JSON.stringify(blues));

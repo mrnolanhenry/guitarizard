@@ -47,6 +47,7 @@ export default class Selector<T> extends Component<Props<T>> {
   render() {
     const { theme, activeItem } = this.props;
 
+    console.log(theme);
     const style = {
       backgroundColor: theme.base00,
       color: theme.base05,

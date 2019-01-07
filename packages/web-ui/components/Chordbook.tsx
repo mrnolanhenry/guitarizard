@@ -1,9 +1,11 @@
 import './Chordbook.scss';
-import { Note, Scale, ScaleSystem, instrument } from "guitarizard-note-lib";
+import { Key, Note, Scale, ScaleSystem, instrument } from "guitarizard-note-lib";
 import { Base16Theme } from "../lib/colors";
 import InstrumentSelector from "./InstrumentSelector";
 import NoteSelector from "./NoteSelector";
 import ScaleSelector from "./ScaleSelector";
+import EquivScaleSelector from "./EquivScaleSelector";
+import EquivKeySelector from "./EquivKeySelector";
 import Guitar from "./Guitar";
 import Banjo from "./Banjo";
 import Ukulele from "./Ukulele";
@@ -14,10 +16,12 @@ interface Props {
   activeInstrumentName?: string;
   activeScale: Scale;
   keyNote: Note;
+  activeKey: Key;
   scaleSystem: ScaleSystem;
   onKeyNoteSelect: (keyNote: Note) => void;
   onInstrumentSelect: (instrument: instrument.FrettedInstrument) => void;
   onScaleSelect: (scale: Scale) => void;
+  updateKey: (key: Key) => void;
   onGuitarTune: (stringID: string, newTuning: Note) => void;
   onBanjoTune: (stringID: string, newTuning: Note) => void;
   onUkuleleTune: (stringID: string, newTuning: Note) => void;
@@ -105,6 +109,14 @@ export default function Chordbook(props: Props) {
       <ScaleSelector activeScale={props.activeScale}
                      onScaleSelect={props.onScaleSelect}
                      theme={props.theme} />
+      
+      <EquivKeySelector activeKey=  {props.activeKey}
+                    updateKey= {props.updateKey}
+                    theme= {props.theme} />
+
+      <EquivScaleSelector   activeScale={props.activeScale}
+                            onScaleSelect={props.onScaleSelect}
+                            theme={props.theme} />
     </div>
 
     {instrumentComponent}

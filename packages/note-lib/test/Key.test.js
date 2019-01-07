@@ -42,16 +42,16 @@ tap.test('class Key', function (t) {
   const FMajor           = new Key(diatonic.F, majorScale);
   const GDorian          = new Key(diatonic.G, dorianScale);
 
-  const BbLydianEquivKeys = BbLydian.getEquivKeys();
-  const AsLydianEquivKeys = AsLydian.getEquivKeys();
+  const BbLydianequivKeys = BbLydian.getEquivKeys();
+  const AsLydianequivKeys = AsLydian.getEquivKeys();
 
   t.same(BbLydian.scale, lydianScale, 'scale identified');
 
   t.same(BbLydian.note, diatonic.Bb, 'flat note identified');
   t.same(AsLydian.note, diatonic.As, 'sharp note identified');
 
-  t.same(BbLydianEquivKeys[0], ANeapolitanMinor, 'equivalent key 0 identified given flat note');
-  t.same(AsLydianEquivKeys[0], ANeapolitanMinor, 'equivalent key 0 identified given sharp note');
+  t.same(BbLydianequivKeys[0], ANeapolitanMinor, 'equivalent key 0 identified given flat note');
+  t.same(AsLydianequivKeys[0], ANeapolitanMinor, 'equivalent key 0 identified given sharp note');
 
   t.same(BbLydian.getEquivKeys(), [
     ANeapolitanMinor,

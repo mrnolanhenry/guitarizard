@@ -44,7 +44,7 @@ export const cloudCity: Base16Theme = {
   base04: "#797977",
   base05: "#8a8986",
   base06: "#9d9b97",
-  base07: "#fcd4af",
+  base07: "#baae9e",
   base08: "#cf6a4c",
   base09: "#cf7d34",
   base0A: "#f9ee98",
@@ -52,7 +52,7 @@ export const cloudCity: Base16Theme = {
   base0C: "#afc4db",
   base0D: "#5ea6ea",
   base0E: "#9b859d",
-  base0F: "#876444"
+  base0F: "#7D4626"
 };
 
 // 8a8986
