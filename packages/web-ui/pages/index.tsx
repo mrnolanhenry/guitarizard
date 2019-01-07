@@ -238,25 +238,25 @@ export default class Main extends Component<Props, State> {
       flexDirection: 'row'
     }
 
-    const listDiv = {
-      padding: '5px',
-      // marginLeft: 'auto',
-      // marginRight: 'auto',
-      textAlign: 'left',
-      listStylePosition: 'inside',
-      width: '400.4px'
-    }
+    // const listDiv = {
+    //   padding: '5px',
+    //   // marginLeft: 'auto',
+    //   // marginRight: 'auto',
+    //   textAlign: 'left',
+    //   listStylePosition: 'inside',
+    //   width: '400.4px'
+    // }
 
-    const btnStyle = {
-      backgroundColor: this.state.theme.base00,
-      color: this.state.theme.base05,
-      borderColor: this.state.theme.base03,
-      borderWidth: '1px',
-      minWidth: '199.21px',
-      maxWidth: '380px'
-    }
+    // const btnStyle = {
+    //   backgroundColor: this.state.theme.base00,
+    //   color: this.state.theme.base05,
+    //   borderColor: this.state.theme.base03,
+    //   borderWidth: '1px',
+    //   minWidth: '199.21px',
+    //   maxWidth: '380px'
+    // }
 
-    let equivKeys = this.state.activeKey.getEquivKeys();
+    // let equivKeys = this.state.activeKey.getEquivKeys();
 
     return <div id="app">
       <div style={style}>
