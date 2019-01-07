@@ -1,6 +1,6 @@
 import './global.scss';
 import { Component } from 'react';
-import { tomorrow, bespin, Base16Theme } from "../lib/colors";
+import { tomorrow, bespin, cloudCity, Base16Theme } from "../lib/colors";
 import { ToolName } from '../components/ToolSelector';
 import TopBar from "../components/TopBar";
 import Chordbook from '../components/Chordbook';
@@ -28,12 +28,16 @@ export default class Main extends Component<Props, State> {
     const diatonic = data.scaleSystem.diatonic;
     const scales = data.scales;
 
+    // for (let i =0; i < scales.length; i++) {
+    //   console.log(scales[i].name,i);
+    // }
+
     const instruments: InstrumentMap = new Map();
 
     instruments.set(
       "guitar",
       new instrument.Guitar(
-        21,
+        22,
         ["E", "A", "D", "G", "B", "E"].map(noteID =>
           diatonic.getNoteFromID(noteID)
         )
@@ -43,7 +47,7 @@ export default class Main extends Component<Props, State> {
     instruments.set(
       "banjo",
       new instrument.Banjo(
-        21,
+        22,
         ["G", "D", "G", "B", "D"].map(noteID =>
           diatonic.getNoteFromID(noteID)
         )
@@ -53,7 +57,7 @@ export default class Main extends Component<Props, State> {
     instruments.set(
       "ukulele",
       new instrument.Ukulele(
-        19,
+        20,
         ["G", "C", "E", "A"].map(noteID =>
           diatonic.getNoteFromID(noteID)
         )
@@ -63,7 +67,7 @@ export default class Main extends Component<Props, State> {
     instruments.set(
       "bass-4",
       new instrument.Bass(
-        21,
+        22,
         ["E", "A", "D", "G"].map(noteID =>
           diatonic.getNoteFromID(noteID)
         )
@@ -73,7 +77,7 @@ export default class Main extends Component<Props, State> {
     instruments.set(
       "bass-5",
       new instrument.Bass(
-        21,
+        22,
         ["B", "E", "A", "D", "G"].map(noteID =>
           diatonic.getNoteFromID(noteID)
         )
@@ -83,14 +87,14 @@ export default class Main extends Component<Props, State> {
     instruments.set(
       "bass-6",
       new instrument.Bass(
-        21,
+        22,
         ["B", "E", "A", "D", "G", "C"].map(noteID =>
           diatonic.getNoteFromID(noteID)
         )
       )
     );
 
-    let activeScale = scales[22];
+    let activeScale = scales[86];
     let keyNote = diatonic.getNoteFromID("E");
 
     this.state = {
@@ -101,7 +105,7 @@ export default class Main extends Component<Props, State> {
       activeKey: new Key(keyNote, activeScale),
       scaleSystem: diatonic,
       activeToolName: "chordbook",
-      theme: bespin
+      theme: cloudCity
     };
 
 
@@ -135,7 +139,7 @@ export default class Main extends Component<Props, State> {
     });
   }
 
-  updateKey(keyNote: Note,scale: Scale) {
+  updateKey(keyNote: Note, scale: Scale) {
     this.setState({
       keyNote,
       activeScale: scale,
@@ -226,12 +230,18 @@ export default class Main extends Component<Props, State> {
       left: 0
     };
 
-    const equivKeysDiv = {
+    const rowDiv = {
+      display: 'flex',
+      flexDirection: 'row'
+    }
+
+    const listDiv = {
       padding: '5px',
-      margin: 'auto',
+      // marginLeft: 'auto',
+      // marginRight: 'auto',
       textAlign: 'left',
       listStylePosition: 'inside',
-      maxWidth: '400px'
+      width: '400.4px'
     }
 
     const btnStyle = {
@@ -243,6 +253,7 @@ export default class Main extends Component<Props, State> {
       maxWidth: '380px'
     }
 
+    let equivScales = this.state.activeScale.getEquivScales(data.scales);
     let equivKeys = this.state.activeKey.getEquivKeys();
 
     return <div id="app">
@@ -254,24 +265,39 @@ export default class Main extends Component<Props, State> {
             this.setState({ activeToolName })
           }}
           activeToolName={this.state.activeToolName}
-          theme={bespin} />
+          theme={cloudCity} />
 
         {tool}
 
         {/* Nolan mess-around zone */}
-        <div id="equivKeys" style={equivKeysDiv}>
-          <br />
-          <ul>Equivalent Keys to {`${this.state.keyNote.id} ${this.state.activeScale.name}: `}
-           {/* TODO: KEY sucks */}
-            {equivKeys.map((key, i) =>
-              <li key={`${i}:${Math.random()}`}><button className="btn-equiv-key" style={btnStyle} onClick={() => {
-                this.updateKey(key.note,key.scale);
-              }}>
-                {key.note.id} {key.scale.name}
-              </button></li>
-            )}
-          </ul>
+        <div id="row" style = {rowDiv}>
+          <div id="equivScales" style={listDiv}>
+            <ul>Equivalent Scales to {`${this.state.activeScale.name}: `}
+              {/* TODO: KEY sucks */}
+              {equivScales.map((scale, i) =>
+                <li key={`${i}:${Math.random()}`}><button className="btn-equiv-key" style={btnStyle} onClick={() => {
+                  this.onScaleSelect(scale);
+                }}>
+                  {scale.name}
+                </button></li>
+              )}
+            </ul>
+          </div>
+
+          <div id="equivKeys" style={listDiv}>
+            <ul>Equivalent Keys to {`${this.state.keyNote.id} ${this.state.activeScale.name}: `}
+              {/* TODO: KEY sucks */}
+              {equivKeys.map((key, i) =>
+                <li key={`${i}:${Math.random()}`}><button className="btn-equiv-key" style={btnStyle} onClick={() => {
+                  this.updateKey(key.note, key.scale);
+                }}>
+                  {key.note.id} {key.scale.name}
+                </button></li>
+              )}
+            </ul>
+          </div>
         </div>
+
       </div>
     </div>;
 

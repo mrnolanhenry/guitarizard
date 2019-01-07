@@ -1,4 +1,4 @@
-const { mainIntervals } = require('./data/intervals')
+const { mainIntervals } = require('./data/intervals');
 
 /**
  * A single scale.
@@ -33,6 +33,30 @@ module.exports = class Scale {
     return this.intervals.map((interval) => {
       return notes[interval.semitones % (this.scaleSystem.notes.length)];
     });
+  }
+
+  // Given a scale, return equivalent scales that have the same notes
+  // e.g. the Ionian scale is exactly the same series of notes as the Major scale and Ethiopian (a raray) scale.
+  getEquivScales(Scales) {
+    let equivScales = [];
+    let scaleLength = this.intervals.length;
+
+    // Loop through each scale
+    for (let i = 0; i < Scales.length; i++) {
+      // Loop through each scale's intervals
+      loopThruIntervals: {
+        // This if check is only here to speed up function
+        if (scaleLength === Scales[i].intervals.length) {
+          for (let j = 0; j < Scales[i].intervals.length; j++) {
+            if (this.intervals[j].semitones !== Scales[i].intervals[j].semitones) {
+              break loopThruIntervals;
+            }
+          }
+          equivScales.push(Scales[i]);
+        }
+      }
+    }
+    return equivScales;
   }
 
   toJSON(key) {

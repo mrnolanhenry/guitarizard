@@ -78,6 +78,7 @@ export interface Scale {
   intervals: Array<Interval>;
 
   getNotesInKey: (key: Note) => Array<Note>;
+  getEquivScales: (scales: Array<Scale>) => Array<Scale>;
 }
 
 declare var Scale: {

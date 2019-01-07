@@ -73,19 +73,14 @@ module.exports = Key;
 
 // -- TESTING - please leave until Key.js implemented with UI
 
-const Scale = require('../src/Scale');
-const Note = require('../src/Note');
-const diatonic = require('../src/data/scaleSystem/diatonic');
+// const Scale = require('../src/Scale');
+// const Note = require('../src/Note');
+// const diatonic = require('../src/data/scaleSystem/diatonic');
 
-let testKey = new Key(new Note('A#'),new Scale('lydian',diatonic,[0,2,4,6,7,9,11,12]))
+// let testKey = new Key(new Note('A#'),new Scale('lydian',diatonic,[0,2,4,6,7,9,11,12]))
 
-let equivKeys = testKey.getEquivKeys();
-for (let i = 0; i < equivKeys.length; i++) {
-    // console.log(equivKeys[i].note, equivKeys[i].scale.name);
-}
+// let equivKeys = testKey.getEquivKeys();
+// for (let i = 0; i < equivKeys.length; i++) {
+//     console.log(equivKeys[i].note, equivKeys[i].scale.name);
+// }
 
-// console.log(equivKeys);
-
-// console.log(equivKeys[0]);
-// console.log('compare');
-// console.log(new Key(new Note('A'), new Scale('neapolitan minor', diatonic, [0, 1, 3, 5, 7, 8, 10, 12])));

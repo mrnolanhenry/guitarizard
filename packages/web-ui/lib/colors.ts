@@ -36,6 +36,32 @@ export const bespin: Base16Theme = {
   base0F: "#937121"
 };
 
+export const cloudCity: Base16Theme = {
+  base00: "#28211c",
+  base01: "#36312e",
+  base02: "#5e5d5c",
+  base03: "#666666",
+  base04: "#797977",
+  base05: "#8a8986",
+  base06: "#9d9b97",
+  base07: "#fcd4af",
+  base08: "#cf6a4c",
+  base09: "#cf7d34",
+  base0A: "#f9ee98",
+  base0B: "#54be0d",
+  base0C: "#afc4db",
+  base0D: "#5ea6ea",
+  base0E: "#9b859d",
+  base0F: "#876444"
+};
+
+// 8a8986
+// fcd4af
+// baae9e
+// 694626
+// 876444
+// eba666
+
 export const tomorrow: Base16Theme = {
   base00: "#ffffff",
   base01: "#e0e0e0",
