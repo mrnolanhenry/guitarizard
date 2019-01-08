@@ -31,7 +31,8 @@ export default function FretBoard(props: Props) {
   const tuningPegsStyle = {
     backgroundColor: props.theme.base07,
     color: props.theme.base04,
-    borderColor: props.theme.base03
+    borderColor: props.theme.base03,
+    boxShadow: '2px 0px ' + props.theme.base07
   };
 
   const tuningPegs = <div className="tuning-pegs" style={tuningPegsStyle}>

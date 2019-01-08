@@ -1,6 +1,6 @@
 import './TopBar.scss';
 import ToolSelector, { ToolName } from './ToolSelector';
-import { bespin, Base16Theme } from '../lib/colors';
+import { bespin, cloudCity, Base16Theme } from '../lib/colors';
 
 interface Props {
   isAuthenticated: boolean;
@@ -35,7 +35,7 @@ export default function TopBar(props: Props) {
       <ToolSelector
         activeToolName={props.activeToolName}
         onToolSelect={props.onToolSelect}
-        theme={bespin} />
+        theme={cloudCity} />
     </div>
     <div className="center" style={centerStyle}>
       {logo}

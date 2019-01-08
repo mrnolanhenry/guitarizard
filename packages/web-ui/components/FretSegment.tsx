@@ -16,9 +16,9 @@ export default function fretSegment(props: Props) {
 
   const noteDisplay = note ? note.value.id : "";
 
-  const fretLineStyle = { backgroundColor: props.theme.base01 };
+  const fretLineStyle = { backgroundColor: props.theme.base07 };
 
-  const stringLineStyle = { backgroundColor: props.theme.base07 };
+  const stringLineStyle = { backgroundColor: props.theme.base0E };
 
   const noteTextStyle = {
     backgroundColor: props.theme.base00,

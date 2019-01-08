@@ -37,8 +37,8 @@ export const bespin: Base16Theme = {
 };
 
 export const cloudCity: Base16Theme = {
-  base00: "#28211c",
-  base01: "#36312e",
+  base00: "#1E1712",
+  base01: "#2C2724",
   base02: "#5e5d5c",
   base03: "#666666",
   base04: "#797977",
@@ -51,7 +51,7 @@ export const cloudCity: Base16Theme = {
   base0B: "#54be0d",
   base0C: "#afc4db",
   base0D: "#5ea6ea",
-  base0E: "#9b859d",
+  base0E: "#3B3633",
   base0F: "#7D4626"
 };
 
