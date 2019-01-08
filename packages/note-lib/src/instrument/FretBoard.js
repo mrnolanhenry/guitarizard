@@ -46,7 +46,7 @@ module.exports = class FretBoard {
       return tunedString;
     });
 
-    console.log('FretBoard::tunedStrings', this.tunedStrings);
+    // console.log('FretBoard::tunedStrings', this.tunedStrings);
   }
 
   /**
