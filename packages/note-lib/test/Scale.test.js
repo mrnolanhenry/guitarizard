@@ -39,6 +39,8 @@ tap.test('class Scale', function (t) {
     major
   ],"equivalent Scales found");
 
+  console.log(blues.intervals);
+
   t.equal(blues.valueOf(), JSON.stringify(blues));
   t.equal(blues.toString(), JSON.stringify(blues));
 

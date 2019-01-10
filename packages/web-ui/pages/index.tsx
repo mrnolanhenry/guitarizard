@@ -233,42 +233,7 @@ export default class Main extends Component<Props, State> {
       left: 0
     };
 
-    const rowDiv = {
-      display: 'flex',
-      flexDirection: 'row'
-    }
-
-    const listDiv = {
-      padding: '5px',
-      // marginLeft: 'auto',
-      // marginRight: 'auto',
-      textAlign: 'left',
-      listStylePosition: 'inside',
-      // width: '400.4px'
-    }
-
-    const intervalItem = {
-      backgroundColor: this.state.theme.base00,
-      color: this.state.theme.base05,
-      borderStyle: 'solid',
-      borderColor: this.state.theme.base01,
-      borderWidth: '1px',
-      padding: '2px 0px 2px 5px',
-      width: '100px'
-    }
-
-    // const btnStyle = {
-    //   backgroundColor: this.state.theme.base00,
-    //   color: this.state.theme.base05,
-    //   borderColor: this.state.theme.base03,
-    //   borderWidth: '1px',
-    //   minWidth: '199.21px',
-    //   maxWidth: '380px'
-    // }
-
     // let equivKeys = this.state.activeKey.getEquivKeys();
-
-    let scaleIntervals = this.state.activeScale.intervals;
 
     return <div id="app">
       <div style={style}>
@@ -284,7 +249,7 @@ export default class Main extends Component<Props, State> {
         {tool}
 
         {/* Nolan mess-around zone */}
-        <div id="row" style={rowDiv}>
+        {/* <div id="row" style={rowDiv}> */}
 
           {/* <div id="equivKeys" style={listDiv}>
             <ul>Equivalent Keys to {`${this.state.keyNote.id} ${this.state.activeScale.name}: `}
@@ -298,50 +263,12 @@ export default class Main extends Component<Props, State> {
               )}
             </ul>
           </div> */}
-
-          <div id="scaleSummary" style={listDiv}>
-            Intervals included:
-            <div id="intervalRow" style={rowDiv}>
-            <div className="intervalItem" style = {intervalItem}> Semitones:</div>
-              {scaleIntervals.map((interval, i) =>
-                <div key={`${i}:${Math.random()}`} className="intervalItem" style={intervalItem}> {interval.semitones}</div>
-              )}
-            </div>
-            
-            <div id="intervalRow" style={rowDiv}>
-            <div className="intervalItem" style = {intervalItem}> Short:</div>
-              {scaleIntervals.map((interval, i) =>
-                <div key={`${i}:${Math.random()}`} className="intervalItem" style={intervalItem}> {interval.aliases[0].short}</div>
-              )}
-            </div>
-
-            <div id="intervalRow" style={rowDiv}>
-            <div className="intervalItem" style = {intervalItem}> Long:</div>
-              {scaleIntervals.map((interval, i) =>
-                <div key={`${i}:${Math.random()}`} className="intervalItem" style={intervalItem}> {interval.aliases[0].long}</div>
-              )}
-            </div>
-
-            <div id="intervalRow" style={rowDiv}>
-            <div className="intervalItem"style = {intervalItem}> Short (Alt):</div>
-              {scaleIntervals.map((interval, i) =>
-                <div key={`${i}:${Math.random()}`} className="intervalItem" style={intervalItem}> {interval.aliases[1].short}</div>
-              )}
-            </div>
-
-            <div id="intervalRow" style={rowDiv}>
-            <div className="intervalItem" style = {intervalItem}> Long (Alt):</div>
-              {scaleIntervals.map((interval, i) =>
-                <div key={`${i}:${Math.random()}`} className="intervalItem" style={intervalItem}> {interval.aliases[1].long}</div>
-              )}
-            </div>
-
-          </div>
+          {/* </div> */}
 
         </div>
 
       </div>
-    </div>;
+    // </div>;
 
 
   }
