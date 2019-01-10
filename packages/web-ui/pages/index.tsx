@@ -302,30 +302,35 @@ export default class Main extends Component<Props, State> {
           <div id="scaleSummary" style={listDiv}>
             Intervals included:
             <div id="intervalRow" style={rowDiv}>
+            <div className="intervalItem" style = {intervalItem}> Semitones:</div>
               {scaleIntervals.map((interval, i) =>
                 <div key={`${i}:${Math.random()}`} className="intervalItem" style={intervalItem}> {interval.semitones}</div>
               )}
             </div>
-
+            
             <div id="intervalRow" style={rowDiv}>
+            <div className="intervalItem" style = {intervalItem}> Short:</div>
               {scaleIntervals.map((interval, i) =>
                 <div key={`${i}:${Math.random()}`} className="intervalItem" style={intervalItem}> {interval.aliases[0].short}</div>
               )}
             </div>
 
             <div id="intervalRow" style={rowDiv}>
+            <div className="intervalItem" style = {intervalItem}> Long:</div>
               {scaleIntervals.map((interval, i) =>
                 <div key={`${i}:${Math.random()}`} className="intervalItem" style={intervalItem}> {interval.aliases[0].long}</div>
               )}
             </div>
 
             <div id="intervalRow" style={rowDiv}>
+            <div className="intervalItem"style = {intervalItem}> Short (Alt):</div>
               {scaleIntervals.map((interval, i) =>
                 <div key={`${i}:${Math.random()}`} className="intervalItem" style={intervalItem}> {interval.aliases[1].short}</div>
               )}
             </div>
 
             <div id="intervalRow" style={rowDiv}>
+            <div className="intervalItem" style = {intervalItem}> Long (Alt):</div>
               {scaleIntervals.map((interval, i) =>
                 <div key={`${i}:${Math.random()}`} className="intervalItem" style={intervalItem}> {interval.aliases[1].long}</div>
               )}
