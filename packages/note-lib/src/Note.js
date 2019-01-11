@@ -54,6 +54,8 @@ module.exports = class Note {
     return this.findByAttribute('isFlat', true);
   }
 
+  
+
   toJSON(key) {
     return {
       id: this.id,

@@ -9,7 +9,7 @@ tap.test('class ScaleSystem', function (t) {
   const Bb = new Note('Bb', { isFlat: true }, [As]);
   As.addAliasNote(Bb);
 
-  const B = new Note('B');
+  const B = new Note('B'), { isNatural: true});
 
   const C = new Note('C');
 

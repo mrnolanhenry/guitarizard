@@ -4,7 +4,7 @@
 
 type NoteID = string;
 
-type NoteAttribute = 'isSharp' | 'isFlat';
+type NoteAttribute = 'isSharp' | 'isFlat' | 'isNatural';
 
 declare class Key {
   constructor(
@@ -21,6 +21,7 @@ export interface Note {
   attributes: {
     isSharp?: boolean;
     isFlat?: boolean;
+    isNatural?: boolean;
   };
   aliasNotes: Array<Note>;
   findByAttribute: (attribute: NoteAttribute, value: any) => Note | void;

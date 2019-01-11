@@ -7,6 +7,7 @@ import ScaleSelector from "./ScaleSelector";
 import EquivScaleSelector from "./EquivScaleSelector";
 import EquivKeySelector from "./EquivKeySelector";
 import IntervalTable from "./IntervalTable";
+import NoteTable from "./NoteTable";
 import Guitar from "./Guitar";
 import Banjo from "./Banjo";
 import Ukulele from "./Ukulele";
@@ -121,6 +122,9 @@ export default function Chordbook(props: Props) {
     </div>
 
     {instrumentComponent}
+
+    <NoteTable  activeKey = {props.activeKey}
+                theme = {props.theme} />
     
     <IntervalTable  scale = {props.activeScale}
                     theme ={props.theme} />

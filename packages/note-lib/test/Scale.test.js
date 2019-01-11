@@ -39,7 +39,12 @@ tap.test('class Scale', function (t) {
     major
   ],"equivalent Scales found");
 
-  console.log(blues.intervals);
+  const FsBluesNotes = blues.getNotesInKey(diatonic.Fs);
+  const GbNote = FsBluesNotes[0].aliasNotes;
+  console.log(GbNote[0].id);
+
+  const Gb = blues.getNotesInKey(diatonic.Fs)[0].aliasNotes[0].id;
+  console.log(Gb)
 
   t.equal(blues.valueOf(), JSON.stringify(blues));
   t.equal(blues.toString(), JSON.stringify(blues));
