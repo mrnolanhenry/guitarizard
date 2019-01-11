@@ -29,8 +29,6 @@ export default function noteTable(props: Props) {
     width: '100px'
   }
 
-  console.log(props.activeKey.note.findFlat());
-  
   let notes = props.activeKey.scale.getNotesInKey(props.activeKey.note);
 
   return (<div id="noteTable" style={colDiv}>
@@ -38,14 +36,14 @@ export default function noteTable(props: Props) {
     <div id="noteRow" style={rowDiv}>
       <div className="noteItem" style={noteItem}> Flats:</div>
       {notes.map((note, i) =>
-        <div key={`${i}:${Math.random()}`} className="noteItem" style={noteItem}> {note.findFlat().id}</div>
+        <div key={`${i}:${Math.random()}`} className="noteItem" style={noteItem}> {note.findFlatOrNatural().id}</div>
       )}
     </div>
 
     <div id="noteRow" style={rowDiv}>
       <div className="noteItem" style={noteItem}> Sharps:</div>
-      {props.activeKey.scale.getNotesInKey(props.activeKey.note).map((note, i) =>
-        <div key={`${i}:${Math.random()}`} className="noteItem" style={noteItem}> {note.findSharp().id}</div>
+      {notes.map((note, i) =>
+        <div key={`${i}:${Math.random()}`} className="noteItem" style={noteItem}> {note.findSharpOrNatural().id}</div>
       )}
     </div>
     {/* blues.getNotesInKey(diatonic.Fs)[0].aliasNotes[0].id */}

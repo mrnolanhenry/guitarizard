@@ -54,7 +54,19 @@ module.exports = class Note {
     return this.findByAttribute('isFlat', true);
   }
 
-  
+  findSharpOrNatural() {
+    if (!!(this.findByAttribute('isNatural',true))) {
+      return this;
+    }
+    else return this.findByAttribute('isSharp', true);
+  }
+
+  findFlatOrNatural() {
+    if (!!(this.findByAttribute('isNatural',true))) {
+      return this;
+    }
+    else return this.findByAttribute('isFlat', true);
+  }
 
   toJSON(key) {
     return {

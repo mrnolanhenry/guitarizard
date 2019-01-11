@@ -7,6 +7,8 @@ tap.test('class Note', function (t) {
 
   const note = new Note('FOO-BAR', {}, [ Xs, Yb ]);
 
+  const X = new Note('X', { isNatural: true });
+
   t.equal(note.id, 'FOO-BAR', 'note id should match');
 
   t.same(note.aliasNotes, [ Xs, Yb ], 'aliases should match');
@@ -34,6 +36,11 @@ tap.test('class Note', function (t) {
   t.equal(note.findFlat(), Yb, 'find flat note in aliases')
   t.equal(Yb.findFlat(), Yb, 'return self if flat')
   t.equal(Xs.findFlat(), (void 0), 'return undefined if no flat exists')
+
+  t.equal(note.findSharpOrNatural(), Xs, 'find sharp or natural note in aliases')
+  t.equal(note.findFlatOrNatural(), Yb, 'find flat or natural note in aliases')
+  t.equal(X.findSharpOrNatural(), X, 'return natural note if no flat exists')
+  t.equal(X.findFlatOrNatural(), X, 'return natural note if no flat exists')
 
   t.equal(note.findByAttribute('isSharp', true), Xs, 'find by attribute, success');
   t.equal(note.findByAttribute('isPoo', true), (void 0), 'find by attribute, failure');
