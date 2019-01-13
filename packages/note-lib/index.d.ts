@@ -54,7 +54,11 @@ declare var ScaleSystem: {
   new(): ScaleSystem;
 };
 
-export type IntervalAlias = String;
+export type IntervalAlias = {
+  name: string,
+  long: string,
+  short: string
+}
 
 export interface Interval {
   semitones: number;
