@@ -35,16 +35,22 @@ export default function noteTable(props: Props) {
     Notes included:
     <div id="noteRow" style={rowDiv}>
       <div className="noteItem" style={noteItem}> Flats:</div>
-      {notes.map((note, i) =>
-        <div key={`${i}:${Math.random()}`} className="noteItem" style={noteItem}> {note.findFlatOrNatural().id}</div>
-      )}
+      {notes.map((note, i) => {
+         const sharpOrNatural = note.findFlatOrNatural();
+         return <div key={`${i}:${Math.random()}`}
+                     className="noteItem"
+                     style={noteItem}>{sharpOrNatural ? sharpOrNatural.id : ''}</div>
+      })}
     </div>
 
     <div id="noteRow" style={rowDiv}>
       <div className="noteItem" style={noteItem}> Sharps:</div>
-      {notes.map((note, i) =>
-        <div key={`${i}:${Math.random()}`} className="noteItem" style={noteItem}> {note.findSharpOrNatural().id}</div>
-      )}
+      {notes.map((note, i) => {
+         const sharpOrNatural = note.findSharpOrNatural();
+         return <div key={`${i}:${Math.random()}`}
+                     className="noteItem"
+                     style={noteItem}> {sharpOrNatural ? sharpOrNatural.id : ''}</div>
+      })}
     </div>
     {/* blues.getNotesInKey(diatonic.Fs)[0].aliasNotes[0].id */}
   </div>);
