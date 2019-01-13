@@ -39,7 +39,7 @@ export default function noteTable(props: Props) {
          const flatOrNatural = note.findFlatOrNatural();
          return <div key={`${i}:${Math.random()}`}
                      className="noteItem"
-                     style={noteItem}>{flatOrNatural ? flatOrNatural.id : ''}</div>
+                     style={noteItem}>{flatOrNatural.id}</div>
       })}
     </div>
 
@@ -49,7 +49,7 @@ export default function noteTable(props: Props) {
          const sharpOrNatural = note.findSharpOrNatural();
          return <div key={`${i}:${Math.random()}`}
                      className="noteItem"
-                     style={noteItem}> {sharpOrNatural ? sharpOrNatural.id : ''}</div>
+                     style={noteItem}> {sharpOrNatural.id}</div>
       })}
     </div>
   </div>);
