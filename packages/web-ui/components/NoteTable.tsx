@@ -36,10 +36,10 @@ export default function noteTable(props: Props) {
     <div id="noteRow" style={rowDiv}>
       <div className="noteItem" style={noteItem}> Flats:</div>
       {notes.map((note, i) => {
-         const sharpOrNatural = note.findFlatOrNatural();
+         const flatOrNatural = note.findFlatOrNatural();
          return <div key={`${i}:${Math.random()}`}
                      className="noteItem"
-                     style={noteItem}>{sharpOrNatural ? sharpOrNatural.id : ''}</div>
+                     style={noteItem}>{flatOrNatural ? flatOrNatural.id : ''}</div>
       })}
     </div>
 
@@ -52,6 +52,5 @@ export default function noteTable(props: Props) {
                      style={noteItem}> {sharpOrNatural ? sharpOrNatural.id : ''}</div>
       })}
     </div>
-    {/* blues.getNotesInKey(diatonic.Fs)[0].aliasNotes[0].id */}
   </div>);
 }
