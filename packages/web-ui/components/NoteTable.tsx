@@ -1,6 +1,6 @@
 import { Key } from "guitarizard-note-lib";
 import { Base16Theme } from "../lib/colors";
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 interface Props {
   activeKey: Key;
@@ -8,18 +8,18 @@ interface Props {
 }
 
 export default function noteTable(props: Props) {
-  const rowDiv = {
+  const rowDiv: CSSProperties = {
     display: 'flex',
     flexDirection: 'row'
   }
 
-  const colDiv = {
+  const colDiv: CSSProperties = {
     padding: '5px',
     textAlign: 'left',
     listStylePosition: 'inside',
   }
 
-  const noteItem = {
+  const noteItem: CSSProperties = {
     backgroundColor: props.theme.base00,
     color: props.theme.base05,
     borderStyle: 'solid',
