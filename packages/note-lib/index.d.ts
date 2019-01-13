@@ -27,8 +27,8 @@ export interface Note {
   findByAttribute: (attribute: NoteAttribute, value: any) => Note | void;
   findSharp: () => Note | void;
   findFlat: () => Note | void;
-  findSharpOrNatural: () => Note | void;
-  findFlatOrNatural: () => Note | void;
+  findSharpOrNatural: () => Note;
+  findFlatOrNatural: () => Note;
   isSimilar: (note: Note) => boolean;
 }
 
