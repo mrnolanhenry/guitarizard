@@ -8,6 +8,7 @@ import EquivScaleSelector from "./EquivScaleSelector";
 import EquivKeySelector from "./EquivKeySelector";
 import IntervalTable from "./IntervalTable";
 import NoteTable from "./NoteTable";
+// import ToggleButtonIntervalTable from "./ToggleButtonIntervalTable";
 import Guitar from "./Guitar";
 import Banjo from "./Banjo";
 import Ukulele from "./Ukulele";
@@ -20,6 +21,8 @@ interface Props {
   keyNote: Note;
   activeKey: Key;
   scaleSystem: ScaleSystem;
+  onToggleNoteTable: boolean;
+  onToggleIntervalTable: boolean;
   onKeyNoteSelect: (keyNote: Note) => void;
   onInstrumentSelect: (instrument: instrument.FrettedInstrument) => void;
   onScaleSelect: (scale: Scale) => void;
@@ -122,7 +125,7 @@ export default function Chordbook(props: Props) {
     </div>
 
     {instrumentComponent}
-
+    
     <NoteTable  activeKey = {props.activeKey}
                 theme = {props.theme} />
     

@@ -69,18 +69,4 @@ class Key {
 }
 
 module.exports = Key;
-// -- END of MODULE
-
-// -- TESTING - please leave until Key.js implemented with UI
-
-// const Scale = require('../src/Scale');
-// const Note = require('../src/Note');
-// const diatonic = require('../src/data/scaleSystem/diatonic');
-
-// let testKey = new Key(new Note('A#'),new Scale('lydian',diatonic,[0,2,4,6,7,9,11,12]))
-
-// let equivKeys = testKey.getEquivKeys();
-// for (let i = 0; i < equivKeys.length; i++) {
-//     console.log(equivKeys[i].note, equivKeys[i].scale.name);
-// }
 

@@ -13,7 +13,7 @@ module.exports = class Guitar {
       new TunedString('G-string', tuning[2], 'metal', 0.6604),
       new TunedString('D-string', tuning[3], 'metal', 0.4318),
       new TunedString('A-string', tuning[4], 'metal', 0.3302),
-      new TunedString('lil-e-string', tuning[5], 'metal', 0.2540)
+      new TunedString('high-e-string', tuning[5], 'metal', 0.2540)
     ];
 
     const stringConfig = [

@@ -16,6 +16,8 @@ interface State {
   activeKey: Key;
   scaleSystem: ScaleSystem;
   activeToolName: ToolName;
+  onToggleNoteTable: boolean;
+  onToggleIntervalTable: boolean;
   theme: Base16Theme;
 }
 
@@ -27,10 +29,6 @@ export default class Main extends Component<Props, State> {
 
     const diatonic = data.scaleSystem.diatonic;
     const scales = data.scales;
-
-    // for (let i =0; i < scales.length; i++) {
-    //   console.log(scales[i].name,i);
-    // }
 
     const instruments: InstrumentMap = new Map();
 
@@ -102,13 +100,16 @@ export default class Main extends Component<Props, State> {
       activeInstrumentName: "guitar",
       activeScale,
       keyNote,
+      onToggleNoteTable: false,
+      onToggleIntervalTable: false,
       activeKey: new Key(keyNote, activeScale),
       scaleSystem: diatonic,
       activeToolName: "chordbook",
       theme: cloudCity
     };
 
-
+    this.onToggleNoteTable = this.onToggleNoteTable.bind(this);
+    this.onToggleIntervalTable = this.onToggleIntervalTable.bind(this);
 
     this.onKeyNoteSelect = this.onKeyNoteSelect.bind(this);
     this.onInstrumentSelect = this.onInstrumentSelect.bind(this);
@@ -191,6 +192,16 @@ export default class Main extends Component<Props, State> {
     return this.setInstrumentTuning('bass-6', stringID, newTuning);
   }
 
+  onToggleNoteTable() {
+    console.log('onToggleNoteTable fired')
+    return false;
+  }
+
+  onToggleIntervalTable() {
+    console.log('onToggletIntervalTable fired')
+    return false;
+  }
+
   render() {
 
     let tool;
@@ -204,6 +215,8 @@ export default class Main extends Component<Props, State> {
           activeKey={this.state.activeKey}
           instruments={this.state.instruments}
           activeInstrumentName={this.state.activeInstrumentName}
+          onToggleNoteTable={this.state.onToggleNoteTable}
+          onToggleIntervalTable = {this.state.onToggleIntervalTable}
           onKeyNoteSelect={this.onKeyNoteSelect}
           onInstrumentSelect={this.onInstrumentSelect}
           onScaleSelect={this.onScaleSelect}
@@ -233,8 +246,6 @@ export default class Main extends Component<Props, State> {
       left: 0
     };
 
-    // let equivKeys = this.state.activeKey.getEquivKeys();
-
     return <div id="app">
       <div style={style}>
         <TopBar isAuthenticated={false}
@@ -249,26 +260,13 @@ export default class Main extends Component<Props, State> {
         {tool}
 
         {/* Nolan mess-around zone */}
-        {/* <div id="row" style={rowDiv}> */}
 
-          {/* <div id="equivKeys" style={listDiv}>
-            <ul>Equivalent Keys to {`${this.state.keyNote.id} ${this.state.activeScale.name}: `}
-              {/* TODO: KEY sucks 
-              {equivKeys.map((key, i) =>
-                <li key={`${i}:${Math.random()}`}><button className="btn-equiv-key" style={btnStyle} onClick={() => {
-                  this.updateKey(key);
-                }}>
-                  {key.note.id} {key.scale.name}
-                </button></li>
-              )}
-            </ul>
-          </div> */}
-          {/* </div> */}
-
+          {<button id='toggleNoteTable' onClick={this.onToggleNoteTable}>Hide Note Table</button>}
+          {<button id='toggleIntervalTable' onClick={this.onToggleIntervalTable}>Hide Interval Table</button>}
         </div>
 
       </div>
-    // </div>;
+
 
 
   }
