@@ -1,6 +1,7 @@
 const diatonic = require('../data/scaleSystem/diatonic');
 const FretBoard = require('./FretBoard');
 const TunedString = require('./TunedString');
+const Tunings = require('../data/tunings');
 
 module.exports = class Banjo {
   constructor(fretCount, tuning) {
@@ -25,5 +26,19 @@ module.exports = class Banjo {
     ];
 
     this.fretBoard = new FretBoard(diatonic, tunedStrings, stringConfig)
+  }
+
+  getCommonTunings() {
+    let commonTunings = [];
+    for (let i = 0; i < Tunings.length; i++) {
+      if (Tunings[i].instrument === this.name) {
+        commonTunings.push(Tunings[i]);
+      }
+    }
+    return commonTunings;
+  }
+
+  getStandardTuning() {
+    return this.getCommonTunings()[0];
   }
 }

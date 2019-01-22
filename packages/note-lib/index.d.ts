@@ -6,6 +6,15 @@ type NoteID = string;
 
 type NoteAttribute = 'isSharp' | 'isFlat' | 'isNatural';
 
+declare class Tuning {
+  constructor(
+    instrument: string,
+    id: string,
+    notes: Array<Note>
+  );
+}
+
+
 declare class Key {
   constructor(
     note: Note,
