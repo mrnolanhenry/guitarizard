@@ -12,8 +12,10 @@ declare class Tuning {
     id: string,
     notes: Array<Note>
   );
+  instrument: string;
+  id: string;
+  notes: Array<Note>;
 }
-
 
 declare class Key {
   constructor(
@@ -108,6 +110,7 @@ export namespace data {
   };
   export const intervals: Array<Interval>;
   export const scales: Array<Scale>;
+  export const tunings: Array<Tuning>;
 }
 
 type MaterialType = 'metal' | 'nylon';
@@ -168,6 +171,10 @@ export namespace instrument {
     fretBoard: FretBoard;
 
     constructor(fretCount: number, tuning: Array<Note>);
+
+    getCommonTunings: () => Array<Tuning>;
+
+    getStandardTuning: () => Tuning;
   }
 
   export class Banjo implements FrettedInstrument {

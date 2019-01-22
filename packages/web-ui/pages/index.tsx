@@ -4,7 +4,7 @@ import { tomorrow, bespin, cloudCity, Base16Theme } from "../lib/colors";
 import { ToolName } from '../components/ToolSelector';
 import TopBar from "../components/TopBar";
 import Chordbook from '../components/Chordbook';
-import { Key, Note, Scale, ScaleSystem, instrument, data } from "guitarizard-note-lib";
+import { Tuning, Key, Note, Scale, ScaleSystem, instrument, data } from "guitarizard-note-lib";
 
 type InstrumentMap = Map<string, instrument.FrettedInstrument>;
 
@@ -29,6 +29,7 @@ export default class Main extends Component<Props, State> {
 
     const diatonic = data.scaleSystem.diatonic;
     const scales = data.scales;
+    const tunings = data.tunings;
 
     const instruments: InstrumentMap = new Map();
 
@@ -36,7 +37,7 @@ export default class Main extends Component<Props, State> {
       "guitar",
       new instrument.Guitar(
         22,
-        ["E", "A", "D", "G", "B", "E"].map(noteID =>
+        instrument.Guitar.getStandardTuning().notes.map(noteID =>
           diatonic.getNoteFromID(noteID)
         )
       )
