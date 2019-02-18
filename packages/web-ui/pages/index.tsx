@@ -3,7 +3,7 @@ import { Component } from 'react';
 import { tomorrow, bespin, cloudCity, Base16Theme } from "../lib/colors";
 import { ToolName } from '../components/ToolSelector';
 import TopBar from "../components/TopBar";
-import Chordbook from '../components/Chordbook';
+import Scalebook from '../components/Scalebook';
 import { Tuning, Key, Note, Scale, ScaleSystem, instrument, data } from "guitarizard-note-lib";
 
 type InstrumentMap = Map<string, instrument.FrettedInstrument>;
@@ -105,7 +105,7 @@ export default class Main extends Component<Props, State> {
       onToggleIntervalTable: false,
       activeKey: new Key(keyNote, activeScale),
       scaleSystem: diatonic,
-      activeToolName: "chordbook",
+      activeToolName: "scalebook",
       theme: cloudCity
     };
 
@@ -208,8 +208,8 @@ export default class Main extends Component<Props, State> {
     let tool;
 
     switch (this.state.activeToolName) {
-      case "chordbook": {
-        tool = <Chordbook
+      case "scalebook": {
+        tool = <Scalebook
           activeScale={this.state.activeScale}
           scaleSystem={this.state.scaleSystem}
           keyNote={this.state.keyNote}

@@ -1,7 +1,7 @@
 import { Base16Theme } from "../lib/colors";
 import Selector from "./Selector";
 
-export type ToolName = "chordbook" | "songbook";
+export type ToolName = "scalebook" | "songbook";
 
 interface Props {
   activeToolName: ToolName;
@@ -11,7 +11,7 @@ interface Props {
 
 export default function(props: Props) {
   return <Selector<ToolName>
-    items={[ "chordbook", "songbook" ]}
+    items={[ "scalebook", "songbook" ]}
     activeItem={props.activeToolName}
     onChange={(v) => props.onToolSelect(v as ToolName)}
     theme={props.theme} />;

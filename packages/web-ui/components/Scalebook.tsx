@@ -1,4 +1,4 @@
-import './Chordbook.scss';
+import './Scalebook.scss';
 import { Key, Note, Scale, ScaleSystem, instrument } from "guitarizard-note-lib";
 import { Base16Theme } from "../lib/colors";
 import InstrumentSelector from "./InstrumentSelector";
@@ -36,7 +36,7 @@ interface Props {
   theme: Base16Theme;
 }
 
-export default function Chordbook(props: Props) {
+export default function Scalebook(props: Props) {
 
   const settingsBarStyle = {
     backgroundColor: props.theme.base01
@@ -96,7 +96,7 @@ export default function Chordbook(props: Props) {
                                 theme={props.theme} />;
   }
 
-  return <div className="chordbook">
+  return <div className="scalebook">
     <div className="settings-bar" style={settingsBarStyle}>
       <InstrumentSelector
         activeInstrumentName={props.activeInstrumentName}
