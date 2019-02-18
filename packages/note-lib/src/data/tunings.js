@@ -3,6 +3,9 @@ const Tuning = require('../instrument/Tuning')
 // Common tunings for various instruments so that these can be used as presets and selected by name from a dropdown
 module.exports = [
 
+    // TODO: Reorg this data structure into objects per each instrument & re-write getCommonTunings and getStandardTuning methods
+    // -- Nolan
+
     // GUITAR
     new Tuning('guitar', 'standard', ['E', 'A', 'D', 'G', 'B', 'E']),
     new Tuning('guitar', 'drop D', ['D', 'A', 'D', 'G', 'B', 'E']),

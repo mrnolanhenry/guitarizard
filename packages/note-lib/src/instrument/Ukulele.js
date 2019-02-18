@@ -24,17 +24,17 @@ module.exports = class Ukulele {
     this.fretBoard = new FretBoard(diatonic, tunedStrings, stringConfig)
   }
 
-  getCommonTunings() {
-    let commonTunings = [];
-    for (let i = 0; i < Tunings.length; i++) {
-      if (Tunings[i].instrument === this.name) {
-        commonTunings.push(Tunings[i]);
-      }
-    }
-    return commonTunings;
-  }
+  // getCommonTunings() {
+  //   let commonTunings = [];
+  //   for (let i = 0; i < Tunings.length; i++) {
+  //     if (Tunings[i].instrument === this.name) {
+  //       commonTunings.push(Tunings[i]);
+  //     }
+  //   }
+  //   return commonTunings;
+  // }
 
-  getStandardTuning() {
-    return this.getCommonTunings()[0];
-  }
+  // getStandardTuning() {
+  //   return this.getCommonTunings()[0];
+  // }
 }

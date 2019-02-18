@@ -37,7 +37,7 @@ export default class Main extends Component<Props, State> {
       "guitar",
       new instrument.Guitar(
         22,
-        instrument.Guitar.getStandardTuning().notes.map(noteID =>
+        ["E","A", "D", "G", "B", "E"].map(noteID =>
           diatonic.getNoteFromID(noteID)
         )
       )
@@ -262,8 +262,8 @@ export default class Main extends Component<Props, State> {
 
         {/* Nolan mess-around zone */}
 
-          {<button id='toggleNoteTable' onClick={this.onToggleNoteTable}>Hide Note Table</button>}
-          {<button id='toggleIntervalTable' onClick={this.onToggleIntervalTable}>Hide Interval Table</button>}
+          {/* {<button id='toggleNoteTable' onClick={this.onToggleNoteTable}>Hide Note Table</button>}
+          {<button id='toggleIntervalTable' onClick={this.onToggleIntervalTable}>Hide Interval Table</button>} */}
         </div>
 
       </div>

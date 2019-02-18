@@ -172,9 +172,9 @@ export namespace instrument {
 
     constructor(fretCount: number, tuning: Array<Note>);
 
-    getCommonTunings: () => Array<Tuning>;
+    // getCommonTunings: () => Array<Tuning>;
 
-    getStandardTuning: () => Tuning;
+    // getStandardTuning: () => Tuning;
   }
 
   export class Banjo implements FrettedInstrument {
