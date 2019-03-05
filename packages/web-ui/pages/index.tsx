@@ -244,7 +244,8 @@ export default class Main extends Component<Props, State> {
       top: 0,
       right: 0,
       bottom: 0,
-      left: 0
+      left: 0,
+      overflow: "auto" 
     };
 
     return <div id="app">
