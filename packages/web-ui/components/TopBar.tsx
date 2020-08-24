@@ -1,6 +1,6 @@
 import './TopBar.scss';
 import ToolSelector, { ToolName } from './ToolSelector';
-import { bespin, cloudCity, Base16Theme } from '../lib/colors';
+import { cloudCity, Base16Theme } from '../lib/colors';
 
 interface Props {
   isAuthenticated: boolean;

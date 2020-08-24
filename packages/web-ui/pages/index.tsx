@@ -1,10 +1,10 @@
 import './global.scss';
 import { Component } from 'react';
-import { tomorrow, bespin, cloudCity, Base16Theme } from "../lib/colors";
+import { cloudCity, Base16Theme } from "../lib/colors";
 import { ToolName } from '../components/ToolSelector';
 import TopBar from "../components/TopBar";
 import Scalebook from '../components/Scalebook';
-import { Tuning, Key, Note, Scale, ScaleSystem, instrument, data } from "guitarizard-note-lib";
+import { Key, Note, Scale, ScaleSystem, instrument, data } from "guitarizard-note-lib";
 
 type InstrumentMap = Map<string, instrument.FrettedInstrument>;
 
@@ -29,7 +29,7 @@ export default class Main extends Component<Props, State> {
 
     const diatonic = data.scaleSystem.diatonic;
     const scales = data.scales;
-    const tunings = data.tunings;
+    // const tunings = data.tunings;
 
     const instruments: InstrumentMap = new Map();
 
