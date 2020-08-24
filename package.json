@@ -6,7 +6,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://querie.cc/git/collabs/guitarizard"
+    "url": "https://querie.cc/git/collabs/guitarizard.git"
   },
   "dependencies": {
     "lerna": "^3.22.1"
