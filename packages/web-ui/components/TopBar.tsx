@@ -16,7 +16,7 @@ export default function TopBar(props: Props) {
              ? <div onClick={props.onLogoutClick}>logout</div>
              : <div onClick={props.onLoginClick}></div>;
 
-  const logo = <img src="/static/guitarizard_logo_sq_20.png"
+  const logo = <img src="/guitarizard_logo_sq_20.png"
                     className="logo" />;
 
   const style = {
