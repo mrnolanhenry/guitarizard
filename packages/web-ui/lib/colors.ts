@@ -80,3 +80,20 @@ export const tomorrow: Base16Theme = {
   base0E: "#8959a8",
   base0F: "#a3685a"
 };
+
+
+export const rainbow = [
+  '#00D28C',
+  '#F08228',
+  '#FA3C3C',
+  '#A000C8',
+  '#C800C8',
+  '#00A0FF',
+  '#E6AF2D',
+  '#F00082',
+  '#A0E632',
+  '#00DC00',
+  '#1E3CFF',
+  '#00C8C8',
+  '#E6DC32',
+]

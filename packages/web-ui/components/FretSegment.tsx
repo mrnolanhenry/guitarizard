@@ -1,6 +1,6 @@
 import './FretSegment.scss';
 import { instrument, Key } from "guitarizard-note-lib";
-import { Base16Theme } from "../lib/colors";
+import { Base16Theme, rainbow } from "../lib/colors";
 
 interface Props {
     stringScale: instrument.StringScale;
@@ -9,13 +9,10 @@ interface Props {
     activeKey: Key;
 }
 
-
-const colors = [ "red", "orange", "brown", "yellow", "green", "cyan", "blue", "purple", "#59f", "#f42", "#ff3", "#8cd", "#44d" ];
-
 export default function fretSegment(props: Props) {
     let notes = props.activeKey.scale.getNotesInKey(props.activeKey.note);
     let semitones = props.activeKey.scale.intervals.map(itrvl => itrvl.semitones);
-    let semitoneColors = semitones.map((semitone) => colors[semitone]);
+    let semitoneColors = semitones.map((semitone) => rainbow[semitone]);
 
     let lol = notes.map((n, i) => ({
         note: n,
@@ -42,7 +39,8 @@ export default function fretSegment(props: Props) {
     
     const noteTextStyle = {
         backgroundColor: noteLul ? noteLul.semitoneColor : props.theme.base00,
-        color: props.theme.base05
+        color: props.theme.base00,
+        fontWeight: 550,
     };
 
     const backgroundStyle = props.fret <= props.stringScale.config.fret.start ? {
