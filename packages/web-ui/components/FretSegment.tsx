@@ -1,42 +1,62 @@
 import './FretSegment.scss';
-import { instrument } from "guitarizard-note-lib";
+import { instrument, Key } from "guitarizard-note-lib";
 import { Base16Theme } from "../lib/colors";
 
 interface Props {
-  stringScale: instrument.StringScale;
-  fret: number;
-  theme: Base16Theme;
+    stringScale: instrument.StringScale;
+    fret: number;
+    theme: Base16Theme;
+    activeKey: Key;
 }
 
+
+const colors = [ "red", "orange", "brown", "yellow", "green", "cyan", "blue", "purple", "#59f", "#f42", "#ff3", "#8cd", "#44d" ];
+
 export default function fretSegment(props: Props) {
-  // Get the note on this string (if it exists)
-  const note = props.stringScale.notes.find(note => {
-    return note.fretNumber === props.fret;
-  });
+    let notes = props.activeKey.scale.getNotesInKey(props.activeKey.note);
+    let semitones = props.activeKey.scale.intervals.map(itrvl => itrvl.semitones);
+    let semitoneColors = semitones.map((semitone) => colors[semitone]);
 
-  const noteDisplay = note ? note.value.id : "";
+    let lol = notes.map((n, i) => ({
+        note: n,
+        semitone: semitones[i],
+        semitoneColor: semitoneColors[i]
+    }));
 
-  const fretLineStyle = { backgroundColor: props.theme.base07 };
+    console.log(props.stringScale);
+    
+    // Get the note on this string (if it exists)
+    const note = props.stringScale.notes.find(note => {
+        return note.fretNumber === props.fret;
+    });
 
-  const stringLineStyle = { backgroundColor: props.theme.base0E };
+    const noteLul = note ? lol.find((lul) => lul.note.isSimilar(note.value)) : null;
 
-  const noteTextStyle = {
-    backgroundColor: props.theme.base00,
-    color: props.theme.base05
-  };
+    console.log('lul', noteLul);
 
-  const backgroundStyle = props.fret <= props.stringScale.config.fret.start ? {
-    backgroundColor: props.theme.base01
-  }: {};
+    const noteDisplay = note ? note.value.id : "";
 
-  return (<div className="fret-segment">
-    <div className="background" style={backgroundStyle}></div>
-    <div className="inner">
-      <div className="string-line" style={stringLineStyle}></div>
-      {note && <div className="note-container">
-        <div className="note-text" style={noteTextStyle}>{noteDisplay}</div>
-      </div>}
-      <div className="fret-line" style={fretLineStyle}></div>
-    </div>
-  </div>);
+    const fretLineStyle = { backgroundColor: props.theme.base07 };
+
+    const stringLineStyle = { backgroundColor: props.theme.base0E };
+    
+    const noteTextStyle = {
+        backgroundColor: noteLul ? noteLul.semitoneColor : props.theme.base00,
+        color: props.theme.base05
+    };
+
+    const backgroundStyle = props.fret <= props.stringScale.config.fret.start ? {
+        backgroundColor: props.theme.base01
+    }: {};
+
+    return (<div className="fret-segment">
+        <div className="background" style={backgroundStyle}></div>
+        <div className="inner">
+            <div className="string-line" style={stringLineStyle}></div>
+            {note && <div className="note-container">
+                <div className="note-text" style={noteTextStyle}>{noteDisplay}</div>
+            </div>}
+            <div className="fret-line" style={fretLineStyle}></div>
+        </div>
+    </div>);
 }
