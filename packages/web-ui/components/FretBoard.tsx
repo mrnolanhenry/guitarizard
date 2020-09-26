@@ -1,5 +1,5 @@
 import './FretBoard.scss';
-import { instrument, Note, Scale } from "guitarizard-note-lib";
+import { Key, instrument, Note, Scale } from "guitarizard-note-lib";
 import { Base16Theme } from "../lib/colors";
 import FretSegment from "./FretSegment";
 import NoteSelector from "./NoteSelector";
@@ -7,9 +7,10 @@ import NoteSelector from "./NoteSelector";
 interface Props {
   fretBoard: instrument.FretBoard;
   scale: Scale;
-  keyNote: Note;
-  showFretBar: boolean;
-  onTune: (stringID: string, newTuning: Note) => void;
+    keyNote: Note;
+    activeKey: Key;    
+    showFretBar: boolean;
+    onTune: (stringID: string, newTuning: Note) => void;
   theme: Base16Theme;
 }
 
@@ -56,10 +57,11 @@ export default function FretBoard(props: Props) {
       ...Array(props.fretBoard.getFretCount())
     ].map((_, i) => {
       // TODO: this is a terrible key
-      return <FretSegment key={`${i}:${Math.random()}`}
-                          stringScale={stringScale}
-                          fret={i}
-                          theme={props.theme} />;
+        return <FretSegment key={`${i}:${Math.random()}`}
+                            activeKey={props.activeKey}
+                            stringScale={stringScale}
+                            fret={i}
+                            theme={props.theme} />;
     });
 
     // TODO: this is a terrible key
