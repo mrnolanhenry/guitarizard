@@ -14,11 +14,13 @@ interface Props {
 }
 
 export default function FretBoard(props: Props) {
-
   const fretBarStyle = {
     backgroundColor: props.theme.base00,
     borderColor: props.theme.base01
   };
+
+  console.log(props);
+  console.log(props.scale.getNotesInKey(props.activeKey.note).map(n => n.note))
 
   const fretBar = props.showFretBar && <div className="fret-labels">
     {[...Array(props.fretBoard.getFretCount())].map((_, i) => {

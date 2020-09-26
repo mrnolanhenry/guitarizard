@@ -9,7 +9,7 @@ interface Props {
   theme: Base16Theme;
 }
 
-export default function(props: Props) {
+export default function ToolSelector (props: Props) {
   return <Selector<ToolName>
     items={[ "scalebook", "songbook" ]}
     activeItem={props.activeToolName}

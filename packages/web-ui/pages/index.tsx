@@ -194,12 +194,10 @@ export default class Main extends Component<Props, State> {
   }
 
   onToggleNoteTable() {
-    console.log('onToggleNoteTable fired')
     return false;
   }
 
   onToggleIntervalTable() {
-    console.log('onToggletIntervalTable fired')
     return false;
   }
 
