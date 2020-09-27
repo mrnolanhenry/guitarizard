@@ -167,13 +167,12 @@ export namespace instrument {
   }
 
   export class Guitar implements FrettedInstrument {
-    name: 'guitar';
+    name: string;
     fretBoard: FretBoard;
 
-    constructor(fretCount: number, tuning: Array<Note>);
+    constructor(fretCount: number, tuning: Array<Note>, name: string);
 
     // getCommonTunings: () => Array<Tuning>;
-
     // getStandardTuning: () => Tuning;
   }
 
@@ -181,20 +180,20 @@ export namespace instrument {
     name: 'banjo';
     fretBoard: FretBoard;
 
-    constructor(fretCount: number, tuning: Array<Note>);
+    constructor(fretCount: number, tuning: Array<Note>, name: string);
   }
 
   export class Bass implements FrettedInstrument {
     name: 'bass';
     fretBoard: FretBoard;
 
-    constructor(fretCount: number, tuning: Array<Note>);
+    constructor(fretCount: number, tuning: Array<Note>, name: string);
   }
 
   export class Ukulele implements FrettedInstrument {
     name: 'ukulele';
     fretBoard: FretBoard;
 
-    constructor(fretCount: number, tuning: Array<Note>);
+    constructor(fretCount: number, tuning: Array<Note>, name: string);
   }
 }

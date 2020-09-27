@@ -5,12 +5,13 @@ import FretSegment from "./FretSegment";
 import NoteSelector from "./NoteSelector";
 
 interface Props {
+  instrumentName: string;
   fretBoard: instrument.FretBoard;
   scale: Scale;
     keyNote: Note;
     activeKey: Key;    
     showFretBar: boolean;
-    onTune: (stringID: string, newTuning: Note) => void;
+    onTune: (instrumentName: string, stringID: string, newTuning: Note) => void;
   theme: Base16Theme;
 }
 
@@ -19,9 +20,6 @@ export default function FretBoard(props: Props) {
     backgroundColor: props.theme.base00,
     borderColor: props.theme.base01
   };
-
-  console.log(props);
-  console.log(props.scale.getNotesInKey(props.activeKey.note).map(n => n.note))
 
   const fretBar = props.showFretBar && <div className="fret-labels">
     {[...Array(props.fretBoard.getFretCount())].map((_, i) => {
@@ -43,7 +41,7 @@ export default function FretBoard(props: Props) {
        return <NoteSelector key={string.id}
                             scaleSystem={props.fretBoard.scaleSystem}
                             note={string.tuningNote}
-                            onNoteSelect={(n: Note) => props.onTune(string.id, n)}
+                            onNoteSelect={(n: Note) => props.onTune(props.instrumentName,string.id, n)}
                             theme={props.theme} />;
     })}
   </div>;

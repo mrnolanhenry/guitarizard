@@ -19,8 +19,6 @@ export default function fretSegment(props: Props) {
         semitone: semitones[i],
         semitoneColor: semitoneColors[i]
     }));
-
-    console.log(props.stringScale);
     
     // Get the note on this string (if it exists)
     const note = props.stringScale.notes.find(note => {
@@ -28,8 +26,6 @@ export default function fretSegment(props: Props) {
     });
 
     const noteLul = note ? lol.find((lul) => lul.note.isSimilar(note.value)) : null;
-
-    console.log('lul', noteLul);
 
     const noteDisplay = note ? note.value.id : "";
 

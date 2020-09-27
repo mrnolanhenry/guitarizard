@@ -3,21 +3,22 @@ import { Base16Theme } from "../lib/colors";
 import FretBoard from "./FretBoard";
 
 interface Props {
-    ukulele: instrument.Ukulele;
-    keyNote: Note;
-    scale: Scale;
-    onTune: (stringID: string, newTuning: Note) => void;
+  instrument: instrument.FrettedInstrument;
+  keyNote: Note;
+  scale: Scale;
+  onTune: (instrumentName: string, stringID: string, newTuning: Note) => void;
     theme: Base16Theme;
     activeKey: Key;
 }
 
-export default function Ukulele(props: Props) {
+export default function Guitar(props: Props) {
     return <FretBoard
-               fretBoard={props.ukulele.fretBoard}
+            instrumentName={props.instrument.name}
+               fretBoard={props.instrument.fretBoard}
                scale={props.scale}
                keyNote={props.keyNote}
                showFretBar={true}
-               activeKey={props.activeKey}  
                onTune={props.onTune}
+               activeKey={props.activeKey}  
                theme={props.theme} />;
 }
