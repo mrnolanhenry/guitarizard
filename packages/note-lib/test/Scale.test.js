@@ -1,27 +1,34 @@
-const tap = require('tap');
-const Note = require('../src/Note');
-const Scale = require('../src/Scale');
-const diatonic = require('../src/data/scaleSystem/diatonic');
-const Scales = require('../src/data/scales');
+const tap = require("tap");
+const Note = require("../src/Note");
+const Scale = require("../src/Scale");
+const diatonic = require("../src/data/scaleSystem/diatonic");
+const Scales = require("../src/data/scales");
 
-tap.test('class Scale', function (t) {
-  const blues = new Scale('Blues',
-                          diatonic,
-                          [0, 3, 5, 6, 7, 10]);
+tap.test("class Scale", function (t) {
+  const blues = new Scale("Blues", diatonic, [0, 3, 5, 6, 7, 10]);
 
-  const ethiopianAraray = new Scale('ethiopian (a raray)', diatonic, [0, 2, 4, 5, 7, 9, 11, 12]);
-  const ionian = new Scale('ionian', diatonic, [0, 2, 4, 5, 7, 9, 11, 12]);
-  const major = new Scale('major', diatonic, [0, 2, 4, 5, 7, 9, 11, 12]);
+  const ethiopianAraray = new Scale("ethiopian (a raray)", diatonic, [
+    0,
+    2,
+    4,
+    5,
+    7,
+    9,
+    11,
+    12,
+  ]);
+  const ionian = new Scale("ionian", diatonic, [0, 2, 4, 5, 7, 9, 11, 12]);
+  const major = new Scale("major", diatonic, [0, 2, 4, 5, 7, 9, 11, 12]);
 
-  t.equal(blues.name, 'Blues');
+  t.equal(blues.name, "Blues");
 
-  t.same(blues.getNotesInKey(new Note('F')), [
+  t.same(blues.getNotesInKey(new Note("F")), [
     diatonic.F,
     diatonic.Ab,
     diatonic.Bb,
     diatonic.B,
     diatonic.C,
-    diatonic.Eb
+    diatonic.Eb,
   ]);
 
   t.same(blues.getNotesInKey(diatonic.Fs), [
@@ -30,21 +37,21 @@ tap.test('class Scale', function (t) {
     diatonic.B,
     diatonic.C,
     diatonic.Cs,
-    diatonic.E
+    diatonic.E,
   ]);
 
-  t.same(ionian.getEquivScales(Scales),[
-    ethiopianAraray,
-    ionian,
-    major
-  ],"equivalent Scales found");
+  t.same(
+    ionian.getEquivScales(Scales),
+    [ethiopianAraray, ionian, major],
+    "equivalent Scales found"
+  );
 
   const FsBluesNotes = blues.getNotesInKey(diatonic.Fs);
   const GbNote = FsBluesNotes[0].aliasNotes;
   console.log(GbNote[0].id);
 
   const Gb = blues.getNotesInKey(diatonic.Fs)[0].aliasNotes[0].id;
-  console.log(Gb)
+  console.log(Gb);
 
   t.equal(blues.valueOf(), JSON.stringify(blues));
   t.equal(blues.toString(), JSON.stringify(blues));

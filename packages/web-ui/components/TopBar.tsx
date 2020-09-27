@@ -1,6 +1,6 @@
-import './TopBar.scss';
-import ToolSelector, { ToolName } from './ToolSelector';
-import { cloudCity, Base16Theme } from '../lib/colors';
+import "./TopBar.scss";
+import ToolSelector, { ToolName } from "./ToolSelector";
+import { cloudCity, Base16Theme } from "../lib/colors";
 
 interface Props {
   isAuthenticated: boolean;
@@ -12,37 +12,39 @@ interface Props {
 }
 
 export default function TopBar(props: Props) {
-  const auth = props.isAuthenticated
-             ? <div onClick={props.onLogoutClick}>logout</div>
-             : <div onClick={props.onLoginClick}></div>;
+  const auth = props.isAuthenticated ? (
+    <div onClick={props.onLogoutClick}>logout</div>
+  ) : (
+    <div onClick={props.onLoginClick}></div>
+  );
 
-  const logo = <img src="/guitarizard_logo_sq_20.png"
-                    className="logo" />;
+  const logo = <img src="/guitarizard_logo_sq_20.png" className="logo" />;
 
   const style = {
     backgroundColor: props.theme.base00,
     color: props.theme.base04,
-    borderColor: props.theme.base03
+    borderColor: props.theme.base03,
   };
 
   const centerStyle = {
     color: props.theme.base06,
-    textShadow: `0 0 1px ${props.theme.base00}`
+    textShadow: `0 0 1px ${props.theme.base00}`,
   };
 
-  return <div className="top-bar" style={style}>
-    <div className="left">
-      <ToolSelector
-        activeToolName={props.activeToolName}
-        onToolSelect={props.onToolSelect}
-        theme={cloudCity} />
+  return (
+    <div className="top-bar" style={style}>
+      <div className="left">
+        <ToolSelector
+          activeToolName={props.activeToolName}
+          onToolSelect={props.onToolSelect}
+          theme={cloudCity}
+        />
+      </div>
+      <div className="center" style={centerStyle}>
+        {logo}
+        <span>guitarizard</span>
+      </div>
+      <div className="right">{auth}</div>
     </div>
-    <div className="center" style={centerStyle}>
-      {logo}
-      <span>guitarizard</span>
-    </div>
-    <div className="right">
-      {auth}
-    </div>
-  </div>;
+  );
 }

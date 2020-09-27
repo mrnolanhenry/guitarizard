@@ -1,6 +1,4 @@
-
 module.exports = class FretBoard {
-
   /**
    * A FretBoard that holds strings.
    *
@@ -28,8 +26,8 @@ module.exports = class FretBoard {
    */
   getFretCount() {
     return this.stringConfig.reduce((max, config) => {
-      return (config.fret.end > max) ? config.fret.end : max;
-    }, 0)
+      return config.fret.end > max ? config.fret.end : max;
+    }, 0);
   }
 
   /**
@@ -38,7 +36,7 @@ module.exports = class FretBoard {
   setStringTuningNote(tunedStringID, tuningNote) {
     const newTunedStrings = this.tunedStrings.slice();
 
-    this.tunedStrings = this.tunedStrings.map(tunedString => {
+    this.tunedStrings = this.tunedStrings.map((tunedString) => {
       if (tunedString.id === tunedStringID) {
         tunedString.setTuningNote(tuningNote);
       }
@@ -53,18 +51,19 @@ module.exports = class FretBoard {
    */
   getNotes() {
     return this.tunedStrings.map((tunedString, i) => {
-
       const config = this.stringConfig[i];
 
       const fret = config.fret;
       const fretSpan = fret.end - fret.start;
 
       const notesOnString = tunedString.getFrettedNotes(
-        this.scaleSystem, fretSpan);
+        this.scaleSystem,
+        fretSpan
+      );
 
       const notes = notesOnString.map((note, offset) => ({
         fretNumber: fret.start + offset,
-        value: note
+        value: note,
       }));
 
       return { tunedString, config, notes };
@@ -77,18 +76,17 @@ module.exports = class FretBoard {
   getNotesInScale(scale, keyNote) {
     const keyNotes = scale.getNotesInKey(keyNote);
 
-    return this.getNotes().map(string => {
-
+    return this.getNotes().map((string) => {
       // filter out any notes that don't exist
       // in the `keyNotes` array
-      const fretNotes = string.notes.filter(fretNote => {
-        return !!(keyNotes.find(keyNote => fretNote.value.isSimilar(keyNote)))
+      const fretNotes = string.notes.filter((fretNote) => {
+        return !!keyNotes.find((keyNote) => fretNote.value.isSimilar(keyNote));
       });
 
       // "tune" the notes to the given keyNote. currently
       // super dumb... makes the notes "sharp" if the
       // key note is sharp lol.
-      const tunedFretNotes = fretNotes.map(fretNote => {
+      const tunedFretNotes = fretNotes.map((fretNote) => {
         if (keyNote.attributes.isSharp) {
           const sharpNote = fretNote.value.findSharp();
 
@@ -103,16 +101,16 @@ module.exports = class FretBoard {
       return {
         tunedString: string.tunedString,
         config: string.config,
-        notes: tunedFretNotes
+        notes: tunedFretNotes,
       };
-    })
+    });
   }
 
   toJSON(key) {
     return {
       scaleSystem: this.scaleSystem,
       tunedStrings: this.tunedStrings,
-      stringConfig: this.stringConfig
+      stringConfig: this.stringConfig,
     };
   }
 
@@ -123,5 +121,4 @@ module.exports = class FretBoard {
   toString() {
     return JSON.stringify(this);
   }
-
-}
+};

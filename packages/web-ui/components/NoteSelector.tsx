@@ -11,12 +11,15 @@ interface Props {
 }
 
 export default function noteSelector(props: Props) {
-  return <LabeledSelector<Note>
-    label={props.label}
-    items={props.scaleSystem.getKeyNotes()}
-    getValue={(note: Note) => note.id}
-    getDisplay={(note: Note) => note.id}
-    activeItem={props.note}
-    onChange={props.onNoteSelect}
-    theme={props.theme} />;
+  return (
+    <LabeledSelector<Note>
+      label={props.label}
+      items={props.scaleSystem.getKeyNotes()}
+      getValue={(note: Note) => note.id}
+      getDisplay={(note: Note) => note.id}
+      activeItem={props.note}
+      onChange={props.onNoteSelect}
+      theme={props.theme}
+    />
+  );
 }

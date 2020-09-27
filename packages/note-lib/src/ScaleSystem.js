@@ -1,4 +1,4 @@
-const Note = require('./Note');
+const Note = require("./Note");
 
 /**
  * A scale system defines the scale universe.
@@ -26,13 +26,13 @@ module.exports = class ScaleSystem {
 
       // else, check aliases for this note
       const aliasNote = note.aliasNotes.find(
-        aliasNote => aliasNote.id === noteID
-      )
+        (aliasNote) => aliasNote.id === noteID
+      );
 
       // return the note as it exists in the scale system
       // order and NOT the alias note. The note will
       // contain the alias should the consumer need it.
-      if (typeof aliasNote !== 'undefined') {
+      if (typeof aliasNote !== "undefined") {
         return note;
       }
     }
@@ -142,7 +142,7 @@ module.exports = class ScaleSystem {
    *
    */
   getNextNote(fromNote, stepsAway) {
-    if (typeof stepsAway === 'undefined') {
+    if (typeof stepsAway === "undefined") {
       stepsAway = 1;
     }
 
@@ -160,7 +160,7 @@ module.exports = class ScaleSystem {
   toJSON(key) {
     return {
       name: this.name,
-      notes: this.notes
+      notes: this.notes,
     };
   }
 
@@ -171,4 +171,4 @@ module.exports = class ScaleSystem {
   toString() {
     return JSON.stringify(this);
   }
-}
+};

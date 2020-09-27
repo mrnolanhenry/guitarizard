@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { Base16Theme } from "../lib/colors";
 
 interface Props<T> {
@@ -11,7 +11,6 @@ interface Props<T> {
 }
 
 export default class Selector<T> extends Component<Props<T>> {
-
   constructor(props: Props<T>) {
     super(props);
 
@@ -23,7 +22,9 @@ export default class Selector<T> extends Component<Props<T>> {
 
     const key: string = e.target.value;
 
-    const item: T | undefined = this.props.items.find((item: T) => this.value(item) === key);
+    const item: T | undefined = this.props.items.find(
+      (item: T) => this.value(item) === key
+    );
 
     if (typeof item !== "undefined") {
       this.props.onChange(item as T);
@@ -31,15 +32,19 @@ export default class Selector<T> extends Component<Props<T>> {
   }
 
   value(item: T) {
-    const fn = typeof this.props.getValue === "undefined" ?
-               (a: T) => String(a) : this.props.getValue;
+    const fn =
+      typeof this.props.getValue === "undefined"
+        ? (a: T) => String(a)
+        : this.props.getValue;
 
     return fn(item);
   }
 
   display(item: T) {
-    const fn = typeof this.props.getDisplay === "undefined" ?
-               (a: T) => String(a) : this.props.getDisplay;
+    const fn =
+      typeof this.props.getDisplay === "undefined"
+        ? (a: T) => String(a)
+        : this.props.getDisplay;
 
     return fn(item);
   }
@@ -50,24 +55,30 @@ export default class Selector<T> extends Component<Props<T>> {
     const style = {
       backgroundColor: theme.base00,
       color: theme.base05,
-      borderWidth: '0 0 1px 0',
-      borderStyle: 'solid',
+      borderWidth: "0 0 1px 0",
+      borderStyle: "solid",
       borderColor: theme.base0D,
-      cursor: 'pointer',
-      padding: '0.2em',
-      height: '2em'
+      cursor: "pointer",
+      padding: "0.2em",
+      height: "2em",
     };
 
     const options = this.props.items.map((item: T) => {
       const value = this.value(item);
       const display = this.display(item);
-      return <option key={value} value={value}>{display}</option>;
+      return (
+        <option key={value} value={value}>
+          {display}
+        </option>
+      );
     });
 
     const selectedValue = activeItem ? this.value(activeItem) : undefined;
 
-    return <select value={selectedValue} onChange={this.onChange} style={style}>
-      {options}
-    </select>;
+    return (
+      <select value={selectedValue} onChange={this.onChange} style={style}>
+        {options}
+      </select>
+    );
   }
 }

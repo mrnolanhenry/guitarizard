@@ -4,23 +4,17 @@
 
 type NoteID = string;
 
-type NoteAttribute = 'isSharp' | 'isFlat' | 'isNatural';
+type NoteAttribute = "isSharp" | "isFlat" | "isNatural";
 
 declare class Tuning {
-  constructor(
-    instrument: string,
-    id: string,
-    notes: Array<Note>
-  );
+  constructor(instrument: string, id: string, notes: Array<Note>);
   instrument: string;
   id: string;
   notes: Array<Note>;
 }
 
 declare class Key {
-  constructor(
-    note: Note,
-    scale: Scale);
+  constructor(note: Note, scale: Scale);
 
   note: Note;
   scale: Scale;
@@ -45,7 +39,7 @@ export interface Note {
 
 declare var Note: {
   prototype: Note;
-  new(): Note;
+  new (): Note;
 };
 
 export interface ScaleSystem {
@@ -62,14 +56,14 @@ export interface ScaleSystem {
 
 declare var ScaleSystem: {
   prototype: ScaleSystem;
-  new(): ScaleSystem;
+  new (): ScaleSystem;
 };
 
 export type IntervalAlias = {
-  name: string,
-  long: string,
-  short: string
-}
+  name: string;
+  long: string;
+  short: string;
+};
 
 export interface Interval {
   semitones: number;
@@ -87,7 +81,7 @@ export interface Interval {
 
 declare var Interval: {
   prototype: Interval;
-  new(): Interval;
+  new (): Interval;
 };
 
 export interface Scale {
@@ -101,7 +95,7 @@ export interface Scale {
 
 declare var Scale: {
   prototype: Scale;
-  new(): Scale;
+  new (): Scale;
 };
 
 export namespace data {
@@ -113,32 +107,39 @@ export namespace data {
   export const tunings: Array<Tuning>;
 }
 
-type MaterialType = 'metal' | 'nylon';
+type MaterialType = "metal" | "nylon";
 type GaugeMilliMeters = number;
 
 export namespace instrument {
-
   export class TunedString {
     id: string;
     tuningNote: Note;
     material: MaterialType;
     gauge: GaugeMilliMeters;
 
-    constructor(id: string, tuningNote: Note, material: MaterialType, gauge: GaugeMilliMeters);
+    constructor(
+      id: string,
+      tuningNote: Note,
+      material: MaterialType,
+      gauge: GaugeMilliMeters
+    );
 
     setTuningNote: (tuningNote: Note) => void;
-    getFrettedNotes: (scaleSystem: ScaleSystem, fretSpan: number) => Array<Note>
+    getFrettedNotes: (
+      scaleSystem: ScaleSystem,
+      fretSpan: number
+    ) => Array<Note>;
   }
 
   export interface StringConfig {
     fret: {
       start: number;
       end: number;
-    }
+    };
   }
 
   export interface StringScale {
-    tunedString: TunedString,
+    tunedString: TunedString;
     config: StringConfig;
     notes: Array<{
       value: Note;
@@ -177,21 +178,21 @@ export namespace instrument {
   }
 
   export class Banjo implements FrettedInstrument {
-    name: 'banjo';
+    name: "banjo";
     fretBoard: FretBoard;
 
     constructor(fretCount: number, tuning: Array<Note>, name: string);
   }
 
   export class Bass implements FrettedInstrument {
-    name: 'bass';
+    name: "bass";
     fretBoard: FretBoard;
 
     constructor(fretCount: number, tuning: Array<Note>, name: string);
   }
 
   export class Ukulele implements FrettedInstrument {
-    name: 'ukulele';
+    name: "ukulele";
     fretBoard: FretBoard;
 
     constructor(fretCount: number, tuning: Array<Note>, name: string);

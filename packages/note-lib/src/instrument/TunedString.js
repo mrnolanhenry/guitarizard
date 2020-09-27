@@ -27,7 +27,7 @@ module.exports = class TunedString {
     const frettedNotes = [];
 
     for (let i = 0; i <= fretSpan; i++) {
-      const note = scaleSystem.getNextNote(this.tuningNote, i)
+      const note = scaleSystem.getNextNote(this.tuningNote, i);
       frettedNotes.push(note);
     }
 
@@ -38,7 +38,7 @@ module.exports = class TunedString {
     return {
       tuningNote: this.tuningNote,
       material: this.material,
-      gauge: this.gauge
+      gauge: this.gauge,
     };
   }
 
@@ -49,4 +49,4 @@ module.exports = class TunedString {
   toString() {
     return JSON.stringify(this);
   }
-}
+};

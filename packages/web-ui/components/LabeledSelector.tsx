@@ -12,15 +12,18 @@ interface Props<T> {
 }
 
 export default function labeledSelector<T>(props: Props<T>) {
-  return <div style={{ display: 'flex' }}>
-    <span>{props.label}</span>
+  return (
+    <div style={{ display: "flex" }}>
+      <span>{props.label}</span>
 
-    <Selector<T>
-      items={props.items}
-      getValue={props.getValue}
-      getDisplay={props.getDisplay}
-      activeItem={props.activeItem}
-      onChange={props.onChange}
-      theme={props.theme} />
-  </div>;
+      <Selector<T>
+        items={props.items}
+        getValue={props.getValue}
+        getDisplay={props.getDisplay}
+        activeItem={props.activeItem}
+        onChange={props.onChange}
+        theme={props.theme}
+      />
+    </div>
+  );
 }

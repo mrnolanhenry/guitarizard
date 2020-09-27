@@ -18,7 +18,6 @@ Run with: `npm test` or `npm run test:100` (for 100% cov testing)
 // |_| \_|\___/|_____/_/   \_\_| \_|
 ```
 
-
 ```
 //     _  ____ ___  _
 //    / |/  _ \\  \//

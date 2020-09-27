@@ -5,12 +5,12 @@ module.exports = class Note {
   // TODO: Don't use array of keys & enforce with type
   constructor(id, attributes, aliasNotes) {
     this.id = id;
-    this.attributes = attributes || {}
+    this.attributes = attributes || {};
     this.aliasNotes = aliasNotes || [];
   }
 
   addAliasNote(note) {
-    this.aliasNotes.push(note)
+    this.aliasNotes.push(note);
   }
 
   isSimilar(note) {
@@ -20,9 +20,9 @@ module.exports = class Note {
     }
 
     // check aliases for a match
-    const aliasNote = this.aliasNotes.find(an => an.id === note.id);
+    const aliasNote = this.aliasNotes.find((an) => an.id === note.id);
 
-    return !!(aliasNote); // force into a bool type (undefined ==> false);
+    return !!aliasNote; // force into a bool type (undefined ==> false);
   }
 
   /**
@@ -30,7 +30,6 @@ module.exports = class Note {
    * or one of it's aliases
    */
   findByAttribute(attribute, value) {
-
     // check the current note
     if (this.attributes[attribute] === value) {
       return this;
@@ -38,7 +37,7 @@ module.exports = class Note {
 
     // else, dive into aliases
     const aliasNote = this.aliasNotes.find(
-      alias => alias.attributes[attribute] === value
+      (alias) => alias.attributes[attribute] === value
     );
 
     if (aliasNote) {
@@ -47,25 +46,23 @@ module.exports = class Note {
   }
 
   findSharp() {
-    return this.findByAttribute('isSharp', true);
+    return this.findByAttribute("isSharp", true);
   }
 
   findFlat() {
-    return this.findByAttribute('isFlat', true);
+    return this.findByAttribute("isFlat", true);
   }
 
   findSharpOrNatural() {
-    if (!!(this.findByAttribute('isNatural',true))) {
+    if (!!this.findByAttribute("isNatural", true)) {
       return this;
-    }
-    else return this.findByAttribute('isSharp', true);
+    } else return this.findByAttribute("isSharp", true);
   }
 
   findFlatOrNatural() {
-    if (!!(this.findByAttribute('isNatural',true))) {
+    if (!!this.findByAttribute("isNatural", true)) {
       return this;
-    }
-    else return this.findByAttribute('isFlat', true);
+    } else return this.findByAttribute("isFlat", true);
   }
 
   toJSON(key) {
@@ -73,10 +70,10 @@ module.exports = class Note {
       id: this.id,
       attributes: this.attributes,
       // remove recursive nature of note aliases
-      aliasNotes: this.aliasNotes.map(aliasNote => ({
+      aliasNotes: this.aliasNotes.map((aliasNote) => ({
         id: aliasNote.id,
-        attributes: aliasNote.attributes
-      }))
+        attributes: aliasNote.attributes,
+      })),
     };
   }
 
@@ -87,4 +84,4 @@ module.exports = class Note {
   toString() {
     return JSON.stringify(this);
   }
-}
+};

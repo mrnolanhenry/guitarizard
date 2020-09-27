@@ -9,10 +9,13 @@ interface Props {
   theme: Base16Theme;
 }
 
-export default function ToolSelector (props: Props) {
-  return <Selector<ToolName>
-    items={[ "scalebook", "songbook" ]}
-    activeItem={props.activeToolName}
-    onChange={(v) => props.onToolSelect(v as ToolName)}
-    theme={props.theme} />;
+export default function ToolSelector(props: Props) {
+  return (
+    <Selector<ToolName>
+      items={["scalebook", "songbook"]}
+      activeItem={props.activeToolName}
+      onChange={(v) => props.onToolSelect(v as ToolName)}
+      theme={props.theme}
+    />
+  );
 }

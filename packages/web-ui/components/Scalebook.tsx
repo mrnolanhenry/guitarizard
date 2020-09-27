@@ -1,5 +1,11 @@
-import './Scalebook.scss';
-import { Key, Note, Scale, ScaleSystem, instrument } from "guitarizard-note-lib";
+import "./Scalebook.scss";
+import {
+  Key,
+  Note,
+  Scale,
+  ScaleSystem,
+  instrument,
+} from "guitarizard-note-lib";
 import { Base16Theme } from "../lib/colors";
 import InstrumentSelector from "./InstrumentSelector";
 import NoteSelector from "./NoteSelector";
@@ -24,7 +30,11 @@ interface Props {
   onInstrumentSelect: (instrument: instrument.FrettedInstrument) => void;
   onScaleSelect: (scale: Scale) => void;
   updateKey: (key: Key) => void;
-  onInstrumentTune: (instrumentName: string, stringID: string, newTuning: Note) => void;
+  onInstrumentTune: (
+    instrumentName: string,
+    stringID: string,
+    newTuning: Note
+  ) => void;
   // onGuitarTune: (stringID: string, newTuning: Note) => void;
   // onBanjoTune: (stringID: string, newTuning: Note) => void;
   // onUkuleleTune: (stringID: string, newTuning: Note) => void;
@@ -35,9 +45,8 @@ interface Props {
 }
 
 export default function Scalebook(props: Props) {
-
   const settingsBarStyle = {
-    backgroundColor: props.theme.base01
+    backgroundColor: props.theme.base01,
   };
 
   const instrument = props.instruments.get(props.activeInstrumentName);
@@ -45,48 +54,60 @@ export default function Scalebook(props: Props) {
   let instrumentComponent;
 
   if (instrument) {
-    instrumentComponent = <Instrument instrument={instrument}
-      activeKey={props.activeKey}
-      keyNote={props.keyNote}
-      scale={props.activeScale}
-      onTune={props.onInstrumentTune}
-      theme={props.theme} />;
+    instrumentComponent = (
+      <Instrument
+        instrument={instrument}
+        activeKey={props.activeKey}
+        keyNote={props.keyNote}
+        scale={props.activeScale}
+        onTune={props.onInstrumentTune}
+        theme={props.theme}
+      />
+    );
   }
-  
-  return <div className="scalebook">
-    <div className="settings-bar" style={settingsBarStyle}>
-      <InstrumentSelector
-        activeInstrumentName={props.activeInstrumentName}
-        instruments={props.instruments}
-        onInstrumentSelect={props.onInstrumentSelect}
-        theme={props.theme} />
 
-      <NoteSelector
-        label="Key:"
-        scaleSystem={props.scaleSystem}
-        note={props.keyNote}
-        onNoteSelect={props.onKeyNoteSelect}
-        theme={props.theme} />
+  return (
+    <div className="scalebook">
+      <div className="settings-bar" style={settingsBarStyle}>
+        <InstrumentSelector
+          activeInstrumentName={props.activeInstrumentName}
+          instruments={props.instruments}
+          onInstrumentSelect={props.onInstrumentSelect}
+          theme={props.theme}
+        />
 
-      <ScaleSelector activeScale={props.activeScale}
-        onScaleSelect={props.onScaleSelect}
-        theme={props.theme} />
+        <NoteSelector
+          label="Key:"
+          scaleSystem={props.scaleSystem}
+          note={props.keyNote}
+          onNoteSelect={props.onKeyNoteSelect}
+          theme={props.theme}
+        />
 
-      <EquivKeySelector activeKey={props.activeKey}
-        updateKey={props.updateKey}
-        theme={props.theme} />
+        <ScaleSelector
+          activeScale={props.activeScale}
+          onScaleSelect={props.onScaleSelect}
+          theme={props.theme}
+        />
 
-      <EquivScaleSelector activeScale={props.activeScale}
-        onScaleSelect={props.onScaleSelect}
-        theme={props.theme} />
+        <EquivKeySelector
+          activeKey={props.activeKey}
+          updateKey={props.updateKey}
+          theme={props.theme}
+        />
+
+        <EquivScaleSelector
+          activeScale={props.activeScale}
+          onScaleSelect={props.onScaleSelect}
+          theme={props.theme}
+        />
+      </div>
+
+      {instrumentComponent}
+
+      <NoteTable activeKey={props.activeKey} theme={props.theme} />
+
+      <IntervalTable scale={props.activeScale} theme={props.theme} />
     </div>
-
-    {instrumentComponent}
-
-    <NoteTable activeKey={props.activeKey}
-      theme={props.theme} />
-
-    <IntervalTable scale={props.activeScale}
-      theme={props.theme} />
-  </div>;
+  );
 }

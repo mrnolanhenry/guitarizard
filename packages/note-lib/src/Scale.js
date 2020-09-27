@@ -1,4 +1,4 @@
-const { mainIntervals } = require('./data/intervals');
+const { mainIntervals } = require("./data/intervals");
 
 /**
  * A single scale.
@@ -11,8 +11,9 @@ module.exports = class Scale {
   constructor(name, scaleSystem, intervalsBySemitones) {
     this.name = name;
     this.scaleSystem = scaleSystem;
-    this.intervals = intervalsBySemitones.map(semitone =>
-      mainIntervals[semitone]);
+    this.intervals = intervalsBySemitones.map(
+      (semitone) => mainIntervals[semitone]
+    );
   }
 
   getNotesInKey(keyNote) {
@@ -20,10 +21,12 @@ module.exports = class Scale {
     const shiftedNotes = this.scaleSystem.getShiftedNotes(keyNote);
 
     // pull correct note aliases
-    const notes = shiftedNotes.map(note => {
+    const notes = shiftedNotes.map((note) => {
       if (keyNote.attributes.isSharp) {
         const sharpNote = note.findSharp();
-        if (sharpNote) { return sharpNote; }
+        if (sharpNote) {
+          return sharpNote;
+        }
       }
 
       return note;
@@ -31,7 +34,7 @@ module.exports = class Scale {
 
     // map notes to given intervals
     return this.intervals.map((interval) => {
-      return notes[interval.semitones % (this.scaleSystem.notes.length)];
+      return notes[interval.semitones % this.scaleSystem.notes.length];
     });
   }
 
@@ -48,7 +51,9 @@ module.exports = class Scale {
         // This if check is only here to speed up function
         if (scaleLength === Scales[i].intervals.length) {
           for (let j = 0; j < Scales[i].intervals.length; j++) {
-            if (this.intervals[j].semitones !== Scales[i].intervals[j].semitones) {
+            if (
+              this.intervals[j].semitones !== Scales[i].intervals[j].semitones
+            ) {
               break loopThruIntervals;
             }
           }
@@ -63,7 +68,7 @@ module.exports = class Scale {
     return {
       name: this.name,
       scaleSystem: this.scaleSystem,
-      intervals: this.intervals
+      intervals: this.intervals,
     };
   }
 
@@ -74,4 +79,4 @@ module.exports = class Scale {
   toString() {
     return JSON.stringify(this);
   }
-}
+};

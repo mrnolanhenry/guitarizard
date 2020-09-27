@@ -7,18 +7,21 @@ interface Props {
   keyNote: Note;
   scale: Scale;
   onTune: (instrumentName: string, stringID: string, newTuning: Note) => void;
-    theme: Base16Theme;
-    activeKey: Key;
+  theme: Base16Theme;
+  activeKey: Key;
 }
 
 export default function Guitar(props: Props) {
-    return <FretBoard
-            instrumentName={props.instrument.name}
-               fretBoard={props.instrument.fretBoard}
-               scale={props.scale}
-               keyNote={props.keyNote}
-               showFretBar={true}
-               onTune={props.onTune}
-               activeKey={props.activeKey}  
-               theme={props.theme} />;
+  return (
+    <FretBoard
+      instrumentName={props.instrument.name}
+      fretBoard={props.instrument.fretBoard}
+      scale={props.scale}
+      keyNote={props.keyNote}
+      showFretBar={true}
+      onTune={props.onTune}
+      activeKey={props.activeKey}
+      theme={props.theme}
+    />
+  );
 }

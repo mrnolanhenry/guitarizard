@@ -33,7 +33,7 @@ export const bespin: Base16Theme = {
   base0C: "#afc4db",
   base0D: "#5ea6ea",
   base0E: "#9b859d",
-  base0F: "#937121"
+  base0F: "#937121",
 };
 
 export const cloudCity: Base16Theme = {
@@ -52,7 +52,7 @@ export const cloudCity: Base16Theme = {
   base0C: "#afc4db",
   base0D: "#5ea6ea",
   base0E: "#3B3633",
-  base0F: "#7D4626"
+  base0F: "#7D4626",
 };
 
 // 8a8986
@@ -78,22 +78,21 @@ export const tomorrow: Base16Theme = {
   base0C: "#3e999f",
   base0D: "#4271ae",
   base0E: "#8959a8",
-  base0F: "#a3685a"
+  base0F: "#a3685a",
 };
 
-
 export const rainbow = [
-  '#00D28C',
-  '#F08228',
-  '#FA3C3C',
-  '#A000C8',
-  '#C800C8',
-  '#00A0FF',
-  '#E6AF2D',
-  '#F00082',
-  '#A0E632',
-  '#00DC00',
-  '#1E3CFF',
-  '#00C8C8',
-  '#E6DC32',
-]
+  "#00D28C",
+  "#F08228",
+  "#FA3C3C",
+  "#A000C8",
+  "#C800C8",
+  "#00A0FF",
+  "#E6AF2D",
+  "#F00082",
+  "#A0E632",
+  "#00DC00",
+  "#1E3CFF",
+  "#00C8C8",
+  "#E6DC32",
+];

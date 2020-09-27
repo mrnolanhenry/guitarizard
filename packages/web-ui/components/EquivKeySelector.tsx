@@ -9,12 +9,15 @@ interface Props {
 }
 
 export default function EquivKeySelector(props: Props) {
-  return <LabeledSelector<Key>
-    label= "Equivalent Keys:"
-    items={props.activeKey.getEquivKeys()}
-    getValue={(k: Key) => k.note.id + ' ' + k.scale.name}
-    getDisplay={(k: Key) => k.note.id + ' ' + k.scale.name}
-    activeItem={props.activeKey}
-    onChange={props.updateKey}
-    theme={props.theme} />;
+  return (
+    <LabeledSelector<Key>
+      label="Equivalent Keys:"
+      items={props.activeKey.getEquivKeys()}
+      getValue={(k: Key) => k.note.id + " " + k.scale.name}
+      getDisplay={(k: Key) => k.note.id + " " + k.scale.name}
+      activeItem={props.activeKey}
+      onChange={props.updateKey}
+      theme={props.theme}
+    />
+  );
 }

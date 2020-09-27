@@ -1,4 +1,3 @@
-export default function() {
-  return (<button id='toggleIntervalTable'>Show Interval Table</button>
-  );
+export default function () {
+  return <button id="toggleIntervalTable">Show Interval Table</button>;
 }

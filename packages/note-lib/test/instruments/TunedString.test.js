@@ -1,63 +1,65 @@
-const tap = require('tap');
-const Note = require('../../src/Note');
-const ScaleSystem = require('../../src/ScaleSystem');
-const TunedString = require('../../src/instrument/TunedString');
+const tap = require("tap");
+const Note = require("../../src/Note");
+const ScaleSystem = require("../../src/ScaleSystem");
+const TunedString = require("../../src/instrument/TunedString");
 
-tap.test('class TunedString', function (t) {
-
-  const smallDiatonic = new ScaleSystem('small', [
-    new Note('A', ['A']),
-    new Note('Bb', ['A#', 'Bb']),
-    new Note('B', ['B'])
+tap.test("class TunedString", function (t) {
+  const smallDiatonic = new ScaleSystem("small", [
+    new Note("A", ["A"]),
+    new Note("Bb", ["A#", "Bb"]),
+    new Note("B", ["B"]),
   ]);
 
-  const AString = new TunedString('A', new Note('A', ['A']));
+  const AString = new TunedString("A", new Note("A", ["A"]));
 
   t.same(
     AString.getFrettedNotes(smallDiatonic, 0),
-    [ new Note('A', ['A']) ],
-    'single fret');
+    [new Note("A", ["A"])],
+    "single fret"
+  );
 
   t.same(
     AString.getFrettedNotes(smallDiatonic, 1),
-    [ new Note('A', ['A']), new Note('Bb', ['A#', 'Bb']) ],
-    'two frets');
+    [new Note("A", ["A"]), new Note("Bb", ["A#", "Bb"])],
+    "two frets"
+  );
 
   t.same(
     AString.getFrettedNotes(smallDiatonic, 2),
-    [ new Note('A', ['A']),
-      new Note('Bb', ['A#', 'Bb']),
-      new Note('B', ['B']) ],
-    'three frets');
+    [new Note("A", ["A"]), new Note("Bb", ["A#", "Bb"]), new Note("B", ["B"])],
+    "three frets"
+  );
 
   t.same(
     AString.getFrettedNotes(smallDiatonic, 3),
-    [ new Note('A', ['A']),
-      new Note('Bb', ['A#', 'Bb']),
-      new Note('B', ['B']),
-      new Note('A', ['A']) ],
-    'looping scale system');
+    [
+      new Note("A", ["A"]),
+      new Note("Bb", ["A#", "Bb"]),
+      new Note("B", ["B"]),
+      new Note("A", ["A"]),
+    ],
+    "looping scale system"
+  );
 
-
-  const BFlatString = new TunedString('Bb', new Note('Bb', ['A#', 'Bb']));
+  const BFlatString = new TunedString("Bb", new Note("Bb", ["A#", "Bb"]));
 
   t.same(
     BFlatString.getFrettedNotes(smallDiatonic, 0),
-    [ new Note('Bb', ['A#', 'Bb']) ],
-    'offset single fret');
+    [new Note("Bb", ["A#", "Bb"])],
+    "offset single fret"
+  );
 
   t.equal(AString.valueOf(), JSON.stringify(AString));
   t.equal(AString.toString(), JSON.stringify(AString));
 
+  t.test("setTuningNote", (t) => {
+    const testString = new TunedString("x", new Note("x"));
 
-  t.test('setTuningNote', (t) => {
-    const testString = new TunedString('x', new Note('x'));
+    t.equal(testString.tuningNote.id, "x");
 
-    t.equal(testString.tuningNote.id, 'x');
+    testString.setTuningNote(new Note("y"));
 
-    testString.setTuningNote(new Note('y'));
-
-    t.equal(testString.tuningNote.id, 'y');
+    t.equal(testString.tuningNote.id, "y");
 
     t.end();
   });
