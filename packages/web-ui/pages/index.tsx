@@ -10,7 +10,7 @@ type InstrumentMap = Map<string, instrument.FrettedInstrument>;
 
 interface State {
   instruments: InstrumentMap;
-  activeInstrumentName?: string;
+  activeInstrumentName: string;
   activeScale: Scale;
   keyNote: Note;
   activeKey: Key;
@@ -37,9 +37,10 @@ export default class Main extends Component<Props, State> {
       "guitar",
       new instrument.Guitar(
         22,
-        ["E","A", "D", "G", "B", "E"].map(noteID =>
+        ["E", "A", "D", "G", "B", "E"].map(noteID =>
           diatonic.getNoteFromID(noteID)
-        )
+        ),
+        "guitar",
       )
     );
 
@@ -49,7 +50,8 @@ export default class Main extends Component<Props, State> {
         22,
         ["G", "D", "G", "B", "D"].map(noteID =>
           diatonic.getNoteFromID(noteID)
-        )
+        ),
+        "banjo",
       )
     );
 
@@ -59,7 +61,8 @@ export default class Main extends Component<Props, State> {
         20,
         ["G", "C", "E", "A"].map(noteID =>
           diatonic.getNoteFromID(noteID)
-        )
+        ),
+        "ukulele",
       )
     );
 
@@ -69,7 +72,8 @@ export default class Main extends Component<Props, State> {
         22,
         ["E", "A", "D", "G"].map(noteID =>
           diatonic.getNoteFromID(noteID)
-        )
+        ),
+        "bass-4",
       )
     );
 
@@ -79,7 +83,8 @@ export default class Main extends Component<Props, State> {
         22,
         ["B", "E", "A", "D", "G"].map(noteID =>
           diatonic.getNoteFromID(noteID)
-        )
+        ),
+        "bass-5",
       )
     );
 
@@ -89,7 +94,8 @@ export default class Main extends Component<Props, State> {
         22,
         ["B", "E", "A", "D", "G", "C"].map(noteID =>
           diatonic.getNoteFromID(noteID)
-        )
+        ),
+        "bass-6",
       )
     );
 
@@ -116,12 +122,7 @@ export default class Main extends Component<Props, State> {
     this.onInstrumentSelect = this.onInstrumentSelect.bind(this);
     this.onScaleSelect = this.onScaleSelect.bind(this);
     this.updateKey = this.updateKey.bind(this);
-    this.onGuitarTune = this.onGuitarTune.bind(this);
-    this.onBanjoTune = this.onBanjoTune.bind(this);
-    this.onUkuleleTune = this.onUkuleleTune.bind(this);
-    this.onBassFourTune = this.onBassFourTune.bind(this);
-    this.onBassFiveTune = this.onBassFiveTune.bind(this);
-    this.onBassSixTune = this.onBassSixTune.bind(this);
+    this.onInstrumentTune = this.onInstrumentTune.bind(this);
   }
 
   onKeyNoteSelect(keyNote: Note) {
@@ -169,28 +170,8 @@ export default class Main extends Component<Props, State> {
     });
   }
 
-  onGuitarTune(stringID: string, newTuning: Note) {
-    return this.setInstrumentTuning('guitar', stringID, newTuning);
-  }
-
-  onBanjoTune(stringID: string, newTuning: Note) {
-    return this.setInstrumentTuning('banjo', stringID, newTuning);
-  }
-
-  onUkuleleTune(stringID: string, newTuning: Note) {
-    return this.setInstrumentTuning('ukulele', stringID, newTuning);
-  }
-
-  onBassFourTune(stringID: string, newTuning: Note) {
-    return this.setInstrumentTuning('bass-4', stringID, newTuning);
-  }
-
-  onBassFiveTune(stringID: string, newTuning: Note) {
-    return this.setInstrumentTuning('bass-5', stringID, newTuning);
-  }
-
-  onBassSixTune(stringID: string, newTuning: Note) {
-    return this.setInstrumentTuning('bass-6', stringID, newTuning);
+  onInstrumentTune(instrumentName: string, stringID: string, newTuning: Note) {
+    return this.setInstrumentTuning(instrumentName, stringID, newTuning);
   }
 
   onToggleNoteTable() {
@@ -215,17 +196,12 @@ export default class Main extends Component<Props, State> {
           instruments={this.state.instruments}
           activeInstrumentName={this.state.activeInstrumentName}
           onToggleNoteTable={this.state.onToggleNoteTable}
-          onToggleIntervalTable = {this.state.onToggleIntervalTable}
+          onToggleIntervalTable={this.state.onToggleIntervalTable}
           onKeyNoteSelect={this.onKeyNoteSelect}
           onInstrumentSelect={this.onInstrumentSelect}
           onScaleSelect={this.onScaleSelect}
           updateKey={this.updateKey}
-          onGuitarTune={this.onGuitarTune}
-          onBanjoTune={this.onBanjoTune}
-          onUkuleleTune={this.onUkuleleTune}
-          onBassFourTune={this.onBassFourTune}
-          onBassFiveTune={this.onBassFiveTune}
-          onBassSixTune={this.onBassSixTune}
+          onInstrumentTune={this.onInstrumentTune}
           theme={this.state.theme} />;
         break;
       }
@@ -243,7 +219,7 @@ export default class Main extends Component<Props, State> {
       right: 0,
       bottom: 0,
       left: 0,
-      overflow: "auto" 
+      overflow: "auto"
     };
 
     return <div id="app">
@@ -261,11 +237,11 @@ export default class Main extends Component<Props, State> {
 
         {/* Nolan mess-around zone */}
 
-          {/* {<button id='toggleNoteTable' onClick={this.onToggleNoteTable}>Hide Note Table</button>}
+        {/* {<button id='toggleNoteTable' onClick={this.onToggleNoteTable}>Hide Note Table</button>}
           {<button id='toggleIntervalTable' onClick={this.onToggleIntervalTable}>Hide Interval Table</button>} */}
-        </div>
-
       </div>
+
+    </div>
 
 
 
