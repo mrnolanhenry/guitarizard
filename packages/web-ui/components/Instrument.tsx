@@ -2,11 +2,13 @@ import { Key, Note, Scale, instrument } from "guitarizard-note-lib";
 import { Base16Theme } from "../lib/colors";
 import FretBoard from "./FretBoard";
 
+//  NOLAN - kill this component - just use Fretboard
 interface Props {
   instrument: instrument.FrettedInstrument;
   keyNote: Note;
   scale: Scale;
   onTune: (instrumentName: string, stringID: string, newTuning: Note) => void;
+  isRainbowMode: boolean;
   theme: Base16Theme;
   activeKey: Key;
 }
@@ -21,6 +23,7 @@ export default function Guitar(props: Props) {
       showFretBar={true}
       onTune={props.onTune}
       activeKey={props.activeKey}
+      isRainbowMode={props.isRainbowMode}
       theme={props.theme}
     />
   );

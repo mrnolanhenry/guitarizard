@@ -17,13 +17,14 @@ import NoteTable from "./NoteTable";
 // import ToggleButtonIntervalTable from "./ToggleButtonIntervalTable";
 import Instrument from "./Instrument";
 
-interface Props {
+interface IScalebookProps {
   instruments: Map<string, instrument.FrettedInstrument>;
   activeInstrumentName: string;
   activeScale: Scale;
   keyNote: Note;
   activeKey: Key;
   scaleSystem: ScaleSystem;
+  isRainbowMode: boolean;
   onToggleNoteTable: boolean;
   onToggleIntervalTable: boolean;
   onKeyNoteSelect: (keyNote: Note) => void;
@@ -35,36 +36,30 @@ interface Props {
     stringID: string,
     newTuning: Note
   ) => void;
-  // onGuitarTune: (stringID: string, newTuning: Note) => void;
-  // onBanjoTune: (stringID: string, newTuning: Note) => void;
-  // onUkuleleTune: (stringID: string, newTuning: Note) => void;
-  // onBassFourTune: (stringID: string, newTuning: Note) => void;
-  // onBassFiveTune: (stringID: string, newTuning: Note) => void;
-  // onBassSixTune: (stringID: string, newTuning: Note) => void;
   theme: Base16Theme;
 }
 
-export default function Scalebook(props: Props) {
+export default function Scalebook(props: IScalebookProps) {
   const settingsBarStyle = {
     backgroundColor: props.theme.base01,
   };
 
   const instrument = props.instruments.get(props.activeInstrumentName);
 
-  let instrumentComponent;
-
-  if (instrument) {
-    instrumentComponent = (
+  const instrumentComponent = instrument ? (
       <Instrument
         instrument={instrument}
         activeKey={props.activeKey}
         keyNote={props.keyNote}
         scale={props.activeScale}
         onTune={props.onInstrumentTune}
+        isRainbowMode={props.isRainbowMode}
         theme={props.theme}
       />
-    );
-  }
+    )
+    :
+    undefined;
+  
 
   return (
     <div className="scalebook">

@@ -23,6 +23,7 @@ interface State {
   activeKey: Key;
   scaleSystem: ScaleSystem;
   activeToolName: ToolName;
+  isRainbowMode: boolean;
   onToggleNoteTable: boolean;
   onToggleIntervalTable: boolean;
   theme: Base16Theme;
@@ -113,6 +114,7 @@ export default class Main extends Component<Props, State> {
       onToggleNoteTable: false,
       onToggleIntervalTable: false,
       activeKey: new Key(keyNote, activeScale),
+      isRainbowMode: true,
       scaleSystem: diatonic,
       activeToolName: "scalebook",
       theme: cloudCity,
@@ -198,6 +200,7 @@ export default class Main extends Component<Props, State> {
             activeKey={this.state.activeKey}
             instruments={this.state.instruments}
             activeInstrumentName={this.state.activeInstrumentName}
+            isRainbowMode={this.state.isRainbowMode}
             onToggleNoteTable={this.state.onToggleNoteTable}
             onToggleIntervalTable={this.state.onToggleIntervalTable}
             onKeyNoteSelect={this.onKeyNoteSelect}
@@ -219,7 +222,7 @@ export default class Main extends Component<Props, State> {
     const style = {
       backgroundColor: this.state.theme.base01,
       color: this.state.theme.base05,
-      position: "fixed" as "fixed", // lol what the fuck typescript
+      position: "fixed" as "fixed", // lol what the f typescript
       top: 0,
       right: 0,
       bottom: 0,

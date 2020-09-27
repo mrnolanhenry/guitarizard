@@ -12,6 +12,7 @@ interface Props {
   activeKey: Key;
   showFretBar: boolean;
   onTune: (instrumentName: string, stringID: string, newTuning: Note) => void;
+  isRainbowMode: boolean;
   theme: Base16Theme;
 }
 
@@ -78,6 +79,7 @@ export default function FretBoard(props: Props) {
             activeKey={props.activeKey}
             stringScale={stringScale}
             fret={i}
+            isRainbowMode={props.isRainbowMode}
             theme={props.theme}
           />
         );
