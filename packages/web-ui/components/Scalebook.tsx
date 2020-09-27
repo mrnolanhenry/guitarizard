@@ -13,7 +13,7 @@ import Instrument from "./Instrument";
 
 interface Props {
   instruments: Map<string, instrument.FrettedInstrument>;
-  activeInstrumentName?: string;
+  activeInstrumentName: string;
   activeScale: Scale;
   keyNote: Note;
   activeKey: Key;
@@ -40,13 +40,11 @@ export default function Scalebook(props: Props) {
     backgroundColor: props.theme.base01
   };
 
-  const instrument = props.activeInstrumentName
-    ? props.instruments.get(props.activeInstrumentName)
-    : undefined;
+  const instrument = props.instruments.get(props.activeInstrumentName);
 
   let instrumentComponent;
-  
-  if (instrument && instrument.name === "guitar") {
+
+  if (instrument) {
     instrumentComponent = <Instrument instrument={instrument}
       activeKey={props.activeKey}
       keyNote={props.keyNote}
@@ -54,52 +52,7 @@ export default function Scalebook(props: Props) {
       onTune={props.onInstrumentTune}
       theme={props.theme} />;
   }
-
-  if (instrument && instrument.name === "banjo") {
-    instrumentComponent = <Instrument instrument={instrument as instrument.Banjo}
-      activeKey={props.activeKey}
-      keyNote={props.keyNote}
-      scale={props.activeScale}
-      onTune={props.onInstrumentTune}
-      theme={props.theme} />;
-  }
-
-  if (instrument && instrument.name === "ukulele") {
-    instrumentComponent = <Instrument instrument={instrument as instrument.Ukulele}
-      activeKey={props.activeKey}
-      keyNote={props.keyNote}
-      scale={props.activeScale}
-      onTune={props.onInstrumentTune}
-      theme={props.theme} />;
-  }
-
-  if (instrument && instrument.name === "bass-4") {
-    instrumentComponent = <Instrument instrument={instrument as instrument.Bass}
-      activeKey={props.activeKey}
-      keyNote={props.keyNote}
-      scale={props.activeScale}
-      onTune={props.onInstrumentTune}
-      theme={props.theme} />;
-  }
-
-  if (instrument && instrument.name === "bass-5") {
-    instrumentComponent = <Instrument instrument={instrument as instrument.Bass}
-      activeKey={props.activeKey}
-      keyNote={props.keyNote}
-      scale={props.activeScale}
-      onTune={props.onInstrumentTune}
-      theme={props.theme} />;
-  }
-
-  if (instrument && instrument.name === "bass-6") {
-    instrumentComponent = <Instrument instrument={instrument as instrument.Bass}
-      activeKey={props.activeKey}
-      keyNote={props.keyNote}
-      scale={props.activeScale}
-      onTune={props.onInstrumentTune}
-      theme={props.theme} />;
-  }
-
+  
   return <div className="scalebook">
     <div className="settings-bar" style={settingsBarStyle}>
       <InstrumentSelector

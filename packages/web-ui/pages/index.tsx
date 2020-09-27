@@ -10,7 +10,7 @@ type InstrumentMap = Map<string, instrument.FrettedInstrument>;
 
 interface State {
   instruments: InstrumentMap;
-  activeInstrumentName?: string;
+  activeInstrumentName: string;
   activeScale: Scale;
   keyNote: Note;
   activeKey: Key;
