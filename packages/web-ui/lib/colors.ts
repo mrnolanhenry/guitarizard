@@ -82,17 +82,17 @@ export const tomorrow: Base16Theme = {
 };
 
 export const rainbow = [
-  "#00D28C",
   "#F08228",
   "#FA3C3C",
-  "#A000C8",
-  "#C800C8",
-  "#00A0FF",
-  "#E6AF2D",
   "#F00082",
-  "#A0E632",
-  "#00DC00",
+  "#C800C8",
+  "#A000C8",
   "#1E3CFF",
+  "#00A0FF",
   "#00C8C8",
+  "#00D28C",
+  "#00DC00",
+  "#A0E632",
+  "#E6AF2D",
   "#E6DC32",
 ];
