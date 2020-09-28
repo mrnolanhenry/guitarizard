@@ -87,7 +87,7 @@ export const rainbow = [
   "#F00082",
   "#C800C8",
   "#A000C8",
-  "#1E3CFF",
+  "#4F69FF",
   "#00A0FF",
   "#00C8C8",
   "#00D28C",
