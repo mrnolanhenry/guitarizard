@@ -232,7 +232,7 @@ export default class Main extends Component<Props, State> {
     const style = {
       backgroundColor: this.state.theme.base01,
       color: this.state.theme.base05,
-      position: "fixed" as "fixed", // lol what the f typescript
+      position: "fixed" as "fixed", // lol what the heck typescript
       top: 0,
       right: 0,
       bottom: 0,
