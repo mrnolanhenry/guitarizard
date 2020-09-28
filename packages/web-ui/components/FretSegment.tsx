@@ -10,8 +10,13 @@ interface Props {
   activeKey: Key;
 }
 
-const getBackgroundColor = (isRainbowMode: boolean, theme: Base16Theme, note: any, activeKey: Key) => {
-  if (isRainbowMode) {
+const getNoteTextStyle = (isRainbowMode: boolean, theme: Base16Theme, note: any, activeKey: Key) => {
+  let noteTextStyle: any = {
+    backgroundColor: theme.base00,
+    color: theme.base05
+  };
+
+  if (isRainbowMode && note) {
     let notes = activeKey.scale.getNotesInKey(activeKey.note);
     let semitones = activeKey.scale.intervals.map(
       (interval) => interval.semitones
@@ -25,12 +30,18 @@ const getBackgroundColor = (isRainbowMode: boolean, theme: Base16Theme, note: an
       semitoneColor: semitoneColors[i],
     }));
 
-    const thisNoteIntervalColorCombo = note
-      ? noteIntervalColorCombos.find((noteIntervalColorCombo) => noteIntervalColorCombo.note.isSimilar(note.value))
-      : null;
+    const thisNoteIntervalColorCombo = noteIntervalColorCombos.find((noteIntervalColorCombo) => noteIntervalColorCombo.note.isSimilar(note.value));
 
-    return thisNoteIntervalColorCombo ? thisNoteIntervalColorCombo.semitoneColor : theme.base00
+    if (thisNoteIntervalColorCombo) {
+      noteTextStyle = {
+        backgroundColor: thisNoteIntervalColorCombo.semitoneColor,
+        color: theme.base00,
+        fontWeight: 550,
+      }
+    }
+
   }
+  return noteTextStyle;
 }
 
 export default function fretSegment(props: Props) {
@@ -53,11 +64,7 @@ export default function fretSegment(props: Props) {
 
   const stringLineStyle = { backgroundColor: theme.base0E };
 
-  const noteTextStyle = {
-    backgroundColor: getBackgroundColor(isRainbowMode, theme, note, activeKey),
-    color: props.theme.base00,
-    fontWeight: 550,
-  };
+  const noteTextStyle = getNoteTextStyle(isRainbowMode, theme, note, activeKey);
 
   const backgroundStyle =
     fret <= stringScale.config.fret.start

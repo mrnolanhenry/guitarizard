@@ -128,6 +128,15 @@ export default class Main extends Component<Props, State> {
     this.onScaleSelect = this.onScaleSelect.bind(this);
     this.updateKey = this.updateKey.bind(this);
     this.onInstrumentTune = this.onInstrumentTune.bind(this);
+    this.setRainbowMode = this.setRainbowMode.bind(this);
+  }
+
+  setRainbowMode(isRainbowMode: boolean) {
+    console.log(isRainbowMode);
+    console.log(this);
+    this.setState({
+      isRainbowMode: !this.state.isRainbowMode
+    })
   }
 
   onKeyNoteSelect(keyNote: Note) {
@@ -201,6 +210,7 @@ export default class Main extends Component<Props, State> {
             instruments={this.state.instruments}
             activeInstrumentName={this.state.activeInstrumentName}
             isRainbowMode={this.state.isRainbowMode}
+            setRainbowMode={this.setRainbowMode}
             onToggleNoteTable={this.state.onToggleNoteTable}
             onToggleIntervalTable={this.state.onToggleIntervalTable}
             onKeyNoteSelect={this.onKeyNoteSelect}

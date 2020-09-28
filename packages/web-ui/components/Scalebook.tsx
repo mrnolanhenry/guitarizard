@@ -12,6 +12,7 @@ import NoteSelector from "./NoteSelector";
 import ScaleSelector from "./ScaleSelector";
 import EquivScaleSelector from "./EquivScaleSelector";
 import EquivKeySelector from "./EquivKeySelector";
+import RainbowModeSelector from "./RainbowModeSelector";
 import IntervalTable from "./IntervalTable";
 import NoteTable from "./NoteTable";
 // import ToggleButtonIntervalTable from "./ToggleButtonIntervalTable";
@@ -25,6 +26,7 @@ interface IScalebookProps {
   activeKey: Key;
   scaleSystem: ScaleSystem;
   isRainbowMode: boolean;
+  setRainbowMode: (isRainbowMode: boolean) => void;
   onToggleNoteTable: boolean;
   onToggleIntervalTable: boolean;
   onKeyNoteSelect: (keyNote: Note) => void;
@@ -94,6 +96,11 @@ export default function Scalebook(props: IScalebookProps) {
         <EquivScaleSelector
           activeScale={props.activeScale}
           onScaleSelect={props.onScaleSelect}
+          theme={props.theme}
+        />
+        <RainbowModeSelector
+          isRainbowMode={props.isRainbowMode}
+          setRainbowMode={props.setRainbowMode}
           theme={props.theme}
         />
       </div>
