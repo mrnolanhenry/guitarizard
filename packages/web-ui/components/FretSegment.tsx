@@ -34,9 +34,9 @@ const getNoteTextStyle = (isRainbowMode: boolean, theme: Base16Theme, note: any,
 
     if (thisNoteIntervalColorCombo) {
       noteTextStyle = {
-        backgroundColor: thisNoteIntervalColorCombo.semitoneColor,
-        color: theme.base00,
-        fontWeight: 550,
+        ...noteTextStyle,
+        borderColor: thisNoteIntervalColorCombo.semitoneColor,
+        color: thisNoteIntervalColorCombo.semitoneColor,
       }
     }
 
