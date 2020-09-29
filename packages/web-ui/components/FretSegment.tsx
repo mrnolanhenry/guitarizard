@@ -1,6 +1,7 @@
 import "./FretSegment.scss";
-import { instrument, Key } from "guitarizard-note-lib";
+import { instrument, Key, Note } from "guitarizard-note-lib";
 import { Base16Theme, rainbow } from "../lib/colors";
+import { CSSProperties } from "react";
 
 interface Props {
   stringScale: instrument.StringScale;
@@ -10,14 +11,15 @@ interface Props {
   activeKey: Key;
 }
 
-const getNoteTextStyle = (isRainbowMode: boolean, theme: Base16Theme, note: any, activeKey: Key) => {
-  let noteTextStyle: any = {
+const getNoteTextStyle = (isRainbowMode: boolean, theme: Base16Theme, note: Note | undefined, activeKey: Key) => {
+  let noteTextStyle: CSSProperties = {
     backgroundColor: theme.base00,
     color: theme.base05
   };
 
   if (isRainbowMode && note) {
     let notes = activeKey.scale.getNotesInKey(activeKey.note);
+
     let semitones = activeKey.scale.intervals.map(
       (interval) => interval.semitones
     );
@@ -30,12 +32,11 @@ const getNoteTextStyle = (isRainbowMode: boolean, theme: Base16Theme, note: any,
       semitoneColor: semitoneColors[i],
     }));
 
-    const thisNoteIntervalColorCombo = noteIntervalColorCombos.find((noteIntervalColorCombo) => noteIntervalColorCombo.note.isSimilar(note.value));
+    const thisNoteIntervalColorCombo = noteIntervalColorCombos.find((noteIntervalColorCombo) => noteIntervalColorCombo.note.isSimilar(note));
 
     if (thisNoteIntervalColorCombo) {
       noteTextStyle = {
         ...noteTextStyle,
-        borderColor: thisNoteIntervalColorCombo.semitoneColor,
         color: thisNoteIntervalColorCombo.semitoneColor,
       }
     }
@@ -53,12 +54,15 @@ export default function fretSegment(props: Props) {
     activeKey,
   } = props;
 
+
   // Get the note on this string (if it exists)
-  const note = stringScale.notes.find((note) => {
+  const noteFretNumberPair = stringScale.notes.find((note) => {
     return note.fretNumber === fret;
   });
 
-  const noteDisplay = note ? note.value.id : "";
+  const note = noteFretNumberPair ? noteFretNumberPair.value : undefined;
+
+  const noteDisplay = note ? note.id : "";
 
   const fretLineStyle = { backgroundColor: theme.base07 };
 

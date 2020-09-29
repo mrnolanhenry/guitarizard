@@ -94,5 +94,5 @@ export const rainbow = [
   "#00DC00",
   "#A0E632",
   "#E6AF2D",
-  "#E6DC32",
+  "#F08228",
 ];

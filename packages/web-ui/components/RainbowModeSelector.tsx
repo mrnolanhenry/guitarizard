@@ -3,7 +3,7 @@ import LabeledSelector from "./LabeledSelector";
 
 interface Props {
     isRainbowMode: boolean;
-    setRainbowMode: (isRainbowMode: boolean) => void;
+    toggleRainbowMode: () => void;
     theme: Base16Theme;
 }
 
@@ -15,7 +15,7 @@ export default function rainbowModeSelector(props: Props) {
             getValue={(item: boolean) => item ? "on" : "off"}
             getDisplay={(item: boolean) => item ? "on" : " off"}
             activeItem={props.isRainbowMode}
-            onChange={props.setRainbowMode}
+            onChange={props.toggleRainbowMode}
             theme={props.theme}
         />
     );
