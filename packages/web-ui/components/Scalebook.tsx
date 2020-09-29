@@ -27,7 +27,7 @@ interface IScalebookProps {
   activeKey: Key;
   scaleSystem: ScaleSystem;
   isRainbowMode: boolean;
-  setRainbowMode: (isRainbowMode: boolean) => void;
+  toggleRainbowMode: () => void;
   onToggleNoteTable: boolean;
   onToggleIntervalTable: boolean;
   onKeyNoteSelect: (keyNote: Note) => void;
@@ -101,16 +101,22 @@ export default function Scalebook(props: IScalebookProps) {
         />
         <RainbowModeSelector
           isRainbowMode={props.isRainbowMode}
-          setRainbowMode={props.setRainbowMode}
+          toggleRainbowMode={props.toggleRainbowMode}
           theme={props.theme}
         />
       </div>
 
       {instrumentComponent}
 
-      <NoteTable activeKey={props.activeKey} theme={props.theme} />
+      <NoteTable 
+      activeKey={props.activeKey}
+      isRainbowMode={props.isRainbowMode}
+      theme={props.theme} />
 
-      <IntervalTable scale={props.activeScale} theme={props.theme} />
+      <IntervalTable 
+      scale={props.activeScale}
+      isRainbowMode={props.isRainbowMode}
+      theme={props.theme} />
     </div>
   );
 }

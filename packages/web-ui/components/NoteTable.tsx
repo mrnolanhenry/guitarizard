@@ -1,13 +1,20 @@
-import { Key } from "note-lib";
-import { Base16Theme } from "../lib/colors";
+import { Key, Note } from "note-lib";
+import { Base16Theme, rainbow } from "../lib/colors";
 import React, { CSSProperties } from "react";
 
 interface Props {
   activeKey: Key;
+  isRainbowMode: boolean;
   theme: Base16Theme;
 }
 
 export default function noteTable(props: Props) {
+  const {
+    activeKey,
+    isRainbowMode,
+    theme,
+  } = props;
+
   const rowDiv: CSSProperties = {
     display: "flex",
     flexDirection: "row",
@@ -19,58 +26,88 @@ export default function noteTable(props: Props) {
     listStylePosition: "inside",
   };
 
-  const noteItem: CSSProperties = {
-    backgroundColor: props.theme.base00,
-    color: props.theme.base05,
+  const noteStyle: CSSProperties = {
+    backgroundColor: theme.base00,
+    color: theme.base05,
     borderStyle: "solid",
-    borderColor: props.theme.base01,
+    borderColor: theme.base01,
     borderWidth: "1px",
     padding: "2px 0px 2px 5px",
     width: "100px",
   };
 
-  let notes = props.activeKey.scale.getNotesInKey(props.activeKey.note);
+  const getNoteTextStyle = (isRainbowMode: boolean, noteStyle: CSSProperties, note: Note | undefined, activeKey: Key) => {
+    let noteTextStyle: CSSProperties = noteStyle;
+
+    if (isRainbowMode && note) {
+      let notes = activeKey.scale.getNotesInKey(activeKey.note);
+      let semitones = activeKey.scale.intervals.map(
+        (interval) => interval.semitones
+      );
+
+      let semitoneColors = semitones.map((semitone) => rainbow[semitone]);
+
+      let noteIntervalColorCombos = notes.map((n, i) => ({
+        note: n,
+        semitone: semitones[i],
+        semitoneColor: semitoneColors[i],
+      }));
+
+      const thisNoteIntervalColorCombo = noteIntervalColorCombos.find((noteIntervalColorCombo) => noteIntervalColorCombo.note.isSimilar(note));
+
+      if (thisNoteIntervalColorCombo) {
+        noteTextStyle = {
+          ...noteTextStyle,
+          color: thisNoteIntervalColorCombo.semitoneColor,
+        }
+      }
+
+    }
+    return noteTextStyle;
+  }
+
+  let notes = activeKey.scale.getNotesInKey(activeKey.note);
+
+  const mapNotes = (findFlats: boolean): JSX.Element => {
+    return (
+      <>
+        {notes.map((note, i) => {
+          const correctNote = findFlats ? note.findFlatOrNatural() : note.findSharpOrNatural();
+
+          const noteTextStyle = getNoteTextStyle(isRainbowMode, noteStyle, correctNote, activeKey);
+
+          return (
+            <div
+              key={`${i}:${Math.random()}`}
+              className="noteItem"
+              style={noteTextStyle}
+            >
+              {correctNote.id}
+            </div>
+          );
+        })
+        }
+      </>
+    )
+  }
+
+  const renderNoteRow = (findFlats: boolean): JSX.Element => {
+    return (
+      <div id="noteRow" style={rowDiv}>
+        <div className="noteItem" style={noteStyle}>
+          {" "}
+          {findFlats ? "Flats:" : "Sharps:"}
+        </div>
+        {mapNotes(findFlats)}
+      </div>
+    )
+  }
 
   return (
     <div id="noteTable" style={colDiv}>
       Notes included:
-      <div id="noteRow" style={rowDiv}>
-        <div className="noteItem" style={noteItem}>
-          {" "}
-          Flats:
-        </div>
-        {notes.map((note, i) => {
-          const flatOrNatural = note.findFlatOrNatural();
-          return (
-            <div
-              key={`${i}:${Math.random()}`}
-              className="noteItem"
-              style={noteItem}
-            >
-              {flatOrNatural.id}
-            </div>
-          );
-        })}
-      </div>
-      <div id="noteRow" style={rowDiv}>
-        <div className="noteItem" style={noteItem}>
-          {" "}
-          Sharps:
-        </div>
-        {notes.map((note, i) => {
-          const sharpOrNatural = note.findSharpOrNatural();
-          return (
-            <div
-              key={`${i}:${Math.random()}`}
-              className="noteItem"
-              style={noteItem}
-            >
-              {" "}
-              {sharpOrNatural.id}
-            </div>
-          );
-        })}
-      </div>
+      {renderNoteRow(true)}
+      {renderNoteRow(false)}
     </div>
   );
 }
