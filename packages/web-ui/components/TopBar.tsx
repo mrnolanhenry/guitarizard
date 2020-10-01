@@ -43,7 +43,7 @@ export default function TopBar(props: Props) {
       </div>
       <div className="center" style={centerStyle}>
         {logo}
-        <span>guitarizardeeee</span>
+        <span>guitarizard</span>
       </div>
       <div className="right">{auth}</div>
     </div>
