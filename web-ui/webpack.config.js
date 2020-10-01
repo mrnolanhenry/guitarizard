@@ -19,8 +19,9 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                // include: path.join(__dirname, 'src'),
-                exclude: /node_modules/,
+                exclude: [
+                    /node_modules/,
+                ],
                 use: [
                     {
                         loader: require.resolve('babel-loader'),
@@ -70,6 +71,3 @@ module.exports = {
         })
     ].filter(Boolean)
 };
-
-
-console.log(module.exports);
