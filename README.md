@@ -2,5 +2,5 @@
 
 Guitarizard's monorepo!
 
-   - `packages/note-lib`: music theory library.
-   - `packages/web-ui`: web interface for guitarizard.
+   - `note-lib`: music theory library.
+   - `web-ui`: web interface for guitarizard.
