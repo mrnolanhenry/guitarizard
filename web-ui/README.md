@@ -7,17 +7,19 @@ Development
 --------------------------------------------------
 
 ```
-npm run dev
+npm install
+npm start
 ```
 
 Deployment
 --------------------------------------------------
 
 ```
+npm install
 npm run build
 ```
 
-This creates a directory: `/dist`.
+This creates a directory: `./dist`.
 
 Then:
 
