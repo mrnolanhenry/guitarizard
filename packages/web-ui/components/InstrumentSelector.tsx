@@ -1,4 +1,5 @@
-import { instrument } from "guitarizard-note-lib";
+import React from "react";
+import { instrument } from "note-lib";
 import { Base16Theme } from "../lib/colors";
 import Selector from "./Selector";
 

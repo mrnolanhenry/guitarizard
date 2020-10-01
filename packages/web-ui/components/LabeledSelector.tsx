@@ -1,3 +1,4 @@
+import React from "react";
 import Selector from "./Selector";
 import { Base16Theme } from "../lib/colors";
 

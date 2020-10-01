@@ -1,5 +1,6 @@
+import React from "react";
 import "./FretSegment.scss";
-import { instrument, Key, Note } from "guitarizard-note-lib";
+import { instrument, Key } from "note-lib";
 import { Base16Theme, rainbow } from "../lib/colors";
 
 interface Props {

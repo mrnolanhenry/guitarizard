@@ -1,4 +1,4 @@
-import { Scale } from "guitarizard-note-lib";
+import { Scale } from "note-lib";
 import { Base16Theme } from "../lib/colors";
 import React, { CSSProperties } from "react";
 

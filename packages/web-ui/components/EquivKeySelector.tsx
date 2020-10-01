@@ -1,4 +1,5 @@
-import { Key } from "guitarizard-note-lib";
+import React from "react";
+import { Key } from "note-lib";
 import { Base16Theme } from "../lib/colors";
 import LabeledSelector from "./LabeledSelector";
 

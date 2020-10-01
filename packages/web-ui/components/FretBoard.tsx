@@ -1,5 +1,6 @@
+import React from "react";
 import "./FretBoard.scss";
-import { Key, instrument, Note, Scale } from "guitarizard-note-lib";
+import { Key, instrument, Note, Scale } from "note-lib";
 import { Base16Theme } from "../lib/colors";
 import FretSegment from "./FretSegment";
 import NoteSelector from "./NoteSelector";

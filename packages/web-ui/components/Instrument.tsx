@@ -1,4 +1,5 @@
-import { Key, Note, Scale, instrument } from "guitarizard-note-lib";
+import React from "react";
+import { Key, Note, Scale, instrument } from "note-lib";
 import { Base16Theme } from "../lib/colors";
 import FretBoard from "./FretBoard";
 

@@ -1,5 +1,6 @@
 import "./global.scss";
-import { Component } from "react";
+import React, { Component } from "react";
+import ReactDOM from 'react-dom';
 import { cloudCity, Base16Theme } from "../lib/colors";
 import { ToolName } from "../components/ToolSelector";
 import TopBar from "../components/TopBar";
@@ -11,7 +12,7 @@ import {
   ScaleSystem,
   instrument,
   data,
-} from "guitarizard-note-lib";
+} from "note-lib";
 
 type InstrumentMap = Map<string, instrument.FrettedInstrument>;
 
@@ -265,3 +266,7 @@ export default class Main extends Component<Props, State> {
     );
   }
 }
+
+(function main() {
+    ReactDOM.render(<Main />, document.body)
+})();

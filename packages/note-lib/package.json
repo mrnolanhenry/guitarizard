@@ -1,14 +1,12 @@
 {
-  "name": "guitarizard-note-lib",
+  "name": "note-lib",
   "private": true,
   "version": "0.0.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {
     "test": "tap --reporter spec 'test/**/*.js'",
-    "test:100": "tap --reporter spec --100 'test/**/*.js'",
-    "build:nix": "node2nix --nodejs-10 -l package-lock.json",
-    "build": "npm run build:nix"
+    "test:100": "tap --reporter spec --100 'test/**/*.js'"
   },
   "repository": {
     "type": "git",
@@ -20,8 +18,8 @@
     "Jay Querie <jay@querie.cc>"
   ],
   "devDependencies": {
-    "node2nix": "^1.8.0",
     "prettier": "2.1.2",
+    "react-refresh": "^0.8.3",
     "tap": "^14.10.8"
   }
 }

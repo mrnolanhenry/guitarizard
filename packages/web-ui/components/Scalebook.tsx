@@ -1,3 +1,4 @@
+import React from "react";
 import "./Scalebook.scss";
 import {
   Key,
@@ -5,7 +6,7 @@ import {
   Scale,
   ScaleSystem,
   instrument,
-} from "guitarizard-note-lib";
+} from "note-lib";
 import { Base16Theme } from "../lib/colors";
 import InstrumentSelector from "./InstrumentSelector";
 import NoteSelector from "./NoteSelector";
