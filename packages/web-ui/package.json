@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start": "webpack-dev-server --hot",
+        "start": "webpack-dev-server --hot --port 3000",
         "build": "cross-env NODE_ENV=production webpack --config webpack.config.js"
     },
     "dependencies": {
