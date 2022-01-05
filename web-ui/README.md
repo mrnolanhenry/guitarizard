@@ -37,4 +37,3 @@ Then:
 
    > Need to update your site?
    > Drag and drop your site folder here
-

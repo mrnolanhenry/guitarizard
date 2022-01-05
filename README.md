@@ -1,6 +1,6 @@
 # guitarizard
 
-Guitarizard's monorepo!
+A collection of tools for string-based instruments.
 
-   - `note-lib`: music theory library.
-   - `web-ui`: web interface for guitarizard.
+- `note-lib`: music theory library.
+- `web-ui`: web interface for guitarizard.
