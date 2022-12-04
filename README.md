@@ -1,6 +1,6 @@
 # guitarizard
 
-A collection of tools for string-based instruments.
+Collection of tools for string-based instruments.
 
 Dependencies
 --------------------------------------------------
