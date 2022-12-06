@@ -1,5 +1,5 @@
 import React from "react";
-import "./Scalebook.scss";
+import "./Scalebook.css";
 import {
   Key,
   Note,

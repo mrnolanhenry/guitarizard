@@ -1,4 +1,4 @@
-import "./global.scss";
+import "./global.css";
 import React, { Component } from "react";
 import ReactDOM from 'react-dom';
 import { cloudCity, Base16Theme } from "../lib/colors";

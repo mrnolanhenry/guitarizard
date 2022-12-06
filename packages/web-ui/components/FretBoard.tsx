@@ -1,5 +1,5 @@
 import React from "react";
-import "./FretBoard.scss";
+import "./FretBoard.css";
 import { Key, instrument, Note, Scale } from "note-lib";
 import { Base16Theme } from "../lib/colors";
 import FretSegment from "./FretSegment";

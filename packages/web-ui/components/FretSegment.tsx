@@ -1,5 +1,5 @@
 import React from "react";
-import "./FretSegment.scss";
+import "./FretSegment.css";
 import { instrument, Key } from "note-lib";
 import { Base16Theme, rainbow } from "../lib/colors";
 import { CSSProperties } from "react";
