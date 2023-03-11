@@ -1,7 +1,7 @@
 import { Scale } from "../Scale";
 import { diatonic } from "./scaleSystem/diatonic";
 
-module.exports = [
+const scales = [
   new Scale("aeolian", diatonic, [0, 2, 3, 5, 7, 8, 10, 12]),
   // aeolian AKA natural minor AKA ethiopian Geez AKA ethiopian Ezel AKA melodic minor descending AKA natural (pure) minor
 
@@ -360,3 +360,5 @@ module.exports = [
   new Scale("whole tone", diatonic, [0, 2, 4, 6, 8, 10, 12]),
   // auxiliary augmented AKA Lydian auxiliary augmented AKA whole tone
 ];
+
+export default scales;

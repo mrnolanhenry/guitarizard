@@ -61,7 +61,7 @@ export class ScaleSystem {
    *
    * This function
    */
-  getShiftedNotes(fromNote) {
+  getShiftedNotes(fromNote: Note) {
     // Get the representation of this note as it appears in this system.
     const internalNote = this.getNoteFromID(fromNote.id);
 
@@ -173,4 +173,4 @@ export class ScaleSystem {
   toString() {
     return JSON.stringify(this);
   }
-};
+}

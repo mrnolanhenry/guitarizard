@@ -1,8 +1,8 @@
 import { Note } from "./Note";
 import { Scale } from "./Scale";
 
-const Scales = require("./data/scales");
-const util = require("./util.js");
+import Scales from "./data/scales";
+import * as util from "./util";
 
 export class Key {
   note: Note;

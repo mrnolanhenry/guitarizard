@@ -1,6 +1,7 @@
 import { Interval } from "./Interval";
 import { ScaleSystem } from "./ScaleSystem";
 import { mainIntervals } from "./data/intervals";
+import { Note } from "./Note";
 
 /**
  * A single scale.
@@ -13,7 +14,12 @@ export class Scale {
   name: string;
   scaleSystem: ScaleSystem;
   intervals: Number[];
-  constructor(name: string, scaleSystem: ScaleSystem, intervalsBySemitones: Number[]) {
+
+  constructor(
+    name: string,
+    scaleSystem: ScaleSystem,
+    intervalsBySemitones: Number[]
+  ) {
     this.name = name;
     this.scaleSystem = scaleSystem;
     this.intervals = intervalsBySemitones.map(
@@ -21,7 +27,7 @@ export class Scale {
     );
   }
 
-  getNotesInKey(keyNote) {
+  getNotesInKey(keyNote: Note) {
     // start the scale system at the correct note
     const shiftedNotes = this.scaleSystem.getShiftedNotes(keyNote);
 
@@ -84,4 +90,4 @@ export class Scale {
   toString() {
     return JSON.stringify(this);
   }
-};
+}

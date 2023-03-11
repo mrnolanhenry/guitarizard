@@ -2,9 +2,9 @@
 // https://en.wikipedia.org/wiki/Interval_(music)#Main_intervals
 
 interface IntervalAlias {
-  name: "perfect", 
-  long: "Perfect unison",
-  short: "P1",
+  name: string; // e.g. "perfect"
+  long: string; // e.g. "Perfect unison"
+  short: string; // e.g. "P1"
 }
 
 export class Interval {
@@ -36,7 +36,7 @@ export class Interval {
     return typeof alias !== "undefined";
   }
 
-  toJSON(key) {
+  toJSON() {
     return {
       semitones: this.semitones,
       aliases: this.aliases,
@@ -56,4 +56,4 @@ export class Interval {
   toString() {
     return JSON.stringify(this);
   }
-};
+}

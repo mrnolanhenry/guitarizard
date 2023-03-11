@@ -1,6 +1,6 @@
 import { Interval } from "../Interval";
 
-const mainIntervals = [
+export const mainIntervals = [
   {
     semitones: 0,
     aliases: [
@@ -100,12 +100,9 @@ const mainIntervals = [
       { name: "augmented", long: "Augmented seventh", short: "A7" },
     ],
   },
-];
+].map((interval) => new Interval(interval.semitones, interval.aliases));
 
-exports.mainIntervals = mainIntervals.map(
-  (interval) => new Interval(interval.semitones, interval.aliases)
-);
-
+/*
 // expose `exports.[alias.short] = <interval>`
 // for easy access, e.g. "intervals.P1"
 mainIntervals.forEach((interval) => {
@@ -116,3 +113,4 @@ mainIntervals.forEach((interval) => {
     }
   });
 });
+*/

@@ -8,7 +8,7 @@ const sortArray = function (array: any[]) {
 
 // Check if 2 one-dimensional arrays are equal to each other.
 const isEqualArray1D = function (array1: any[], array2: any[]): boolean {
-  let len: number  = array1.length;
+  let len: number = array1.length;
   if (len === array2.length) {
     for (let i = 0; i < len; i++) {
       if (array1[i] !== array2[i]) {
@@ -26,4 +26,4 @@ const isEqualArray1D = function (array1: any[], array2: any[]): boolean {
 // let equalCheck = exports.isEqualArray1D(arr1, arr2);
 // console.log(equalCheck);
 
-export { isEqualArray1D, sortArray }
+export { isEqualArray1D, sortArray };
