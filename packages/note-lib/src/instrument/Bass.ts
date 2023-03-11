@@ -1,15 +1,17 @@
-const diatonic = require("../data/scaleSystem/diatonic");
-const FretBoard = require("./FretBoard");
-const TunedString = require("./TunedString");
-const Tunings = require("../data/tunings");
+import { diatonic } from "../data/scaleSystem/diatonic";
+import { FretBoard } from "./FretBoard";
+import { TunedString } from "./TunedString";
+import { Tunings } from "../data/tunings";
 
-module.exports = class Bass {
+export class Bass {
+  name: string;
+  fretBoard: any;
   constructor(fretCount, tuning) {
     const stringCount = tuning.length;
 
     this.name = `bass-${stringCount}`;
 
-    // TODO: get correct gague for bass strings
+    // TODO: get correct gauge for bass strings
     const tunedStrings = {
       4: [
         new TunedString("string-4", tuning[0], "metal", 4),

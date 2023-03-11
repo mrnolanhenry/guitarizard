@@ -1,4 +1,6 @@
-const { mainIntervals } = require("./data/intervals");
+import { Interval } from "./Interval";
+import { ScaleSystem } from "./ScaleSystem";
+import { mainIntervals } from "./data/intervals";
 
 /**
  * A single scale.
@@ -7,8 +9,11 @@ const { mainIntervals } = require("./data/intervals");
  *
  * If you were a formal person, you'd call this a "mode".
  */
-module.exports = class Scale {
-  constructor(name, scaleSystem, intervalsBySemitones) {
+export class Scale {
+  name: string;
+  scaleSystem: ScaleSystem;
+  intervals: Number[];
+  constructor(name: string, scaleSystem: ScaleSystem, intervalsBySemitones: Number[]) {
     this.name = name;
     this.scaleSystem = scaleSystem;
     this.intervals = intervalsBySemitones.map(

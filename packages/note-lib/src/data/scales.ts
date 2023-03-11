@@ -1,5 +1,5 @@
-const Scale = require("../Scale");
-const diatonic = require("./scaleSystem/diatonic");
+import { Scale } from "../Scale";
+import { diatonic } from "./scaleSystem/diatonic";
 
 module.exports = [
   new Scale("aeolian", diatonic, [0, 2, 3, 5, 7, 8, 10, 12]),

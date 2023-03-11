@@ -1,3 +1,5 @@
+import { Note } from "../Note";
+
 /**
  *  A string that exists in
  *  the given `scaleSystem`
@@ -6,7 +8,11 @@
  * @param 'material' - what material is this string made out of?
  * @param 'gauge' - what gauge (in millimeters) is this string?
  */
-module.exports = class TunedString {
+export class TunedString {
+  id: string;
+  tuningNote: Note;
+  material: string;
+  gauge: Number;
   constructor(id, tuningNote, material, gauge) {
     this.id = id;
     this.tuningNote = tuningNote;

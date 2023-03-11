@@ -1,4 +1,4 @@
-const Interval = require("../Interval");
+import { Interval } from "../Interval";
 
 const mainIntervals = [
   {

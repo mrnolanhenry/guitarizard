@@ -1,9 +1,19 @@
 /**
  * A single note --- nothing more. ;)
  */
-module.exports = class Note {
+
+interface NoteAttributes {
+    isSharp?: boolean;
+    isFlat?: boolean;
+    isNatural?: boolean;
+}
+
+export class Note {
+  id: string;
+  attributes: NoteAttributes;
+  aliasNotes: Note[];
   // TODO: Don't use array of keys & enforce with type
-  constructor(id, attributes, aliasNotes) {
+  constructor(id: string, attributes: NoteAttributes, aliasNotes?: Note[]) {
     this.id = id;
     this.attributes = attributes || {};
     this.aliasNotes = aliasNotes || [];

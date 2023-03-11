@@ -1,7 +1,7 @@
-const Tuning = require("../instrument/Tuning");
+import { Tuning } from "../instrument/Tuning";
 
 // Common tunings for various instruments so that these can be used as presets and selected by name from a dropdown
-module.exports = [
+export const Tunings = [
   // TODO: Reorg this data structure into objects per each instrument & re-write getCommonTunings and getStandardTuning methods
   // -- Nolan
 

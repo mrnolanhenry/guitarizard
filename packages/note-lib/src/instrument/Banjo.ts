@@ -1,9 +1,11 @@
-const diatonic = require("../data/scaleSystem/diatonic");
-const FretBoard = require("./FretBoard");
-const TunedString = require("./TunedString");
-const Tunings = require("../data/tunings");
+import { diatonic } from "../data/scaleSystem/diatonic";
+import { FretBoard } from "./FretBoard";
+import { TunedString } from "./TunedString";
+import { Tunings } from "../data/tunings";
 
-module.exports = class Banjo {
+export class Banjo {
+  name: string;
+  fretBoard: any;
   constructor(fretCount, tuning) {
     this.name = "banjo";
 

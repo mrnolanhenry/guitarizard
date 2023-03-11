@@ -1,10 +1,13 @@
-const diatonic = require("../data/scaleSystem/diatonic");
-const FretBoard = require("./FretBoard");
-const TunedString = require("./TunedString");
-const Tunings = require("../data/tunings");
+import { diatonic } from "../data/scaleSystem/diatonic";
+import { FretBoard }  from "./FretBoard";
+import { TunedString } from "./TunedString";
+import { Note } from "../Note";
+import { Tunings } from "../data/tunings";
 
-module.exports = class Ukulele {
-  constructor(fretCount, tuning) {
+export class Ukulele {
+  name: string;
+  fretBoard: FretBoard;
+  constructor(fretCount: Number, tuning: Note[]) {
     this.name = "ukulele";
 
     const tunedStrings = [

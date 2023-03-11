@@ -1,16 +1,14 @@
-var exports = (module.exports = {});
-
 // Given an array with numeric values, sort them in ascending order.
-exports.sortArray = function (array) {
-  array.sort(function (a, b) {
+const sortArray = function (array: any[]) {
+  array.sort(function (a: any, b: any): number {
     return a - b;
   });
   return array;
 };
 
 // Check if 2 one-dimensional arrays are equal to each other.
-exports.isEqualArray1D = function (array1, array2) {
-  let len = array1.length;
+const isEqualArray1D = function (array1: any[], array2: any[]): boolean {
+  let len: number  = array1.length;
   if (len === array2.length) {
     for (let i = 0; i < len; i++) {
       if (array1[i] !== array2[i]) {
@@ -27,3 +25,5 @@ exports.isEqualArray1D = function (array1, array2) {
 // let arr2 = [0, 1, 2];
 // let equalCheck = exports.isEqualArray1D(arr1, arr2);
 // console.log(equalCheck);
+
+export { isEqualArray1D, sortArray }

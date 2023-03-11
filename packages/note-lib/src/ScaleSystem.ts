@@ -1,4 +1,4 @@
-const Note = require("./Note");
+import { Note } from "./Note";
 
 /**
  * A scale system defines the scale universe.
@@ -7,8 +7,10 @@ const Note = require("./Note");
  *
  * If you were a formal person, you'd call this a "scale".
  */
-module.exports = class ScaleSystem {
-  constructor(name, notes) {
+export class ScaleSystem {
+  name: string;
+  notes: Note[];
+  constructor(name: string, notes: Note[]) {
     this.name = name;
     this.notes = notes;
   }
@@ -57,7 +59,7 @@ module.exports = class ScaleSystem {
    * notes so that the scale system starts at a different
    * note.
    *
-   * This funtion
+   * This function
    */
   getShiftedNotes(fromNote) {
     // Get the representation of this note as it appears in this system.

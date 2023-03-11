@@ -1,5 +1,5 @@
-const Note = require("../../Note");
-const ScaleSystem = require("../../ScaleSystem");
+import { Note } from "../../Note";
+import { ScaleSystem } from "../../ScaleSystem";
 
 const A = new Note("A", { isNatural: true });
 
@@ -50,22 +50,22 @@ const diatonic = new ScaleSystem("diatonic", [
   Ab,
 ]);
 
-module.exports = diatonic;
+// diatonic.A = A;
+// diatonic.As = As;
+// diatonic.Bb = Bb;
+// diatonic.B = B;
+// diatonic.C = C;
+// diatonic.Cs = Cs;
+// diatonic.Db = Db;
+// diatonic.D = D;
+// diatonic.Ds = Ds;
+// diatonic.Eb = Eb;
+// diatonic.E = E;
+// diatonic.F = F;
+// diatonic.Fs = Fs;
+// diatonic.Gb = Gb;
+// diatonic.G = G;
+// diatonic.Gs = Gs;
+// diatonic.Ab = Ab;
 
-module.exports.A = A;
-module.exports.As = As;
-module.exports.Bb = Bb;
-module.exports.B = B;
-module.exports.C = C;
-module.exports.Cs = Cs;
-module.exports.Db = Db;
-module.exports.D = D;
-module.exports.Ds = Ds;
-module.exports.Eb = Eb;
-module.exports.E = E;
-module.exports.F = F;
-module.exports.Fs = Fs;
-module.exports.Gb = Gb;
-module.exports.G = G;
-module.exports.Gs = Gs;
-module.exports.Ab = Ab;
+export { diatonic };

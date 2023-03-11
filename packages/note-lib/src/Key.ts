@@ -1,8 +1,13 @@
+import { Note } from "./Note";
+import { Scale } from "./Scale";
+
 const Scales = require("./data/scales");
 const util = require("./util.js");
 
-class Key {
-  constructor(note, scale) {
+export class Key {
+  note: Note;
+  scale: Scale;
+  constructor(note: Note, scale: Scale) {
     this.note = note;
     this.scale = scale;
   }
@@ -70,5 +75,3 @@ class Key {
     return JSON.stringify(this);
   }
 }
-
-module.exports = Key;

@@ -1,4 +1,17 @@
-module.exports = class FretBoard {
+import { ScaleSystem } from "../ScaleSystem";
+import { TunedString } from "./TunedString";
+
+interface StringConfig {
+ fret: { 
+    start: Number, 
+    end: Number 
+  },
+}
+
+export class FretBoard {
+  scaleSystem: ScaleSystem;
+  tunedStrings: TunedString;
+  stringConfig: StringConfig[];
   /**
    * A FretBoard that holds strings.
    *
