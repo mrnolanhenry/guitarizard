@@ -2,10 +2,18 @@
 
 Collection of tools for string-based instruments.
 
+Development
+--------------------------------------------------
+
+```
+export NODE_OPTIONS=--openssl-legacy-provider
+npm run start -w web-ui
+```
+
 Dependencies
 --------------------------------------------------
 
-- Node.js 16 (LTS)
+- Node.js 18 (LTS)
 
 Projects
 --------------------------------------------------
