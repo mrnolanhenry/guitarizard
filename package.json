@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "workspaces": [
     "packages/web-ui",
+    "packages/ui",
     "packages/note-lib"
   ]
 }

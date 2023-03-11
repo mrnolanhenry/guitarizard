@@ -1,0 +1,13 @@
+.scalebook {
+  display: flex;
+  flex-direction: column;
+}
+
+.scalebook > .settings-bar {
+  flex-grow: 1;
+  display: flex;
+}
+
+.scalebook > .settings-bar > * {
+  margin: 0.5em;
+}

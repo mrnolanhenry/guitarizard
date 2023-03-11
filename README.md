@@ -5,9 +5,11 @@ Collection of tools for string-based instruments.
 Development
 --------------------------------------------------
 
+Install npm dependencies and run the UI:
+
 ```
-export NODE_OPTIONS=--openssl-legacy-provider
-npm run start -w web-ui
+npm i
+npm run dev -w ui
 ```
 
 Dependencies
