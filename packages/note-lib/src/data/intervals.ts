@@ -4,8 +4,8 @@ interface RawInterval {
   semitones: number;
   aliases: Array<{
     name: string;
-    short?: string;
     long?: string;
+    short?: string;
   }>;
 }
 

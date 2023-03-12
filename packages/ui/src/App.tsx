@@ -5,8 +5,9 @@ import { ToolName } from "./components/ToolSelector";
 import TopBar from "./components/TopBar";
 import Scalebook from "./components/Scalebook";
 import { Key, Note, Scale, ScaleSystem, instrument, data } from "note-lib";
+import { FrettedInstrument } from "note-lib/src/instrument/FrettedInstrument";
 
-type InstrumentMap = Map<string, instrument.FrettedInstrument>;
+type InstrumentMap = Map<string, FrettedInstrument>;
 
 interface State {
   instruments: InstrumentMap;
@@ -40,8 +41,7 @@ class App extends Component<Props, State> {
         22,
         ["E", "A", "D", "G", "B", "E"].map((noteID) =>
           diatonic.getNoteFromID(noteID)
-        ),
-        "guitar"
+        )
       )
     );
 
@@ -51,8 +51,7 @@ class App extends Component<Props, State> {
         22,
         ["G", "D", "G", "B", "D"].map((noteID) =>
           diatonic.getNoteFromID(noteID)
-        ),
-        "banjo"
+        )
       )
     );
 
@@ -60,8 +59,7 @@ class App extends Component<Props, State> {
       "ukulele",
       new instrument.Ukulele(
         20,
-        ["G", "C", "E", "A"].map((noteID) => diatonic.getNoteFromID(noteID)),
-        "ukulele"
+        ["G", "C", "E", "A"].map((noteID) => diatonic.getNoteFromID(noteID))
       )
     );
 
@@ -69,8 +67,7 @@ class App extends Component<Props, State> {
       "bass-4",
       new instrument.Bass(
         22,
-        ["E", "A", "D", "G"].map((noteID) => diatonic.getNoteFromID(noteID)),
-        "bass-4"
+        ["E", "A", "D", "G"].map((noteID) => diatonic.getNoteFromID(noteID))
       )
     );
 
@@ -80,8 +77,7 @@ class App extends Component<Props, State> {
         22,
         ["B", "E", "A", "D", "G"].map((noteID) =>
           diatonic.getNoteFromID(noteID)
-        ),
-        "bass-5"
+        )
       )
     );
 
@@ -91,8 +87,7 @@ class App extends Component<Props, State> {
         22,
         ["B", "E", "A", "D", "G", "C"].map((noteID) =>
           diatonic.getNoteFromID(noteID)
-        ),
-        "bass-6"
+        )
       )
     );
 
@@ -137,7 +132,7 @@ class App extends Component<Props, State> {
     });
   }
 
-  onInstrumentSelect(instrument: instrument.FrettedInstrument) {
+  onInstrumentSelect(instrument: FrettedInstrument) {
     this.setState({ activeInstrumentName: instrument.name });
   }
 
@@ -214,10 +209,10 @@ class App extends Component<Props, State> {
         );
         break;
       }
-      case "songbook": {
-        tool = <div>NOLAN FIX ME!</div>;
-        break;
-      }
+      // case "songbook": {
+      //   tool = <div>NOLAN FIX ME!</div>;
+      //   break;
+      // }
     }
 
     const style = {

@@ -3,8 +3,9 @@ import { diatonic } from "../data/scaleSystem/diatonic";
 import { TunedString } from "./TunedString";
 import { Tunings } from "../data/tunings";
 import type { Note } from "../Note";
+import { FrettedInstrument } from "./FrettedInstrument";
 
-export class Guitar {
+export class Guitar implements FrettedInstrument{
   name: string;
   fretBoard: FretBoard;
 
