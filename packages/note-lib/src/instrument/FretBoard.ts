@@ -1,16 +1,18 @@
-import { ScaleSystem } from "../ScaleSystem";
-import { TunedString } from "./TunedString";
+import type { ScaleSystem } from "../ScaleSystem";
+import type { TunedString } from "./TunedString";
+import type { Note } from "../Note";
+import type { Scale } from "../Scale";
 
 interface StringConfig {
- fret: { 
-    start: Number, 
-    end: Number 
-  },
+  fret: {
+    start: number;
+    end: number;
+  };
 }
 
 export class FretBoard {
   scaleSystem: ScaleSystem;
-  tunedStrings: TunedString;
+  tunedStrings: TunedString[];
   stringConfig: StringConfig[];
   /**
    * A FretBoard that holds strings.
@@ -28,7 +30,11 @@ export class FretBoard {
    *   Defines the position of the strings on the FretBoard
    *   with the string's starting position, and tohe
    */
-  constructor(scaleSystem, tunedStrings, stringConfig) {
+  constructor(
+    scaleSystem: ScaleSystem,
+    tunedStrings: TunedString[],
+    stringConfig: StringConfig[]
+  ) {
     this.scaleSystem = scaleSystem;
     this.tunedStrings = tunedStrings;
     this.stringConfig = stringConfig;
@@ -46,7 +52,7 @@ export class FretBoard {
   /**
    * Set a single string's tuning on this fretboard
    */
-  setStringTuningNote(tunedStringID, tuningNote) {
+  setStringTuningNote(tunedStringID: string, tuningNote: Note) {
     const newTunedStrings = this.tunedStrings.slice();
 
     this.tunedStrings = this.tunedStrings.map((tunedString) => {
@@ -85,7 +91,7 @@ export class FretBoard {
   // same result as `getNotes`, but the notes are filtered
   // out according to the scale given. EG. A chromatic
   // scale will always equal the output of `getNotes`
-  getNotesInScale(scale, keyNote) {
+  getNotesInScale(scale: Scale, keyNote: Note) {
     const keyNotes = scale.getNotesInKey(keyNote);
 
     return this.getNotes().map((string) => {
@@ -118,7 +124,7 @@ export class FretBoard {
     });
   }
 
-  toJSON(key) {
+  toJSON() {
     return {
       scaleSystem: this.scaleSystem,
       tunedStrings: this.tunedStrings,
@@ -133,4 +139,4 @@ export class FretBoard {
   toString() {
     return JSON.stringify(this);
   }
-};
+}

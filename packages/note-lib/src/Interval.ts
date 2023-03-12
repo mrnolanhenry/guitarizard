@@ -3,12 +3,12 @@
 
 interface IntervalAlias {
   name: string; // e.g. "perfect"
-  long: string; // e.g. "Perfect unison"
-  short: string; // e.g. "P1"
+  long?: string; // e.g. "Perfect unison"
+  short?: string; // e.g. "P1"
 }
 
 export class Interval {
-  semitones: Number;
+  semitones: number;
   aliases: IntervalAlias[];
   isMajor: boolean;
   isMinor: boolean;
@@ -16,10 +16,8 @@ export class Interval {
   isDiminished: boolean;
   isPerfect: boolean;
   isRoot: boolean;
-  /**
-   *
-   */
-  constructor(semitones: Number, aliases: IntervalAlias[]) {
+
+  constructor(semitones: number, aliases: IntervalAlias[]) {
     this.semitones = semitones;
     this.aliases = aliases;
 
@@ -31,7 +29,7 @@ export class Interval {
     this.isRoot = this.hasAliasName("root");
   }
 
-  hasAliasName(name) {
+  hasAliasName(name: string) {
     const alias = this.aliases.find((a) => a.name === name);
     return typeof alias !== "undefined";
   }

@@ -1,17 +1,20 @@
-const tap = require("tap");
-const diatonic = require("../../src/data/scaleSystem/diatonic");
-const Note = require("../../src/Note");
-const Guitar = require("../../src/instrument/Guitar");
-const Tuning = require("../../src/instrument/Tuning");
+import tap from "tap";
+import {
+  diatonic,
+  notes as diatonic_notes,
+} from "../../data/scaleSystem/diatonic";
+import { Note } from "../../Note";
+import { Guitar } from "../../instrument/Guitar";
+import { Tuning } from "../../instrument/Tuning";
 
 tap.test("class Guitar -- init", function (t) {
   const defaultGuitar = new Guitar(21, [
-    diatonic.E,
-    diatonic.A,
-    diatonic.D,
-    diatonic.G,
-    diatonic.B,
-    diatonic.E,
+    diatonic_notes.E,
+    diatonic_notes.A,
+    diatonic_notes.D,
+    diatonic_notes.G,
+    diatonic_notes.B,
+    diatonic_notes.E,
   ]);
 
   t.ok(defaultGuitar);

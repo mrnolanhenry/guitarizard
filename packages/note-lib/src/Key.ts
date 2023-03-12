@@ -60,7 +60,7 @@ export class Key {
     return equivKeys;
   }
 
-  toJSON(key) {
+  toJSON() {
     return {
       note: this.note,
       scale: this.scale,

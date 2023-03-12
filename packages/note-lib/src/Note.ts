@@ -2,28 +2,33 @@
  * A single note --- nothing more. ;)
  */
 
+type NoteAttribute = "isSharp" | "isFlat" | "isNatural";
+
 interface NoteAttributes {
-    isSharp?: boolean;
-    isFlat?: boolean;
-    isNatural?: boolean;
+  isSharp?: boolean;
+  isFlat?: boolean;
+  isNatural?: boolean;
 }
 
+export type NoteID = string;
+
 export class Note {
-  id: string;
+  id: NoteID;
   attributes: NoteAttributes;
   aliasNotes: Note[];
+
   // TODO: Don't use array of keys & enforce with type
-  constructor(id: string, attributes: NoteAttributes, aliasNotes?: Note[]) {
+  constructor(id: NoteID, attributes?: NoteAttributes, aliasNotes?: Note[]) {
     this.id = id;
     this.attributes = attributes || {};
     this.aliasNotes = aliasNotes || [];
   }
 
-  addAliasNote(note) {
+  addAliasNote(note: Note) {
     this.aliasNotes.push(note);
   }
 
-  isSimilar(note) {
+  isSimilar(note: Note) {
     // check the basics
     if (note.id === this.id) {
       return true;
@@ -39,7 +44,7 @@ export class Note {
    * Find a note by attribute. It can be the current note,
    * or one of it's aliases
    */
-  findByAttribute(attribute, value) {
+  findByAttribute(attribute: NoteAttribute, value: boolean) {
     // check the current note
     if (this.attributes[attribute] === value) {
       return this;
@@ -75,7 +80,7 @@ export class Note {
     } else return this.findByAttribute("isFlat", true);
   }
 
-  toJSON(key) {
+  toJSON() {
     return {
       id: this.id,
       attributes: this.attributes,
@@ -94,4 +99,4 @@ export class Note {
   toString() {
     return JSON.stringify(this);
   }
-};
+}

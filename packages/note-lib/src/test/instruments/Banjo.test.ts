@@ -1,16 +1,19 @@
-const tap = require("tap");
-const diatonic = require("../../src/data/scaleSystem/diatonic");
-const Note = require("../../src/Note");
-const Banjo = require("../../src/instrument/Banjo");
-const Tuning = require("../../src/instrument/Tuning");
+import tap from "tap";
+import {
+  diatonic,
+  notes as diatonic_notes,
+} from "../../data/scaleSystem/diatonic";
+import { Note } from "../../Note";
+import { Banjo } from "../../instrument/Banjo";
+import { Tuning } from "../../instrument/Tuning";
 
 tap.test("class Banjo -- init", function (t) {
   const defaultBanjo = new Banjo(21, [
-    diatonic.G,
-    diatonic.D,
-    diatonic.G,
-    diatonic.B,
-    diatonic.D,
+    diatonic_notes.G,
+    diatonic_notes.D,
+    diatonic_notes.G,
+    diatonic_notes.B,
+    diatonic_notes.D,
   ]);
 
   t.ok(defaultBanjo);

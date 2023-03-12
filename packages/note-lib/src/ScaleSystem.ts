@@ -1,4 +1,5 @@
 import { Note } from "./Note";
+import type { NoteID } from "./Note";
 
 /**
  * A scale system defines the scale universe.
@@ -10,6 +11,7 @@ import { Note } from "./Note";
 export class ScaleSystem {
   name: string;
   notes: Note[];
+
   constructor(name: string, notes: Note[]) {
     this.name = name;
     this.notes = notes;
@@ -17,7 +19,7 @@ export class ScaleSystem {
 
   // Given an ID, e.g. "A#", return the "Note" instance
   // from this ScaleSystem.
-  getNoteFromID(noteID) {
+  getNoteFromID(noteID: NoteID): Note {
     for (let i = 0; i < this.notes.length; i++) {
       const note = this.notes[i];
 
@@ -38,6 +40,8 @@ export class ScaleSystem {
         return note;
       }
     }
+
+    throw `The given noteID: ${noteID} is NOT valid`;
   }
 
   /**
@@ -46,7 +50,7 @@ export class ScaleSystem {
    * their aliases, and smushes them together.
    */
   getKeyNotes() {
-    return this.notes.reduce((acc, note) => {
+    return this.notes.reduce((acc: Note[], note: Note) => {
       acc = acc.concat(note.aliasNotes);
       acc = acc.concat([note]);
       return acc;
@@ -89,7 +93,7 @@ export class ScaleSystem {
    * i.e. the relative offset to THIS scale system
    *
    */
-  _getRelativeNoteOffset(fromNote) {
+  _getRelativeNoteOffset(fromNote: Note) {
     // We have a list of notes in this "scale system" (this.notes)
     // and we want the offset that `fromNote` exists in it.
     //
@@ -107,7 +111,7 @@ export class ScaleSystem {
     return offset;
   }
 
-  getNoteInterval(fromNote, toNote) {
+  getNoteInterval(fromNote: Note, toNote: Note) {
     const fromNoteOffset = this._getRelativeNoteOffset(fromNote);
     const toNoteOffset = this._getRelativeNoteOffset(toNote);
 
@@ -143,7 +147,7 @@ export class ScaleSystem {
    *  > Given Note('Ab'), this will return Note('A')
    *
    */
-  getNextNote(fromNote, stepsAway) {
+  getNextNote(fromNote: Note, stepsAway?: number) {
     if (typeof stepsAway === "undefined") {
       stepsAway = 1;
     }
@@ -159,7 +163,7 @@ export class ScaleSystem {
     return this.notes[index];
   }
 
-  toJSON(key) {
+  toJSON() {
     return {
       name: this.name,
       notes: this.notes,

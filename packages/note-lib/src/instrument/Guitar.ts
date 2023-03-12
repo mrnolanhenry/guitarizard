@@ -1,13 +1,14 @@
 import { FretBoard } from "./FretBoard";
-
 import { diatonic } from "../data/scaleSystem/diatonic";
 import { TunedString } from "./TunedString";
 import { Tunings } from "../data/tunings";
+import type { Note } from "../Note";
 
 export class Guitar {
   name: string;
   fretBoard: FretBoard;
-  constructor(fretCount, tuning) {
+
+  constructor(fretCount: number, tuning: Note[]) {
     this.name = "guitar";
 
     // left to right on the guitar
@@ -45,4 +46,4 @@ export class Guitar {
   // getStandardTuning() {
   //   return this.getCommonTunings()[0];
   // }
-};
+}

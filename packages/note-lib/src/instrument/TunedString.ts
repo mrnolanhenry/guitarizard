@@ -1,4 +1,5 @@
-import { Note } from "../Note";
+import type { Note } from "../Note";
+import type { ScaleSystem } from "../ScaleSystem";
 
 /**
  *  A string that exists in
@@ -12,15 +13,16 @@ export class TunedString {
   id: string;
   tuningNote: Note;
   material: string;
-  gauge: Number;
-  constructor(id, tuningNote, material, gauge) {
+  gauge: number;
+
+  constructor(id: string, tuningNote: Note, material: string, gauge: number) {
     this.id = id;
     this.tuningNote = tuningNote;
     this.material = material;
     this.gauge = gauge;
   }
 
-  setTuningNote(note) {
+  setTuningNote(note: Note) {
     this.tuningNote = note;
   }
 
@@ -29,7 +31,7 @@ export class TunedString {
    * return the notes associated with it up to
    * the given `fretSpan`
    */
-  getFrettedNotes(scaleSystem, fretSpan) {
+  getFrettedNotes(scaleSystem: ScaleSystem, fretSpan: number) {
     const frettedNotes = [];
 
     for (let i = 0; i <= fretSpan; i++) {
@@ -40,7 +42,7 @@ export class TunedString {
     return frettedNotes;
   }
 
-  toJSON(key) {
+  toJSON() {
     return {
       tuningNote: this.tuningNote,
       material: this.material,
@@ -55,4 +57,4 @@ export class TunedString {
   toString() {
     return JSON.stringify(this);
   }
-};
+}

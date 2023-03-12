@@ -1,6 +1,6 @@
-const tap = require("tap");
-const Note = require("../src/Note");
-const ScaleSystem = require("../src/ScaleSystem");
+import tap from "tap";
+import { Note } from "../Note";
+import { ScaleSystem } from "../ScaleSystem";
 
 tap.test("class ScaleSystem", function (t) {
   const A = new Note("A", { isNatural: true });

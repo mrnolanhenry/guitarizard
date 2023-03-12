@@ -35,7 +35,27 @@ const Gs = new Note("G#", { isSharp: true });
 const Ab = new Note("Ab", { isFlat: true }, [Gs]);
 Gs.addAliasNote(Ab);
 
-const diatonic = new ScaleSystem("diatonic", [
+export const notes = {
+  A,
+  As,
+  Bb,
+  B,
+  C,
+  Cs,
+  Db,
+  D,
+  Ds,
+  Eb,
+  E,
+  F,
+  Fs,
+  Gb,
+  G,
+  Gs,
+  Ab,
+};
+
+export const diatonic = new ScaleSystem("diatonic", [
   A,
   Bb,
   B,
@@ -49,23 +69,3 @@ const diatonic = new ScaleSystem("diatonic", [
   G,
   Ab,
 ]);
-
-// diatonic.A = A;
-// diatonic.As = As;
-// diatonic.Bb = Bb;
-// diatonic.B = B;
-// diatonic.C = C;
-// diatonic.Cs = Cs;
-// diatonic.Db = Db;
-// diatonic.D = D;
-// diatonic.Ds = Ds;
-// diatonic.Eb = Eb;
-// diatonic.E = E;
-// diatonic.F = F;
-// diatonic.Fs = Fs;
-// diatonic.Gb = Gb;
-// diatonic.G = G;
-// diatonic.Gs = Gs;
-// diatonic.Ab = Ab;
-
-export { diatonic };

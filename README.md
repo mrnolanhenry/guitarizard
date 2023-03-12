@@ -9,7 +9,13 @@ Install npm dependencies and run the UI:
 
 ```
 npm i
-npm run dev -w ui
+npm -w ui run dev
+```
+
+To run the note-lib tests:
+
+```
+npm -w note-lib run test
 ```
 
 Dependencies

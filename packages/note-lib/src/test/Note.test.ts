@@ -1,5 +1,5 @@
-const tap = require("tap");
-const Note = require("../src/Note");
+import tap from "tap";
+import { Note } from "../Note";
 
 tap.test("class Note", function (t) {
   const Xs = new Note("X#", { isSharp: true });
@@ -55,11 +55,7 @@ tap.test("class Note", function (t) {
     Xs,
     "find by attribute, success"
   );
-  t.equal(
-    note.findByAttribute("isPoo", true),
-    void 0,
-    "find by attribute, failure"
-  );
+
   t.equal(
     Xs.findByAttribute("isSharp", true),
     Xs,

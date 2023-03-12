@@ -1,13 +1,14 @@
 import { diatonic } from "../data/scaleSystem/diatonic";
-import { FretBoard }  from "./FretBoard";
+import { FretBoard } from "./FretBoard";
 import { TunedString } from "./TunedString";
-import { Note } from "../Note";
+import type { Note } from "../Note";
 import { Tunings } from "../data/tunings";
 
 export class Ukulele {
   name: string;
   fretBoard: FretBoard;
-  constructor(fretCount: Number, tuning: Note[]) {
+
+  constructor(fretCount: number, tuning: Note[]) {
     this.name = "ukulele";
 
     const tunedStrings = [
@@ -40,4 +41,4 @@ export class Ukulele {
   // getStandardTuning() {
   //   return this.getCommonTunings()[0];
   // }
-};
+}

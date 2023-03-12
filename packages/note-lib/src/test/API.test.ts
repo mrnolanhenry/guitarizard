@@ -1,5 +1,5 @@
-const tap = require("tap");
-const API = require("../src/index");
+import tap from "tap";
+import * as API from "../index";
 
 tap.test("exposed API", function (t) {
   t.ok(API.Note, "expect Note");
@@ -23,7 +23,10 @@ tap.test("exposed API", function (t) {
     "correct main intervals"
   );
 
-  t.ok(API.data.intervals.P1, "expect main intervals to be exposed");
+  t.ok(
+    API.data.intervals.mainIntervalsMap.P1,
+    "expect main intervals to be exposed"
+  );
 
   t.end();
 });

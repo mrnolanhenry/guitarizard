@@ -2,11 +2,13 @@ import { diatonic } from "../data/scaleSystem/diatonic";
 import { FretBoard } from "./FretBoard";
 import { TunedString } from "./TunedString";
 import { Tunings } from "../data/tunings";
+import type { Note } from "../Note";
 
 export class Banjo {
   name: string;
-  fretBoard: any;
-  constructor(fretCount, tuning) {
+  fretBoard: FretBoard;
+
+  constructor(fretCount: number, tuning: Note[]) {
     this.name = "banjo";
 
     // ["G", "D", "G", "B", "D"]
@@ -43,4 +45,4 @@ export class Banjo {
   // getStandardTuning() {
   //   return this.getCommonTunings()[0];
   // }
-};
+}

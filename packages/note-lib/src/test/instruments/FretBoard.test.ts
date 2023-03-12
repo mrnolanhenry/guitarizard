@@ -1,10 +1,13 @@
-const tap = require("tap");
-const diatonic = require("../../src/data/scaleSystem/diatonic");
-const Note = require("../../src/Note");
-const ScaleSystem = require("../../src/ScaleSystem");
-const Scale = require("../../src/Scale");
-const TunedString = require("../../src/instrument/TunedString");
-const FretBoard = require("../../src/instrument/FretBoard");
+import tap from "tap";
+import {
+  diatonic,
+  notes as diatonic_notes,
+} from "../../data/scaleSystem/diatonic";
+import { Note } from "../../Note";
+import { ScaleSystem } from "../../ScaleSystem";
+import { Scale } from "../../Scale";
+import { TunedString } from "../../instrument/TunedString";
+import { FretBoard } from "../../instrument/FretBoard";
 
 tap.test("class FretBoard --- init", function (t) {
   const system = new ScaleSystem("test", [new Note("X"), new Note("Y")]);
@@ -50,8 +53,8 @@ tap.test("class FretBoard --- init", function (t) {
 
 tap.test("class FretBoard --- getNotesInScale", function (t) {
   const tunedStrings = [
-    new TunedString("0", diatonic.E, "metal", 0.254),
-    new TunedString("1", diatonic.A, "metal", 0.3302),
+    new TunedString("0", diatonic_notes.E, "metal", 0.254),
+    new TunedString("1", diatonic_notes.A, "metal", 0.3302),
   ];
 
   const stringConfig = [
@@ -82,24 +85,24 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
       tunedString: tunedStrings[0],
       config: stringConfig[0],
       notes: [
-        { value: diatonic.E, fretNumber: 0 },
-        { value: diatonic.F, fretNumber: 1 },
-        { value: diatonic.Gb, fretNumber: 2 },
-        { value: diatonic.G, fretNumber: 3 },
-        { value: diatonic.Ab, fretNumber: 4 },
-        { value: diatonic.A, fretNumber: 5 },
+        { value: diatonic_notes.E, fretNumber: 0 },
+        { value: diatonic_notes.F, fretNumber: 1 },
+        { value: diatonic_notes.Gb, fretNumber: 2 },
+        { value: diatonic_notes.G, fretNumber: 3 },
+        { value: diatonic_notes.Ab, fretNumber: 4 },
+        { value: diatonic_notes.A, fretNumber: 5 },
       ],
     },
     {
       tunedString: tunedStrings[1],
       config: stringConfig[1],
       notes: [
-        { value: diatonic.A, fretNumber: 0 },
-        { value: diatonic.Bb, fretNumber: 1 },
-        { value: diatonic.B, fretNumber: 2 },
-        { value: diatonic.C, fretNumber: 3 },
-        { value: diatonic.Db, fretNumber: 4 },
-        { value: diatonic.D, fretNumber: 5 },
+        { value: diatonic_notes.A, fretNumber: 0 },
+        { value: diatonic_notes.Bb, fretNumber: 1 },
+        { value: diatonic_notes.B, fretNumber: 2 },
+        { value: diatonic_notes.C, fretNumber: 3 },
+        { value: diatonic_notes.Db, fretNumber: 4 },
+        { value: diatonic_notes.D, fretNumber: 5 },
       ],
     },
   ]);
@@ -125,18 +128,18 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
         tunedString: tunedStrings[0],
         config: stringConfig[0],
         notes: [
-          { value: diatonic.E, fretNumber: 0 },
-          { value: diatonic.G, fretNumber: 3 },
-          { value: diatonic.A, fretNumber: 5 },
+          { value: diatonic_notes.E, fretNumber: 0 },
+          { value: diatonic_notes.G, fretNumber: 3 },
+          { value: diatonic_notes.A, fretNumber: 5 },
         ],
       },
       {
         tunedString: tunedStrings[1],
         config: stringConfig[1],
         notes: [
-          { value: diatonic.A, fretNumber: 0 },
-          { value: diatonic.C, fretNumber: 3 },
-          { value: diatonic.D, fretNumber: 5 },
+          { value: diatonic_notes.A, fretNumber: 0 },
+          { value: diatonic_notes.C, fretNumber: 3 },
+          { value: diatonic_notes.D, fretNumber: 5 },
         ],
       },
     ],
@@ -150,19 +153,19 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
         tunedString: tunedStrings[0],
         config: stringConfig[0],
         notes: [
-          { value: diatonic.E, fretNumber: 0 },
-          { value: diatonic.Fs, fretNumber: 2 },
-          { value: diatonic.A, fretNumber: 5 },
+          { value: diatonic_notes.E, fretNumber: 0 },
+          { value: diatonic_notes.Fs, fretNumber: 2 },
+          { value: diatonic_notes.A, fretNumber: 5 },
         ],
       },
       {
         tunedString: tunedStrings[1],
         config: stringConfig[1],
         notes: [
-          { value: diatonic.A, fretNumber: 0 },
-          { value: diatonic.B, fretNumber: 2 },
-          { value: diatonic.C, fretNumber: 3 },
-          { value: diatonic.Cs, fretNumber: 4 },
+          { value: diatonic_notes.A, fretNumber: 0 },
+          { value: diatonic_notes.B, fretNumber: 2 },
+          { value: diatonic_notes.C, fretNumber: 3 },
+          { value: diatonic_notes.Cs, fretNumber: 4 },
         ],
       },
     ],
@@ -174,8 +177,8 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
 
 tap.test("class FretBoard --- toJSON / valueOf / toString", function (t) {
   const tunedStrings = [
-    new TunedString("0", diatonic.E, "metal", 0.254),
-    new TunedString("1", diatonic.A, "metal", 0.3302),
+    new TunedString("0", diatonic_notes.E, "metal", 0.254),
+    new TunedString("1", diatonic_notes.A, "metal", 0.3302),
   ];
 
   const stringConfig = [
@@ -203,8 +206,8 @@ tap.test("class FretBoard --- toJSON / valueOf / toString", function (t) {
 
 tap.test("setStringTuningNote()", (t) => {
   const tunedStrings = [
-    new TunedString("x", diatonic.E, "metal", 0.254),
-    new TunedString("y", diatonic.A, "metal", 0.3302),
+    new TunedString("x", diatonic_notes.E, "metal", 0.254),
+    new TunedString("y", diatonic_notes.A, "metal", 0.3302),
   ];
 
   const stringConfig = [
@@ -214,21 +217,21 @@ tap.test("setStringTuningNote()", (t) => {
 
   const stubbyBoard = new FretBoard(diatonic, tunedStrings, stringConfig);
 
-  t.equal(stubbyBoard.tunedStrings[0].tuningNote, diatonic.E);
-  t.equal(stubbyBoard.tunedStrings[1].tuningNote, diatonic.A);
+  t.equal(stubbyBoard.tunedStrings[0].tuningNote, diatonic_notes.E);
+  t.equal(stubbyBoard.tunedStrings[1].tuningNote, diatonic_notes.A);
 
-  stubbyBoard.setStringTuningNote("x", diatonic.C);
+  stubbyBoard.setStringTuningNote("x", diatonic_notes.C);
 
-  t.equal(stubbyBoard.tunedStrings[0].tuningNote, diatonic.C);
-  t.equal(stubbyBoard.tunedStrings[1].tuningNote, diatonic.A);
+  t.equal(stubbyBoard.tunedStrings[0].tuningNote, diatonic_notes.C);
+  t.equal(stubbyBoard.tunedStrings[1].tuningNote, diatonic_notes.A);
 
   t.end();
 });
 
 tap.test("getFretCount()", (t) => {
   const tunedStrings = [
-    new TunedString("x", diatonic.E, "metal", 0.254),
-    new TunedString("y", diatonic.A, "metal", 0.3302),
+    new TunedString("x", diatonic_notes.E, "metal", 0.254),
+    new TunedString("y", diatonic_notes.A, "metal", 0.3302),
   ];
 
   const stringConfig = [

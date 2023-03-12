@@ -13,12 +13,12 @@ import { Note } from "./Note";
 export class Scale {
   name: string;
   scaleSystem: ScaleSystem;
-  intervals: Number[];
+  intervals: Interval[];
 
   constructor(
     name: string,
     scaleSystem: ScaleSystem,
-    intervalsBySemitones: Number[]
+    intervalsBySemitones: number[]
   ) {
     this.name = name;
     this.scaleSystem = scaleSystem;
@@ -51,31 +51,31 @@ export class Scale {
 
   // Given a scale, return equivalent scales that have the same notes
   // e.g. the Ionian scale is exactly the same series of notes as the Major scale and Ethiopian (a raray) scale.
-  getEquivScales(Scales) {
+  getEquivScales(scales: Scale[]) {
     let equivScales = [];
     let scaleLength = this.intervals.length;
 
     // Loop through each scale
-    for (let i = 0; i < Scales.length; i++) {
+    for (let i = 0; i < scales.length; i++) {
       // Loop through each scale's intervals
       loopThruIntervals: {
         // This if check is only here to speed up function
-        if (scaleLength === Scales[i].intervals.length) {
-          for (let j = 0; j < Scales[i].intervals.length; j++) {
+        if (scaleLength === scales[i].intervals.length) {
+          for (let j = 0; j < scales[i].intervals.length; j++) {
             if (
-              this.intervals[j].semitones !== Scales[i].intervals[j].semitones
+              this.intervals[j].semitones !== scales[i].intervals[j].semitones
             ) {
               break loopThruIntervals;
             }
           }
-          equivScales.push(Scales[i]);
+          equivScales.push(scales[i]);
         }
       }
     }
     return equivScales;
   }
 
-  toJSON(key) {
+  toJSON() {
     return {
       name: this.name,
       scaleSystem: this.scaleSystem,

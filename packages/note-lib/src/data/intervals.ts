@@ -1,6 +1,15 @@
 import { Interval } from "../Interval";
 
-export const mainIntervals = [
+interface RawInterval {
+  semitones: number;
+  aliases: Array<{
+    name: string;
+    short?: string;
+    long?: string;
+  }>;
+}
+
+export const mainIntervalsList: RawInterval[] = [
   {
     semitones: 0,
     aliases: [
@@ -100,17 +109,19 @@ export const mainIntervals = [
       { name: "augmented", long: "Augmented seventh", short: "A7" },
     ],
   },
-].map((interval) => new Interval(interval.semitones, interval.aliases));
+];
 
-/*
-// expose `exports.[alias.short] = <interval>`
-// for easy access, e.g. "intervals.P1"
+export const mainIntervals = mainIntervalsList.map(
+  (interval) => new Interval(interval.semitones, interval.aliases)
+);
+
+// for easy direct access, e.g. "mainIntervalsMap.P1"
+export let mainIntervalsMap: { [short_name: string]: RawInterval } = {};
 mainIntervals.forEach((interval) => {
   const aliases = interval.aliases;
   aliases.forEach((alias) => {
     if (alias.short) {
-      exports[alias.short] = interval;
+      mainIntervalsMap[alias.short] = interval;
     }
   });
 });
-*/

@@ -1,8 +1,11 @@
-const tap = require("tap");
-const Note = require("../src/Note");
-const Scale = require("../src/Scale");
-const diatonic = require("../src/data/scaleSystem/diatonic");
-const Key = require("../src/Key");
+import tap from "tap";
+import { Note } from "../Note";
+import { Scale } from "../Scale";
+import {
+  diatonic,
+  notes as diatonic_notes,
+} from "../data/scaleSystem/diatonic";
+import { Key } from "../Key";
 
 // WIP - will finish test file once Key.js is finalized
 tap.test("class Key", function (t) {
@@ -51,23 +54,23 @@ tap.test("class Key", function (t) {
   const majorScale = new Scale("major", diatonic, [0, 2, 4, 5, 7, 9, 11, 12]);
   const dorianScale = new Scale("dorian", diatonic, [0, 2, 3, 5, 7, 9, 10, 12]);
 
-  const BbLydian = new Key(diatonic.Bb, lydianScale);
-  const AsLydian = new Key(diatonic.As, lydianScale);
-  const ANeapolitanMinor = new Key(diatonic.A, neapolitanMinorScale);
-  const CMixolydian = new Key(diatonic.C, mixolydianScale);
-  const DAeolian = new Key(diatonic.D, aeolianScale);
-  const ELocrian = new Key(diatonic.E, locrianScale);
-  const FIonian = new Key(diatonic.F, ionianScale);
-  const FMajor = new Key(diatonic.F, majorScale);
-  const GDorian = new Key(diatonic.G, dorianScale);
+  const BbLydian = new Key(diatonic_notes.Bb, lydianScale);
+  const AsLydian = new Key(diatonic_notes.As, lydianScale);
+  const ANeapolitanMinor = new Key(diatonic_notes.A, neapolitanMinorScale);
+  const CMixolydian = new Key(diatonic_notes.C, mixolydianScale);
+  const DAeolian = new Key(diatonic_notes.D, aeolianScale);
+  const ELocrian = new Key(diatonic_notes.E, locrianScale);
+  const FIonian = new Key(diatonic_notes.F, ionianScale);
+  const FMajor = new Key(diatonic_notes.F, majorScale);
+  const GDorian = new Key(diatonic_notes.G, dorianScale);
 
   const BbLydianequivKeys = BbLydian.getEquivKeys();
   const AsLydianequivKeys = AsLydian.getEquivKeys();
 
   t.same(BbLydian.scale, lydianScale, "scale identified");
 
-  t.same(BbLydian.note, diatonic.Bb, "flat note identified");
-  t.same(AsLydian.note, diatonic.As, "sharp note identified");
+  t.same(BbLydian.note, diatonic_notes.Bb, "flat note identified");
+  t.same(AsLydian.note, diatonic_notes.As, "sharp note identified");
 
   t.same(
     BbLydianequivKeys[0],

@@ -6,8 +6,8 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "test": "tap --reporter spec 'test/**/*.js'",
-    "test:100": "tap --reporter spec --100 'test/**/*.js'"
+    "test": "tap --ts --reporter spec 'src/test/**/*.ts'",
+    "test:100": "tap --ts --reporter spec --100 'src/test/**/*.ts'"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,20 @@
     "Jay Querie <jay@querie.cc>"
   ],
   "devDependencies": {
+    "@types/tap": "^15.0.8",
+    "c8": "^7.13.0",
+    "esmock": "^2.1.0",
     "prettier": "^2",
-    "tap": "^16"
+    "tap": "^16",
+    "ts-node": "^10.9.1"
+  },
+  "tap": {
+    "node-arg": [
+      "--loader=ts-node/esm",
+      "--loader=esmock",
+      "--experimental-specifier-resolution=node"
+    ],
+    "coverage": false,
+    "ts": false
   }
 }

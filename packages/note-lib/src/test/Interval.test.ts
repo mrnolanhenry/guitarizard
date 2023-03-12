@@ -1,5 +1,5 @@
-const tap = require("tap");
-const Interval = require("../src/Interval");
+import tap from "tap";
+import { Interval } from "../Interval";
 
 tap.test("class Interval", function (t) {
   const interval = new Interval(0, [
