@@ -49,8 +49,6 @@ export class FretBoard {
    * Set a single string's tuning on this fretboard
    */
   setStringTuningNote(tunedStringID: string, tuningNote: Note) {
-    const newTunedStrings = this.tunedStrings.slice();
-
     this.tunedStrings = this.tunedStrings.map((tunedString) => {
       if (tunedString.id === tunedStringID) {
         tunedString.setTuningNote(tuningNote);

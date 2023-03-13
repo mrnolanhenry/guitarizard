@@ -2,7 +2,7 @@ import React from "react";
 import Selector from "./Selector";
 import { Base16Theme } from "../colors/colors";
 
-interface Props<T> {
+interface ILabeledSelectorProps<T> {
   label?: string;
   items: Array<T>;
   activeItem: T;
@@ -12,10 +12,10 @@ interface Props<T> {
   theme: Base16Theme;
 }
 
-export default function labeledSelector<T>(props: Props<T>) {
+export default function labeledSelector<T>(props: ILabeledSelectorProps<T>) {
   return (
     <div style={{ display: "flex" }}>
-      <span>{props.label}</span>
+      <span style={{ paddingRight: ".25em" }}>{props.label}</span>
 
       <Selector<T>
         items={props.items}

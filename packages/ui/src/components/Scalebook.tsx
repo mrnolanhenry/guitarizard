@@ -13,11 +13,14 @@ import NoteTable from "./NoteTable";
 // import ToggleButtonIntervalTable from "./ToggleButtonIntervalTable";
 import Instrument from "./Instrument";
 import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
+import CommonTuningSelector from "./CommonTuningSelector";
+import { Tuning } from "note-lib/src/Tuning";
 
 interface IScalebookProps {
   instruments: Map<string, IFrettedInstrument>;
-  activeInstrumentName: string;
+  activeInstrument: IFrettedInstrument;
   activeScale: Scale;
+  activeTuning: Tuning;
   keyNote: Note;
   activeKey: Key;
   temperament: Temperament;
@@ -34,6 +37,9 @@ interface IScalebookProps {
     stringID: string,
     newTuning: Note
   ) => void;
+  onInstrumentTuneToPreset: (
+    tuning: Tuning
+  ) => void;
   theme: Base16Theme;
 }
 
@@ -42,7 +48,7 @@ export default function Scalebook(props: IScalebookProps) {
     backgroundColor: props.theme.base01,
   };
 
-  const instrument = props.instruments.get(props.activeInstrumentName);
+  const instrument: IFrettedInstrument = props.activeInstrument;
 
   const instrumentComponent = instrument ? (
     <Instrument
@@ -54,15 +60,24 @@ export default function Scalebook(props: IScalebookProps) {
       isRainbowMode={props.isRainbowMode}
       theme={props.theme}
     />
-  ) : undefined;
+  ) : <></>;
 
   return (
     <div className="scalebook">
       <div className="settings-bar" style={settingsBarStyle}>
         <InstrumentSelector
-          activeInstrumentName={props.activeInstrumentName}
+          label="Instrument:"
+          activeInstrument={props.activeInstrument}
           instruments={props.instruments}
           onInstrumentSelect={props.onInstrumentSelect}
+          theme={props.theme}
+        />
+
+        <CommonTuningSelector
+          label="Common Tunings:"
+          activeInstrument={props.activeInstrument}
+          activeTuning={props.activeTuning}
+          onCommonTuningSelect={props.onInstrumentTuneToPreset}
           theme={props.theme}
         />
 
