@@ -1,5 +1,8 @@
 import { Note } from "../../Note";
-import { ScaleSystem } from "../../ScaleSystem";
+import { Temperament } from "../../Temperament";
+
+// Represents the twelve-tone equal temperament (12TET, or twelveTET, in our codebase)
+// https://en.wikipedia.org/wiki/12_equal_temperament
 
 const A = new Note("A", { isNatural: true });
 
@@ -55,7 +58,7 @@ export const notes = {
   Ab,
 };
 
-export const diatonic = new ScaleSystem("diatonic", [
+export const twelveTET = new Temperament("twelveTET", [
   A,
   Bb,
   B,

@@ -44,7 +44,7 @@ export class Note {
    * Find a note by attribute. It can be the current note,
    * or one of it's aliases
    */
-  findByAttribute(attribute: NoteAttribute, value: boolean) {
+  findByAttribute(attribute: NoteAttribute, value: boolean): Note {
     // check the current note
     if (this.attributes[attribute] === value) {
       return this;

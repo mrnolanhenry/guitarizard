@@ -1,9 +1,9 @@
-import type { Note } from "../Note";
-import type { ScaleSystem } from "../ScaleSystem";
+import type { Note } from "./Note";
+import type { Temperament } from "./Temperament";
 
 /**
  *  A string that exists in
- *  the given `scaleSystem`
+ *  the given `temperament`
  *
  * @param 'tuningNote' - what is this strings tuning note?
  * @param 'material' - what material is this string made out of?
@@ -31,11 +31,11 @@ export class TunedString {
    * return the notes associated with it up to
    * the given `fretSpan`
    */
-  getFrettedNotes(scaleSystem: ScaleSystem, fretSpan: number) {
+  getFrettedNotes(temperament: Temperament, fretSpan: number) {
     const frettedNotes = [];
 
     for (let i = 0; i <= fretSpan; i++) {
-      const note = scaleSystem.getNextNote(this.tuningNote, i);
+      const note = temperament.getNextNote(this.tuningNote, i);
       frettedNotes.push(note);
     }
 

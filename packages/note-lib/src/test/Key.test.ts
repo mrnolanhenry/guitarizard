@@ -2,15 +2,15 @@ import tap from "tap";
 import { Note } from "../Note";
 import { Scale } from "../Scale";
 import {
-  diatonic,
-  notes as diatonic_notes,
-} from "../data/scaleSystem/diatonic";
+  twelveTET,
+  notes as twelveTET_notes,
+} from "../data/temperaments/twelveTET";
 import { Key } from "../Key";
 
 // WIP - will finish test file once Key.js is finalized
 tap.test("class Key", function (t) {
-  const lydianScale = new Scale("lydian", diatonic, [0, 2, 4, 6, 7, 9, 11, 12]);
-  const neapolitanMinorScale = new Scale("neapolitan minor", diatonic, [
+  const lydianScale = new Scale("lydian", twelveTET, [0, 2, 4, 6, 7, 9, 11, 12]);
+  const neapolitanMinorScale = new Scale("neapolitan minor", twelveTET, [
     0,
     1,
     3,
@@ -20,7 +20,7 @@ tap.test("class Key", function (t) {
     10,
     12,
   ]);
-  const mixolydianScale = new Scale("mixolydian", diatonic, [
+  const mixolydianScale = new Scale("mixolydian", twelveTET, [
     0,
     2,
     4,
@@ -30,7 +30,7 @@ tap.test("class Key", function (t) {
     10,
     12,
   ]);
-  const aeolianScale = new Scale("aeolian", diatonic, [
+  const aeolianScale = new Scale("aeolian", twelveTET, [
     0,
     2,
     3,
@@ -40,7 +40,7 @@ tap.test("class Key", function (t) {
     10,
     12,
   ]);
-  const locrianScale = new Scale("locrian", diatonic, [
+  const locrianScale = new Scale("locrian", twelveTET, [
     0,
     1,
     3,
@@ -50,27 +50,27 @@ tap.test("class Key", function (t) {
     10,
     12,
   ]);
-  const ionianScale = new Scale("ionian", diatonic, [0, 2, 4, 5, 7, 9, 11, 12]);
-  const majorScale = new Scale("major", diatonic, [0, 2, 4, 5, 7, 9, 11, 12]);
-  const dorianScale = new Scale("dorian", diatonic, [0, 2, 3, 5, 7, 9, 10, 12]);
+  const ionianScale = new Scale("ionian", twelveTET, [0, 2, 4, 5, 7, 9, 11, 12]);
+  const majorScale = new Scale("major", twelveTET, [0, 2, 4, 5, 7, 9, 11, 12]);
+  const dorianScale = new Scale("dorian", twelveTET, [0, 2, 3, 5, 7, 9, 10, 12]);
 
-  const BbLydian = new Key(diatonic_notes.Bb, lydianScale);
-  const AsLydian = new Key(diatonic_notes.As, lydianScale);
-  const ANeapolitanMinor = new Key(diatonic_notes.A, neapolitanMinorScale);
-  const CMixolydian = new Key(diatonic_notes.C, mixolydianScale);
-  const DAeolian = new Key(diatonic_notes.D, aeolianScale);
-  const ELocrian = new Key(diatonic_notes.E, locrianScale);
-  const FIonian = new Key(diatonic_notes.F, ionianScale);
-  const FMajor = new Key(diatonic_notes.F, majorScale);
-  const GDorian = new Key(diatonic_notes.G, dorianScale);
+  const BbLydian = new Key(twelveTET_notes.Bb, lydianScale);
+  const AsLydian = new Key(twelveTET_notes.As, lydianScale);
+  const ANeapolitanMinor = new Key(twelveTET_notes.A, neapolitanMinorScale);
+  const CMixolydian = new Key(twelveTET_notes.C, mixolydianScale);
+  const DAeolian = new Key(twelveTET_notes.D, aeolianScale);
+  const ELocrian = new Key(twelveTET_notes.E, locrianScale);
+  const FIonian = new Key(twelveTET_notes.F, ionianScale);
+  const FMajor = new Key(twelveTET_notes.F, majorScale);
+  const GDorian = new Key(twelveTET_notes.G, dorianScale);
 
   const BbLydianequivKeys = BbLydian.getEquivKeys();
   const AsLydianequivKeys = AsLydian.getEquivKeys();
 
   t.same(BbLydian.scale, lydianScale, "scale identified");
 
-  t.same(BbLydian.note, diatonic_notes.Bb, "flat note identified");
-  t.same(AsLydian.note, diatonic_notes.As, "sharp note identified");
+  t.same(BbLydian.note, twelveTET_notes.Bb, "flat note identified");
+  t.same(AsLydian.note, twelveTET_notes.As, "sharp note identified");
 
   t.same(
     BbLydianequivKeys[0],

@@ -1,5 +1,5 @@
 import { Interval } from "./Interval";
-import { ScaleSystem } from "./ScaleSystem";
+import { Temperament } from "./Temperament";
 import { mainIntervals } from "./data/intervals";
 import { Note } from "./Note";
 
@@ -12,24 +12,24 @@ import { Note } from "./Note";
  */
 export class Scale {
   name: string;
-  scaleSystem: ScaleSystem;
+  temperament: Temperament;
   intervals: Interval[];
 
   constructor(
     name: string,
-    scaleSystem: ScaleSystem,
+    temperament: Temperament,
     intervalsBySemitones: number[]
   ) {
     this.name = name;
-    this.scaleSystem = scaleSystem;
+    this.temperament = temperament;
     this.intervals = intervalsBySemitones.map(
       (semitone) => mainIntervals[semitone]
     );
   }
 
   getNotesInKey(keyNote: Note) {
-    // start the scale system at the correct note
-    const shiftedNotes = this.scaleSystem.getShiftedNotes(keyNote);
+    // start the temperament at the correct note
+    const shiftedNotes = this.temperament.getShiftedNotes(keyNote);
 
     // pull correct note aliases
     const notes = shiftedNotes.map((note) => {
@@ -45,7 +45,7 @@ export class Scale {
 
     // map notes to given intervals
     return this.intervals.map((interval) => {
-      return notes[interval.semitones % this.scaleSystem.notes.length];
+      return notes[interval.semitones % this.temperament.notes.length];
     });
   }
 
@@ -78,7 +78,7 @@ export class Scale {
   toJSON() {
     return {
       name: this.name,
-      scaleSystem: this.scaleSystem,
+      temperament: this.temperament,
       intervals: this.intervals,
     };
   }

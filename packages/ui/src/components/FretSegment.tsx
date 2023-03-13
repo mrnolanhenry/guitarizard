@@ -1,11 +1,12 @@
 import React from "react";
 import "./FretSegment.css";
-import { instrument, Key } from "note-lib";
+import { instrument, Key, Note } from "note-lib";
 import { Base16Theme, rainbow } from "../colors/colors";
 import { CSSProperties } from "react";
+import { StringScale } from "note-lib/src/StringScale";
 
 interface Props {
-  stringScale: instrument.StringScale;
+  stringScale: StringScale;
   fret: number;
   theme: Base16Theme;
   isRainbowMode: boolean;

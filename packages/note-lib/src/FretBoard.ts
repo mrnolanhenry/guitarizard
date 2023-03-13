@@ -1,23 +1,19 @@
-import type { ScaleSystem } from "../ScaleSystem";
+import type { Temperament } from "./Temperament";
 import type { TunedString } from "./TunedString";
-import type { Note } from "../Note";
-import type { Scale } from "../Scale";
+import type { Note } from "./Note";
+import type { Scale } from "./Scale";
+import { StringScale } from "./StringScale";
+import { IStringConfig } from "./IStringConfig";
 
-interface StringConfig {
-  fret: {
-    start: number;
-    end: number;
-  };
-}
 
 export class FretBoard {
-  scaleSystem: ScaleSystem;
+  temperament: Temperament;
   tunedStrings: TunedString[];
-  stringConfig: StringConfig[];
+  stringConfig: IStringConfig[];
   /**
    * A FretBoard that holds strings.
    *
-   * @param scaleSystem : what scale system do the
+   * @param temperament : what temperament do the
    *   frets on this bord conform to?
    *
    * @param tunedStrings (TunedString[]): left to right
@@ -31,11 +27,11 @@ export class FretBoard {
    *   with the string's starting position, and tohe
    */
   constructor(
-    scaleSystem: ScaleSystem,
+    temperament: Temperament,
     tunedStrings: TunedString[],
-    stringConfig: StringConfig[]
+    stringConfig: IStringConfig[]
   ) {
-    this.scaleSystem = scaleSystem;
+    this.temperament = temperament;
     this.tunedStrings = tunedStrings;
     this.stringConfig = stringConfig;
   }
@@ -75,7 +71,7 @@ export class FretBoard {
       const fretSpan = fret.end - fret.start;
 
       const notesOnString = tunedString.getFrettedNotes(
-        this.scaleSystem,
+        this.temperament,
         fretSpan
       );
 
@@ -91,7 +87,7 @@ export class FretBoard {
   // same result as `getNotes`, but the notes are filtered
   // out according to the scale given. EG. A chromatic
   // scale will always equal the output of `getNotes`
-  getNotesInScale(scale: Scale, keyNote: Note) {
+  getNotesInScale(scale: Scale, keyNote: Note): StringScale[] {
     const keyNotes = scale.getNotesInKey(keyNote);
 
     return this.getNotes().map((string) => {
@@ -126,7 +122,7 @@ export class FretBoard {
 
   toJSON() {
     return {
-      scaleSystem: this.scaleSystem,
+      temperament: this.temperament,
       tunedStrings: this.tunedStrings,
       stringConfig: this.stringConfig,
     };

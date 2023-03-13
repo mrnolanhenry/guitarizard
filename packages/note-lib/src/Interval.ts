@@ -1,15 +1,11 @@
 // Useful Table:
 // https://en.wikipedia.org/wiki/Interval_(music)#Main_intervals
 
-interface IntervalAlias {
-  name: string; // e.g. "perfect"
-  long?: string; // e.g. "Perfect unison"
-  short?: string; // e.g. "P1"
-}
+import { IIntervalAlias } from "./IIntervalAlias";
 
 export class Interval {
   semitones: number;
-  aliases: IntervalAlias[];
+  aliases: IIntervalAlias[];
   isMajor: boolean;
   isMinor: boolean;
   isAugmented: boolean;
@@ -17,7 +13,7 @@ export class Interval {
   isPerfect: boolean;
   isRoot: boolean;
 
-  constructor(semitones: number, aliases: IntervalAlias[]) {
+  constructor(semitones: number, aliases: IIntervalAlias[]) {
     this.semitones = semitones;
     this.aliases = aliases;
 

@@ -1,24 +1,25 @@
 export { Note } from "./Note";
-export { ScaleSystem } from "./ScaleSystem";
+export { Temperament } from "./Temperament";
 export { Scale } from "./Scale";
 export { Key } from "./Key";
 export { Interval } from "./Interval";
 
-import { diatonic } from "./data/scaleSystem/diatonic";
+import { twelveTET } from "./data/temperaments/twelveTET";
 import * as intervals from "./data/intervals";
 import scales from "./data/scales";
 
-import { TunedString } from "./instrument/TunedString";
-import { Tuning } from "./instrument/Tuning";
-import { FretBoard } from "./instrument/FretBoard";
-import { Guitar } from "./instrument/Guitar";
-import { Banjo } from "./instrument/Banjo";
-import { Bass } from "./instrument/Bass";
-import { Ukulele } from "./instrument/Ukulele";
+import { TunedString } from "./TunedString";
+import { Tuning } from "./Tuning";
+import { FretBoard } from "./FretBoard";
+import { Guitar } from "./instruments/Guitar";
+import { Banjo } from "./instruments/Banjo";
+import { Bass } from "./instruments/Bass";
+import { Ukulele } from "./instruments/Ukulele";
+import { IFrettedInstrument } from "./IFrettedInstrument";
 
 export const data = {
-  scaleSystem: {
-    diatonic,
+  temperament: {
+    twelveTET,
   },
   intervals,
   scales,

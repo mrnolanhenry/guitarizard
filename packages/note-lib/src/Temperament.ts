@@ -2,13 +2,15 @@ import { Note } from "./Note";
 import type { NoteID } from "./Note";
 
 /**
- * A scale system defines the scale universe.
+ * A temperament is a musical system of defining intervals/notes... it's hard to explain.
+ * https://en.wikipedia.org/wiki/Musical_temperament
+ * https://en.wikipedia.org/wiki/Equal_temperament
  *
- * e.g. diatonic
+ * e.g. twelve-tone equal temperament, the most common in western music, divides an octave into 12 intervals.
  *
  * If you were a formal person, you'd call this a "scale".
  */
-export class ScaleSystem {
+export class Temperament {
   name: string;
   notes: Note[];
 
@@ -18,12 +20,12 @@ export class ScaleSystem {
   }
 
   // Given an ID, e.g. "A#", return the "Note" instance
-  // from this ScaleSystem.
+  // from this temperament.
   getNoteFromID(noteID: NoteID): Note {
     for (let i = 0; i < this.notes.length; i++) {
       const note = this.notes[i];
 
-      // ez -- found it right away
+      // easy -- found it right away
       if (note.id === noteID) {
         return note;
       }
@@ -33,7 +35,7 @@ export class ScaleSystem {
         (aliasNote) => aliasNote.id === noteID
       );
 
-      // return the note as it exists in the scale system
+      // return the note as it exists in the temperament
       // order and NOT the alias note. The note will
       // contain the alias should the consumer need it.
       if (typeof aliasNote !== "undefined") {
@@ -45,7 +47,7 @@ export class ScaleSystem {
   }
 
   /**
-   * Gets all notes for this scale system that can be used
+   * Gets all notes for this temperament that can be used
    * as keys. Basically takes all availables notes, and
    * their aliases, and smushes them together.
    */
@@ -58,9 +60,9 @@ export class ScaleSystem {
   }
 
   /**
-   * Our scale system defines an "order" that starts at
+   * Our temperament defines an "order" that starts at
    * a given note. This function effectivly "shifts" the
-   * notes so that the scale system starts at a different
+   * notes so that the temperament starts at a different
    * note.
    *
    * This function
@@ -70,7 +72,7 @@ export class ScaleSystem {
     const internalNote = this.getNoteFromID(fromNote.id);
 
     if (!internalNote) {
-      throw `fromNote '${fromNote.id}' does not exist in scale system`;
+      throw `fromNote '${fromNote.id}' does not exist in temperament`;
     }
 
     let notes = [];
@@ -88,13 +90,13 @@ export class ScaleSystem {
    * Internal function.
    *
    * Given a Note (object), it will return the
-   * offset in the context of this Scale System.
+   * offset in the context of this temperament.
    *
-   * i.e. the relative offset to THIS scale system
+   * i.e. the relative offset to THIS temperament
    *
    */
   _getRelativeNoteOffset(fromNote: Note) {
-    // We have a list of notes in this "scale system" (this.notes)
+    // We have a list of notes in this "temperament" (this.notes)
     // and we want the offset that `fromNote` exists in it.
     //
     // `findIndex` loops over `this.notes`.
@@ -125,7 +127,7 @@ export class ScaleSystem {
   /**
    * Note -> Note
    *
-   * Returns the next note in the scale system
+   * Returns the next note in the temperament
    * given a starting note `fromNote`.
    *
    * An optional parameter `stepsAway` allows you
@@ -133,7 +135,7 @@ export class ScaleSystem {
    *
    * e.g.
    *
-   *  > if our system is 12EDO, then
+   *  > if our system is 12EDO(12TET), then
    *  >
    *  > Given Note('B'), this will return Note('C')
    *
@@ -142,7 +144,7 @@ export class ScaleSystem {
    *
    * e.g.
    *
-   *  > if our system is 12EDO, then
+   *  > if our system is 12EDO(12TET), then
    *  >
    *  > Given Note('Ab'), this will return Note('A')
    *

@@ -1,20 +1,20 @@
 import tap from "tap";
 import {
-  diatonic,
-  notes as diatonic_notes,
-} from "../../data/scaleSystem/diatonic";
+  twelveTET,
+  notes as twelveTET_notes,
+} from "../../data/temperaments/twelveTET";
 import { Note } from "../../Note";
-import { Guitar } from "../../instrument/Guitar";
-import { Tuning } from "../../instrument/Tuning";
+import { Guitar } from "../../instruments/Guitar";
+import { Tuning } from "../../Tuning";
 
 tap.test("class Guitar -- init", function (t) {
   const defaultGuitar = new Guitar(21, [
-    diatonic_notes.E,
-    diatonic_notes.A,
-    diatonic_notes.D,
-    diatonic_notes.G,
-    diatonic_notes.B,
-    diatonic_notes.E,
+    twelveTET_notes.E,
+    twelveTET_notes.A,
+    twelveTET_notes.D,
+    twelveTET_notes.G,
+    twelveTET_notes.B,
+    twelveTET_notes.E,
   ]);
 
   t.ok(defaultGuitar);

@@ -1,8 +1,8 @@
 import tap from "tap";
 import { Note } from "../Note";
-import { ScaleSystem } from "../ScaleSystem";
+import { Temperament } from "../Temperament";
 
-tap.test("class ScaleSystem", function (t) {
+tap.test("class Temperament", function (t) {
   const A = new Note("A", { isNatural: true });
 
   const As = new Note("A#", { isSharp: true });
@@ -37,7 +37,7 @@ tap.test("class ScaleSystem", function (t) {
   const Ab = new Note("Ab", { isFlat: true }, [Gs]);
   Gs.addAliasNote(Ab);
 
-  const diatonic = new ScaleSystem("diatonic", [
+  const twelveTET = new Temperament("twelveTET", [
     A,
     Bb,
     B,
@@ -52,47 +52,47 @@ tap.test("class ScaleSystem", function (t) {
     Ab,
   ]);
 
-  t.equal(diatonic.notes.length, 12, "should have 12 notes");
+  t.equal(twelveTET.notes.length, 12, "should have 12 notes");
 
-  t.same(diatonic.getNoteFromID("A#"), Bb, "pluck note given an id");
+  t.same(twelveTET.getNoteFromID("A#"), Bb, "pluck note given an id");
 
-  t.equal(diatonic.getNoteInterval(A, C), 3, "correct offset (basic)");
+  t.equal(twelveTET.getNoteInterval(A, C), 3, "correct offset (basic)");
 
-  t.equal(diatonic.getNoteInterval(G, A), 2, 'correct offset ("loop")');
+  t.equal(twelveTET.getNoteInterval(G, A), 2, 'correct offset ("loop")');
 
   t.equal(
-    diatonic.getNoteInterval(As, A),
+    twelveTET.getNoteInterval(As, A),
     11,
     'correct offset ("loop starting from sharp note")'
   );
 
   t.equal(
-    diatonic.getNoteInterval(Bb, A),
+    twelveTET.getNoteInterval(Bb, A),
     11,
     'correct offset ("loop starting from flat note")'
   );
 
-  t.same(diatonic.getNextNote(A), Bb, "next note simple step");
+  t.same(twelveTET.getNextNote(A), Bb, "next note simple step");
 
-  t.same(diatonic.getNextNote(Gs), A, "next note loop");
+  t.same(twelveTET.getNextNote(Gs), A, "next note loop");
 
   t.same(
-    diatonic.getNextNote(Ab),
+    twelveTET.getNextNote(Ab),
     A,
     "next note loop (different note, matching alias)"
   );
 
-  t.same(diatonic.getNextNote(A, 2), B, "two steps away");
+  t.same(twelveTET.getNextNote(A, 2), B, "two steps away");
 
-  t.same(diatonic.getNextNote(A, -1), Ab, "backward steps!");
+  t.same(twelveTET.getNextNote(A, -1), Ab, "backward steps!");
 
-  t.same(diatonic.getNextNote(A, -12), A, "backward steps!");
+  t.same(twelveTET.getNextNote(A, -12), A, "backward steps!");
 
-  t.equal(diatonic.valueOf(), JSON.stringify(diatonic));
-  t.equal(diatonic.toString(), JSON.stringify(diatonic));
+  t.equal(twelveTET.valueOf(), JSON.stringify(twelveTET));
+  t.equal(twelveTET.toString(), JSON.stringify(twelveTET));
 
   t.same(
-    diatonic.getKeyNotes(),
+    twelveTET.getKeyNotes(),
     [A, As, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs, Ab],
     "should list all key notes"
   );
@@ -100,11 +100,11 @@ tap.test("class ScaleSystem", function (t) {
   t.equal(
     (() => {
       try {
-        diatonic.getShiftedNotes(new Note("invalid-note"));
+        twelveTET.getShiftedNotes(new Note("invalid-note"));
       } catch (error) {
         return (
           `${error}` ===
-          "fromNote 'invalid-note' does not exist in scale system"
+          "fromNote 'invalid-note' does not exist in temperament"
         );
       }
 

@@ -1,7 +1,7 @@
 import tap from "tap";
-import { Note } from "../../Note";
-import { ScaleSystem } from "../../ScaleSystem";
-import { TunedString } from "../../instrument/TunedString";
+import { Note } from "../Note";
+import { Temperament } from "../Temperament";
+import { TunedString } from "../TunedString";
 
 tap.test("class TunedString", function (t) {
   const A = new Note("A", { isNatural: true });
@@ -12,23 +12,23 @@ tap.test("class TunedString", function (t) {
 
   const B = new Note("B", { isNatural: true });
 
-  const smallDiatonic = new ScaleSystem("small", [A, As, B]);
+  const smallTwelveTET = new Temperament("small", [A, As, B]);
 
   const AString = new TunedString("A", A, "catgut", 0.2);
 
-  t.same(AString.getFrettedNotes(smallDiatonic, 0), [A], "single fret");
-  t.same(AString.getFrettedNotes(smallDiatonic, 1), [A, Bb], "two frets");
-  t.same(AString.getFrettedNotes(smallDiatonic, 2), [A, Bb, B], "three frets");
+  t.same(AString.getFrettedNotes(smallTwelveTET, 0), [A], "single fret");
+  t.same(AString.getFrettedNotes(smallTwelveTET, 1), [A, Bb], "two frets");
+  t.same(AString.getFrettedNotes(smallTwelveTET, 2), [A, Bb, B], "three frets");
   t.same(
-    AString.getFrettedNotes(smallDiatonic, 3),
+    AString.getFrettedNotes(smallTwelveTET, 3),
     [A, Bb, B, A],
-    "looping scale system"
+    "looping temperament"
   );
 
   const BFlatString = new TunedString("Bb", Bb, "catgut", 0.4);
 
   t.same(
-    BFlatString.getFrettedNotes(smallDiatonic, 0),
+    BFlatString.getFrettedNotes(smallTwelveTET, 0),
     [Bb],
     "offset single fret"
   );

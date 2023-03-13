@@ -1,13 +1,14 @@
 import React from "react";
 import "./FretBoard.css";
 import { Key, instrument, Note, Scale } from "note-lib";
+import { FretBoard as Fretboard } from "../../../note-lib/src/FretBoard";
 import { Base16Theme } from "../colors/colors";
 import FretSegment from "./FretSegment";
 import NoteSelector from "./NoteSelector";
 
 interface Props {
   instrumentName: string;
-  fretBoard: instrument.FretBoard;
+  fretBoard: Fretboard;
   scale: Scale;
   keyNote: Note;
   activeKey: Key;
@@ -49,7 +50,7 @@ export default function FretBoard(props: Props) {
         return (
           <NoteSelector
             key={string.id}
-            scaleSystem={props.fretBoard.scaleSystem}
+            temperament={props.fretBoard.temperament}
             note={string.tuningNote}
             onNoteSelect={(n: Note) =>
               props.onTune(props.instrumentName, string.id, n)

@@ -4,10 +4,10 @@ import { cloudCity, Base16Theme } from "./colors/colors";
 import { ToolName } from "./components/ToolSelector";
 import TopBar from "./components/TopBar";
 import Scalebook from "./components/Scalebook";
-import { Key, Note, Scale, ScaleSystem, instrument, data } from "note-lib";
-import { FrettedInstrument } from "note-lib/src/instrument/FrettedInstrument";
+import { Key, Note, Scale, Temperament, instrument, data } from "note-lib";
+import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 
-type InstrumentMap = Map<string, FrettedInstrument>;
+type InstrumentMap = Map<string, IFrettedInstrument>;
 
 interface State {
   instruments: InstrumentMap;
@@ -15,7 +15,7 @@ interface State {
   activeScale: Scale;
   keyNote: Note;
   activeKey: Key;
-  scaleSystem: ScaleSystem;
+  temperament: Temperament;
   activeToolName: ToolName;
   isRainbowMode: boolean;
   onToggleNoteTable: boolean;
@@ -28,8 +28,7 @@ interface Props {}
 class App extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-
-    const diatonic = data.scaleSystem.diatonic;
+    const twelveTET = data.temperament.twelveTET;
     const scales = data.scales;
     // const tunings = data.tunings;
 
@@ -40,7 +39,7 @@ class App extends Component<Props, State> {
       new instrument.Guitar(
         22,
         ["E", "A", "D", "G", "B", "E"].map((noteID) =>
-          diatonic.getNoteFromID(noteID)
+          twelveTET.getNoteFromID(noteID)
         )
       )
     );
@@ -50,7 +49,7 @@ class App extends Component<Props, State> {
       new instrument.Banjo(
         22,
         ["G", "D", "G", "B", "D"].map((noteID) =>
-          diatonic.getNoteFromID(noteID)
+          twelveTET.getNoteFromID(noteID)
         )
       )
     );
@@ -59,40 +58,40 @@ class App extends Component<Props, State> {
       "ukulele",
       new instrument.Ukulele(
         20,
-        ["G", "C", "E", "A"].map((noteID) => diatonic.getNoteFromID(noteID))
+        ["G", "C", "E", "A"].map((noteID) => twelveTET.getNoteFromID(noteID))
       )
     );
 
     instruments.set(
-      "bass-4",
+      "bass (4 string)",
       new instrument.Bass(
         22,
-        ["E", "A", "D", "G"].map((noteID) => diatonic.getNoteFromID(noteID))
+        ["E", "A", "D", "G"].map((noteID) => twelveTET.getNoteFromID(noteID))
       )
     );
 
     instruments.set(
-      "bass-5",
+      "bass (5 string)",
       new instrument.Bass(
         22,
         ["B", "E", "A", "D", "G"].map((noteID) =>
-          diatonic.getNoteFromID(noteID)
+          twelveTET.getNoteFromID(noteID)
         )
       )
     );
 
     instruments.set(
-      "bass-6",
+      "bass (6 string)",
       new instrument.Bass(
         22,
         ["B", "E", "A", "D", "G", "C"].map((noteID) =>
-          diatonic.getNoteFromID(noteID)
+          twelveTET.getNoteFromID(noteID)
         )
       )
     );
 
     let activeScale = scales[86];
-    let keyNote = diatonic.getNoteFromID("E");
+    let keyNote = twelveTET.getNoteFromID("E");
 
     this.state = {
       instruments,
@@ -103,7 +102,7 @@ class App extends Component<Props, State> {
       onToggleIntervalTable: false,
       activeKey: new Key(keyNote, activeScale),
       isRainbowMode: true,
-      scaleSystem: diatonic,
+      temperament: twelveTET,
       activeToolName: "scalebook",
       theme: cloudCity,
     };
@@ -132,7 +131,9 @@ class App extends Component<Props, State> {
     });
   }
 
-  onInstrumentSelect(instrument: FrettedInstrument) {
+  onInstrumentSelect(instrument: IFrettedInstrument) {
+    console.log("instrument.getCommonTunings(): ");
+    console.log(instrument.getCommonTunings());
     this.setState({ activeInstrumentName: instrument.name });
   }
 
@@ -190,7 +191,7 @@ class App extends Component<Props, State> {
         tool = (
           <Scalebook
             activeScale={this.state.activeScale}
-            scaleSystem={this.state.scaleSystem}
+            temperament={this.state.temperament}
             keyNote={this.state.keyNote}
             activeKey={this.state.activeKey}
             instruments={this.state.instruments}

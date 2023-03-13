@@ -1,6 +1,6 @@
 import React from "react";
 import "./Scalebook.css";
-import { Key, Note, Scale, ScaleSystem, instrument } from "note-lib";
+import { Key, Note, Scale, Temperament, instrument } from "note-lib";
 import { Base16Theme } from "../colors/colors";
 import InstrumentSelector from "./InstrumentSelector";
 import NoteSelector from "./NoteSelector";
@@ -12,20 +12,21 @@ import IntervalTable from "./IntervalTable";
 import NoteTable from "./NoteTable";
 // import ToggleButtonIntervalTable from "./ToggleButtonIntervalTable";
 import Instrument from "./Instrument";
+import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 
 interface IScalebookProps {
-  instruments: Map<string, instrument.FrettedInstrument>;
+  instruments: Map<string, IFrettedInstrument>;
   activeInstrumentName: string;
   activeScale: Scale;
   keyNote: Note;
   activeKey: Key;
-  scaleSystem: ScaleSystem;
+  temperament: Temperament;
   isRainbowMode: boolean;
   toggleRainbowMode: () => void;
   onToggleNoteTable: boolean;
   onToggleIntervalTable: boolean;
   onKeyNoteSelect: (keyNote: Note) => void;
-  onInstrumentSelect: (instrument: instrument.FrettedInstrument) => void;
+  onInstrumentSelect: (instrument: IFrettedInstrument) => void;
   onScaleSelect: (scale: Scale) => void;
   updateKey: (key: Key) => void;
   onInstrumentTune: (
@@ -67,7 +68,7 @@ export default function Scalebook(props: IScalebookProps) {
 
         <NoteSelector
           label="Key:"
-          scaleSystem={props.scaleSystem}
+          temperament={props.temperament}
           note={props.keyNote}
           onNoteSelect={props.onKeyNoteSelect}
           theme={props.theme}

@@ -60,13 +60,13 @@ export default function intervalTable(props: Props) {
       case "Semitones:":
         return interval.semitones.toString();
       case "Short:":
-        return interval.aliases[0].short;
+        return interval.aliases[0].short ? interval.aliases[0].short : "";
       case "Long:":
-        return interval.aliases[0].long;
+        return interval.aliases[0].long ? interval.aliases[0].long : "";
       case "Short (Alt):":
-        return interval.aliases[1].short;
+        return interval.aliases[1].short ? interval.aliases[1].short : "";
       case "Long (Alt):":
-        return interval.aliases[1].long;
+        return interval.aliases[1].long ? interval.aliases[1].long: "";
       default:
         return interval.semitones.toString();
     }

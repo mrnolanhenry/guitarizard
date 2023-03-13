@@ -1,3 +1,5 @@
+import { Tunings } from "./data/tunings";
+
 // Given an array with numeric values, sort them in ascending order.
 const sortArray = function (array: any[]) {
   array.sort(function (a: any, b: any): number {
@@ -26,4 +28,18 @@ const isEqualArray1D = function (array1: any[], array2: any[]): boolean {
 // let equalCheck = exports.isEqualArray1D(arr1, arr2);
 // console.log(equalCheck);
 
-export { isEqualArray1D, sortArray };
+const getFrettedInstrumentCommonTunings = (name: string) => {
+  let commonTunings = [];
+  for (let i = 0; i < Tunings.length; i++) {
+    if (Tunings[i].instrument === name) {
+      commonTunings.push(Tunings[i]);
+    }
+  }
+  return commonTunings;
+}
+
+const getFrettedInstrumentStandardTuning = (name: string) => {
+  return getFrettedInstrumentCommonTunings(name)[0];
+}
+
+export { getFrettedInstrumentCommonTunings, getFrettedInstrumentStandardTuning, isEqualArray1D, sortArray };

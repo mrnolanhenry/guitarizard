@@ -1,19 +1,19 @@
 import tap from "tap";
 import {
-  diatonic,
-  notes as diatonic_notes,
-} from "../../data/scaleSystem/diatonic";
+  twelveTET,
+  notes as twelveTET_notes,
+} from "../../data/temperaments/twelveTET";
 import { Note } from "../../Note";
-import { Banjo } from "../../instrument/Banjo";
-import { Tuning } from "../../instrument/Tuning";
+import { Banjo } from "../../instruments/Banjo";
+import { Tuning } from "../../Tuning";
 
 tap.test("class Banjo -- init", function (t) {
   const defaultBanjo = new Banjo(21, [
-    diatonic_notes.G,
-    diatonic_notes.D,
-    diatonic_notes.G,
-    diatonic_notes.B,
-    diatonic_notes.D,
+    twelveTET_notes.G,
+    twelveTET_notes.D,
+    twelveTET_notes.G,
+    twelveTET_notes.B,
+    twelveTET_notes.D,
   ]);
 
   t.ok(defaultBanjo);

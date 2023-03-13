@@ -1,11 +1,11 @@
 import React from "react";
-import { Note, ScaleSystem } from "note-lib";
+import { Note, Temperament } from "note-lib";
 import { Base16Theme } from "../colors/colors";
 import LabeledSelector from "./LabeledSelector";
 
 interface Props {
   label?: string;
-  scaleSystem: ScaleSystem;
+  temperament: Temperament;
   note: Note;
   onNoteSelect: (note: Note) => void;
   theme: Base16Theme;
@@ -15,7 +15,7 @@ export default function noteSelector(props: Props) {
   return (
     <LabeledSelector<Note>
       label={props.label}
-      items={props.scaleSystem.getKeyNotes()}
+      items={props.temperament.getKeyNotes()}
       getValue={(note: Note) => note.id}
       getDisplay={(note: Note) => note.id}
       activeItem={props.note}

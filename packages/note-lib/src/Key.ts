@@ -24,14 +24,14 @@ export class Key {
       scaleArray.push(this.scale.intervals[i].semitones);
     }
 
-    // Remove last semitone, which should be the duplicate '12' note in a diatonic system, for example.
+    // Remove last semitone, which should be the duplicate '12' note in a twelveTET system, for example.
     scaleArray.pop();
 
-    // Loop through each note in the scale system to check for equivalent scales given that note
-    for (let j = 0; j < this.scale.scaleSystem.notes.length; j++) {
-      let noteInterval = this.scale.scaleSystem.getNoteInterval(
+    // Loop through each note in the temperament to check for equivalent scales given that note
+    for (let j = 0; j < this.scale.temperament.notes.length; j++) {
+      let noteInterval = this.scale.temperament.getNoteInterval(
         this.note,
-        this.scale.scaleSystem.notes[j]
+        this.scale.temperament.notes[j]
       );
       // Loop through each scale and create an array of intervalsBySemitones that we adjust by the interval between the key notes
       for (let k = 0; k < Scales.length; k++) {
@@ -41,17 +41,17 @@ export class Key {
           for (let l = 0; l < Scales[k].intervals.length; l++) {
             newScaleArray.push(
               (Scales[k].intervals[l].semitones + noteInterval) %
-                this.scale.scaleSystem.notes.length
+                this.scale.temperament.notes.length
             );
           }
 
-          // Remove last semitone, which should be some offset of the duplicate '12' note in a diatonic system, for example.
+          // Remove last semitone, which should be some offset of the duplicate '12' note in a twelveTET system, for example.
           newScaleArray.pop();
           util.sortArray(newScaleArray);
 
           // Check if arrays are equal after having sorted the newScale
           if (util.isEqualArray1D(scaleArray, newScaleArray)) {
-            let key = new Key(this.scale.scaleSystem.notes[j], Scales[k]);
+            let key = new Key(this.scale.temperament.notes[j], Scales[k]);
             equivKeys.push(key);
           }
         }

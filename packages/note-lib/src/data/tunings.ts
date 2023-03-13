@@ -1,17 +1,17 @@
-import { Tuning } from "../instrument/Tuning";
-import { diatonic } from "./scaleSystem/diatonic";
+import { Tuning } from "../Tuning";
+import { twelveTET } from "./temperaments/twelveTET";
 import { Note } from "../Note";
 
-const A: Note = diatonic.getNoteFromID("A");
-const B: Note = diatonic.getNoteFromID("B");
-const C: Note = diatonic.getNoteFromID("C");
-const Cs: Note = diatonic.getNoteFromID("Cs");
-const D: Note = diatonic.getNoteFromID("D");
-const E: Note = diatonic.getNoteFromID("E");
-const F: Note = diatonic.getNoteFromID("F");
-const Fs: Note = diatonic.getNoteFromID("Fs");
-const G: Note = diatonic.getNoteFromID("G");
-const Gs: Note = diatonic.getNoteFromID("Gs");
+const A: Note = twelveTET.getNoteFromID("A");
+const B: Note = twelveTET.getNoteFromID("B");
+const C: Note = twelveTET.getNoteFromID("C");
+const Cs: Note = twelveTET.getNoteFromID("C#");
+const D: Note = twelveTET.getNoteFromID("D");
+const E: Note = twelveTET.getNoteFromID("E");
+const F: Note = twelveTET.getNoteFromID("F");
+const Fs: Note = twelveTET.getNoteFromID("F#");
+const G: Note = twelveTET.getNoteFromID("G");
+const Gs: Note = twelveTET.getNoteFromID("G#");
 
 // Common tunings for various instruments so that these can be used as presets and selected by name from a dropdown
 export const Tunings = [
@@ -30,18 +30,18 @@ export const Tunings = [
 
   // BASS
   // 4-string
-  new Tuning("bass-4", "standard", [E, A, D, G]),
-  new Tuning("bass-4", "drop D", [D, A, D, G]),
-  new Tuning("bass-4", "D-standard", [D, G, C, F]),
-  new Tuning("bass-4", "drop C", [C, G, C, F]),
-  new Tuning("bass-4", "tenor", [A, D, G, C]),
+  new Tuning("bass (4 string)", "standard", [E, A, D, G]),
+  new Tuning("bass (4 string)", "drop D", [D, A, D, G]),
+  new Tuning("bass (4 string)", "D-standard", [D, G, C, F]),
+  new Tuning("bass (4 string)", "drop C", [C, G, C, F]),
+  new Tuning("bass (4 string)", "tenor", [A, D, G, C]),
 
   // 5-string
-  new Tuning("bass-5", "standard", [B, E, A, D, G]),
-  new Tuning("bass-5", "tenor", [E, A, D, G, C]),
+  new Tuning("bass (5 string)", "standard", [B, E, A, D, G]),
+  new Tuning("bass (5 string)", "tenor", [E, A, D, G, C]),
 
   // 6-string
-  new Tuning("bass-6", "standard", [B, E, A, D, G, C]),
+  new Tuning("bass (6 string)", "standard", [B, E, A, D, G, C]),
 
   // BANJO
   // currently just 5-string

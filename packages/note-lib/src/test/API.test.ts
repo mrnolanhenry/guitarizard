@@ -3,7 +3,7 @@ import * as API from "../index";
 
 tap.test("exposed API", function (t) {
   t.ok(API.Note, "expect Note");
-  t.ok(API.ScaleSystem, "expect ScaleSystem");
+  t.ok(API.Temperament, "expect Temperament");
   t.ok(API.Scale, "expect Scale");
   t.ok(API.Key, "expect Key");
   t.ok(API.instrument.Tuning, "expect instrument.Tuning");
@@ -13,7 +13,7 @@ tap.test("exposed API", function (t) {
   t.ok(API.instrument.Guitar, "expect instrument.Guitar");
   t.ok(API.instrument.Banjo, "expect instrument.Banjo");
 
-  t.ok(API.data.scaleSystem.diatonic, "expect diatonic scale system");
+  t.ok(API.data.temperament.twelveTET, "expect twelveTET temperament");
 
   t.equal(API.data.scales.length, 130, "expect correct scale length");
 

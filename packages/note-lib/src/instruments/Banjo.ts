@@ -1,8 +1,9 @@
-import { diatonic } from "../data/scaleSystem/diatonic";
-import { FretBoard } from "./FretBoard";
-import { TunedString } from "./TunedString";
+import { twelveTET } from "../data/temperaments/twelveTET";
+import { FretBoard } from "../FretBoard";
+import { TunedString } from "../TunedString";
 import { Tunings } from "../data/tunings";
 import type { Note } from "../Note";
+import { getFrettedInstrumentCommonTunings, getFrettedInstrumentStandardTuning } from "../util";
 
 export class Banjo {
   name: string;
@@ -29,20 +30,9 @@ export class Banjo {
       { fret: { start: 0, end: fretCount } },
     ];
 
-    this.fretBoard = new FretBoard(diatonic, tunedStrings, stringConfig);
+    this.fretBoard = new FretBoard(twelveTET, tunedStrings, stringConfig);
   }
 
-  // getCommonTunings() {
-  //   let commonTunings = [];
-  //   for (let i = 0; i < Tunings.length; i++) {
-  //     if (Tunings[i].instrument === this.name) {
-  //       commonTunings.push(Tunings[i]);
-  //     }
-  //   }
-  //   return commonTunings;
-  // }
-
-  // getStandardTuning() {
-  //   return this.getCommonTunings()[0];
-  // }
+  getCommonTunings = () => getFrettedInstrumentCommonTunings(this.name);
+  getStandardTuning = () => getFrettedInstrumentStandardTuning(this.name);
 }

@@ -1,16 +1,16 @@
 import tap from "tap";
 import {
-  diatonic,
-  notes as diatonic_notes,
-} from "../../data/scaleSystem/diatonic";
-import { Note } from "../../Note";
-import { ScaleSystem } from "../../ScaleSystem";
-import { Scale } from "../../Scale";
-import { TunedString } from "../../instrument/TunedString";
-import { FretBoard } from "../../instrument/FretBoard";
+  twelveTET,
+  notes as twelveTET_notes,
+} from "../data/temperaments/twelveTET";
+import { Note } from "../Note";
+import { Temperament } from "../Temperament";
+import { Scale } from "../Scale";
+import { TunedString } from "../TunedString";
+import { FretBoard } from "../FretBoard";
 
 tap.test("class FretBoard --- init", function (t) {
-  const system = new ScaleSystem("test", [new Note("X"), new Note("Y")]);
+  const system = new Temperament("test", [new Note("X"), new Note("Y")]);
 
   const tunedStrings = [
     new TunedString("X", new Note("X"), "metal", 0.25),
@@ -53,8 +53,8 @@ tap.test("class FretBoard --- init", function (t) {
 
 tap.test("class FretBoard --- getNotesInScale", function (t) {
   const tunedStrings = [
-    new TunedString("0", diatonic_notes.E, "metal", 0.254),
-    new TunedString("1", diatonic_notes.A, "metal", 0.3302),
+    new TunedString("0", twelveTET_notes.E, "metal", 0.254),
+    new TunedString("1", twelveTET_notes.A, "metal", 0.3302),
   ];
 
   const stringConfig = [
@@ -62,9 +62,9 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
     { fret: { start: 0, end: 5 } },
   ];
 
-  const stubbyBoard = new FretBoard(diatonic, tunedStrings, stringConfig);
+  const stubbyBoard = new FretBoard(twelveTET, tunedStrings, stringConfig);
 
-  const chromatic = new Scale("chromatic", diatonic, [
+  const chromatic = new Scale("chromatic", twelveTET, [
     0,
     1,
     2,
@@ -85,24 +85,24 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
       tunedString: tunedStrings[0],
       config: stringConfig[0],
       notes: [
-        { value: diatonic_notes.E, fretNumber: 0 },
-        { value: diatonic_notes.F, fretNumber: 1 },
-        { value: diatonic_notes.Gb, fretNumber: 2 },
-        { value: diatonic_notes.G, fretNumber: 3 },
-        { value: diatonic_notes.Ab, fretNumber: 4 },
-        { value: diatonic_notes.A, fretNumber: 5 },
+        { value: twelveTET_notes.E, fretNumber: 0 },
+        { value: twelveTET_notes.F, fretNumber: 1 },
+        { value: twelveTET_notes.Gb, fretNumber: 2 },
+        { value: twelveTET_notes.G, fretNumber: 3 },
+        { value: twelveTET_notes.Ab, fretNumber: 4 },
+        { value: twelveTET_notes.A, fretNumber: 5 },
       ],
     },
     {
       tunedString: tunedStrings[1],
       config: stringConfig[1],
       notes: [
-        { value: diatonic_notes.A, fretNumber: 0 },
-        { value: diatonic_notes.Bb, fretNumber: 1 },
-        { value: diatonic_notes.B, fretNumber: 2 },
-        { value: diatonic_notes.C, fretNumber: 3 },
-        { value: diatonic_notes.Db, fretNumber: 4 },
-        { value: diatonic_notes.D, fretNumber: 5 },
+        { value: twelveTET_notes.A, fretNumber: 0 },
+        { value: twelveTET_notes.Bb, fretNumber: 1 },
+        { value: twelveTET_notes.B, fretNumber: 2 },
+        { value: twelveTET_notes.C, fretNumber: 3 },
+        { value: twelveTET_notes.Db, fretNumber: 4 },
+        { value: twelveTET_notes.D, fretNumber: 5 },
       ],
     },
   ]);
@@ -119,7 +119,7 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
     "chromatic scale is the same as `getNotes()`"
   );
 
-  const blues = new Scale("blues", diatonic, [0, 3, 5, 6, 7, 10, 12]);
+  const blues = new Scale("blues", twelveTET, [0, 3, 5, 6, 7, 10, 12]);
 
   t.same(
     stubbyBoard.getNotesInScale(blues, new Note("A")),
@@ -128,18 +128,18 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
         tunedString: tunedStrings[0],
         config: stringConfig[0],
         notes: [
-          { value: diatonic_notes.E, fretNumber: 0 },
-          { value: diatonic_notes.G, fretNumber: 3 },
-          { value: diatonic_notes.A, fretNumber: 5 },
+          { value: twelveTET_notes.E, fretNumber: 0 },
+          { value: twelveTET_notes.G, fretNumber: 3 },
+          { value: twelveTET_notes.A, fretNumber: 5 },
         ],
       },
       {
         tunedString: tunedStrings[1],
         config: stringConfig[1],
         notes: [
-          { value: diatonic_notes.A, fretNumber: 0 },
-          { value: diatonic_notes.C, fretNumber: 3 },
-          { value: diatonic_notes.D, fretNumber: 5 },
+          { value: twelveTET_notes.A, fretNumber: 0 },
+          { value: twelveTET_notes.C, fretNumber: 3 },
+          { value: twelveTET_notes.D, fretNumber: 5 },
         ],
       },
     ],
@@ -153,19 +153,19 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
         tunedString: tunedStrings[0],
         config: stringConfig[0],
         notes: [
-          { value: diatonic_notes.E, fretNumber: 0 },
-          { value: diatonic_notes.Fs, fretNumber: 2 },
-          { value: diatonic_notes.A, fretNumber: 5 },
+          { value: twelveTET_notes.E, fretNumber: 0 },
+          { value: twelveTET_notes.Fs, fretNumber: 2 },
+          { value: twelveTET_notes.A, fretNumber: 5 },
         ],
       },
       {
         tunedString: tunedStrings[1],
         config: stringConfig[1],
         notes: [
-          { value: diatonic_notes.A, fretNumber: 0 },
-          { value: diatonic_notes.B, fretNumber: 2 },
-          { value: diatonic_notes.C, fretNumber: 3 },
-          { value: diatonic_notes.Cs, fretNumber: 4 },
+          { value: twelveTET_notes.A, fretNumber: 0 },
+          { value: twelveTET_notes.B, fretNumber: 2 },
+          { value: twelveTET_notes.C, fretNumber: 3 },
+          { value: twelveTET_notes.Cs, fretNumber: 4 },
         ],
       },
     ],
@@ -177,8 +177,8 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
 
 tap.test("class FretBoard --- toJSON / valueOf / toString", function (t) {
   const tunedStrings = [
-    new TunedString("0", diatonic_notes.E, "metal", 0.254),
-    new TunedString("1", diatonic_notes.A, "metal", 0.3302),
+    new TunedString("0", twelveTET_notes.E, "metal", 0.254),
+    new TunedString("1", twelveTET_notes.A, "metal", 0.3302),
   ];
 
   const stringConfig = [
@@ -186,12 +186,12 @@ tap.test("class FretBoard --- toJSON / valueOf / toString", function (t) {
     { fret: { start: 0, end: 5 } },
   ];
 
-  const stubbyBoard = new FretBoard(diatonic, tunedStrings, stringConfig);
+  const stubbyBoard = new FretBoard(twelveTET, tunedStrings, stringConfig);
 
   t.same(
     stubbyBoard.toJSON(),
     {
-      scaleSystem: diatonic,
+      temperament: twelveTET,
       tunedStrings,
       stringConfig,
     },
@@ -206,8 +206,8 @@ tap.test("class FretBoard --- toJSON / valueOf / toString", function (t) {
 
 tap.test("setStringTuningNote()", (t) => {
   const tunedStrings = [
-    new TunedString("x", diatonic_notes.E, "metal", 0.254),
-    new TunedString("y", diatonic_notes.A, "metal", 0.3302),
+    new TunedString("x", twelveTET_notes.E, "metal", 0.254),
+    new TunedString("y", twelveTET_notes.A, "metal", 0.3302),
   ];
 
   const stringConfig = [
@@ -215,23 +215,23 @@ tap.test("setStringTuningNote()", (t) => {
     { fret: { start: 0, end: 5 } },
   ];
 
-  const stubbyBoard = new FretBoard(diatonic, tunedStrings, stringConfig);
+  const stubbyBoard = new FretBoard(twelveTET, tunedStrings, stringConfig);
 
-  t.equal(stubbyBoard.tunedStrings[0].tuningNote, diatonic_notes.E);
-  t.equal(stubbyBoard.tunedStrings[1].tuningNote, diatonic_notes.A);
+  t.equal(stubbyBoard.tunedStrings[0].tuningNote, twelveTET_notes.E);
+  t.equal(stubbyBoard.tunedStrings[1].tuningNote, twelveTET_notes.A);
 
-  stubbyBoard.setStringTuningNote("x", diatonic_notes.C);
+  stubbyBoard.setStringTuningNote("x", twelveTET_notes.C);
 
-  t.equal(stubbyBoard.tunedStrings[0].tuningNote, diatonic_notes.C);
-  t.equal(stubbyBoard.tunedStrings[1].tuningNote, diatonic_notes.A);
+  t.equal(stubbyBoard.tunedStrings[0].tuningNote, twelveTET_notes.C);
+  t.equal(stubbyBoard.tunedStrings[1].tuningNote, twelveTET_notes.A);
 
   t.end();
 });
 
 tap.test("getFretCount()", (t) => {
   const tunedStrings = [
-    new TunedString("x", diatonic_notes.E, "metal", 0.254),
-    new TunedString("y", diatonic_notes.A, "metal", 0.3302),
+    new TunedString("x", twelveTET_notes.E, "metal", 0.254),
+    new TunedString("y", twelveTET_notes.A, "metal", 0.3302),
   ];
 
   const stringConfig = [
@@ -239,7 +239,7 @@ tap.test("getFretCount()", (t) => {
     { fret: { start: 0, end: 5 } },
   ];
 
-  const stubbyBoard = new FretBoard(diatonic, tunedStrings, stringConfig);
+  const stubbyBoard = new FretBoard(twelveTET, tunedStrings, stringConfig);
 
   t.equal(stubbyBoard.getFretCount(), 5);
 

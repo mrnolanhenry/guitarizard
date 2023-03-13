@@ -2,19 +2,20 @@ import React from "react";
 import { instrument } from "note-lib";
 import { Base16Theme } from "../colors/colors";
 import Selector from "./Selector";
+import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 
 interface Props {
-  instruments: Map<string, instrument.FrettedInstrument>;
+  instruments: Map<string, IFrettedInstrument>;
   activeInstrumentName?: string;
-  onInstrumentSelect: (instrument: instrument.FrettedInstrument) => void;
+  onInstrumentSelect: (instrument: IFrettedInstrument) => void;
   theme: Base16Theme;
 }
 
 export default function InstrumentSelector(props: Props) {
   // ... gross (@TODO)
-  let activeItem: instrument.FrettedInstrument | undefined = undefined;
+  let activeItem: IFrettedInstrument | undefined = undefined;
 
-  const items: Array<instrument.FrettedInstrument> = [];
+  const items: Array<IFrettedInstrument> = [];
   props.instruments.forEach((instrument) => {
     if (
       typeof props.activeInstrumentName !== "undefined" &&
@@ -26,10 +27,10 @@ export default function InstrumentSelector(props: Props) {
   });
 
   return (
-    <Selector<instrument.FrettedInstrument>
+    <Selector<IFrettedInstrument>
       items={items}
-      getValue={(inst: instrument.FrettedInstrument) => inst.name}
-      getDisplay={(inst: instrument.FrettedInstrument) => inst.name}
+      getValue={(inst: IFrettedInstrument) => inst.name}
+      getDisplay={(inst: IFrettedInstrument) => inst.name}
       activeItem={activeItem}
       onChange={props.onInstrumentSelect}
       theme={props.theme}
