@@ -58,6 +58,8 @@ export class Note {
     if (aliasNote) {
       return aliasNote;
     }
+
+    throw `Unable to find note by attribute ${attribute} with value ${value}`;
   }
 
   findSharp() {

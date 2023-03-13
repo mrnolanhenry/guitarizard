@@ -18,6 +18,12 @@ To run the note-lib tests:
 npm -w note-lib run test
 ```
 
+To check if the ui build works:
+
+```
+npm -w ui run build
+```
+
 Dependencies
 --------------------------------------------------
 
