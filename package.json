@@ -1,8 +1,5 @@
 {
   "name": "guitarizard",
   "version": "0.1.0",
-  "workspaces": [
-    "packages/web-ui",
-    "packages/note-lib"
-  ]
+  "workspaces": ["packages/ui", "packages/note-lib"]
 }
