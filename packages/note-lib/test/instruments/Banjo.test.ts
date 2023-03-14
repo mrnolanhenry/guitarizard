@@ -2,10 +2,10 @@ import tap from "tap";
 import {
   twelveTET,
   notes as twelveTET_notes,
-} from "../../data/temperaments/twelveTET";
-import { Note } from "../../Note";
-import { Banjo } from "../../instruments/Banjo";
-import { Tuning } from "../../Tuning";
+} from "../../src/data/temperaments/twelveTET";
+import { Note } from "../../src/Note";
+import { Banjo } from "../../src/instruments/Banjo";
+import { Tuning } from "../../src/Tuning";
 
 tap.test("class Banjo -- init", function (t) {
   const defaultBanjo = new Banjo(21, [

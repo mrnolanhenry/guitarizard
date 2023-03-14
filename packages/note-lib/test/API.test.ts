@@ -1,5 +1,5 @@
 import tap from "tap";
-import * as API from "../index";
+import * as API from "../src/index";
 
 tap.test("exposed API", function (t) {
   t.ok(API.Note, "expect Note");

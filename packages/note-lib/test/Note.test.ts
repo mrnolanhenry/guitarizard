@@ -1,5 +1,5 @@
 import tap from "tap";
-import { Note } from "../Note";
+import { Note } from "../src/Note";
 
 tap.test("class Note", function (t) {
   const Xs = new Note("X#", { isSharp: true });
