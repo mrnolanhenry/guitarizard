@@ -14,9 +14,9 @@ interface ILabeledSelectorProps<T> {
 
 export default function labeledSelector<T>(props: ILabeledSelectorProps<T>) {
   return (
-    <div style={{ display: "flex" }}>
-      <span style={{ paddingRight: ".25em" }}>{props.label}</span>
-
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start"  }}>
+      {/* <span style={{ paddingRight: ".25em" }}>{props.label}</span> */}
+      <div className="selector-label" style={{ paddingBottom: ".25em" }}>{props.label}</div>
       <Selector<T>
         items={props.items}
         getValue={props.getValue}

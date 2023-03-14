@@ -61,6 +61,8 @@ export default class Selector<T> extends Component<Props<T>> {
       cursor: "pointer",
       padding: "0.2em",
       height: "2em",
+      width: "100%",
+      minWidth: "3em",
     };
 
     const options = this.props.items.map((item: T) => {

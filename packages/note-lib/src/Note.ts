@@ -2,25 +2,19 @@
  * A single note --- nothing more. ;)
  */
 
-type NoteAttribute = "isSharp" | "isFlat" | "isNatural";
-
-interface NoteAttributes {
-  isSharp?: boolean;
-  isFlat?: boolean;
-  isNatural?: boolean;
-}
+import { NotePitch } from "./enums/NotePitch";
 
 export type NoteID = string;
 
 export class Note {
   id: NoteID;
-  attributes: NoteAttributes;
+  pitch: NotePitch;
   aliasNotes: Note[];
 
   // TODO: Don't use array of keys & enforce with type
-  constructor(id: NoteID, attributes?: NoteAttributes, aliasNotes?: Note[]) {
+  constructor(id: NoteID, pitch: NotePitch, aliasNotes?: Note[]) {
     this.id = id;
-    this.attributes = attributes || {};
+    this.pitch = pitch;
     this.aliasNotes = aliasNotes || [];
   }
 
@@ -41,64 +35,64 @@ export class Note {
   }
 
   /**
-   * Find a note by attribute. It can be the current note,
+   * Find a note by pitch. It can be the current note,
    * or one of it's aliases
    */
-  findByAttribute(attribute: NoteAttribute, value: boolean): Note {
+  findByPitch(pitch: NotePitch): Note | null {
     // check the current note
-    if (this.attributes[attribute] === value) {
+    if (this.pitch === pitch) {
       return this;
     }
 
     // else, dive into aliases
     const aliasNote = this.aliasNotes.find(
-      (alias) => alias.attributes[attribute] === value
+      (alias) => alias.pitch === pitch
     );
 
     if (aliasNote) {
       return aliasNote;
     }
 
-    throw `Unable to find note by attribute ${attribute} with value ${value}`;
+    return null;
   }
 
-  findSharp() {
-    return this.findByAttribute("isSharp", true);
+  findSharp(): Note | null {
+    return this.findByPitch(NotePitch.Sharp);
   }
 
-  findFlat() {
-    return this.findByAttribute("isFlat", true);
+  findFlat(): Note | null {
+    return this.findByPitch(NotePitch.Flat);
   }
 
-  findSharpOrNatural() {
-    if (!!this.findByAttribute("isNatural", true)) {
+  findSharpOrNatural(): Note | null {
+    if (!!this.findByPitch(NotePitch.Neither)) {
       return this;
-    } else return this.findByAttribute("isSharp", true);
+    } else return this.findByPitch(NotePitch.Sharp);
   }
 
-  findFlatOrNatural() {
-    if (!!this.findByAttribute("isNatural", true)) {
+  findFlatOrNatural(): Note | null {
+    if (!!this.findByPitch(NotePitch.Neither)) {
       return this;
-    } else return this.findByAttribute("isFlat", true);
+    } else return this.findByPitch(NotePitch.Flat);
   }
 
   toJSON() {
     return {
       id: this.id,
-      attributes: this.attributes,
+      pitch: this.pitch,
       // remove recursive nature of note aliases
       aliasNotes: this.aliasNotes.map((aliasNote) => ({
         id: aliasNote.id,
-        attributes: aliasNote.attributes,
+        pitch: aliasNote.pitch,
       })),
     };
   }
 
-  valueOf() {
+  valueOf(): string {
     return JSON.stringify(this);
   }
 
-  toString() {
+  toString(): string {
     return JSON.stringify(this);
   }
 }

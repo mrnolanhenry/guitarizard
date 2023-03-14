@@ -1,9 +1,10 @@
 import type { Temperament } from "./Temperament";
 import type { TunedString } from "./TunedString";
-import type { Note } from "./Note";
+import { Note } from "./Note";
 import type { Scale } from "./Scale";
 import { StringScale } from "./StringScale";
 import { IStringConfig } from "./IStringConfig";
+import { NotePitch } from "./enums/NotePitch";
 
 
 export class FretBoard {
@@ -99,7 +100,7 @@ export class FretBoard {
       // super dumb... makes the notes "sharp" if the
       // key note is sharp lol.
       const tunedFretNotes = fretNotes.map((fretNote) => {
-        if (keyNote.attributes.isSharp) {
+        if (keyNote.pitch === NotePitch.Sharp) {
           const sharpNote = fretNote.value.findSharp();
 
           if (sharpNote) {

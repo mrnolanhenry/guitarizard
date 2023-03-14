@@ -2,6 +2,7 @@ import { Interval } from "./Interval";
 import { Temperament } from "./Temperament";
 import { mainIntervals } from "./data/intervals";
 import { Note } from "./Note";
+import { NotePitch } from "./enums/NotePitch";
 
 /**
  * A single scale.
@@ -33,7 +34,7 @@ export class Scale {
 
     // pull correct note aliases
     const notes = shiftedNotes.map((note) => {
-      if (keyNote.attributes.isSharp) {
+      if (keyNote.pitch === NotePitch.Sharp) {
         const sharpNote = note.findSharp();
         if (sharpNote) {
           return sharpNote;

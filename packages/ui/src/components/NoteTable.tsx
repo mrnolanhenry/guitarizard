@@ -35,7 +35,7 @@ export default function noteTable(props: Props) {
   const getNoteTextStyle = (
     isRainbowMode: boolean,
     noteStyle: CSSProperties,
-    note: Note | undefined,
+    note: Note | null,
     activeKey: Key
   ) => {
     let noteTextStyle: CSSProperties = noteStyle;
@@ -91,7 +91,7 @@ export default function noteTable(props: Props) {
               className="noteItem"
               style={noteTextStyle}
             >
-              {correctNote.id}
+              {correctNote ? correctNote.id : ""}
             </div>
           );
         })}
