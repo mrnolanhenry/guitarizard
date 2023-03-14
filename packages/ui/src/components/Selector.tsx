@@ -62,7 +62,7 @@ export default class Selector<T> extends Component<Props<T>> {
       padding: "0.2em",
       height: "2em",
       width: "100%",
-      minWidth: "3em",
+      minWidth: "3.5em",
     };
 
     const options = this.props.items.map((item: T) => {
