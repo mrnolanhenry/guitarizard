@@ -40,39 +40,35 @@
     #
     #   `$ nix build`
     #
-    defaultPackage.${system} = let
-      build_sh = builtins.readFile ./sh/build.sh;
-    in pkgs.stdenv.mkDerivation {
-      name = "guitarizard";
-      version = "0.1.0";
+    packages.${system} = {
+      default = pkgs.stdenv.mkDerivation {
+        name = "guitarizard";
+        version = "0.1.0";
 
-      src = ./.;
+        src = ./.;
 
-      buildInputs = with pkgs; [ deno ];
+        buildInputs = with pkgs; [];
 
-      buildPhase = ''
-          ${build_sh}
-
+        buildPhase = ''
           mkdir BUILD_DIR;
 
           (
-            mkdir -p BUILD_DIR/web-ui;
-            cd BUILD_DIR/web-ui;
-            cp -r ${self.packages.${system}.web-ui}/packages/web-ui/dist/* .
+            mkdir -p BUILD_DIR/ui;
+            cd BUILD_DIR/ui;
+            cp -r ${self.packages.${system}.ui}/packages/ui/dist/* .
           )
         '';
 
-      installPhase = ''
+        installPhase = ''
           mkdir -p $out;
           cp -r BUILD_DIR/* $out
         '';
-    };
+      };
 
-    packages.${system} = {
-      web-ui = pkgs.buildNpmPackage rec {
-        pname = "web-ui";
+      ui = pkgs.buildNpmPackage rec {
+        pname = "ui";
         version = "0.1.0";
-        npmDepsHash = "sha256-reYkNCiDvf1lze/U0jHO1A7rufhkeVcEJdTX9BpLqRg=";
+        npmDepsHash = "sha256-sX6TCyv4OS/K9q4MNHnFEoHaU7G+FO7eo6ix3qt8HbQ=";
         # npmDepsHash = pkgs.lib.fakeHash;
 
         src = ./.;
@@ -85,12 +81,7 @@
           cp -r ./* $out;
         '';
 
-        dontNpmBuild = "";
-
-        NODE_ENV = "production";
-        NODE_OPTIONS = "--openssl-legacy-provider";
-        npmBuildScript = "build";
-        npmBuildFlags = [ "--workspace" "web-ui" ];
+        npmBuildFlags = [ "--workspace" "ui" ];
       };
     };
   };
