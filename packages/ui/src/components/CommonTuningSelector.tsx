@@ -3,6 +3,7 @@ import { Base16Theme } from "../colors/colors";
 import LabeledSelector from "./LabeledSelector";
 import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 import { Tuning } from "note-lib/src/Tuning";
+import { Constants } from "note-lib/src/constants/constants";
 
 interface ICommonTuningSelectorProps {
   label: string | undefined;
@@ -13,9 +14,14 @@ interface ICommonTuningSelectorProps {
 }
 
 export default function CommonTuningSelector(props: ICommonTuningSelectorProps) {
+  const getItems = (): Tuning[] => {
+    const isActiveTuningCustom = props.activeTuning.id === Constants.CUSTOM;
+    const commonTunings = props.activeInstrument.getCommonTunings();
+    return isActiveTuningCustom ? [...commonTunings, props.activeTuning] : commonTunings;
+  };
   return (
     <LabeledSelector<Tuning>
-      items={props.activeInstrument.getCommonTunings()}
+      items={getItems()}
       label={props.label}
       getValue={(tuning: Tuning) => tuning.id}
       getDisplay={(tuning: Tuning) => tuning.id}

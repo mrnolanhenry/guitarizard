@@ -7,6 +7,7 @@ import Scalebook from "./components/Scalebook";
 import { Key, Note, Scale, Temperament, instrument, data } from "note-lib";
 import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 import { Tuning } from "note-lib/src/Tuning";
+import { Constants } from "note-lib/src/constants/Constants"
 
 type InstrumentMap = Map<string, IFrettedInstrument>;
 
@@ -149,11 +150,29 @@ class App extends Component<Props, State> {
     }
 
     instrument.fretBoard.setStringTuningNote(stringID, newTuning);
+    const newActiveTuning = this.checkActiveTuning();
 
     // TODO: hella shit
     this.setState({
       instruments: this.state.instruments,
+      activeTuning: newActiveTuning,
     });
+  }
+
+  checkActiveTuning = () => {
+    const activeInstrument = this.state.activeInstrument;
+    const activeTuningNotes = activeInstrument.fretBoard.tunedStrings.map(tunedString => tunedString.tuningNote)
+    const commonTunings = activeInstrument.getCommonTunings();
+    const commonTuningMatch = commonTunings.find(tuning => {
+      let isMatch = true;
+      tuning.notes.forEach((note, index) => {
+        if (activeTuningNotes[index].id !== note.id) {
+          isMatch = false;
+        }
+      });
+      return isMatch;
+    });
+    return commonTuningMatch ? commonTuningMatch : new Tuning(this.state.activeInstrument.name, Constants.CUSTOM, activeTuningNotes);
   }
 
   setInstrumentTuningToPreset(tuning: Tuning) {
@@ -163,8 +182,6 @@ class App extends Component<Props, State> {
     if (typeof instrument === "undefined") {
       return;
     }
-    console.log("setInstrumentTuningToPreset tuning",tuning);
-    console.log("setInstrumentTuningToPreset fretBoard",fretBoard);
     fretBoard.tunedStrings.forEach((tunedString, index) => 
       fretBoard.setStringTuningNote(tunedString.id, tuning.notes[index])
     )
