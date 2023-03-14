@@ -1,4 +1,3 @@
-export class Constants
-{
-    static readonly CUSTOM = "custom";
-};
+export class Constants {
+  static readonly CUSTOM = "custom";
+}
