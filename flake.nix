@@ -16,6 +16,11 @@
 
     };
   in {
+    nixosModules = rec {
+      guitarizard = import ./nix/nixos.nix;
+      default = guitarizard;
+    };
+
     # --------------------------------------------------
     #
     # Enter this shell with:
