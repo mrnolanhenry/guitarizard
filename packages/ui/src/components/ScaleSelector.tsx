@@ -1,7 +1,7 @@
 import React from "react";
 import { data, Scale } from "note-lib";
 import { Base16Theme } from "../colors/colors";
-import LabeledSelector from "./LabeledSelector";
+import { LabeledSelector } from "./LabeledSelector";
 
 interface Props {
   activeScale: Scale;

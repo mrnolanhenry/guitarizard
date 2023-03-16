@@ -1,6 +1,6 @@
 import React from "react";
 import { Base16Theme } from "../colors/colors";
-import Selector from "./Selector";
+import { Selector } from "./Selector";
 
 export type ToolName = "scalebook" | "songbook";
 

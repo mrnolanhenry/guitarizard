@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import { Base16Theme } from "../colors/colors";
 
-interface Props<T> {
+interface ISelectorProps<T> {
   items: Array<T>; // list of items for the select
   activeItem?: T; // what is the active item?
   onChange: (item: T) => void; // callback for user changes
@@ -10,47 +10,8 @@ interface Props<T> {
   theme: Base16Theme; // what theme should this component be?
 }
 
-export default class Selector<T> extends Component<Props<T>> {
-  constructor(props: Props<T>) {
-    super(props);
-
-    this.onChange = this.onChange.bind(this);
-  }
-
-  onChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    e.preventDefault();
-
-    const key: string = e.target.value;
-
-    const item: T | undefined = this.props.items.find(
-      (item: T) => this.value(item) === key
-    );
-
-    if (typeof item !== "undefined") {
-      this.props.onChange(item as T);
-    }
-  }
-
-  value(item: T) {
-    const fn =
-      typeof this.props.getValue === "undefined"
-        ? (a: T) => String(a)
-        : this.props.getValue;
-
-    return fn(item);
-  }
-
-  display(item: T) {
-    const fn =
-      typeof this.props.getDisplay === "undefined"
-        ? (a: T) => String(a)
-        : this.props.getDisplay;
-
-    return fn(item);
-  }
-
-  render() {
-    const { theme, activeItem } = this.props;
+const Selector =<T,> (props: ISelectorProps<T>) => {
+    const { theme, activeItem } = props;
 
     const style = {
       backgroundColor: theme.base00,
@@ -64,23 +25,56 @@ export default class Selector<T> extends Component<Props<T>> {
       width: "100%",
       minWidth: "3.5em",
     };
+    
+    const value = (item: T) => {
+      const fn =
+        typeof props.getValue === "undefined"
+          ? (a: T) => String(a)
+          : props.getValue;
 
-    const options = this.props.items.map((item: T) => {
-      const value = this.value(item);
-      const display = this.display(item);
+      return fn(item);
+    }
+
+    const display = (item: T) => {
+      const fn =
+        typeof props.getDisplay === "undefined"
+          ? (a: T) => String(a)
+          : props.getDisplay;
+
+      return fn(item);
+    }
+
+    const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      e.preventDefault();
+
+      const key: string = e.target.value;
+
+      const item: T | undefined = props.items.find(
+        (item: T) => value(item) === key
+      );
+
+      if (typeof item !== "undefined") {
+        props.onChange(item as T);
+      }
+    }
+
+    const options = props.items.map((item: T) => {
+      const value1 = value(item);
+      const display1 = display(item);
       return (
-        <option key={value} value={value}>
-          {display}
+        <option key={value1} value={value1}>
+          {display1}
         </option>
       );
     });
 
-    const selectedValue = activeItem ? this.value(activeItem) : undefined;
+    const selectedValue = activeItem ? value(activeItem) : undefined;
 
     return (
-      <select value={selectedValue} onChange={this.onChange} style={style}>
+      <select value={selectedValue} onChange={onChange} style={style}>
         {options}
       </select>
     );
-  }
-}
+ };
+
+ export { Selector };

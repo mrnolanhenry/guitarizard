@@ -1,5 +1,5 @@
 import React from "react";
-import Selector from "./Selector";
+import { Selector } from "./Selector";
 import { Base16Theme } from "../colors/colors";
 
 interface ILabeledSelectorProps<T> {
@@ -12,10 +12,9 @@ interface ILabeledSelectorProps<T> {
   theme: Base16Theme;
 }
 
-export default function labeledSelector<T>(props: ILabeledSelectorProps<T>) {
+const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start"  }}>
-      {/* <span style={{ paddingRight: ".25em" }}>{props.label}</span> */}
       <div className="selector-label" style={{ paddingBottom: ".25em" }}>{props.label}</div>
       <Selector<T>
         items={props.items}
@@ -28,3 +27,5 @@ export default function labeledSelector<T>(props: ILabeledSelectorProps<T>) {
     </div>
   );
 }
+
+export { LabeledSelector };

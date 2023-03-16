@@ -101,11 +101,11 @@ export default function Scalebook(props: IScalebookProps) {
           theme={props.theme}
         />
 
-        <EquivScaleSelector
+        {/* <EquivScaleSelector
           activeScale={props.activeScale}
           onScaleSelect={props.onScaleSelect}
           theme={props.theme}
-        />
+        /> */}
         <RainbowModeSelector
           isRainbowMode={props.isRainbowMode}
           toggleRainbowMode={props.toggleRainbowMode}

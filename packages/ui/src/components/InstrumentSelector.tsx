@@ -1,6 +1,6 @@
 import React from "react";
 import { Base16Theme } from "../colors/colors";
-import LabeledSelector from "./LabeledSelector";
+import { LabeledSelector } from "./LabeledSelector";
 import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 
 interface IInstrumentSelectorProps {
