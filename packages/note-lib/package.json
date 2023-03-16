@@ -6,8 +6,8 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "test": "tap --ts --reporter spec 'src/test/**/*.ts'",
-    "test:100": "tap --ts --reporter spec --100 'src/test/**/*.ts'"
+    "test": "tap --ts --reporter spec 'test/**/*.ts'",
+    "test:100": "tap --ts --reporter spec --100 'test/**/*.ts'"
   },
   "repository": {
     "type": "git",

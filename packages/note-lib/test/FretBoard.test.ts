@@ -2,12 +2,12 @@ import tap from "tap";
 import {
   twelveTET,
   notes as twelveTET_notes,
-} from "../data/temperaments/twelveTET";
-import { Note } from "../Note";
-import { Temperament } from "../Temperament";
-import { Scale } from "../Scale";
-import { TunedString } from "../TunedString";
-import { FretBoard } from "../FretBoard";
+} from "../src/data/temperaments/twelveTET";
+import { Note } from "../src/Note";
+import { Temperament } from "../src/Temperament";
+import { Scale } from "../src/Scale";
+import { TunedString } from "../src/TunedString";
+import { FretBoard } from "../src/FretBoard";
 
 tap.test("class FretBoard --- init", function (t) {
   const system = new Temperament("test", [new Note("X"), new Note("Y")]);
@@ -64,21 +64,11 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
 
   const stubbyBoard = new FretBoard(twelveTET, tunedStrings, stringConfig);
 
-  const chromatic = new Scale("chromatic", twelveTET, [
-    0,
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-  ]);
+  const chromatic = new Scale(
+    "chromatic",
+    twelveTET,
+    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+  );
 
   t.same(stubbyBoard.getNotesInScale(chromatic, new Note("A")), [
     {

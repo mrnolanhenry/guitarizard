@@ -3,6 +3,7 @@ export { Temperament } from "./Temperament";
 export { Scale } from "./Scale";
 export { Key } from "./Key";
 export { Interval } from "./Interval";
+export { Constants } from "./constants/Constants";
 
 import { twelveTET } from "./data/temperaments/twelveTET";
 import * as intervals from "./data/intervals";

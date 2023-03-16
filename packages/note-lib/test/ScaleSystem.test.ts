@@ -1,6 +1,6 @@
 import tap from "tap";
-import { Note } from "../Note";
-import { Temperament } from "../Temperament";
+import { Note } from "../src/Note";
+import { Temperament } from "../src/Temperament";
 
 tap.test("class Temperament", function (t) {
   const A = new Note("A", { isNatural: true });
@@ -103,8 +103,7 @@ tap.test("class Temperament", function (t) {
         twelveTET.getShiftedNotes(new Note("invalid-note"));
       } catch (error) {
         return (
-          `${error}` ===
-          "fromNote 'invalid-note' does not exist in temperament"
+          `${error}` === "fromNote 'invalid-note' does not exist in temperament"
         );
       }
 

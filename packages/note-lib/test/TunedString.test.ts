@@ -1,7 +1,7 @@
 import tap from "tap";
-import { Note } from "../Note";
-import { Temperament } from "../Temperament";
-import { TunedString } from "../TunedString";
+import { Note } from "../src/Note";
+import { Temperament } from "../src/Temperament";
+import { TunedString } from "../src/TunedString";
 
 tap.test("class TunedString", function (t) {
   const A = new Note("A", { isNatural: true });

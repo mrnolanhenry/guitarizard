@@ -2,10 +2,10 @@ import tap from "tap";
 import {
   twelveTET,
   notes as twelveTET_notes,
-} from "../../data/temperaments/twelveTET";
-import { Note } from "../../Note";
-import { Guitar } from "../../instruments/Guitar";
-import { Tuning } from "../../Tuning";
+} from "../../src/data/temperaments/twelveTET";
+import { Note } from "../../src/Note";
+import { Guitar } from "../../src/instruments/Guitar";
+import { Tuning } from "../../src/Tuning";
 
 tap.test("class Guitar -- init", function (t) {
   const defaultGuitar = new Guitar(21, [

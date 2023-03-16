@@ -1,5 +1,5 @@
 import tap from "tap";
-import { Interval } from "../Interval";
+import { Interval } from "../src/Interval";
 
 tap.test("class Interval", function (t) {
   const interval = new Interval(0, [
