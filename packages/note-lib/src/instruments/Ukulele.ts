@@ -2,7 +2,6 @@ import { twelveTET } from "../data/temperaments/twelveTET";
 import { FretBoard } from "../FretBoard";
 import { TunedString } from "../TunedString";
 import type { Note } from "../Note";
-import { Tunings } from "../data/tunings";
 import { getFrettedInstrumentCommonTunings, getFrettedInstrumentStandardTuning } from "../util";
 
 export class Ukulele {

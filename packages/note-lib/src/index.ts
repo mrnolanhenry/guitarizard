@@ -17,6 +17,7 @@ import { Banjo } from "./instruments/Banjo";
 import { Bass } from "./instruments/Bass";
 import { Ukulele } from "./instruments/Ukulele";
 import { IFrettedInstrument } from "./IFrettedInstrument";
+import { Mandolin } from "./instruments/Mandolin";
 
 export const data = {
   temperament: {
@@ -29,9 +30,10 @@ export const data = {
 export const instrument = {
   TunedString,
   Tuning,
-  FretBoard,
-  Guitar,
   Banjo,
   Bass,
+  FretBoard,
+  Guitar,
+  Mandolin,
   Ukulele,
 };

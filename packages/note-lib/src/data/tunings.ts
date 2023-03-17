@@ -54,6 +54,17 @@ export const Tunings = [
   new Tuning("banjo", "G modal", [G, D, G, C, D]),
   new Tuning("banjo", "guitar", [G, D, G, B, E]),
 
+  // MANDOLIN
+  new Tuning("mandolin", "standard", [G, D, A, E]),
+  new Tuning("mandolin", "Cajun", [F, C, G, D]),
+  new Tuning("mandolin", "open G", [G, D, G, B]),
+  new Tuning("mandolin", "cross G", [G, D, G, D]),
+  new Tuning("mandolin", "Gee-Dad", [G, D, A, D]),
+  new Tuning("mandolin", "open D", [D, D, A, D]),
+  new Tuning("mandolin", "high bass", [A, D, A, E]),
+  new Tuning("mandolin", "cross A", [A, E, A, E]),
+  new Tuning("mandolin", "open A", [A, E, A, Cs]),
+
   // UKULELE
   new Tuning("ukulele", "standard", [G, C, E, A]),
   new Tuning("ukulele", "D", [A, D, Fs, B]),

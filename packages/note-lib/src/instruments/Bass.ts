@@ -1,7 +1,6 @@
 import { twelveTET } from "../data/temperaments/twelveTET";
 import { FretBoard } from "../FretBoard";
 import { TunedString } from "../TunedString";
-import { Tunings } from "../data/tunings";
 import type { Note } from "../Note";
 import { getFrettedInstrumentCommonTunings, getFrettedInstrumentStandardTuning } from "../util";
 
