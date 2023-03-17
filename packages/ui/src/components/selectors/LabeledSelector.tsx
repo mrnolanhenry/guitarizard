@@ -14,8 +14,8 @@ interface ILabeledSelectorProps<T> {
 const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
   const {
     activeItem,
-    getValue,
     getDisplay,
+    getValue,
     items,
     label,
     onChange,
