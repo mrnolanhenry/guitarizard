@@ -1,19 +1,18 @@
-import React from "react";
 import "./Scalebook.css";
 import { Key, Note, Scale, Temperament, instrument } from "note-lib";
-import { Base16Theme } from "../colors/colors";
-import InstrumentSelector from "./InstrumentSelector";
-import NoteSelector from "./NoteSelector";
-import ScaleSelector from "./ScaleSelector";
-import EquivScaleSelector from "./EquivScaleSelector";
-import EquivKeySelector from "./EquivKeySelector";
-import RainbowModeSelector from "./RainbowModeSelector";
-import IntervalTable from "./IntervalTable";
-import NoteTable from "./NoteTable";
+import { Base16Theme } from "../../colors/themes";
+import { InstrumentSelector } from "../selectors/InstrumentSelector";
+import { NoteSelector } from "../selectors/NoteSelector";
+import { ScaleSelector } from "../selectors/ScaleSelector";
+// import { EquivScaleSelector } from "./EquivScaleSelector";
+import { EquivKeySelector } from "../selectors/EquivKeySelector";
+import { RainbowModeSelector } from "../selectors/RainbowModeSelector";
+import { IntervalTable } from "../IntervalTable";
+import { NoteTable } from "../NoteTable";
 // import ToggleButtonIntervalTable from "./ToggleButtonIntervalTable";
-import Instrument from "./Instrument";
+import { Instrument } from "../Instrument";
 import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
-import CommonTuningSelector from "./CommonTuningSelector";
+import { CommonTuningSelector } from "../selectors/CommonTuningSelector";
 import { Tuning } from "note-lib/src/Tuning";
 
 interface IScalebookProps {
@@ -43,7 +42,7 @@ interface IScalebookProps {
   theme: Base16Theme;
 }
 
-export default function Scalebook(props: IScalebookProps) {
+const Scalebook = (props: IScalebookProps) => {
   const settingsBarStyle = {
     backgroundColor: props.theme.base01,
   };
@@ -129,3 +128,5 @@ export default function Scalebook(props: IScalebookProps) {
     </div>
   );
 }
+
+export { Scalebook };

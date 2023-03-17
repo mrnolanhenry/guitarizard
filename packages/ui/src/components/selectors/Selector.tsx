@@ -1,5 +1,5 @@
 import React from "react";
-import { Base16Theme } from "../colors/colors";
+import { Base16Theme } from "../../colors/themes";
 
 interface ISelectorProps<T> {
   items: Array<T>; // list of items for the select

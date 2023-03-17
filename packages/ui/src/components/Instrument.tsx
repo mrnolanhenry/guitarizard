@@ -1,11 +1,9 @@
-import React from "react";
 import { Key, Note, Scale, instrument } from "note-lib";
-import { Base16Theme } from "../colors/colors";
-import FretBoard from "./FretBoard";
+import { Base16Theme } from "../colors/themes";
+import { FretBoard } from "./FretBoard";
 import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 
-//  NOLAN - kill this component - just use Fretboard
-interface Props {
+interface IInstrumentProps {
   instrument: IFrettedInstrument;
   keyNote: Note;
   scale: Scale;
@@ -15,7 +13,8 @@ interface Props {
   activeKey: Key;
 }
 
-export default function Guitar(props: Props) {
+// This component is currently redundant, but will be useful once other instruments (like Piano) are incorporated.
+const Instrument = (props: IInstrumentProps) => {
   return (
     <FretBoard
       instrumentName={props.instrument.name}
@@ -30,3 +29,5 @@ export default function Guitar(props: Props) {
     />
   );
 }
+
+export { Instrument };

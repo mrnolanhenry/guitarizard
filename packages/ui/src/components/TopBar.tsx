@@ -1,7 +1,6 @@
-import React from "react";
 import "./TopBar.css";
-import ToolSelector, { ToolName } from "./ToolSelector";
-import { cloudCity, Base16Theme } from "../colors/colors";
+import { ToolSelector, ToolName } from "./selectors/ToolSelector";
+import { cloudCity, Base16Theme } from "../colors/themes";
 
 interface Props {
   isAuthenticated: boolean;
@@ -12,7 +11,7 @@ interface Props {
   theme: Base16Theme;
 }
 
-export default function TopBar(props: Props) {
+const TopBar = (props: Props) => {
   const auth = props.isAuthenticated ? (
     <div onClick={props.onLogoutClick}>logout</div>
   ) : (
@@ -49,3 +48,5 @@ export default function TopBar(props: Props) {
     </div>
   );
 }
+
+export { TopBar };

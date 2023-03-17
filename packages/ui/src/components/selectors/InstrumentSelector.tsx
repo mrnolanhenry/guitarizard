@@ -1,5 +1,4 @@
-import React from "react";
-import { Base16Theme } from "../colors/colors";
+import { Base16Theme } from "../../colors/themes";
 import { LabeledSelector } from "./LabeledSelector";
 import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 
@@ -11,7 +10,7 @@ interface IInstrumentSelectorProps {
   theme: Base16Theme;
 }
 
-export default function InstrumentSelector(props: IInstrumentSelectorProps) {
+const InstrumentSelector = (props: IInstrumentSelectorProps) => {
   let activeItem: IFrettedInstrument = props.activeInstrument;
 
   const items: Array<IFrettedInstrument> = [];
@@ -37,3 +36,5 @@ export default function InstrumentSelector(props: IInstrumentSelectorProps) {
     />
   );
 }
+
+export { InstrumentSelector };

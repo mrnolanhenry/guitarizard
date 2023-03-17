@@ -1,14 +1,13 @@
-import React from "react";
-import { Base16Theme } from "../colors/colors";
+import { Base16Theme } from "../../colors/themes";
 import { LabeledSelector } from "./LabeledSelector";
 
-interface Props {
+interface IRainbowModeSelectorProps {
   isRainbowMode: boolean;
   toggleRainbowMode: () => void;
   theme: Base16Theme;
 }
 
-export default function rainbowModeSelector(props: Props) {
+const RainbowModeSelector = (props: IRainbowModeSelectorProps) => {
   return (
     <LabeledSelector<boolean>
       label="Rainbow Mode: "
@@ -21,3 +20,5 @@ export default function rainbowModeSelector(props: Props) {
     />
   );
 }
+
+export { RainbowModeSelector };

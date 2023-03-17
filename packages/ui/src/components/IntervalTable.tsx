@@ -1,14 +1,14 @@
 import { Scale, Interval } from "note-lib";
-import { Base16Theme, rainbow } from "../colors/colors";
-import React, { CSSProperties } from "react";
+import { Base16Theme, rainbow } from "../colors/themes";
+import { CSSProperties } from "react";
 
-interface Props {
+interface IIntervalTableProps {
   scale: Scale;
   isRainbowMode: boolean;
   theme: Base16Theme;
 }
 
-export default function intervalTable(props: Props) {
+const IntervalTable = (props: IIntervalTableProps) => {
   const { scale, isRainbowMode, theme } = props;
 
   const rowDiv: CSSProperties = {
@@ -119,3 +119,5 @@ export default function intervalTable(props: Props) {
     </div>
   );
 }
+
+export { IntervalTable };

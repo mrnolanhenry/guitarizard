@@ -1,5 +1,6 @@
-import React from "react";
 
-export default function () {
+const ToggleButtonIntervalTable =  () => {
   return <button id="toggleIntervalTable">Show Interval Table</button>;
 }
+
+export { ToggleButtonIntervalTable };

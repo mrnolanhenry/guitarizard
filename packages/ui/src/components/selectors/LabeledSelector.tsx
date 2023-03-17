@@ -1,6 +1,5 @@
-import React from "react";
 import { Selector } from "./Selector";
-import { Base16Theme } from "../colors/colors";
+import { Base16Theme } from "../../colors/themes";
 
 interface ILabeledSelectorProps<T> {
   label?: string;

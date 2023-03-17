@@ -1,12 +1,11 @@
-import React from "react";
 import "./FretBoard.css";
 import { Key, instrument, Note, Scale } from "note-lib";
 import { FretBoard as Fretboard } from "../../../note-lib/src/FretBoard";
-import { Base16Theme } from "../colors/colors";
-import FretSegment from "./FretSegment";
-import NoteSelector from "./NoteSelector";
+import { Base16Theme } from "../colors/themes";
+import { FretSegment } from "./FretSegment";
+import { NoteSelector } from "./selectors/NoteSelector";
 
-interface Props {
+interface IFretBoardProps {
   instrumentName: string;
   fretBoard: Fretboard;
   scale: Scale;
@@ -18,7 +17,7 @@ interface Props {
   theme: Base16Theme;
 }
 
-export default function FretBoard(props: Props) {
+const FretBoard = (props: IFretBoardProps) => {
   const fretBarStyle = {
     backgroundColor: props.theme.base00,
     borderColor: props.theme.base01,
@@ -119,3 +118,5 @@ export default function FretBoard(props: Props) {
     </div>
   );
 }
+
+export { FretBoard };

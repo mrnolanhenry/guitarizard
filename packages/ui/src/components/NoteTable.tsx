@@ -1,14 +1,14 @@
 import { Key, Note } from "note-lib";
-import { Base16Theme, rainbow } from "../colors/colors";
-import React, { CSSProperties } from "react";
+import { Base16Theme, rainbow } from "../colors/themes";
+import { CSSProperties } from "react";
 
-interface Props {
+interface INoteTableProps {
   activeKey: Key;
   isRainbowMode: boolean;
   theme: Base16Theme;
 }
 
-export default function noteTable(props: Props) {
+const NoteTable = (props: INoteTableProps) => {
   const { activeKey, isRainbowMode, theme } = props;
 
   const rowDiv: CSSProperties = {
@@ -119,3 +119,5 @@ export default function noteTable(props: Props) {
     </div>
   );
 }
+
+export { NoteTable };

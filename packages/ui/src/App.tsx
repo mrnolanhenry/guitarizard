@@ -1,9 +1,9 @@
 import "./App.css";
 import { Component } from "react";
-import { cloudCity, Base16Theme } from "./colors/colors";
-import { ToolName } from "./components/ToolSelector";
-import TopBar from "./components/TopBar";
-import Scalebook from "./components/Scalebook";
+import { cloudCity, Base16Theme } from "./colors/themes";
+import { ToolName } from "./components/selectors/ToolSelector";
+import { TopBar } from "./components/TopBar";
+import { Scalebook } from "./components/tools/Scalebook";
 import { Key, Note, Scale, Temperament, instrument, data } from "note-lib";
 import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 import { Tuning } from "note-lib/src/Tuning";
@@ -33,7 +33,6 @@ class App extends Component<Props, State> {
     super(props);
     const twelveTET: Temperament = data.temperament.twelveTET;
     const scales: Scale[] = data.scales;
-    // const tunings = data.tunings;
 
     const instruments: InstrumentMap = new Map();
     const guitar = new instrument.Guitar(
@@ -240,7 +239,7 @@ class App extends Component<Props, State> {
         break;
       }
       // case "songbook": {
-      //   tool = <div>NOLAN FIX ME!</div>;
+      //   tool = <div>COMING SOON</div>;
       //   break;
       // }
     }

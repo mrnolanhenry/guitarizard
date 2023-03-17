@@ -1,5 +1,4 @@
-import React from "react";
-import { Base16Theme } from "../colors/colors";
+import { Base16Theme } from "../../colors/themes";
 import { LabeledSelector } from "./LabeledSelector";
 import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 import { Tuning } from "note-lib/src/Tuning";
@@ -13,9 +12,7 @@ interface ICommonTuningSelectorProps {
   theme: Base16Theme;
 }
 
-export default function CommonTuningSelector(
-  props: ICommonTuningSelectorProps
-) {
+const CommonTuningSelector = (props: ICommonTuningSelectorProps) => {
   const getItems = (): Tuning[] => {
     const isActiveTuningCustom = props.activeTuning.id === Constants.CUSTOM;
     const commonTunings = props.activeInstrument.getCommonTunings();
@@ -35,3 +32,5 @@ export default function CommonTuningSelector(
     />
   );
 }
+
+export { CommonTuningSelector };

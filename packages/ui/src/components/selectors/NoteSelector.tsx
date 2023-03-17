@@ -1,6 +1,5 @@
-import React from "react";
 import { Note, Temperament } from "note-lib";
-import { Base16Theme } from "../colors/colors";
+import { Base16Theme } from "../../colors/themes";
 import { LabeledSelector } from "./LabeledSelector";
 
 interface INoteSelectorProps {
@@ -11,7 +10,7 @@ interface INoteSelectorProps {
   theme: Base16Theme;
 }
 
-export default function noteSelector(props: INoteSelectorProps) {
+const NoteSelector = (props: INoteSelectorProps) => {
   return (
     <LabeledSelector<Note>
       label={props.label}
@@ -24,3 +23,5 @@ export default function noteSelector(props: INoteSelectorProps) {
     />
   );
 }
+
+export { NoteSelector };

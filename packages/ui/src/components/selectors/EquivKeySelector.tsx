@@ -1,15 +1,14 @@
-import React from "react";
 import { Key } from "note-lib";
-import { Base16Theme } from "../colors/colors";
+import { Base16Theme } from "../../colors/themes";
 import { LabeledSelector } from "./LabeledSelector";
 
-interface Props {
+interface IEquivKeySelectorProps {
   activeKey: Key;
   updateKey: (key: Key) => void;
   theme: Base16Theme;
 }
 
-export default function EquivKeySelector(props: Props) {
+const EquivKeySelector = (props: IEquivKeySelectorProps) => {
   return (
     <LabeledSelector<Key>
       label="Equivalent Keys:"
@@ -22,3 +21,5 @@ export default function EquivKeySelector(props: Props) {
     />
   );
 }
+
+export { EquivKeySelector };

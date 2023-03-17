@@ -1,11 +1,10 @@
-import React from "react";
 import "./FretSegment.css";
 import { instrument, Key, Note } from "note-lib";
-import { Base16Theme, rainbow } from "../colors/colors";
+import { Base16Theme, rainbow } from "../colors/themes";
 import { CSSProperties } from "react";
 import { StringScale } from "note-lib/src/StringScale";
 
-interface Props {
+interface IFretSegmentProps {
   stringScale: StringScale;
   fret: number;
   theme: Base16Theme;
@@ -53,7 +52,7 @@ const getNoteTextStyle = (
   return noteTextStyle;
 };
 
-export default function fretSegment(props: Props) {
+const FretSegment = (props: IFretSegmentProps) => {
   const { fret, isRainbowMode, stringScale, theme, activeKey } = props;
 
   // Get the note on this string (if it exists)
@@ -95,3 +94,5 @@ export default function fretSegment(props: Props) {
     </div>
   );
 }
+
+export { FretSegment };
