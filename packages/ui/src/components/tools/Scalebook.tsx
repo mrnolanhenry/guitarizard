@@ -16,21 +16,14 @@ import { CommonTuningSelector } from "../selectors/CommonTuningSelector";
 import { Tuning } from "note-lib/src/Tuning";
 
 interface IScalebookProps {
-  instruments: Map<string, IFrettedInstrument>;
   activeInstrument: IFrettedInstrument;
-  activeScale: Scale;
-  activeTuning: Tuning;
-  keyNote: Note;
   activeKey: Key;
-  temperament: Temperament;
+  activeScale: Scale;
+  activeTuning: Tuning;  
+  instruments: Map<string, IFrettedInstrument>;
   isRainbowMode: boolean;
-  toggleRainbowMode: () => void;
-  onToggleNoteTable: boolean;
-  onToggleIntervalTable: boolean;
-  onKeyNoteSelect: (keyNote: Note) => void;
+  keyNote: Note;
   onInstrumentSelect: (instrument: IFrettedInstrument) => void;
-  onScaleSelect: (scale: Scale) => void;
-  updateKey: (key: Key) => void;
   onInstrumentTune: (
     instrumentName: string,
     stringID: string,
@@ -39,25 +32,50 @@ interface IScalebookProps {
   onInstrumentTuneToPreset: (
     tuning: Tuning
   ) => void;
+  onKeyNoteSelect: (keyNote: Note) => void;
+  onScaleSelect: (scale: Scale) => void;
+  onToggleNoteTable: boolean;
+  onToggleIntervalTable: boolean;
+  temperament: Temperament;
   theme: Base16Theme;
+  toggleRainbowMode: () => void;
+  updateKey: (key: Key) => void;
 }
 
 const Scalebook = (props: IScalebookProps) => {
+  const {
+    activeInstrument,
+    activeKey,
+    activeScale,
+    activeTuning,
+    instruments,
+    isRainbowMode,
+    keyNote,
+    onInstrumentSelect,
+    onInstrumentTune,
+    onInstrumentTuneToPreset,
+    onKeyNoteSelect,
+    onScaleSelect,
+    temperament,
+    theme,
+    toggleRainbowMode,
+    updateKey,
+  } = props;
   const settingsBarStyle = {
-    backgroundColor: props.theme.base01,
+    backgroundColor: theme.base01,
   };
 
-  const instrument: IFrettedInstrument = props.activeInstrument;
+  const instrument: IFrettedInstrument = activeInstrument;
 
   const instrumentComponent = instrument ? (
     <Instrument
       instrument={instrument}
-      activeKey={props.activeKey}
-      keyNote={props.keyNote}
-      scale={props.activeScale}
-      onTune={props.onInstrumentTune}
-      isRainbowMode={props.isRainbowMode}
-      theme={props.theme}
+      activeKey={activeKey}
+      keyNote={keyNote}
+      scale={activeScale}
+      onTune={onInstrumentTune}
+      isRainbowMode={isRainbowMode}
+      theme={theme}
     />
   ) : <></>;
 
@@ -66,64 +84,64 @@ const Scalebook = (props: IScalebookProps) => {
       <div className="settings-bar" style={settingsBarStyle}>
         <InstrumentSelector
           label="Instrument:"
-          activeInstrument={props.activeInstrument}
-          instruments={props.instruments}
-          onInstrumentSelect={props.onInstrumentSelect}
-          theme={props.theme}
+          activeInstrument={activeInstrument}
+          instruments={instruments}
+          onInstrumentSelect={onInstrumentSelect}
+          theme={theme}
         />
 
         <CommonTuningSelector
           label="Common Tunings:"
-          activeInstrument={props.activeInstrument}
-          activeTuning={props.activeTuning}
-          onCommonTuningSelect={props.onInstrumentTuneToPreset}
-          theme={props.theme}
+          activeInstrument={activeInstrument}
+          activeTuning={activeTuning}
+          onCommonTuningSelect={onInstrumentTuneToPreset}
+          theme={theme}
         />
 
         <NoteSelector
           label="Key:"
-          temperament={props.temperament}
-          note={props.keyNote}
-          onNoteSelect={props.onKeyNoteSelect}
-          theme={props.theme}
+          temperament={temperament}
+          note={keyNote}
+          onNoteSelect={onKeyNoteSelect}
+          theme={theme}
         />
 
         <ScaleSelector
-          activeScale={props.activeScale}
-          onScaleSelect={props.onScaleSelect}
-          theme={props.theme}
+          activeScale={activeScale}
+          onScaleSelect={onScaleSelect}
+          theme={theme}
         />
 
         <EquivKeySelector
-          activeKey={props.activeKey}
-          updateKey={props.updateKey}
-          theme={props.theme}
+          activeKey={activeKey}
+          updateKey={updateKey}
+          theme={theme}
         />
 
         {/* <EquivScaleSelector
-          activeScale={props.activeScale}
-          onScaleSelect={props.onScaleSelect}
-          theme={props.theme}
+          activeScale={activeScale}
+          onScaleSelect={onScaleSelect}
+          theme={theme}
         /> */}
         <RainbowModeSelector
-          isRainbowMode={props.isRainbowMode}
-          toggleRainbowMode={props.toggleRainbowMode}
-          theme={props.theme}
+          isRainbowMode={isRainbowMode}
+          toggleRainbowMode={toggleRainbowMode}
+          theme={theme}
         />
       </div>
 
       {instrumentComponent}
 
       <NoteTable
-        activeKey={props.activeKey}
-        isRainbowMode={props.isRainbowMode}
-        theme={props.theme}
+        activeKey={activeKey}
+        isRainbowMode={isRainbowMode}
+        theme={theme}
       />
 
       <IntervalTable
-        scale={props.activeScale}
-        isRainbowMode={props.isRainbowMode}
-        theme={props.theme}
+        scale={activeScale}
+        isRainbowMode={isRainbowMode}
+        theme={theme}
       />
     </div>
   );

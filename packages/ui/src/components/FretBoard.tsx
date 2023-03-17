@@ -1,31 +1,42 @@
 import "./FretBoard.css";
-import { Key, instrument, Note, Scale } from "note-lib";
+import { Key, Note, Scale } from "note-lib";
 import { FretBoard as Fretboard } from "../../../note-lib/src/FretBoard";
 import { Base16Theme } from "../colors/themes";
 import { FretSegment } from "./FretSegment";
 import { NoteSelector } from "./selectors/NoteSelector";
 
 interface IFretBoardProps {
-  instrumentName: string;
-  fretBoard: Fretboard;
-  scale: Scale;
-  keyNote: Note;
   activeKey: Key;
-  showFretBar: boolean;
-  onTune: (instrumentName: string, stringID: string, newTuning: Note) => void;
+  fretBoard: Fretboard;
+  instrumentName: string;
   isRainbowMode: boolean;
+  keyNote: Note;
+  onTune: (instrumentName: string, stringID: string, newTuning: Note) => void;
+  scale: Scale;
+  showFretBar: boolean;
   theme: Base16Theme;
 }
 
 const FretBoard = (props: IFretBoardProps) => {
+  const { 
+    activeKey, 
+    fretBoard, 
+    instrumentName, 
+    isRainbowMode, 
+    keyNote, 
+    onTune, 
+    scale, 
+    showFretBar, 
+    theme 
+  } = props;
   const fretBarStyle = {
-    backgroundColor: props.theme.base00,
-    borderColor: props.theme.base01,
+    backgroundColor: theme.base00,
+    borderColor: theme.base01,
   };
 
-  const fretBar = props.showFretBar && (
+  const fretBar = showFretBar && (
     <div className="fret-labels">
-      {[...Array(props.fretBoard.getFretCount())].map((_, i) => {
+      {[...Array(fretBoard.getFretCount())].map((_, i) => {
         // TODO: this is a terrible key
         return (
           <div key={`${i}:${Math.random()}`} style={fretBarStyle}>
@@ -37,51 +48,51 @@ const FretBoard = (props: IFretBoardProps) => {
   );
 
   const tuningPegsStyle = {
-    backgroundColor: props.theme.base07,
-    color: props.theme.base04,
-    borderColor: props.theme.base03,
-    boxShadow: "2px 0px " + props.theme.base07,
+    backgroundColor: theme.base07,
+    color: theme.base04,
+    borderColor: theme.base03,
+    boxShadow: "2px 0px " + theme.base07,
   };
 
   const tuningPegs = (
     <div className="tuning-pegs" style={tuningPegsStyle}>
-      {props.fretBoard.tunedStrings.map((string) => {
+      {fretBoard.tunedStrings.map((string) => {
         return (
           <NoteSelector
             key={string.id}
-            temperament={props.fretBoard.temperament}
+            temperament={fretBoard.temperament}
             note={string.tuningNote}
             onNoteSelect={(n: Note) =>
-              props.onTune(props.instrumentName, string.id, n)
+              onTune(instrumentName, string.id, n)
             }
-            theme={props.theme}
+            theme={theme}
           />
         );
       })}
     </div>
   );
 
-  const stringStyle = { borderColor: props.theme.base09 };
+  const stringStyle = { borderColor: theme.base09 };
 
-  const stringScales = props.fretBoard.getNotesInScale(
-    props.scale,
-    props.keyNote
+  const stringScales = fretBoard.getNotesInScale(
+    scale,
+    keyNote
   );
 
-  const boardStyle = { backgroundColor: props.theme.base0F };
+  const boardStyle = { backgroundColor: theme.base0F };
 
   const strings = stringScales.map((stringScale, idx) => {
-    const fretSegments = [...Array(props.fretBoard.getFretCount())].map(
+    const fretSegments = [...Array(fretBoard.getFretCount())].map(
       (_, i) => {
         // TODO: this is a terrible key
         return (
           <FretSegment
             key={`${i}:${Math.random()}`}
-            activeKey={props.activeKey}
+            activeKey={activeKey}
             stringScale={stringScale}
             fret={i}
-            isRainbowMode={props.isRainbowMode}
-            theme={props.theme}
+            isRainbowMode={isRainbowMode}
+            theme={theme}
           />
         );
       }
@@ -106,8 +117,8 @@ const FretBoard = (props: IFretBoardProps) => {
   );
 
   const style = {
-    backgroundColor: props.theme.base00,
-    borderColor: props.theme.base00,
+    backgroundColor: theme.base00,
+    borderColor: theme.base00,
   };
 
   return (

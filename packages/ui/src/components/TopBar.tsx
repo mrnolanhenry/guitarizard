@@ -3,40 +3,48 @@ import { ToolSelector, ToolName } from "./selectors/ToolSelector";
 import { cloudCity, Base16Theme } from "../colors/themes";
 
 interface Props {
+  activeToolName: ToolName;
   isAuthenticated: boolean;
   onLoginClick: () => void;
   onLogoutClick: () => void;
   onToolSelect: (toolName: ToolName) => void;
-  activeToolName: ToolName;
   theme: Base16Theme;
 }
 
 const TopBar = (props: Props) => {
-  const auth = props.isAuthenticated ? (
-    <div onClick={props.onLogoutClick}>logout</div>
+  const { 
+    activeToolName,
+    isAuthenticated,
+    onLoginClick,
+    onLogoutClick,
+    onToolSelect,
+    theme,
+   } = props;
+  const auth = isAuthenticated ? (
+    <div onClick={onLogoutClick}>logout</div>
   ) : (
-    <div onClick={props.onLoginClick}></div>
+    <div onClick={onLoginClick}></div>
   );
 
   const logo = <img src="/guitarizard_logo_sq_20.png" className="logo" />;
 
   const style = {
-    backgroundColor: props.theme.base00,
-    color: props.theme.base04,
-    borderColor: props.theme.base03,
+    backgroundColor: theme.base00,
+    color: theme.base04,
+    borderColor: theme.base03,
   };
 
   const centerStyle = {
-    color: props.theme.base06,
-    textShadow: `0 0 1px ${props.theme.base00}`,
+    color: theme.base06,
+    textShadow: `0 0 1px ${theme.base00}`,
   };
 
   return (
     <div className="top-bar" style={style}>
       <div className="left">
         <ToolSelector
-          activeToolName={props.activeToolName}
-          onToolSelect={props.onToolSelect}
+          activeToolName={activeToolName}
+          onToolSelect={onToolSelect}
           theme={cloudCity}
         />
       </div>

@@ -4,22 +4,29 @@ import { LabeledSelector } from "./LabeledSelector";
 
 interface INoteSelectorProps {
   label?: string;
-  temperament: Temperament;
   note: Note;
   onNoteSelect: (note: Note) => void;
+  temperament: Temperament;
   theme: Base16Theme;
 }
 
 const NoteSelector = (props: INoteSelectorProps) => {
+  const {
+    label,
+    note,
+    onNoteSelect,
+    temperament,
+    theme,
+  } = props;
   return (
     <LabeledSelector<Note>
-      label={props.label}
-      items={props.temperament.getKeyNotes()}
+      label={label}
+      items={temperament.getKeyNotes()}
       getValue={(note: Note) => note.id}
       getDisplay={(note: Note) => note.id}
-      activeItem={props.note}
-      onChange={props.onNoteSelect}
-      theme={props.theme}
+      activeItem={note}
+      onChange={onNoteSelect}
+      theme={theme}
     />
   );
 }

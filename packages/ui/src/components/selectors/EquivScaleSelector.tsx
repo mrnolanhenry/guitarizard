@@ -11,15 +11,21 @@ interface IEquivScaleSelectorProps {
 }
 
 const EquivScaleSelector = (props: IEquivScaleSelectorProps) => {
+  const { 
+    activeScale,
+    onScaleSelect,
+    theme,
+   } = props;
+  
   return (
     <LabeledSelector<Scale>
       label="Equivalent Scales: "
-      items={props.activeScale.getEquivScales(data.scales)}
+      items={activeScale.getEquivScales(data.scales)}
       getValue={(s: Scale) => s.name}
       getDisplay={(s: Scale) => s.name}
-      activeItem={props.activeScale}
-      onChange={props.onScaleSelect}
-      theme={props.theme}
+      activeItem={activeScale}
+      onChange={onScaleSelect}
+      theme={theme}
     />
   );
 }

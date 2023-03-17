@@ -9,15 +9,20 @@ interface IScalesSelectorProps {
 }
 
 const ScaleSelector = (props: IScalesSelectorProps) => {
+  const {
+    activeScale,
+    onScaleSelect,
+    theme,
+  } = props;
   return (
     <LabeledSelector<Scale>
       label="Scale:"
       items={data.scales}
       getValue={(s: Scale) => s.name}
       getDisplay={(s: Scale) => s.name}
-      activeItem={props.activeScale}
-      onChange={props.onScaleSelect}
-      theme={props.theme}
+      activeItem={activeScale}
+      onChange={onScaleSelect}
+      theme={theme}
     />
   );
 }

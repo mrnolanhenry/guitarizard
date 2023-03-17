@@ -10,14 +10,19 @@ interface IToolSelectorProps {
 }
 
 const ToolSelector = (props: IToolSelectorProps) => {
+  const {
+    activeToolName,
+    onToolSelect,
+    theme,
+  } = props;
   return (
     <Selector<ToolName>
       items={["scalebook"]}
       // TODO: Return to songbook
       // items={["scalebook", "songbook"]}
-      activeItem={props.activeToolName}
-      onChange={(v) => props.onToolSelect(v as ToolName)}
-      theme={props.theme}
+      activeItem={activeToolName}
+      onChange={(v) => onToolSelect(v as ToolName)}
+      theme={theme}
     />
   );
 }

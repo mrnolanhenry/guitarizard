@@ -5,30 +5,37 @@ import { Tuning } from "note-lib/src/Tuning";
 import { Constants } from "note-lib";
 
 interface ICommonTuningSelectorProps {
-  label: string | undefined;
   activeInstrument: IFrettedInstrument;
   activeTuning: Tuning;
+  label: string | undefined;
   onCommonTuningSelect: (tuning: Tuning) => void;
   theme: Base16Theme;
 }
 
 const CommonTuningSelector = (props: ICommonTuningSelectorProps) => {
+  const { 
+    activeInstrument,
+    activeTuning,
+    label,
+    onCommonTuningSelect,
+    theme
+   } = props;
   const getItems = (): Tuning[] => {
-    const isActiveTuningCustom = props.activeTuning.id === Constants.CUSTOM;
-    const commonTunings = props.activeInstrument.getCommonTunings();
+    const isActiveTuningCustom = activeTuning.id === Constants.CUSTOM;
+    const commonTunings = activeInstrument.getCommonTunings();
     return isActiveTuningCustom
-      ? [...commonTunings, props.activeTuning]
+      ? [...commonTunings, activeTuning]
       : commonTunings;
   };
   return (
     <LabeledSelector<Tuning>
       items={getItems()}
-      label={props.label}
+      label={label}
       getValue={(tuning: Tuning) => tuning.id}
       getDisplay={(tuning: Tuning) => tuning.id}
-      activeItem={props.activeTuning}
-      onChange={props.onCommonTuningSelect}
-      theme={props.theme}
+      activeItem={activeTuning}
+      onChange={onCommonTuningSelect}
+      theme={theme}
     />
   );
 }

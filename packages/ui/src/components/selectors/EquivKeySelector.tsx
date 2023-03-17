@@ -9,15 +9,20 @@ interface IEquivKeySelectorProps {
 }
 
 const EquivKeySelector = (props: IEquivKeySelectorProps) => {
+  const { 
+    activeKey,
+    updateKey,
+    theme,
+   } = props;
   return (
     <LabeledSelector<Key>
       label="Equivalent Keys:"
-      items={props.activeKey.getEquivKeys()}
+      items={activeKey.getEquivKeys()}
       getValue={(k: Key) => k.note.id + " " + k.scale.name}
       getDisplay={(k: Key) => k.note.id + " " + k.scale.name}
-      activeItem={props.activeKey}
-      onChange={props.updateKey}
-      theme={props.theme}
+      activeItem={activeKey}
+      onChange={updateKey}
+      theme={theme}
     />
   );
 }
