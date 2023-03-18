@@ -18,10 +18,10 @@ export class Mandolin implements IFrettedInstrument{
 
     // left to right on the guitar
     const tunedStrings = [
-      new TunedString("E-string-1", tuning[0], "metal", 4),
-      new TunedString("A-string-1", tuning[1], "metal", 3),
-      new TunedString("D-string-1", tuning[2], "metal", 2),
-      new TunedString("G-string-1", tuning[3], "metal", 1),
+      new TunedString("G-string-1", tuning[0], "metal", 4),
+      new TunedString("D-string-1", tuning[1], "metal", 3),
+      new TunedString("A-string-1", tuning[2], "metal", 2),
+      new TunedString("E-string-1", tuning[3], "metal", 1),
     ];
 
     const stringConfig = getDefaultStringConfig(fretCount, tuning);

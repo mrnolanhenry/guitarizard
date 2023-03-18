@@ -8,9 +8,8 @@ import { NoteSelector } from "./selectors/NoteSelector";
 interface IFretBoardProps {
   activeKey: Key;
   fretBoard: Fretboard;
-  instrumentName: string;
   isRainbowMode: boolean;
-  onTune: (instrumentName: string, stringID: string, newTuning: Note) => void;
+  onTune: (stringID: string, newTuning: Note) => void;
   showFretBar: boolean;
   theme: Base16Theme;
 }
@@ -19,7 +18,6 @@ const FretBoard = (props: IFretBoardProps) => {
   const { 
     activeKey, 
     fretBoard, 
-    instrumentName, 
     isRainbowMode, 
     onTune, 
     showFretBar, 
@@ -59,7 +57,7 @@ const FretBoard = (props: IFretBoardProps) => {
             temperament={fretBoard.temperament}
             note={string.tuningNote}
             onNoteSelect={(n: Note) =>
-              onTune(instrumentName, string.id, n)
+              onTune(string.id, n)
             }
             theme={theme}
           />
