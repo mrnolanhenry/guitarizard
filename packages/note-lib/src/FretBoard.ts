@@ -1,5 +1,6 @@
 import type { Temperament } from "./Temperament";
 import type { TunedString } from "./TunedString";
+import { Course } from "./Course";
 import { Note } from "./Note";
 import type { Scale } from "./Scale";
 import { StringScale } from "./StringScale";
@@ -9,7 +10,7 @@ import { NotePitch } from "./enums/NotePitch";
 
 export class FretBoard {
   temperament: Temperament;
-  tunedStrings: TunedString[];
+  courses: Course[];
   stringConfig: IStringConfig[];
   /**
    * A FretBoard that holds strings.
@@ -17,7 +18,12 @@ export class FretBoard {
    * @param temperament : what temperament do the
    *   frets on this bord conform to?
    *
-   * @param tunedStrings (TunedString[]): left to right
+   * @param courses : Course[] - TunedString[] that represents 
+   * either a single string or series of strings typically tuned to the same note 
+   * e.g. Mandolin or 12-string guitar have pairs of TunedStrings in their courses, 
+   * some instruments have triplets or varied courses)
+   * 
+   * (TunedString[]): left to right
    *   order---imagine a guitar hanging on the wall: The
    *   "A" string would be second from the left, and the
    *   high "e" string would be wayyyy on the right, or in
@@ -29,11 +35,11 @@ export class FretBoard {
    */
   constructor(
     temperament: Temperament,
-    tunedStrings: TunedString[],
+    courses: Course[],
     stringConfig: IStringConfig[]
   ) {
     this.temperament = temperament;
-    this.tunedStrings = tunedStrings;
+    this.courses = courses;
     this.stringConfig = stringConfig;
   }
 
@@ -49,26 +55,55 @@ export class FretBoard {
   /**
    * Set a single string's tuning on this fretboard
    */
-  setStringTuningNote(tunedStringID: string, tuningNote: Note) {
-    this.tunedStrings = this.tunedStrings.map((tunedString) => {
-      if (tunedString.id === tunedStringID) {
-        tunedString.setTuningNote(tuningNote);
+  setCourseTuningNote(courseId: string, tuningNote: Note) {
+    this.courses = this.courses.map(course => {
+      if (course.id === courseId) {
+        course.tunedStrings.forEach(tunedString => {
+          tunedString.setTuningNote(tuningNote);
+        });
       }
+    return course;
+    })
 
-      return tunedString;
-    });
+    // this.tunedStrings = this.tunedStrings.map((tunedString) => {
+    //   if (tunedString.id === tunedStringID) {
+    //     tunedString.setTuningNote(tuningNote);
+    //   }
+
+    //   return tunedString;
+    // });
   }
 
   /**
    *
    */
   getNotes() {
-    return this.tunedStrings.map((tunedString, i) => {
+    // return this.tunedStrings.map((tunedString, i) => {
+    //   const config = this.stringConfig[i];
+
+    //   const fret = config.fret;
+    //   const fretSpan = fret.end - fret.start;
+
+    //   const notesOnString = tunedString.getFrettedNotes(
+    //     this.temperament,
+    //     fretSpan
+    //   );
+
+    //   const notes = notesOnString.map((note, offset) => ({
+    //     fretNumber: fret.start + offset,
+    //     value: note,
+    //   }));
+
+    //   return { tunedString, config, notes };
+    // });
+
+    let allNotes = [];
+    this.courses.map((course, i) => {
       const config = this.stringConfig[i];
 
       const fret = config.fret;
       const fretSpan = fret.end - fret.start;
-
+      course.tunedStrings.forEach(tunedString => {
       const notesOnString = tunedString.getFrettedNotes(
         this.temperament,
         fretSpan
@@ -79,8 +114,10 @@ export class FretBoard {
         value: note,
       }));
 
-      return { tunedString, config, notes };
+      allNotes.push({ tunedString, config, notes });
+      });
     });
+    return allNotes;
   }
 
   // same result as `getNotes`, but the notes are filtered
@@ -122,7 +159,7 @@ export class FretBoard {
   toJSON() {
     return {
       temperament: this.temperament,
-      tunedStrings: this.tunedStrings,
+      courses: this.courses,
       stringConfig: this.stringConfig,
     };
   }

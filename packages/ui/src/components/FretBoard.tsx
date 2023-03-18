@@ -9,7 +9,7 @@ interface IFretBoardProps {
   activeKey: Key;
   fretBoard: Fretboard;
   isRainbowMode: boolean;
-  onTune: (stringID: string, newTuning: Note) => void;
+  onTune: (courseId: string, newTuning: Note) => void;
   showFretBar: boolean;
   theme: Base16Theme;
 }
@@ -50,14 +50,14 @@ const FretBoard = (props: IFretBoardProps) => {
 
   const tuningPegs = (
     <div className="tuning-pegs" style={tuningPegsStyle}>
-      {fretBoard.tunedStrings.map((string) => {
+      {fretBoard.courses.map((course) => {
         return (
           <NoteSelector
-            key={string.id}
+            key={course.id}
             temperament={fretBoard.temperament}
-            note={string.tuningNote}
+            note={course.tunedStrings[0].tuningNote}
             onNoteSelect={(n: Note) =>
-              onTune(string.id, n)
+              onTune(course.id, n)
             }
             theme={theme}
           />

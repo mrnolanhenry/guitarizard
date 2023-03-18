@@ -7,7 +7,7 @@ interface IInstrumentProps {
   activeKey: Key;
   instrument: IFrettedInstrument;
   isRainbowMode: boolean;
-  onTune: (stringID: string, newTuning: Note) => void;
+  onTune: (courseId: string, newTuning: Note) => void;
   theme: Base16Theme;
 }
 

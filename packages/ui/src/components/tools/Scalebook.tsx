@@ -23,7 +23,7 @@ interface IScalebookProps {
   isRainbowMode: boolean;
   onInstrumentSelect: (instrument: IFrettedInstrument) => void;
   onInstrumentTune: (
-    stringID: string,
+    courseId: string,
     newTuning: Note
   ) => void;
   onInstrumentTuneToPreset: (

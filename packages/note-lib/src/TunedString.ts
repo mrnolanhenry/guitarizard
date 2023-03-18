@@ -5,7 +5,7 @@ import type { Temperament } from "./Temperament";
  *  A string that exists in
  *  the given `temperament`
  *
- * @param 'tuningNote' - what is this strings tuning note?
+ * @param 'tuningNote' - what is this string's tuning note?
  * @param 'material' - what material is this string made out of?
  * @param 'gauge' - what gauge (in millimeters) is this string?
  */
