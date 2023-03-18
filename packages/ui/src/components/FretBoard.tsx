@@ -1,5 +1,5 @@
 import "./FretBoard.css";
-import { Key, Note, Scale } from "note-lib";
+import { Key, Note } from "note-lib";
 import { FretBoard as Fretboard } from "../../../note-lib/src/FretBoard";
 import { Base16Theme } from "../colors/themes";
 import { FretSegment } from "./FretSegment";
@@ -10,9 +10,7 @@ interface IFretBoardProps {
   fretBoard: Fretboard;
   instrumentName: string;
   isRainbowMode: boolean;
-  keyNote: Note;
   onTune: (instrumentName: string, stringID: string, newTuning: Note) => void;
-  scale: Scale;
   showFretBar: boolean;
   theme: Base16Theme;
 }
@@ -23,9 +21,7 @@ const FretBoard = (props: IFretBoardProps) => {
     fretBoard, 
     instrumentName, 
     isRainbowMode, 
-    keyNote, 
     onTune, 
-    scale, 
     showFretBar, 
     theme 
   } = props;
@@ -75,8 +71,8 @@ const FretBoard = (props: IFretBoardProps) => {
   const stringStyle = { borderColor: theme.base09 };
 
   const stringScales = fretBoard.getNotesInScale(
-    scale,
-    keyNote
+    activeKey.scale,
+    activeKey.note
   );
 
   const boardStyle = { backgroundColor: theme.base0F };

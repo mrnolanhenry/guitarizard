@@ -1,4 +1,4 @@
-import { Key, Note, Scale, instrument } from "note-lib";
+import { Key, Note } from "note-lib";
 import { Base16Theme } from "../colors/themes";
 import { FretBoard } from "./FretBoard";
 import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
@@ -7,9 +7,7 @@ interface IInstrumentProps {
   activeKey: Key;
   instrument: IFrettedInstrument;
   isRainbowMode: boolean;
-  keyNote: Note;
   onTune: (instrumentName: string, stringID: string, newTuning: Note) => void;
-  scale: Scale;
   theme: Base16Theme;
 }
 
@@ -19,21 +17,17 @@ const Instrument = (props: IInstrumentProps) => {
     activeKey,
     instrument,
     isRainbowMode,
-    keyNote,
     onTune,
-    scale,
     theme,
    } = props;
   return (
     <FretBoard
-      instrumentName={instrument.name}
-      fretBoard={instrument.fretBoard}
-      scale={scale}
-      keyNote={keyNote}
-      showFretBar={true}
-      onTune={onTune}
       activeKey={activeKey}
+      fretBoard={instrument.fretBoard}
+      instrumentName={instrument.name}
       isRainbowMode={isRainbowMode}
+      onTune={onTune}
+      showFretBar={true}
       theme={theme}
     />
   );

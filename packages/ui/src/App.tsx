@@ -46,11 +46,11 @@ const initInstruments = (temperament: Temperament) => {
 const App = () => {
     const twelveTET: Temperament = data.temperament.twelveTET;
     const scales: Scale[] = data.scales;
+    const initKeyNote: Note = twelveTET.getNoteFromID("E");
+    const initScale: Scale = scales.find(scale => scale.name === "major") as Scale;
     const instrumentMap = initInstruments(twelveTET);
     const [instruments, setInstruments] = useState(instrumentMap);
-    const [activeScale, setActiveScale] = useState(scales[86]);
-    const [activeKeyNote, setActiveKeyNote] = useState(twelveTET.getNoteFromID("E"));
-    const [activeKey, setActiveKey] = useState(new Key(activeKeyNote, activeScale));
+    const [activeKey, setActiveKey] = useState(new Key(initKeyNote, initScale));
     const guitar = instruments.get("guitar") as IFrettedInstrument;
     const [activeInstrument, setActiveInstrument] = useState(guitar);
     const [activeTuning, setActiveTuning] = useState(guitar.getStandardTuning());
@@ -64,8 +64,7 @@ const App = () => {
   }
 
   const onKeyNoteSelect = (keyNote: Note) => {
-    setActiveKey(new Key(keyNote, activeScale));
-    setActiveKeyNote(keyNote);
+    setActiveKey(new Key(keyNote, activeKey.scale));
   }
 
   const onInstrumentSelect = (instrument: IFrettedInstrument) => {
@@ -73,14 +72,11 @@ const App = () => {
   }
 
   const onScaleSelect = (scale: Scale) => {
-    setActiveKey(new Key(activeKeyNote, scale));
-    setActiveScale(scale);
+    setActiveKey(new Key(activeKey.note, scale));
   }
 
   const updateKey = (key: Key) => {
     setActiveKey(new Key(key.note, key.scale));
-    setActiveScale(key.scale);
-    setActiveKeyNote(key.note);
   }
 
   const setInstrumentTuning = (
@@ -96,9 +92,6 @@ const App = () => {
 
     instrument.fretBoard.setStringTuningNote(stringID, newTuning);
     const newActiveTuning = checkActiveTuning();
-
-    // TODO: hella shit
-    setInstruments(instruments);
 
     setActiveTuning(newActiveTuning);
   }
@@ -128,10 +121,6 @@ const App = () => {
     fretBoard.tunedStrings.forEach((tunedString, index) => 
       fretBoard.setStringTuningNote(tunedString.id, tuning.notes[index])
     )
-    
-    // TODO: hella shit
-    setInstruments(instruments);
-
     setActiveTuning(tuning);
   }
 
@@ -149,22 +138,20 @@ const App = () => {
       case "scalebook": {
         tool = (
           <Scalebook
-            activeScale={activeScale}
+            activeInstrument={activeInstrument}
+            activeKey={activeKey}
             activeTuning={activeTuning}
             temperament={activeTemperament}
-            keyNote={activeKeyNote}
-            activeKey={activeKey}
             instruments={instruments}
-            activeInstrument={activeInstrument}
             isRainbowMode={isRainbowMode}
-            toggleRainbowMode={toggleRainbowMode}
-            onKeyNoteSelect={onKeyNoteSelect}
             onInstrumentSelect={onInstrumentSelect}
-            onScaleSelect={onScaleSelect}
-            updateKey={updateKey}
             onInstrumentTune={onInstrumentTune}
             onInstrumentTuneToPreset={onInstrumentTuneToPreset}
+            onKeyNoteSelect={onKeyNoteSelect}
+            onScaleSelect={onScaleSelect}
+            toggleRainbowMode={toggleRainbowMode}
             theme={theme}
+            updateKey={updateKey}
           />
         );
         break;

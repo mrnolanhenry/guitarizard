@@ -18,11 +18,9 @@ import { Tuning } from "note-lib/src/Tuning";
 interface IScalebookProps {
   activeInstrument: IFrettedInstrument;
   activeKey: Key;
-  activeScale: Scale;
   activeTuning: Tuning;  
   instruments: Map<string, IFrettedInstrument>;
   isRainbowMode: boolean;
-  keyNote: Note;
   onInstrumentSelect: (instrument: IFrettedInstrument) => void;
   onInstrumentTune: (
     instrumentName: string,
@@ -44,11 +42,9 @@ const Scalebook = (props: IScalebookProps) => {
   const {
     activeInstrument,
     activeKey,
-    activeScale,
     activeTuning,
     instruments,
     isRainbowMode,
-    keyNote,
     onInstrumentSelect,
     onInstrumentTune,
     onInstrumentTuneToPreset,
@@ -64,15 +60,15 @@ const Scalebook = (props: IScalebookProps) => {
   };
 
   const instrument: IFrettedInstrument = activeInstrument;
+  const activeKeyNote: Note = activeKey.note;
+  const activeScale: Scale = activeKey.scale;
 
   const instrumentComponent = instrument ? (
     <Instrument
-      instrument={instrument}
       activeKey={activeKey}
-      keyNote={keyNote}
-      scale={activeScale}
-      onTune={onInstrumentTune}
+      instrument={instrument}
       isRainbowMode={isRainbowMode}
+      onTune={onInstrumentTune}
       theme={theme}
     />
   ) : <></>;
@@ -81,26 +77,26 @@ const Scalebook = (props: IScalebookProps) => {
     <div className="scalebook">
       <div className="settings-bar" style={settingsBarStyle}>
         <InstrumentSelector
-          label="Instrument:"
           activeInstrument={activeInstrument}
           instruments={instruments}
+          label="Instrument:"
           onInstrumentSelect={onInstrumentSelect}
           theme={theme}
         />
 
         <CommonTuningSelector
-          label="Common Tunings:"
           activeInstrument={activeInstrument}
           activeTuning={activeTuning}
+          label="Common Tunings:"
           onCommonTuningSelect={onInstrumentTuneToPreset}
           theme={theme}
         />
 
         <NoteSelector
           label="Key:"
-          temperament={temperament}
-          note={keyNote}
+          note={activeKeyNote}
           onNoteSelect={onKeyNoteSelect}
+          temperament={temperament}
           theme={theme}
         />
 
@@ -137,8 +133,8 @@ const Scalebook = (props: IScalebookProps) => {
       />
 
       <IntervalTable
-        scale={activeScale}
         isRainbowMode={isRainbowMode}
+        scale={activeScale}
         theme={theme}
       />
     </div>
