@@ -44,7 +44,7 @@ export class Bass {
     }
 
     const stringConfig = tuning.map(() => {
-      return { fret: { start: 0, end: fretCount } };
+      return { fret: { start: 0, end: fretCount - 1 } };
     });
 
     this.fretBoard = new FretBoard(twelveTET, tunedStrings, stringConfig);

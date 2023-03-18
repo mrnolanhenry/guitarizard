@@ -36,51 +36,18 @@ class App extends Component<Props, State> {
     const A: Note = twelveTET.getNoteFromID("A");
     const B: Note = twelveTET.getNoteFromID("B");
     const C: Note = twelveTET.getNoteFromID("C");
-    const Cs: Note = twelveTET.getNoteFromID("C#");
     const D: Note = twelveTET.getNoteFromID("D");
     const E: Note = twelveTET.getNoteFromID("E");
-    const F: Note = twelveTET.getNoteFromID("F");
-    const Fs: Note = twelveTET.getNoteFromID("F#");
     const G: Note = twelveTET.getNoteFromID("G");
-    const Gs: Note = twelveTET.getNoteFromID("G#");
 
     const instruments: InstrumentMap = new Map();
-    const guitar = new instrument.Guitar(
-      22,
-      ["E", "A", "D", "G", "B", "E"].map((noteID) =>
-        twelveTET.getNoteFromID(noteID)
-      )
-    );
-    const banjo = new instrument.Banjo(
-      22,
-      ["G", "D", "G", "B", "D"].map((noteID) =>
-        twelveTET.getNoteFromID(noteID)
-      )
-    );
-    const ukulele = new instrument.Ukulele(
-      20,
-      ["G", "C", "E", "A"].map((noteID) => twelveTET.getNoteFromID(noteID))
-    );
-    const fourStringBass = new instrument.Bass(
-      22,
-      ["E", "A", "D", "G"].map((noteID) => twelveTET.getNoteFromID(noteID))
-    );
-    const fiveStringBass = new instrument.Bass(
-      22,
-      ["B", "E", "A", "D", "G"].map((noteID) =>
-        twelveTET.getNoteFromID(noteID)
-      )
-    );
-    const sixStringBass = new instrument.Bass(
-      22,
-      ["B", "E", "A", "D", "G", "C"].map((noteID) =>
-        twelveTET.getNoteFromID(noteID)
-      )
-    );
-    const mandolin = new instrument.Mandolin(
-      17,
-      ["G", "D", "A", "E"].map((noteID) => twelveTET.getNoteFromID(noteID))
-    );
+    const guitar = new instrument.Guitar(21, [E, A, D, G, B, E]);
+    const banjo = new instrument.Banjo(21, [G, D, G, B, D]);
+    const ukulele = new instrument.Ukulele(20, [G, C, E, A]);
+    const fourStringBass = new instrument.Bass(21, [E, A, D, G]);
+    const fiveStringBass = new instrument.Bass(21, [B, E, A, D, G]);
+    const sixStringBass = new instrument.Bass(21, [B, E, A, D, G, C]);
+    const mandolin = new instrument.Mandolin(17, [G, D, A, E]);
 
     instruments.set("guitar", guitar);
     instruments.set("banjo", banjo);

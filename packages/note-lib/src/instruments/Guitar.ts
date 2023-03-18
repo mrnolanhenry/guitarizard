@@ -22,12 +22,12 @@ export class Guitar implements IFrettedInstrument{
     ];
 
     const stringConfig = [
-      { fret: { start: 0, end: fretCount } },
-      { fret: { start: 0, end: fretCount } },
-      { fret: { start: 0, end: fretCount } },
-      { fret: { start: 0, end: fretCount } },
-      { fret: { start: 0, end: fretCount } },
-      { fret: { start: 0, end: fretCount } },
+      { fret: { start: 0, end: fretCount - 1 } },
+      { fret: { start: 0, end: fretCount - 1 } },
+      { fret: { start: 0, end: fretCount - 1 } },
+      { fret: { start: 0, end: fretCount - 1 } },
+      { fret: { start: 0, end: fretCount - 1 } },
+      { fret: { start: 0, end: fretCount - 1 } },
     ];
 
     this.fretBoard = new FretBoard(twelveTET, tunedStrings, stringConfig);
