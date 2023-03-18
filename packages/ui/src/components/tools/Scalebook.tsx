@@ -34,8 +34,8 @@ interface IScalebookProps {
   ) => void;
   onKeyNoteSelect: (keyNote: Note) => void;
   onScaleSelect: (scale: Scale) => void;
-  onToggleNoteTable: boolean;
   onToggleIntervalTable: boolean;
+  onToggleNoteTable: boolean;
   temperament: Temperament;
   theme: Base16Theme;
   toggleRainbowMode: () => void;

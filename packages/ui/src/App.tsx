@@ -12,17 +12,17 @@ import { Constants } from "note-lib/src/constants/Constants"
 type InstrumentMap = Map<string, IFrettedInstrument>;
 
 interface State {
-  instruments: InstrumentMap;
+  activeKey: Key;
   activeInstrument: IFrettedInstrument;
   activeScale: Scale;
-  activeTuning: Tuning;
-  keyNote: Note;
-  activeKey: Key;
-  temperament: Temperament;
   activeToolName: ToolName;
+  activeTuning: Tuning;
+  instruments: InstrumentMap;
   isRainbowMode: boolean;
-  onToggleNoteTable: boolean;
+  keyNote: Note;
   onToggleIntervalTable: boolean;
+  onToggleNoteTable: boolean;
+  temperament: Temperament;
   theme: Base16Theme;
 }
 
