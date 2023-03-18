@@ -17,10 +17,13 @@ const initInstruments = (temperament: Temperament) => {
   const C: Note = temperament.getNoteFromID("C");
   const D: Note = temperament.getNoteFromID("D");
   const E: Note = temperament.getNoteFromID("E");
+  const Fs: Note = temperament.getNoteFromID("F#");
   const G: Note = temperament.getNoteFromID("G");
 
   const instrumentMap: InstrumentMap = new Map();
   const guitar = new instrument.Guitar(21, [E, A, D, G, B, E]);
+  const sevenStringGuitar = new instrument.Guitar(21, [B, E, A, D, G, B, E]);
+  const eightStringGuitar = new instrument.Guitar(21, [Fs, B, E, A, D, G, B, E]);
   const banjo = new instrument.Banjo(21, [G, D, G, B, D]);
   const ukulele = new instrument.Ukulele(20, [G, C, E, A]);
   const fourStringBass = new instrument.Bass(21, [E, A, D, G]);
@@ -29,9 +32,11 @@ const initInstruments = (temperament: Temperament) => {
   const mandolin = new instrument.Mandolin(17, [G, D, A, E]);
 
   instrumentMap.set("guitar", guitar);
+  instrumentMap.set("guitar (7 string)", sevenStringGuitar);
+  instrumentMap.set("guitar (8 string)", eightStringGuitar);
   instrumentMap.set("banjo", banjo);
   instrumentMap.set("ukulele",ukulele);
-  instrumentMap.set("bass (4 string)",fourStringBass);
+  instrumentMap.set("bass", fourStringBass);
   instrumentMap.set("bass (5 string)",fiveStringBass);
   instrumentMap.set("bass (6 string)",sixStringBass);
   instrumentMap.set("mandolin", mandolin);

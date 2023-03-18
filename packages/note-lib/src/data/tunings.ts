@@ -19,6 +19,7 @@ export const Tunings = [
   // -- Nolan
 
   // GUITAR
+  // 6-string
   new Tuning("guitar", "standard", [E, A, D, G, B, E]),
   new Tuning("guitar", "drop D", [D, A, D, G, B, E]),
   new Tuning("guitar", "open D", [D, A, D, Fs, A, D]),
@@ -28,13 +29,19 @@ export const Tunings = [
   new Tuning("guitar", "open A", [E, A, E, A, Cs, E]),
   new Tuning("guitar", "drop C", [C, G, C, F, A, D]),
 
+  // 7-string
+  new Tuning("guitar (7 string)", "standard", [B, E, A, D, G, B, E]),
+
+  // 8-string
+  new Tuning("guitar (8 string)", "standard", [Fs, B, E, A, D, G, B, E]),
+
   // BASS
   // 4-string
-  new Tuning("bass (4 string)", "standard", [E, A, D, G]),
-  new Tuning("bass (4 string)", "drop D", [D, A, D, G]),
-  new Tuning("bass (4 string)", "D-standard", [D, G, C, F]),
-  new Tuning("bass (4 string)", "drop C", [C, G, C, F]),
-  new Tuning("bass (4 string)", "tenor", [A, D, G, C]),
+  new Tuning("bass", "standard", [E, A, D, G]),
+  new Tuning("bass", "drop D", [D, A, D, G]),
+  new Tuning("bass", "D-standard", [D, G, C, F]),
+  new Tuning("bass", "drop C", [C, G, C, F]),
+  new Tuning("bass", "tenor", [A, D, G, C]),
 
   // 5-string
   new Tuning("bass (5 string)", "standard", [B, E, A, D, G]),

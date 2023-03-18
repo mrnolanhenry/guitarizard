@@ -2,7 +2,7 @@ import { twelveTET } from "../data/temperaments/twelveTET";
 import { FretBoard } from "../FretBoard";
 import { TunedString } from "../TunedString";
 import type { Note } from "../Note";
-import { getFrettedInstrumentCommonTunings, getFrettedInstrumentStandardTuning } from "../util";
+import { getDefaultStringConfig, getFrettedInstrumentCommonTunings, getFrettedInstrumentStandardTuning } from "../util";
 
 export class Bass {
   name: string;
@@ -11,7 +11,8 @@ export class Bass {
   constructor(fretCount: number, tuning: Note[]) {
     const stringCount = tuning.length;
 
-    this.name = `bass (${stringCount} string)`;
+    const instrumentName: string = stringCount === 4 ? "bass" : `bass (${stringCount} string)`;
+    this.name = instrumentName;
 
     let tunedStrings: TunedString[];
 
@@ -40,12 +41,10 @@ export class Bass {
         new TunedString("string-1", tuning[5], "metal", 1),
       ];
     } else {
-      throw `Invalid String length of ${stringCount} for Bass!`;
+      throw `Invalid String length of ${stringCount} for ${instrumentName}!`;
     }
 
-    const stringConfig = tuning.map(() => {
-      return { fret: { start: 0, end: fretCount - 1 } };
-    });
+    const stringConfig = getDefaultStringConfig(fretCount, tuning);
 
     this.fretBoard = new FretBoard(twelveTET, tunedStrings, stringConfig);
   }

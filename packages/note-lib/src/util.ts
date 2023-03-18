@@ -1,4 +1,5 @@
 import { Tunings } from "./data/tunings";
+import { Note } from "./Note";
 
 // Given an array with numeric values, sort them in ascending order.
 const sortArray = function (array: any[]) {
@@ -42,4 +43,8 @@ const getFrettedInstrumentStandardTuning = (name: string) => {
   return getFrettedInstrumentCommonTunings(name)[0];
 }
 
-export { getFrettedInstrumentCommonTunings, getFrettedInstrumentStandardTuning, isEqualArray1D, sortArray };
+const getDefaultStringConfig = (fretCount: number, tuning: Note[]) => tuning.map(() => {
+  return { fret: { start: 0, end: fretCount - 1 } };
+});
+
+export { getDefaultStringConfig, getFrettedInstrumentCommonTunings, getFrettedInstrumentStandardTuning, isEqualArray1D, sortArray };

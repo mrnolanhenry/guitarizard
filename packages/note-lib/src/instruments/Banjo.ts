@@ -11,8 +11,6 @@ export class Banjo {
   constructor(fretCount: number, tuning: Note[]) {
     this.name = "banjo";
 
-    // ["G", "D", "G", "B", "D"]
-
     const tunedStrings = [
       new TunedString("first-G-string", tuning[0], "metal", 0.11),
       new TunedString("first-D-string", tuning[1], "metal", 0.13),
