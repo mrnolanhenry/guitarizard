@@ -18,33 +18,33 @@ export class Guitar implements IFrettedInstrument{
 
     if (stringCount === 6) {
       tunedStrings = [
-      new TunedString("high-e-string", tuning[0], "metal", 6),
-      new TunedString("B-string", tuning[1], "metal", 5),
-      new TunedString("G-string", tuning[2], "metal", 4),
-      new TunedString("D-string", tuning[3], "metal", 3),
-      new TunedString("A-string", tuning[4], "metal", 2),
-      new TunedString("E-string", tuning[5], "metal", 1),
+      new TunedString("E-string", tuning[0], "metal", 6),
+      new TunedString("A-string", tuning[1], "metal", 5),
+      new TunedString("D-string", tuning[2], "metal", 4),
+      new TunedString("G-string", tuning[3], "metal", 3),
+      new TunedString("B-string", tuning[4], "metal", 2),
+      new TunedString("high-e-string", tuning[5], "metal", 1),
       ];
     } else if (stringCount === 7) {
       tunedStrings = [
-        new TunedString("high-e-string", tuning[0], "metal", 7),
-        new TunedString("B-string", tuning[1], "metal", 6),
-        new TunedString("G-string", tuning[2], "metal", 5),
+        new TunedString("low-B-string ", tuning[0], "metal", 7),
+        new TunedString("E-string", tuning[1], "metal", 6),
+        new TunedString("A-string", tuning[2], "metal", 5),
         new TunedString("D-string", tuning[3], "metal", 4),
-        new TunedString("A-string", tuning[4], "metal", 3),
-        new TunedString("E-string", tuning[5], "metal", 2),
-        new TunedString("low-B-string", tuning[6], "metal", 1),
+        new TunedString("G-string", tuning[4], "metal", 3),
+        new TunedString("B-string", tuning[5], "metal", 2),
+        new TunedString("high-e-string", tuning[6], "metal", 1),
       ];
     } else if (stringCount === 8) {
       tunedStrings = [
-        new TunedString("high-e-string", tuning[0], "metal", 8),
-        new TunedString("B-string", tuning[1], "metal", 7),
-        new TunedString("G-string", tuning[2], "metal", 6),
-        new TunedString("D-string", tuning[3], "metal", 5),
-        new TunedString("A-string", tuning[4], "metal", 4),
-        new TunedString("E-string", tuning[5], "metal", 3),
-        new TunedString("low-B-string", tuning[6], "metal", 2),
-        new TunedString("F-sharp-string", tuning[7], "metal", 1),
+        new TunedString("F-sharp-string", tuning[0], "metal", 8),
+        new TunedString("low-B-string", tuning[1], "metal", 7),
+        new TunedString("E-string", tuning[2], "metal", 6),
+        new TunedString("A-string", tuning[3], "metal", 5),
+        new TunedString("D-string", tuning[4], "metal", 4),
+        new TunedString("G-string", tuning[5], "metal", 3),
+        new TunedString("B-string", tuning[6], "metal", 2),
+        new TunedString("high-e-string", tuning[7], "metal", 1),
       ];
     }
      else {

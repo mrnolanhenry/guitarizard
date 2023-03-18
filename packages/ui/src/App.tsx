@@ -51,9 +51,9 @@ const App = () => {
     const instrumentMap = initInstruments(twelveTET);
     const [instruments, setInstruments] = useState(instrumentMap);
     const [activeKey, setActiveKey] = useState(new Key(initKeyNote, initScale));
-    const guitar = instruments.get("guitar") as IFrettedInstrument;
-    const [activeInstrument, setActiveInstrument] = useState(guitar);
-    const [activeTuning, setActiveTuning] = useState(guitar.getStandardTuning());
+    const initInstrument = instruments.get("guitar") as IFrettedInstrument;
+    const [activeInstrument, setActiveInstrument] = useState(initInstrument);
+    const [activeTuning, setActiveTuning] = useState(initInstrument.getStandardTuning());
     const [isRainbowMode, setIsRainbowMode] = useState(true);
     const [activeTemperament, setActiveTemperament] = useState(twelveTET);
     const [activeToolName, setActiveToolName] = useState("scalebook");
@@ -69,6 +69,9 @@ const App = () => {
 
   const onInstrumentSelect = (instrument: IFrettedInstrument) => {
     setActiveInstrument(instrument);
+    // Reset active tuning to the last tuning set on thie instrument selected.
+    const activeTuning = checkActiveTuning(instrument);
+    setActiveTuning(activeTuning);
   }
 
   const onScaleSelect = (scale: Scale) => {
@@ -80,35 +83,34 @@ const App = () => {
   }
 
   const setInstrumentTuning = (
-    instrumentName: string,
     stringID: string,
     newTuning: Note
   ) => {
-    const instrument = instruments.get(instrumentName);
+    const instrument = activeInstrument;
 
     if (typeof instrument === "undefined") {
       return;
     }
 
     instrument.fretBoard.setStringTuningNote(stringID, newTuning);
-    const newActiveTuning = checkActiveTuning();
+    const newActiveTuning = checkActiveTuning(activeInstrument);
 
     setActiveTuning(newActiveTuning);
   }
 
-  const checkActiveTuning = () => {
-    const activeTuningNotes = activeInstrument.fretBoard.tunedStrings.map(tunedString => tunedString.tuningNote)
-    const commonTunings = activeInstrument.getCommonTunings();
+  const checkActiveTuning = (instrument: IFrettedInstrument) => {
+    const tuningNotes = instrument.fretBoard.tunedStrings.map(tunedString => tunedString.tuningNote)
+    const commonTunings = instrument.getCommonTunings();
     const commonTuningMatch = commonTunings.find(tuning => {
       let isMatch = true;
       tuning.notes.forEach((note, index) => {
-        if (activeTuningNotes[index].id !== note.id) {
+        if (tuningNotes[index].id !== note.id) {
           isMatch = false;
         }
       });
       return isMatch;
     });
-    return commonTuningMatch ? commonTuningMatch : new Tuning(activeInstrument.name, Constants.CUSTOM, activeTuningNotes);
+    return commonTuningMatch ? commonTuningMatch : new Tuning(instrument.name, Constants.CUSTOM, tuningNotes);
   }
 
   const setInstrumentTuningToPreset = (tuning: Tuning) => {
@@ -124,8 +126,8 @@ const App = () => {
     setActiveTuning(tuning);
   }
 
-  const onInstrumentTune = (instrumentName: string, stringID: string, newTuning: Note) => {
-    return setInstrumentTuning(instrumentName, stringID, newTuning);
+  const onInstrumentTune = (stringID: string, newTuning: Note) => {
+    return setInstrumentTuning(stringID, newTuning);
   }
 
   const onInstrumentTuneToPreset = (tuning: Tuning) => {

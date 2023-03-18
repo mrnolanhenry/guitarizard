@@ -7,7 +7,7 @@ interface IInstrumentProps {
   activeKey: Key;
   instrument: IFrettedInstrument;
   isRainbowMode: boolean;
-  onTune: (instrumentName: string, stringID: string, newTuning: Note) => void;
+  onTune: (stringID: string, newTuning: Note) => void;
   theme: Base16Theme;
 }
 
@@ -24,7 +24,6 @@ const Instrument = (props: IInstrumentProps) => {
     <FretBoard
       activeKey={activeKey}
       fretBoard={instrument.fretBoard}
-      instrumentName={instrument.name}
       isRainbowMode={isRainbowMode}
       onTune={onTune}
       showFretBar={true}

@@ -18,10 +18,10 @@ export class Bass {
 
     if (stringCount === 4) {
       tunedStrings = [
-        new TunedString("string-4", tuning[0], "metal", 4),
-        new TunedString("string-3", tuning[1], "metal", 3),
-        new TunedString("string-2", tuning[2], "metal", 2),
-        new TunedString("string-1", tuning[3], "metal", 1),
+        new TunedString("E-string", tuning[0], "metal", 4),
+        new TunedString("A-string", tuning[1], "metal", 3),
+        new TunedString("D-string", tuning[2], "metal", 2),
+        new TunedString("G-string", tuning[3], "metal", 1),
       ];
     } else if (stringCount === 5) {
       tunedStrings = [
