@@ -89,7 +89,6 @@ const App = () => {
     courseId: string,
     newTuning: Note
   ) => {
-    console.log('courseId', courseId);
     const instrument = activeInstrument;
     const fretBoard = instrument.fretBoard;
 
