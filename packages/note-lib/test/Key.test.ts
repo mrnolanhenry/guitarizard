@@ -3,12 +3,20 @@ import { Note } from "../src/Note";
 import { Scale } from "../src/Scale";
 import {
   twelveTET,
-  notes as twelveTET_notes,
 } from "../src/data/temperaments/twelveTET";
 import { Key } from "../src/Key";
 
 // WIP - will finish test file once Key.js is finalized
 tap.test("class Key", function (t) {
+  const A = twelveTET.getNoteFromID("A");
+  const As = twelveTET.getNoteFromID("As");
+  const Bb = twelveTET.getNoteFromID("Bb");
+  const C = twelveTET.getNoteFromID("C");
+  const D = twelveTET.getNoteFromID("D");
+  const E = twelveTET.getNoteFromID("E");
+  const F = twelveTET.getNoteFromID("F");
+  const G = twelveTET.getNoteFromID("G");
+
   const lydianScale = new Scale(
     "lydian",
     twelveTET,
@@ -46,23 +54,23 @@ tap.test("class Key", function (t) {
     [0, 2, 3, 5, 7, 9, 10, 12]
   );
 
-  const BbLydian = new Key(twelveTET_notes.Bb, lydianScale);
-  const AsLydian = new Key(twelveTET_notes.As, lydianScale);
-  const ANeapolitanMinor = new Key(twelveTET_notes.A, neapolitanMinorScale);
-  const CMixolydian = new Key(twelveTET_notes.C, mixolydianScale);
-  const DAeolian = new Key(twelveTET_notes.D, aeolianScale);
-  const ELocrian = new Key(twelveTET_notes.E, locrianScale);
-  const FIonian = new Key(twelveTET_notes.F, ionianScale);
-  const FMajor = new Key(twelveTET_notes.F, majorScale);
-  const GDorian = new Key(twelveTET_notes.G, dorianScale);
+  const BbLydian = new Key(Bb, lydianScale);
+  const AsLydian = new Key(As, lydianScale);
+  const ANeapolitanMinor = new Key(A, neapolitanMinorScale);
+  const CMixolydian = new Key(C, mixolydianScale);
+  const DAeolian = new Key(D, aeolianScale);
+  const ELocrian = new Key(E, locrianScale);
+  const FIonian = new Key(F, ionianScale);
+  const FMajor = new Key(F, majorScale);
+  const GDorian = new Key(G, dorianScale);
 
   const BbLydianequivKeys = BbLydian.getEquivKeys();
   const AsLydianequivKeys = AsLydian.getEquivKeys();
 
   t.same(BbLydian.scale, lydianScale, "scale identified");
 
-  t.same(BbLydian.note, twelveTET_notes.Bb, "flat note identified");
-  t.same(AsLydian.note, twelveTET_notes.As, "sharp note identified");
+  t.same(BbLydian.note, Bb, "flat note identified");
+  t.same(AsLydian.note, As, "sharp note identified");
 
   t.same(
     BbLydianequivKeys[0],

@@ -1,13 +1,14 @@
 import tap from "tap";
+import { NotePitch } from "../src/enums/NotePitch";
 import { Note } from "../src/Note";
 
 tap.test("class Note", function (t) {
-  const Xs = new Note("X#", { isSharp: true });
-  const Yb = new Note("Yb", { isFlat: true });
+  const Xs = new Note("X#", NotePitch.Sharp);
+  const Yb = new Note("Yb", NotePitch.Flat);
 
-  const note = new Note("FOO-BAR", {}, [Xs, Yb]);
+  const note = new Note("FOO-BAR", NotePitch.Sharp, [Xs, Yb]);
 
-  const X = new Note("X", { isNatural: true });
+  const X = new Note("X", NotePitch.Flat);
 
   t.equal(note.id, "FOO-BAR", "note id should match");
 
@@ -18,8 +19,8 @@ tap.test("class Note", function (t) {
     {
       id: "FOO-BAR",
       aliasNotes: [
-        { id: "X#", attributes: { isSharp: true } },
-        { id: "Yb", attributes: { isFlat: true } },
+        { id: "X#", attributes: NotePitch.Sharp },
+        { id: "Yb", attributes: NotePitch.Flat },
       ],
       attributes: {},
     },
@@ -31,7 +32,7 @@ tap.test("class Note", function (t) {
 
   t.equal(note.isSimilar(Xs), true, "detect similar notes");
   t.equal(note.isSimilar(note), true, "detect similar (self)");
-  t.equal(note.isSimilar(new Note("Z")), false, "dismiss non-similar notes");
+  t.equal(note.isSimilar(new Note("Z", NotePitch.Neither)), false, "dismiss non-similar notes");
 
   t.equal(note.findSharp(), Xs, "find sharp note in aliases");
   t.equal(Xs.findSharp(), Xs, "return self if sharp");
@@ -51,13 +52,13 @@ tap.test("class Note", function (t) {
   t.equal(X.findFlatOrNatural(), X, "return natural note if no flat exists");
 
   t.equal(
-    note.findByAttribute("isSharp", true),
+    note.findByPitch(NotePitch.Sharp),
     Xs,
     "find by attribute, success"
   );
 
   t.equal(
-    Xs.findByAttribute("isSharp", true),
+    Xs.findByPitch(NotePitch.Sharp),
     Xs,
     "find by attribute, success (self)"
   );
