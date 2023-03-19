@@ -1,18 +1,19 @@
-import type { TunedString } from "./TunedString";
 import { NoteFretNumberPair } from "./NoteFretNumberPair";
 import { IStringConfig } from "./IStringConfig";
+import { TunedString } from "./TunedString";
+import { Course } from "./Course";
 
-export class StringScale {
-  tunedString: TunedString;
+export class ScaleOnCourse {
+  course: Course;
   config: IStringConfig;
   notes: NoteFretNumberPair[];
 
   constructor(
-    tunedString: TunedString,
+    course: Course,
     config: IStringConfig,
     notes: NoteFretNumberPair[]
   ) {
-    this.tunedString = tunedString;
+    this.course = course;
     this.config = config;
     this.notes = notes;
   }

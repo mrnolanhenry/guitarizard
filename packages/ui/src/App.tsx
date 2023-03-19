@@ -8,6 +8,7 @@ import { Key, Note, Scale, Temperament, instrument, data } from "note-lib";
 import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 import { Tuning } from "note-lib/src/Tuning";
 import { Constants } from "note-lib/src/constants/Constants";
+import { Course } from "note-lib/src/Course";
 
 type InstrumentMap = Map<string, IFrettedInstrument>;
 
@@ -24,6 +25,7 @@ const initInstruments = (temperament: Temperament) => {
   const guitar = new instrument.Guitar(21, [E, A, D, G, B, E]);
   const sevenStringGuitar = new instrument.Guitar(21, [B, E, A, D, G, B, E]);
   const eightStringGuitar = new instrument.Guitar(21, [Fs, B, E, A, D, G, B, E]);
+  const twelveStringGuitar = new instrument.Guitar(21, [E, A, D, G, B, E], true);
   const banjo = new instrument.Banjo(21, [G, D, G, B, D]);
   const ukulele = new instrument.Ukulele(20, [G, C, E, A]);
   const fourStringBass = new instrument.Bass(21, [E, A, D, G]);
@@ -34,6 +36,7 @@ const initInstruments = (temperament: Temperament) => {
   instrumentMap.set("guitar", guitar);
   instrumentMap.set("guitar (7 string)", sevenStringGuitar);
   instrumentMap.set("guitar (8 string)", eightStringGuitar);
+  instrumentMap.set("guitar (12 string)", twelveStringGuitar);
   instrumentMap.set("banjo", banjo);
   instrumentMap.set("ukulele",ukulele);
   instrumentMap.set("bass", fourStringBass);
@@ -83,23 +86,26 @@ const App = () => {
   }
 
   const setInstrumentTuning = (
-    stringID: string,
+    courseId: string,
     newTuning: Note
   ) => {
     const instrument = activeInstrument;
+    const fretBoard = instrument.fretBoard;
 
     if (typeof instrument === "undefined") {
       return;
     }
 
-    instrument.fretBoard.setStringTuningNote(stringID, newTuning);
+    const courseSelected: Course = fretBoard.courses.find(course => course.id === courseId) as Course;
+    fretBoard.setCourseTuningNote(courseSelected.id, newTuning)
     const newActiveTuning = checkActiveTuning(activeInstrument);
 
     setActiveTuning(newActiveTuning);
   }
 
   const checkActiveTuning = (instrument: IFrettedInstrument) => {
-    const tuningNotes = instrument.fretBoard.tunedStrings.map(tunedString => tunedString.tuningNote)
+    const tuningNotes = instrument.fretBoard.courses.map(course => course.tunedStrings[0].tuningNote);
+    // const tuningNotes = instrument.fretBoard.tunedStrings.map(tunedString => tunedString.tuningNote);
     const commonTunings = instrument.getCommonTunings();
     const commonTuningMatch = commonTunings.find(tuning => {
       let isMatch = true;
@@ -120,14 +126,14 @@ const App = () => {
     if (typeof instrument === "undefined") {
       return;
     }
-    fretBoard.tunedStrings.forEach((tunedString, index) => 
-      fretBoard.setStringTuningNote(tunedString.id, tuning.notes[index])
+    fretBoard.courses.forEach((course, index) => 
+      fretBoard.setCourseTuningNote(course.id, tuning.notes[index])
     )
     setActiveTuning(tuning);
   }
 
-  const onInstrumentTune = (stringID: string, newTuning: Note) => {
-    return setInstrumentTuning(stringID, newTuning);
+  const onInstrumentTune = (courseId: string, newTuning: Note) => {
+    return setInstrumentTuning(courseId, newTuning);
   }
 
   const onInstrumentTuneToPreset = (tuning: Tuning) => {

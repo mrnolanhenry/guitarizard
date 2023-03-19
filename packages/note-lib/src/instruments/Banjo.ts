@@ -3,6 +3,7 @@ import { FretBoard } from "../FretBoard";
 import { TunedString } from "../TunedString";
 import type { Note } from "../Note";
 import { getFrettedInstrumentCommonTunings, getFrettedInstrumentStandardTuning } from "../util";
+import { Course } from "../Course";
 
 export class Banjo {
   name: string;
@@ -11,12 +12,12 @@ export class Banjo {
   constructor(fretCount: number, tuning: Note[]) {
     this.name = "banjo";
 
-    const tunedStrings = [
-      new TunedString("first-G-string", tuning[0], "metal", 0.11),
-      new TunedString("first-D-string", tuning[1], "metal", 0.13),
-      new TunedString("second-G-string", tuning[2], "metal", 0.17),
-      new TunedString("B-string", tuning[3], "metal", 0.26),
-      new TunedString("second-D-string", tuning[4], "metal", 0.11),
+    const courses: Course[] = [
+      new Course("first-G-string", [new TunedString("first-G-string", tuning[0], "metal", 0.11)]),
+      new Course("first-D-string", [new TunedString("first-D-string", tuning[1], "metal", 0.13)]),
+      new Course("second-G-string", [new TunedString("second-G-string", tuning[2], "metal", 0.17)]),
+      new Course("B-string", [new TunedString("B-string", tuning[3], "metal", 0.26)]),
+      new Course("second-D-string", [new TunedString("second-D-string", tuning[4], "metal", 0.11)]),
     ];
 
     const stringConfig = [
@@ -27,7 +28,7 @@ export class Banjo {
       { fret: { start: 0, end: fretCount - 1 } },
     ];
 
-    this.fretBoard = new FretBoard(twelveTET, tunedStrings, stringConfig);
+    this.fretBoard = new FretBoard(twelveTET, courses, stringConfig);
   }
 
   getCommonTunings = () => getFrettedInstrumentCommonTunings(this.name);

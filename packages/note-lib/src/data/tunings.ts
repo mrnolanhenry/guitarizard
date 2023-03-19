@@ -35,6 +35,16 @@ export const Tunings = [
   // 8-string
   new Tuning("guitar (8 string)", "standard", [Fs, B, E, A, D, G, B, E]),
 
+  // 12-string
+  new Tuning("guitar (12 string)", "standard", [E, A, D, G, B, E]),
+  new Tuning("guitar (12 string)", "drop D", [D, A, D, G, B, E]),
+  new Tuning("guitar (12 string)", "open D", [D, A, D, Fs, A, D]),
+  new Tuning("guitar (12 string)", "DADGAD", [D, A, D, G, A, D]),
+  new Tuning("guitar (12 string)", "open G", [D, G, D, G, B, D]),
+  new Tuning("guitar (12 string)", "open E", [E, B, E, Gs, B, E]),
+  new Tuning("guitar (12 string)", "open A", [E, A, E, A, Cs, E]),
+  new Tuning("guitar (12 string)", "drop C", [C, G, C, F, A, D]),
+
   // BASS
   // 4-string
   new Tuning("bass", "standard", [E, A, D, G]),
