@@ -3,7 +3,7 @@ import type { TunedString } from "./TunedString";
 import { Course } from "./Course";
 import { Note } from "./Note";
 import type { Scale } from "./Scale";
-import { StringScale } from "./StringScale";
+import { ScaleOnCourse } from "./ScaleOnCourse";
 import { IStringConfig } from "./IStringConfig";
 import { NotePitch } from "./enums/NotePitch";
 
@@ -77,55 +77,31 @@ export class FretBoard {
   /**
    *
    */
-  getNotes() {
-    // return this.tunedStrings.map((tunedString, i) => {
-    //   const config = this.stringConfig[i];
-
-    //   const fret = config.fret;
-    //   const fretSpan = fret.end - fret.start;
-
-    //   const notesOnString = tunedString.getFrettedNotes(
-    //     this.temperament,
-    //     fretSpan
-    //   );
-
-    //   const notes = notesOnString.map((note, offset) => ({
-    //     fretNumber: fret.start + offset,
-    //     value: note,
-    //   }));
-
-    //   return { tunedString, config, notes };
-    // });
-
-    let allNotes = [];
-    this.courses.map((course, i) => {
+  getNotes(): ScaleOnCourse[] {
+    return this.courses.map((course, i) => {
       const config = this.stringConfig[i];
 
       const fret = config.fret;
       const fretSpan = fret.end - fret.start;
-      course.tunedStrings.forEach(tunedString => {
-      const notesOnString = tunedString.getFrettedNotes(
+      const notesOnString = course.tunedStrings[0].getFrettedNotes(
         this.temperament,
         fretSpan
-      );
+      )
 
       const notes = notesOnString.map((note, offset) => ({
         fretNumber: fret.start + offset,
         value: note,
       }));
 
-      allNotes.push({ tunedString, config, notes });
-      });
+      return { course, config, notes };
     });
-    return allNotes;
   }
 
   // same result as `getNotes`, but the notes are filtered
   // out according to the scale given. EG. A chromatic
   // scale will always equal the output of `getNotes`
-  getNotesInScale(scale: Scale, keyNote: Note): StringScale[] {
+  getNotesInScale(scale: Scale, keyNote: Note): ScaleOnCourse[] {
     const keyNotes = scale.getNotesInKey(keyNote);
-
     return this.getNotes().map((string) => {
       // filter out any notes that don't exist
       // in the `keyNotes` array
@@ -149,7 +125,7 @@ export class FretBoard {
       });
 
       return {
-        tunedString: string.tunedString,
+        course: string.course,
         config: string.config,
         notes: tunedFretNotes,
       };

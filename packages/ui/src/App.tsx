@@ -98,7 +98,6 @@ const App = () => {
 
     const courseSelected: Course = fretBoard.courses.find(course => course.id === courseId) as Course;
     fretBoard.setCourseTuningNote(courseSelected.id, newTuning)
-    // fretBoard.setCourseTuningNote(courseId, newTuning);
     const newActiveTuning = checkActiveTuning(activeInstrument);
 
     setActiveTuning(newActiveTuning);

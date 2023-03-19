@@ -4,6 +4,8 @@ import { FretBoard as Fretboard } from "../../../note-lib/src/FretBoard";
 import { Base16Theme } from "../colors/themes";
 import { FretSegment } from "./FretSegment";
 import { NoteSelector } from "./selectors/NoteSelector";
+import { ScaleOnCourse } from "note-lib/src/ScaleOnCourse";
+import { TunedString } from "note-lib/src/TunedString";
 
 interface IFretBoardProps {
   activeKey: Key;
@@ -68,45 +70,51 @@ const FretBoard = (props: IFretBoardProps) => {
 
   const stringStyle = { borderColor: theme.base09 };
 
-  const stringScales = fretBoard.getNotesInScale(
+  const scalesOnCourses: ScaleOnCourse[] = fretBoard.getNotesInScale(
     activeKey.scale,
     activeKey.note
   );
 
   const boardStyle = { backgroundColor: theme.base0F };
 
-  const strings = stringScales.map((stringScale, idx) => {
-    const fretSegments = [...Array(fretBoard.getFretCount())].map(
-      (_, i) => {
-        // TODO: this is a terrible key
-        return (
-          <FretSegment
-            key={`${i}:${Math.random()}`}
-            activeKey={activeKey}
-            stringScale={stringScale}
-            fret={i}
-            isRainbowMode={isRainbowMode}
-            theme={theme}
-          />
-        );
-      }
-    );
+  const courses = scalesOnCourses.map((scaleOnCourse, courseIndex) => {
+    const tunedStrings: TunedString[] = scaleOnCourse.course.tunedStrings;
+    return tunedStrings.map((tunedString, stringIndex) => {
+      // only want to return true for this if there are multiple strings in 1 course
+      // and it is the last string in the course
+      // const isLastStringInCourse: boolean = !!(stringIndex) && stringIndex === tunedStrings.length - 1;
+      // const lastStringStyle = {paddingTop: ".5em"};
+      const fretSegments = [...Array(fretBoard.getFretCount())].map(
+        (_, i) => {
+          return (
+            <FretSegment
+              activeKey={activeKey}
+              fret={i}
+              key={`fret-segment-${courseIndex}-${stringIndex}-${i}`}
+              isRainbowMode={isRainbowMode}
+              scaleOnCourse={scaleOnCourse}
+              // style={isLastStringInCourse ? lastStringStyle : {}}
+              theme={theme}
+            />
+          );
+        }
+      );
 
-    // TODO: this is a terrible key
-    return (
-      <div
-        key={`${idx}:${Math.random()}`}
-        className="string"
-        style={stringStyle}
-      >
-        {fretSegments}
-      </div>
-    );
+      return (
+        <div
+          className="string"
+          key={`string-${courseIndex}-${stringIndex}`}
+          style={stringStyle}
+        >
+          {fretSegments}
+        </div>
+      );
+    });
   });
 
   const board = (
     <div className="board" style={boardStyle}>
-      {strings}
+      {courses}
     </div>
   );
 
