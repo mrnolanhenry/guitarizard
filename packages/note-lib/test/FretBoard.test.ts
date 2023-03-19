@@ -16,6 +16,7 @@ const Bb = twelveTET.getNoteFromID("Bb");
 const B = twelveTET.getNoteFromID("B");
 const C = twelveTET.getNoteFromID("C");
 const Cs = twelveTET.getNoteFromID("C#");
+const Db = twelveTET.getNoteFromID("Db");
 const D = twelveTET.getNoteFromID("D");
 const Eb = twelveTET.getNoteFromID("Eb");
 const E = twelveTET.getNoteFromID("E");
@@ -114,13 +115,13 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
   ]);
 
   t.same(
-    stubbyBoard.getNotesInScale(chromatic, new Note("A")),
-    stubbyBoard.getNotesInScale(chromatic, new Note("B")),
+    stubbyBoard.getNotesInScale(chromatic, new Note("A", NotePitch.Neither)),
+    stubbyBoard.getNotesInScale(chromatic, new Note("B", NotePitch.Neither)),
     "chromatic scale does not change based on key"
   );
 
   t.same(
-    stubbyBoard.getNotesInScale(chromatic, new Note("A")),
+    stubbyBoard.getNotesInScale(chromatic, new Note("A", NotePitch.Neither)),
     stubbyBoard.getNotes(),
     "chromatic scale is the same as `getNotes()`"
   );
@@ -128,7 +129,7 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
   const blues = new Scale("blues", twelveTET, [0, 3, 5, 6, 7, 10, 12]);
 
   t.same(
-    stubbyBoard.getNotesInScale(blues, new Note("A")),
+    stubbyBoard.getNotesInScale(blues, new Note("A", NotePitch.Neither)),
     [
       {
         course: courses[0],
@@ -153,7 +154,7 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
   );
 
   t.same(
-    stubbyBoard.getNotesInScale(blues, new Note("F#", { isSharp: true })),
+    stubbyBoard.getNotesInScale(blues, new Note("F#", NotePitch.Sharp)),
     [
       {
         course: courses[0],
@@ -183,8 +184,8 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
 
 tap.test("class FretBoard --- toJSON / valueOf / toString", function (t) {
   const courses = [
-    new TunedString("0", E, "metal", 0.254),
-    new TunedString("1", A, "metal", 0.3302),
+    new Course("0", [new TunedString("0", E, "metal", 0.254)]),
+    new Course("1", [new TunedString("1", A, "metal", 0.3302)]),
   ];
 
   const stringConfig = [
@@ -212,8 +213,8 @@ tap.test("class FretBoard --- toJSON / valueOf / toString", function (t) {
 
 tap.test("setStringTuningNote()", (t) => {
   const courses = [
-    new TunedString("x", E, "metal", 0.254),
-    new TunedString("y", A, "metal", 0.3302),
+    new Course("x", [new TunedString("x", E, "metal", 0.254)]),
+    new Course("y", [new TunedString("y", A, "metal", 0.3302)]),
   ];
 
   const stringConfig = [
@@ -223,21 +224,21 @@ tap.test("setStringTuningNote()", (t) => {
 
   const stubbyBoard = new FretBoard(twelveTET, courses, stringConfig);
 
-  t.equal(stubbyBoard.courses[0].tuningNote, E);
-  t.equal(stubbyBoard.courses[1].tuningNote, A);
+  t.equal(stubbyBoard.courses[0].tunedStrings[0].tuningNote, E);
+  t.equal(stubbyBoard.courses[1].tunedStrings[0].tuningNote, A);
 
-  stubbyBoard.setStringTuningNote("x", C);
+  stubbyBoard.setCourseTuningNote("x", C);
 
-  t.equal(stubbyBoard.courses[0].tuningNote, C);
-  t.equal(stubbyBoard.courses[1].tuningNote, A);
+  t.equal(stubbyBoard.courses[0].tunedStrings[0].tuningNote, C);
+  t.equal(stubbyBoard.courses[1].tunedStrings[0].tuningNote, A);
 
   t.end();
 });
 
 tap.test("getFretCount()", (t) => {
   const courses = [
-    new TunedString("x", E, "metal", 0.254),
-    new TunedString("y", A, "metal", 0.3302),
+    new Course("x", [new TunedString("x", E, "metal", 0.254)]),
+    new Course("y", [new TunedString("y", A, "metal", 0.3302)]),
   ];
 
   const stringConfig = [
