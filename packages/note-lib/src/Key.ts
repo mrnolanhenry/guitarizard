@@ -3,6 +3,7 @@ import { Scale } from "./Scale";
 
 import Scales from "./data/scales";
 import * as util from "./util";
+import { isEqual } from "lodash";
 
 export class Key {
   note: Note;
@@ -50,7 +51,7 @@ export class Key {
           util.sortArray(newScaleArray);
 
           // Check if arrays are equal after having sorted the newScale
-          if (util.isEqualArray1D(scaleArray, newScaleArray)) {
+          if (isEqual(scaleArray, newScaleArray)) {
             let key = new Key(this.scale.temperament.notes[j], Scales[k]);
             equivKeys.push(key);
           }

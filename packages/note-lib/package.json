@@ -34,5 +34,8 @@
     ],
     "coverage": false,
     "ts": false
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
   }
 }
