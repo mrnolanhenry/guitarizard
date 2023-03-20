@@ -13,7 +13,7 @@ tap.test("class TunedString", function (t) {
 
   const B = new Note("B", NotePitch.Neither);
 
-  const smallTwelveTET = new Temperament("small", [A, As, B]);
+  const smallTwelveTET = new Temperament("small", [A, Bb, B]);
 
   const AString = new TunedString("A", A, "catgut", 0.2);
 
