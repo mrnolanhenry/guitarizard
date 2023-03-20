@@ -3,7 +3,9 @@ import { Scale } from "./Scale";
 
 import Scales from "./data/scales";
 import * as util from "./util";
-import { isEqual } from "lodash";
+import lodash from "lodash";
+
+const { isEqual } = lodash;
 
 export class Key {
   note: Note;
