@@ -20,7 +20,7 @@ const InstrumentSelector = (props: IInstrumentSelectorProps) => {
   } = props;
   let activeItem: FrettedInstrument = activeInstrument;
 
-  const items: Array<FrettedInstrument> = [];
+  const items: FrettedInstrument[] = [];
   instruments.forEach((instrument) => {
     if (
       typeof activeInstrument.name !== "undefined" &&

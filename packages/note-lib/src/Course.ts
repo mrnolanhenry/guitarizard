@@ -1,5 +1,3 @@
-import type { Note } from "./Note";
-import type { Temperament } from "./Temperament";
 import { TunedString } from "./TunedString";
 
 /**

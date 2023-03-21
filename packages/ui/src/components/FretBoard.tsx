@@ -1,4 +1,5 @@
 import "./FretBoard.css";
+import { CSSProperties } from "react";
 import { Key, Note } from "note-lib";
 import { FretBoard as Fretboard } from "../../../note-lib/src/FretBoard";
 import { Base16Theme } from "../colors/themes";
@@ -25,7 +26,7 @@ const FretBoard = (props: IFretBoardProps) => {
     showFretBar, 
     theme 
   } = props;
-  const fretBarStyle = {
+  const fretBarStyle: CSSProperties = {
     backgroundColor: theme.base00,
     borderColor: theme.base01,
   };
@@ -43,7 +44,7 @@ const FretBoard = (props: IFretBoardProps) => {
     </div>
   );
 
-  const tuningPegsStyle = {
+  const tuningPegsStyle: CSSProperties = {
     backgroundColor: theme.base07,
     color: theme.base04,
     borderColor: theme.base03,
@@ -68,14 +69,13 @@ const FretBoard = (props: IFretBoardProps) => {
     </div>
   );
 
-  const stringStyle = { borderColor: theme.base09 };
+  const stringStyle: CSSProperties = { borderColor: theme.base09 };
+  const boardStyle: CSSProperties = { backgroundColor: theme.base0F };
 
   const scalesOnCourses: ScaleOnCourse[] = fretBoard.getNotesInScale(
     activeKey.scale,
     activeKey.note
   );
-
-  const boardStyle = { backgroundColor: theme.base0F };
 
   const courses = scalesOnCourses.map((scaleOnCourse, courseIndex) => {
     const tunedStrings: TunedString[] = scaleOnCourse.course.tunedStrings;
@@ -118,7 +118,7 @@ const FretBoard = (props: IFretBoardProps) => {
     </div>
   );
 
-  const style = {
+  const style: CSSProperties = {
     backgroundColor: theme.base00,
     borderColor: theme.base00,
   };

@@ -21,7 +21,7 @@ const ToolSelector = (props: IToolSelectorProps) => {
       // TODO: Return to songbook
       // items={["scalebook", "songbook"]}
       activeItem={activeToolName}
-      onChange={(v) => onToolSelect(v as ToolName)}
+      onChange={(v: ToolName) => onToolSelect(v)}
       theme={theme}
     />
   );

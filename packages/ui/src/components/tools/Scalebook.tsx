@@ -1,5 +1,6 @@
 import "./Scalebook.css";
-import { Key, Note, Scale, Temperament, instrument } from "note-lib";
+import { CSSProperties } from "react";
+import { Key, Note, Scale, Temperament } from "note-lib";
 import { Base16Theme } from "../../colors/themes";
 import { InstrumentSelector } from "../selectors/InstrumentSelector";
 import { NoteSelector } from "../selectors/NoteSelector";
@@ -52,7 +53,7 @@ const Scalebook = (props: IScalebookProps) => {
     toggleRainbowMode,
     updateKey,
   } = props;
-  const settingsBarStyle = {
+  const settingsBarStyle: CSSProperties = {
     backgroundColor: theme.base01,
   };
 

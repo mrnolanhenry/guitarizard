@@ -36,11 +36,11 @@ const IntervalTable = (props: IIntervalTableProps) => {
     isRainbowMode: boolean,
     intervalStyle: CSSProperties,
     interval: Interval
-  ) => {
+    ): CSSProperties => {
     let intervalTextStyle: CSSProperties = intervalStyle;
 
     if (isRainbowMode) {
-      const semitoneColor = rainbow[interval.semitones];
+      const semitoneColor: string = rainbow[interval.semitones];
 
       if (semitoneColor) {
         intervalTextStyle = {
@@ -55,7 +55,7 @@ const IntervalTable = (props: IIntervalTableProps) => {
   const displayIntervalProperty = (
     interval: Interval,
     rowLabel: string
-  ): string => {
+    ): string => {
     switch (rowLabel) {
       case "Semitones:":
         return interval.semitones.toString();

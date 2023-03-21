@@ -1,12 +1,10 @@
 import type { Temperament } from "./Temperament";
-import type { TunedString } from "./TunedString";
 import { Course } from "./Course";
 import { Note } from "./Note";
 import type { Scale } from "./Scale";
 import { ScaleOnCourse } from "./ScaleOnCourse";
 import { IStringConfig } from "./IStringConfig";
 import { NotePitch } from "./enums/NotePitch";
-
 
 export class FretBoard {
   temperament: Temperament;
@@ -46,7 +44,7 @@ export class FretBoard {
   /**
    * calculate fretCount as the longest given bound
    */
-  getFretCount() {
+  getFretCount(): number {
     return this.stringConfig.reduce((max, config) => {
       return config.fret.end > max ? config.fret.end : max;
     }, 0);
@@ -55,7 +53,7 @@ export class FretBoard {
   /**
    * Set a single string's tuning on this fretboard
    */
-  setCourseTuningNote(courseId: string, tuningNote: Note) {
+  setCourseTuningNote(courseId: string, tuningNote: Note): void {
     this.courses = this.courses.map(course => {
       if (course.id === courseId) {
         course.tunedStrings.forEach(tunedString => {
@@ -64,14 +62,6 @@ export class FretBoard {
       }
     return course;
     })
-
-    // this.tunedStrings = this.tunedStrings.map((tunedString) => {
-    //   if (tunedString.id === tunedStringID) {
-    //     tunedString.setTuningNote(tuningNote);
-    //   }
-
-    //   return tunedString;
-    // });
   }
 
   /**

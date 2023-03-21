@@ -22,7 +22,6 @@ export class Banjo extends FrettedInstrument {
       new Course("second-D-string", [new TunedString("second-D-string", tuning[4], "metal", 0.11)]),
     ];
 
-
     const stringConfig: IStringConfig[] = [
       { fret: { start: 5, end: fretCount - 1 } },
       { fret: { start: 0, end: fretCount - 1 } },

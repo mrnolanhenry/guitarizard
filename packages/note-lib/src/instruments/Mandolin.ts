@@ -34,7 +34,6 @@ export class Mandolin extends FrettedInstrument{
       new TunedString("E-string-2", tuning[3], "metal", 1),
     ]);
 
-
     const courses: Course[] = [
       course1,
       course2,

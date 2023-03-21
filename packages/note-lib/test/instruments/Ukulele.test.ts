@@ -1,17 +1,18 @@
 import tap from "tap";
+import { Note } from "../../src";
 import {
   twelveTET,
 } from "../../src/data/temperaments/twelveTET";
 import { Ukulele } from "../../src/instruments/Ukulele";
 import { Tuning } from "../../src/Tuning";
 
-const A = twelveTET.getNoteFromID("A");
-const B = twelveTET.getNoteFromID("B");
-const C = twelveTET.getNoteFromID("C");
-const D = twelveTET.getNoteFromID("D");
-const E = twelveTET.getNoteFromID("E");
-const Fs = twelveTET.getNoteFromID("F#");
-const G = twelveTET.getNoteFromID("G");
+const A: Note = twelveTET.getNoteFromID("A");
+const B: Note = twelveTET.getNoteFromID("B");
+const C: Note = twelveTET.getNoteFromID("C");
+const D: Note = twelveTET.getNoteFromID("D");
+const E: Note = twelveTET.getNoteFromID("E");
+const Fs: Note = twelveTET.getNoteFromID("F#");
+const G: Note = twelveTET.getNoteFromID("G");
 
 tap.test("class Ukulele -- init", function (t) {
   const defaultUkulele = new Ukulele(20, [G, C, E, A]);

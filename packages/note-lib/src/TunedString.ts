@@ -22,7 +22,7 @@ export class TunedString {
     this.gauge = gauge;
   }
 
-  setTuningNote(note: Note) {
+  setTuningNote(note: Note): void {
     this.tuningNote = note;
   }
 
@@ -31,11 +31,11 @@ export class TunedString {
    * return the notes associated with it up to
    * the given `fretSpan`
    */
-  getFrettedNotes(temperament: Temperament, fretSpan: number) {
-    const frettedNotes = [];
+  getFrettedNotes(temperament: Temperament, fretSpan: number): Note[] {
+    const frettedNotes: Note[] = [];
 
     for (let i = 0; i <= fretSpan; i++) {
-      const note = temperament.getNextNote(this.tuningNote, i);
+      const note: Note = temperament.getNextNote(this.tuningNote, i);
       frettedNotes.push(note);
     }
 

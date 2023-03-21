@@ -6,7 +6,7 @@ import { FrettedInstrument } from "./FrettedInstrument";
 import { Course } from "../Course";
 
 const getCourses = (tuning: Note[], isDoubledStrings: boolean): Course[] => {
-  const courseCount = tuning.length;
+  const courseCount: number = tuning.length;
   if (courseCount === 6) {
     if(!isDoubledStrings) {
       return [
@@ -18,33 +18,27 @@ const getCourses = (tuning: Note[], isDoubledStrings: boolean): Course[] => {
         new Course("high-e-string", [new TunedString("high-e-string", tuning[5], "metal", 1)]),
       ];
     } else {
-      const course1 = 
-        new Course("E-strings", [
+      const course1 = new Course("E-strings", [
           new TunedString("E-string", tuning[0], "metal", 6),
           new TunedString("E-string", tuning[0], "metal", 6)
       ]);
-      const course2 = 
-        new Course("A-strings", [
+      const course2 = new Course("A-strings", [
           new TunedString("A-string", tuning[1], "metal", 5),
           new TunedString("A-string", tuning[1], "metal", 5)
       ]);
-      const course3 = 
-        new Course("D-strings", [
+      const course3 = new Course("D-strings", [
           new TunedString("D-string", tuning[2], "metal", 4),
           new TunedString("D-string", tuning[2], "metal", 4)
       ]);
-      const course4 = 
-        new Course("G-strings", [
+      const course4 = new Course("G-strings", [
           new TunedString("G-string", tuning[3], "metal", 3),
           new TunedString("G-string", tuning[3], "metal", 3)
       ]);
-      const course5 = 
-        new Course("B-strings", [
+      const course5 = new Course("B-strings", [
           new TunedString("B-string", tuning[4], "metal", 2),
           new TunedString("B-string", tuning[4], "metal", 2)
       ]);
-      const course6 = 
-        new Course("high-E-strings", [
+      const course6 = new Course("high-E-strings", [
           new TunedString("high-E-string", tuning[5], "metal", 1),
           new TunedString("high-E-string", tuning[5], "metal", 1)
       ]);
@@ -86,7 +80,7 @@ const getCourses = (tuning: Note[], isDoubledStrings: boolean): Course[] => {
 }
 
 const getInstrumentName = (tuning: Note[], isDoubledStrings: boolean): string => {
-  const courseCount = tuning.length;
+  const courseCount: number = tuning.length;
   if (courseCount === 6) {
     if (!isDoubledStrings){ 
       return "guitar";
