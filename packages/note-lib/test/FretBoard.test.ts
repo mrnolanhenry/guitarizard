@@ -9,22 +9,21 @@ import { TunedString } from "../src/TunedString";
 import { FretBoard } from "../src/FretBoard";
 import { NotePitch } from "../src/enums/NotePitch";
 import { Course } from "../src/Course";
+import { IStringConfig } from "../src/IStringConfig";
 
-const A = twelveTET.getNoteFromID("A");
-const As = twelveTET.getNoteFromID("A#");
-const Bb = twelveTET.getNoteFromID("Bb");
-const B = twelveTET.getNoteFromID("B");
-const C = twelveTET.getNoteFromID("C");
-const Cs = twelveTET.getNoteFromID("C#");
-const Db = twelveTET.getNoteFromID("Db");
-const D = twelveTET.getNoteFromID("D");
-const Eb = twelveTET.getNoteFromID("Eb");
-const E = twelveTET.getNoteFromID("E");
-const F = twelveTET.getNoteFromID("F");
-const Fs = twelveTET.getNoteFromID("F#");
-const Gb = twelveTET.getNoteFromID("Gb");
-const G = twelveTET.getNoteFromID("G");
-const Ab = twelveTET.getNoteFromID("Ab");
+const A: Note = twelveTET.getNoteFromID("A");
+const Bb: Note = twelveTET.getNoteFromID("Bb");
+const B: Note = twelveTET.getNoteFromID("B");
+const C: Note = twelveTET.getNoteFromID("C");
+const Cs: Note = twelveTET.getNoteFromID("C#");
+const Db: Note = twelveTET.getNoteFromID("Db");
+const D: Note = twelveTET.getNoteFromID("D");
+const E: Note = twelveTET.getNoteFromID("E");
+const F: Note = twelveTET.getNoteFromID("F");
+const Fs: Note = twelveTET.getNoteFromID("F#");
+const Gb: Note = twelveTET.getNoteFromID("Gb");
+const G: Note = twelveTET.getNoteFromID("G");
+const Ab: Note = twelveTET.getNoteFromID("Ab");
 
 tap.test("class FretBoard --- init", function (t) {
   const system = new Temperament("test", [new Note("X", NotePitch.Neither), new Note("Y", NotePitch.Neither)]);
@@ -34,7 +33,7 @@ tap.test("class FretBoard --- init", function (t) {
     new Course("Y", [new TunedString("Y", new Note("Y", NotePitch.Neither), "metal", 0.33)]),
   ];
 
-  const stringConfig = [
+  const stringConfig: IStringConfig[] = [
     {
       fret: { start: 0, end: 2 },
     },
@@ -74,7 +73,7 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
     new Course("1", [new TunedString("1", A, "metal", 0.3302)]),
   ];
 
-  const stringConfig = [
+  const stringConfig: IStringConfig[] = [
     { fret: { start: 0, end: 5 } },
     { fret: { start: 0, end: 5 } },
   ];
@@ -188,7 +187,7 @@ tap.test("class FretBoard --- toJSON / valueOf / toString", function (t) {
     new Course("1", [new TunedString("1", A, "metal", 0.3302)]),
   ];
 
-  const stringConfig = [
+  const stringConfig: IStringConfig[] = [
     { fret: { start: 0, end: 5 } },
     { fret: { start: 0, end: 5 } },
   ];
@@ -217,7 +216,7 @@ tap.test("setCourseTuningNote()", (t) => {
     new Course("y", [new TunedString("y", A, "metal", 0.3302)]),
   ];
 
-  const stringConfig = [
+  const stringConfig: IStringConfig[] = [
     { fret: { start: 0, end: 5 } },
     { fret: { start: 0, end: 5 } },
   ];
@@ -241,7 +240,7 @@ tap.test("getFretCount()", (t) => {
     new Course("y", [new TunedString("y", A, "metal", 0.3302)]),
   ];
 
-  const stringConfig = [
+  const stringConfig: IStringConfig[] = [
     { fret: { start: 0, end: 5 } },
     { fret: { start: 0, end: 5 } },
   ];

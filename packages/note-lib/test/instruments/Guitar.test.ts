@@ -1,26 +1,21 @@
 import tap from "tap";
+import { Note } from "../../src";
 import {
   twelveTET,
 } from "../../src/data/temperaments/twelveTET";
 import { Guitar } from "../../src/instruments/Guitar";
 import { Tuning } from "../../src/Tuning";
 
-const A = twelveTET.getNoteFromID("A");
-const As = twelveTET.getNoteFromID("A#");
-const Bb = twelveTET.getNoteFromID("Bb");
-const B = twelveTET.getNoteFromID("B");
-const C = twelveTET.getNoteFromID("C");
-const Cs = twelveTET.getNoteFromID("C#");
-const Db = twelveTET.getNoteFromID("Db");
-const D = twelveTET.getNoteFromID("D");
-const Eb = twelveTET.getNoteFromID("Eb");
-const E = twelveTET.getNoteFromID("E");
-const F = twelveTET.getNoteFromID("F");
-const Fs = twelveTET.getNoteFromID("F#");
-const Gb = twelveTET.getNoteFromID("Gb");
-const G = twelveTET.getNoteFromID("G");
-const Gs = twelveTET.getNoteFromID("G#");
-const Ab = twelveTET.getNoteFromID("Ab");
+const A: Note = twelveTET.getNoteFromID("A");
+const B: Note = twelveTET.getNoteFromID("B");
+const C: Note = twelveTET.getNoteFromID("C");
+const Cs: Note = twelveTET.getNoteFromID("C#");
+const D: Note = twelveTET.getNoteFromID("D");
+const E: Note = twelveTET.getNoteFromID("E");
+const F: Note = twelveTET.getNoteFromID("F");
+const Fs: Note = twelveTET.getNoteFromID("F#");
+const G: Note = twelveTET.getNoteFromID("G");
+const Gs: Note = twelveTET.getNoteFromID("G#");
 
 tap.test("class Guitar -- init", function (t) {
   const defaultGuitar = new Guitar(21, [ E, A, D, G, B, E]);

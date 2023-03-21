@@ -18,18 +18,18 @@ export class Note {
     this.aliasNotes = aliasNotes || [];
   }
 
-  addAliasNote(note: Note) {
+  addAliasNote(note: Note): void {
     this.aliasNotes.push(note);
   }
 
-  isSimilar(note: Note) {
+  isSimilar(note: Note): boolean {
     // check the basics
     if (note.id === this.id) {
       return true;
     }
 
     // check aliases for a match
-    const aliasNote = this.aliasNotes.find((an) => an.id === note.id);
+    const aliasNote: Note | undefined = this.aliasNotes.find((an) => an.id === note.id);
 
     return !!aliasNote; // force into a bool type (undefined ==> false);
   }

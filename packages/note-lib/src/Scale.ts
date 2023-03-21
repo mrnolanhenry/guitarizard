@@ -28,12 +28,12 @@ export class Scale {
     );
   }
 
-  getNotesInKey(keyNote: Note) {
+  getNotesInKey(keyNote: Note): Note[] {
     // start the temperament at the correct note
-    const shiftedNotes = this.temperament.getShiftedNotes(keyNote);
+    const shiftedNotes: Note[] = this.temperament.getShiftedNotes(keyNote);
 
     // pull correct note aliases
-    const notes = shiftedNotes.map((note) => {
+    const notes: Note[] = shiftedNotes.map((note) => {
       if (keyNote.pitch === NotePitch.Sharp) {
         const sharpNote = note.findSharp();
         if (sharpNote) {
@@ -52,9 +52,9 @@ export class Scale {
 
   // Given a scale, return equivalent scales that have the same notes
   // e.g. the Ionian scale is exactly the same series of notes as the Major scale and Ethiopian (a raray) scale.
-  getEquivScales(scales: Scale[]) {
-    let equivScales = [];
-    let scaleLength = this.intervals.length;
+  getEquivScales(scales: Scale[]): Scale[] {
+    let equivScales: Scale[] = [];
+    let scaleLength: number = this.intervals.length;
 
     // Loop through each scale
     for (let i = 0; i < scales.length; i++) {

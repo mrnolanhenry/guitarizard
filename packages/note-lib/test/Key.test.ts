@@ -8,14 +8,14 @@ import { Key } from "../src/Key";
 
 // WIP - will finish test file once Key.ts is finalized
 tap.test("class Key", function (t) {
-  const A = twelveTET.getNoteFromID("A");
-  const As = twelveTET.getNoteFromID("A#");
-  const Bb = twelveTET.getNoteFromID("Bb");
-  const C = twelveTET.getNoteFromID("C");
-  const D = twelveTET.getNoteFromID("D");
-  const E = twelveTET.getNoteFromID("E");
-  const F = twelveTET.getNoteFromID("F");
-  const G = twelveTET.getNoteFromID("G");
+  const A: Note = twelveTET.getNoteFromID("A");
+  const As: Note = twelveTET.getNoteFromID("A#");
+  const Bb: Note = twelveTET.getNoteFromID("Bb");
+  const C: Note = twelveTET.getNoteFromID("C");
+  const D: Note = twelveTET.getNoteFromID("D");
+  const E: Note = twelveTET.getNoteFromID("E");
+  const F: Note = twelveTET.getNoteFromID("F");
+  const G: Note = twelveTET.getNoteFromID("G");
 
   const lydianScale = new Scale(
     "lydian",
@@ -100,8 +100,8 @@ tap.test("class Key", function (t) {
   const FMajor = new Key(F, majorScale);
   const GDorian = new Key(G, dorianScale);
 
-  const BbLydianequivKeys = BbLydian.getEquivKeys();
-  const AsLydianequivKeys = AsLydian.getEquivKeys();
+  const BbLydianEquivKeys: Key[] = BbLydian.getEquivKeys();
+  const AsLydianEquivKeys: Key[] = AsLydian.getEquivKeys();
 
   t.same(BbLydian.scale, lydianScale, "scale identified");
 
@@ -109,12 +109,12 @@ tap.test("class Key", function (t) {
   t.same(AsLydian.note, As, "sharp note identified");
 
   t.same(
-    BbLydianequivKeys[0],
+    BbLydianEquivKeys[0],
     ANeapolitanMinor,
     "equivalent key 0 identified given flat note"
   );
   t.same(
-    AsLydianequivKeys[0],
+    AsLydianEquivKeys[0],
     ANeapolitanMinor,
     "equivalent key 0 identified given sharp note"
   );

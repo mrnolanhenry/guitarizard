@@ -1,6 +1,5 @@
 import { NoteFretNumberPair } from "./NoteFretNumberPair";
 import { IStringConfig } from "./IStringConfig";
-import { TunedString } from "./TunedString";
 import { Course } from "./Course";
 
 export class ScaleOnCourse {

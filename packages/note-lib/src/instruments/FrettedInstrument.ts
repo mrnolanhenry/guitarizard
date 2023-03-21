@@ -5,7 +5,7 @@ import { Tunings } from "../data/tunings";
 import { IStringConfig } from "../IStringConfig";
 
 const getFrettedInstrumentCommonTunings = (name: string): Tuning[] => {
-    let commonTunings = [];
+    let commonTunings: Tuning[] = [];
     for (let i = 0; i < Tunings.length; i++) {
       if (Tunings[i].instrument === name) {
         commonTunings.push(Tunings[i]);
