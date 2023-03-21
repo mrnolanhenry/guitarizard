@@ -11,7 +11,7 @@ import { NotePitch } from "../src/enums/NotePitch";
 import { Course } from "../src/Course";
 
 const A = twelveTET.getNoteFromID("A");
-const As = twelveTET.getNoteFromID("As");
+const As = twelveTET.getNoteFromID("A#");
 const Bb = twelveTET.getNoteFromID("Bb");
 const B = twelveTET.getNoteFromID("B");
 const C = twelveTET.getNoteFromID("C");
@@ -161,7 +161,7 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
         config: stringConfig[0],
         notes: [
           { value: E, fretNumber: 0 },
-          { value: Fs, fretNumber: 2 },
+          { value: Fs.aliasNotes[0], fretNumber: 2 },
           { value: A, fretNumber: 5 },
         ],
       },
@@ -172,7 +172,7 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
           { value: A, fretNumber: 0 },
           { value: B, fretNumber: 2 },
           { value: C, fretNumber: 3 },
-          { value: Cs, fretNumber: 4 },
+          { value: Cs.aliasNotes[0], fretNumber: 4 },
         ],
       },
     ],
@@ -211,7 +211,7 @@ tap.test("class FretBoard --- toJSON / valueOf / toString", function (t) {
   t.end();
 });
 
-tap.test("setStringTuningNote()", (t) => {
+tap.test("setCourseTuningNote()", (t) => {
   const courses = [
     new Course("x", [new TunedString("x", E, "metal", 0.254)]),
     new Course("y", [new TunedString("y", A, "metal", 0.3302)]),
