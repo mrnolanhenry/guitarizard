@@ -3,18 +3,18 @@ import { twelveTET } from "../data/temperaments/twelveTET";
 import { TunedString } from "../TunedString";
 import { Course } from "../Course";
 import type { Note } from "../Note";
-import { IFrettedInstrument } from "../IFrettedInstrument";
-import { getDefaultStringConfig, getFrettedInstrumentCommonTunings, getFrettedInstrumentStandardTuning } from "../util";
+import { FrettedInstrument } from "./FrettedInstrument";
 
 // TODO: Implement support for "Courses" or "double stringed" instruments (e.g. 12-string guitar, Bouzouki, https://en.wikipedia.org/wiki/Lute, etc.)
 // For now, representing Mandolin without doubled strings.
 // https://en.wikipedia.org/wiki/Mandolin
 // https://en.wikipedia.org/wiki/Course_(music)
 
-export class Mandolin implements IFrettedInstrument{
+export class Mandolin extends FrettedInstrument{
   name: string;
   fretBoard: FretBoard;
   constructor(fretCount: number, tuning: Note[]) {
+    super();
     this.name = "mandolin";
 
     const course1 = new Course("G-strings",[
@@ -42,10 +42,8 @@ export class Mandolin implements IFrettedInstrument{
       course4
     ];
 
-    const stringConfig = getDefaultStringConfig(fretCount, tuning);
+    const stringConfig = this.getDefaultStringConfig(fretCount, tuning);
 
     this.fretBoard = new FretBoard(twelveTET, courses, stringConfig);
   }
-  getCommonTunings = () => getFrettedInstrumentCommonTunings(this.name);
-  getStandardTuning = () => getFrettedInstrumentStandardTuning(this.name);
 }

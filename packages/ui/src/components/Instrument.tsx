@@ -1,11 +1,11 @@
 import { Key, Note } from "note-lib";
+import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { Base16Theme } from "../colors/themes";
 import { FretBoard } from "./FretBoard";
-import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 
 interface IInstrumentProps {
   activeKey: Key;
-  instrument: IFrettedInstrument;
+  instrument: FrettedInstrument;
   isRainbowMode: boolean;
   onTune: (courseId: string, newTuning: Note) => void;
   theme: Base16Theme;

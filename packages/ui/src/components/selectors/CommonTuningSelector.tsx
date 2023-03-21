@@ -1,11 +1,11 @@
 import { Base16Theme } from "../../colors/themes";
 import { LabeledSelector } from "./LabeledSelector";
-import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 import { Tuning } from "note-lib/src/Tuning";
 import { Constants } from "note-lib";
+import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 
 interface ICommonTuningSelectorProps {
-  activeInstrument: IFrettedInstrument;
+  activeInstrument: FrettedInstrument;
   activeTuning: Tuning;
   label: string | undefined;
   onCommonTuningSelect: (tuning: Tuning) => void;

@@ -4,24 +4,22 @@ import { Base16Theme } from "../../colors/themes";
 import { InstrumentSelector } from "../selectors/InstrumentSelector";
 import { NoteSelector } from "../selectors/NoteSelector";
 import { ScaleSelector } from "../selectors/ScaleSelector";
-// import { EquivScaleSelector } from "./EquivScaleSelector";
 import { EquivKeySelector } from "../selectors/EquivKeySelector";
 import { RainbowModeSelector } from "../selectors/RainbowModeSelector";
 import { IntervalTable } from "../IntervalTable";
 import { NoteTable } from "../NoteTable";
-// import ToggleButtonIntervalTable from "./ToggleButtonIntervalTable";
 import { Instrument } from "../Instrument";
-import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 import { CommonTuningSelector } from "../selectors/CommonTuningSelector";
 import { Tuning } from "note-lib/src/Tuning";
+import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 
 interface IScalebookProps {
-  activeInstrument: IFrettedInstrument;
+  activeInstrument: FrettedInstrument;
   activeKey: Key;
   activeTuning: Tuning;  
-  instruments: Map<string, IFrettedInstrument>;
+  instruments: Map<string, FrettedInstrument>;
   isRainbowMode: boolean;
-  onInstrumentSelect: (instrument: IFrettedInstrument) => void;
+  onInstrumentSelect: (instrument: FrettedInstrument) => void;
   onInstrumentTune: (
     courseId: string,
     newTuning: Note
@@ -58,7 +56,7 @@ const Scalebook = (props: IScalebookProps) => {
     backgroundColor: theme.base01,
   };
 
-  const instrument: IFrettedInstrument = activeInstrument;
+  const instrument: FrettedInstrument = activeInstrument;
   const activeKeyNote: Note = activeKey.note;
   const activeScale: Scale = activeKey.scale;
 
