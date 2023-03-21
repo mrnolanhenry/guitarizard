@@ -1,4 +1,5 @@
 import "./TopBar.css";
+import { CSSProperties } from "react";
 import { ToolSelector, ToolName } from "./selectors/ToolSelector";
 import { cloudCity, Base16Theme } from "../colors/themes";
 
@@ -28,13 +29,13 @@ const TopBar = (props: Props) => {
 
   const logo = <img src="/guitarizard_logo_sq_20.png" className="logo" />;
 
-  const style = {
+  const style: CSSProperties = {
     backgroundColor: theme.base00,
     color: theme.base04,
     borderColor: theme.base03,
   };
 
-  const centerStyle = {
+  const centerStyle: CSSProperties = {
     color: theme.base06,
     textShadow: `0 0 1px ${theme.base00}`,
   };

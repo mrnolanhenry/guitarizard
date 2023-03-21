@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { CSSProperties, useState } from "react";
 import { cloudCity } from "./colors/themes";
 import { ToolName } from "./components/selectors/ToolSelector";
 import { TopBar } from "./components/TopBar";
@@ -9,6 +9,7 @@ import { Tuning } from "note-lib/src/Tuning";
 import { Constants } from "note-lib/src/constants/Constants";
 import { Course } from "note-lib/src/Course";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
+import { FretBoard } from "note-lib/src/FretBoard";
 
 type InstrumentMap = Map<string, FrettedInstrument>;
 
@@ -62,33 +63,33 @@ const App = () => {
     const [activeToolName, setActiveToolName] = useState("scalebook");
     const [theme, setTheme] = useState(cloudCity);
 
-  const toggleRainbowMode = () => {
+  const toggleRainbowMode = (): void => {
     setIsRainbowMode(!isRainbowMode);
   }
 
-  const onKeyNoteSelect = (keyNote: Note) => {
+  const onKeyNoteSelect = (keyNote: Note): void => {
     setActiveKey(new Key(keyNote, activeKey.scale));
   }
 
-  const onInstrumentSelect = (instrument: FrettedInstrument) => {
+  const onInstrumentSelect = (instrument: FrettedInstrument): void => {
     setActiveInstrument(instrument);
     // Reset active tuning to the last tuning set on thie instrument selected.
-    const activeTuning = checkActiveTuning(instrument);
+    const activeTuning: Tuning = checkActiveTuning(instrument);
     setActiveTuning(activeTuning);
   }
 
-  const onScaleSelect = (scale: Scale) => {
+  const onScaleSelect = (scale: Scale): void => {
     setActiveKey(new Key(activeKey.note, scale));
   }
 
-  const updateKey = (key: Key) => {
+  const updateKey = (key: Key): void => {
     setActiveKey(new Key(key.note, key.scale));
   }
 
   const setInstrumentTuning = (
     courseId: string,
     newTuning: Note
-  ) => {
+    ): void => {
     const instrument = activeInstrument;
     const fretBoard = instrument.fretBoard;
 
@@ -103,12 +104,11 @@ const App = () => {
     setActiveTuning(newActiveTuning);
   }
 
-  const checkActiveTuning = (instrument: FrettedInstrument) => {
-    const tuningNotes = instrument.fretBoard.courses.map(course => course.tunedStrings[0].tuningNote);
-    // const tuningNotes = instrument.fretBoard.tunedStrings.map(tunedString => tunedString.tuningNote);
-    const commonTunings = instrument.getCommonTunings();
-    const commonTuningMatch = commonTunings.find(tuning => {
-      let isMatch = true;
+  const checkActiveTuning = (instrument: FrettedInstrument): Tuning => {
+    const tuningNotes: Note[] = instrument.fretBoard.courses.map(course => course.tunedStrings[0].tuningNote);
+    const commonTunings: Tuning[] = instrument.getCommonTunings();
+    const commonTuningMatch: Tuning | undefined = commonTunings.find(tuning => {
+      let isMatch: boolean = true;
       tuning.notes.forEach((note, index) => {
         if (tuningNotes[index].id !== note.id) {
           isMatch = false;
@@ -119,9 +119,9 @@ const App = () => {
     return commonTuningMatch ? commonTuningMatch : new Tuning(instrument.name, Constants.CUSTOM, tuningNotes);
   }
 
-  const setInstrumentTuningToPreset = (tuning: Tuning) => {
-    const instrument = activeInstrument;
-    const fretBoard = instrument.fretBoard;
+  const setInstrumentTuningToPreset = (tuning: Tuning): void => {
+    const instrument: FrettedInstrument = activeInstrument;
+    const fretBoard: FretBoard = instrument.fretBoard;
 
     if (typeof instrument === "undefined") {
       return;
@@ -132,11 +132,11 @@ const App = () => {
     setActiveTuning(tuning);
   }
 
-  const onInstrumentTune = (courseId: string, newTuning: Note) => {
+  const onInstrumentTune = (courseId: string, newTuning: Note): void => {
     return setInstrumentTuning(courseId, newTuning);
   }
 
-  const onInstrumentTuneToPreset = (tuning: Tuning) => {
+  const onInstrumentTuneToPreset = (tuning: Tuning): void => {
     return setInstrumentTuningToPreset(tuning);
   }
 
@@ -170,7 +170,7 @@ const App = () => {
       // }
     }
 
-    const style = {
+    const style: CSSProperties = {
       backgroundColor: theme.base01,
       color: theme.base05,
       position: "fixed" as "fixed", // lol what the heck typescript

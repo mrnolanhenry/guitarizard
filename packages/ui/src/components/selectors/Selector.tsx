@@ -1,4 +1,5 @@
 import React from "react";
+import { CSSProperties } from "react";
 import { Base16Theme } from "../../colors/themes";
 
 interface ISelectorProps<T> {
@@ -20,7 +21,7 @@ const Selector =<T,> (props: ISelectorProps<T>) => {
       theme,
      } = props;
 
-    const style = {
+    const style: CSSProperties = {
       backgroundColor: theme.base00,
       color: theme.base05,
       borderWidth: "0 0 1px 0",

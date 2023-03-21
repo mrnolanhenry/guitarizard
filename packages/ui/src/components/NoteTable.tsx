@@ -37,16 +37,16 @@ const NoteTable = (props: INoteTableProps) => {
     noteStyle: CSSProperties,
     note: Note | null,
     activeKey: Key
-  ) => {
+    ): CSSProperties => {
     let noteTextStyle: CSSProperties = noteStyle;
 
     if (isRainbowMode && note) {
-      let notes = activeKey.scale.getNotesInKey(activeKey.note);
-      let semitones = activeKey.scale.intervals.map(
+      let notes: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
+      let semitones: number[] = activeKey.scale.intervals.map(
         (interval) => interval.semitones
       );
 
-      let semitoneColors = semitones.map((semitone) => rainbow[semitone]);
+      let semitoneColors: string[] = semitones.map((semitone) => rainbow[semitone]);
 
       let noteIntervalColorCombos = notes.map((n, i) => ({
         note: n,
@@ -68,7 +68,7 @@ const NoteTable = (props: INoteTableProps) => {
     return noteTextStyle;
   };
 
-  let notes = activeKey.scale.getNotesInKey(activeKey.note);
+  let notes: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
 
   const mapNotes = (findFlats: boolean): JSX.Element => {
     return (

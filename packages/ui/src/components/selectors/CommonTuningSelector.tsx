@@ -21,8 +21,8 @@ const CommonTuningSelector = (props: ICommonTuningSelectorProps) => {
     theme
    } = props;
   const getItems = (): Tuning[] => {
-    const isActiveTuningCustom = activeTuning.id === Constants.CUSTOM;
-    const commonTunings = activeInstrument.getCommonTunings();
+    const isActiveTuningCustom: boolean = activeTuning.id === Constants.CUSTOM;
+    const commonTunings: Tuning[] = activeInstrument.getCommonTunings();
     return isActiveTuningCustom
       ? [...commonTunings, activeTuning]
       : commonTunings;
