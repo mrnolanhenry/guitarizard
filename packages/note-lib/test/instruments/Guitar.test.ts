@@ -88,17 +88,17 @@ tap.test("class Guitar -- init", function (t) {
     sevenStringGuitar.fretBoard.courses.every(course => course.tunedStrings.length === 1),
     true, 
     "7 string has all single strings"
-  )
+  );
   t.equal(
     eightStringGuitar.fretBoard.courses.every(course => course.tunedStrings.length === 1),
     true, 
     "8 string has all single strings"
-  )
+  );
   t.equal(
     twelveStringGuitar.fretBoard.courses.every(course => course.tunedStrings.length === 2),
     true, 
     "12 string has all doubled strings"
-  )
+  );
 
   t.end();
 });

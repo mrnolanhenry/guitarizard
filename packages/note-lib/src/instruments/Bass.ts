@@ -7,7 +7,7 @@ import { Course } from "../Course";
 
 export class Bass {
   name: string;
-  fretBoard: any;
+  fretBoard: FretBoard;
 
   constructor(fretCount: number, tuning: Note[]) {
     const courseCount = tuning.length;

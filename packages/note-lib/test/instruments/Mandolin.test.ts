@@ -2,7 +2,6 @@ import tap from "tap";
 import {
   twelveTET,
 } from "../../src/data/temperaments/twelveTET";
-import { Note } from "../../src/Note";
 import { Mandolin } from "../../src/instruments/Mandolin";
 import { Tuning } from "../../src/Tuning";
 
