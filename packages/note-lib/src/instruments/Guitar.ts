@@ -2,8 +2,7 @@ import { FretBoard } from "../FretBoard";
 import { twelveTET } from "../data/temperaments/twelveTET";
 import { TunedString } from "../TunedString";
 import type { Note } from "../Note";
-import { IFrettedInstrument } from "../IFrettedInstrument";
-import { getDefaultStringConfig, getFrettedInstrumentCommonTunings, getFrettedInstrumentStandardTuning } from "../util";
+import { FrettedInstrument } from "./FrettedInstrument";
 import { Course } from "../Course";
 
 const getCourses = (tuning: Note[], isDoubledStrings: boolean): Course[] => {
@@ -99,17 +98,16 @@ const getInstrumentName = (tuning: Note[], isDoubledStrings: boolean): string =>
   }
 }
 
-export class Guitar implements IFrettedInstrument{
+export class Guitar extends FrettedInstrument{
   name: string;
   fretBoard: FretBoard;
   constructor(fretCount: number, tuning: Note[], isDoubledStrings: boolean = false) {
+    super();
     const instrumentName = getInstrumentName(tuning, isDoubledStrings);
     const courses = getCourses(tuning, isDoubledStrings);
-    const stringConfig = getDefaultStringConfig(fretCount, tuning);
+    const stringConfig = this.getDefaultStringConfig(fretCount, tuning);
     
     this.name = instrumentName;
     this.fretBoard = new FretBoard(twelveTET, courses, stringConfig);
   }
-  getCommonTunings = () => getFrettedInstrumentCommonTunings(this.name);
-  getStandardTuning = () => getFrettedInstrumentStandardTuning(this.name);
 }

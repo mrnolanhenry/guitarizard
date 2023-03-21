@@ -1,3 +1,3 @@
 export class Constants {
-  static readonly CUSTOM = "custom";
+  static readonly CUSTOM: string = "custom";
 }

@@ -5,12 +5,12 @@ import { ToolName } from "./components/selectors/ToolSelector";
 import { TopBar } from "./components/TopBar";
 import { Scalebook } from "./components/tools/Scalebook";
 import { Key, Note, Scale, Temperament, instrument, data } from "note-lib";
-import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 import { Tuning } from "note-lib/src/Tuning";
 import { Constants } from "note-lib/src/constants/Constants";
 import { Course } from "note-lib/src/Course";
+import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 
-type InstrumentMap = Map<string, IFrettedInstrument>;
+type InstrumentMap = Map<string, FrettedInstrument>;
 
 const initInstruments = (temperament: Temperament) => {
   const A: Note = temperament.getNoteFromID("A");
@@ -54,7 +54,7 @@ const App = () => {
     const instrumentMap = initInstruments(twelveTET);
     const [instruments, setInstruments] = useState(instrumentMap);
     const [activeKey, setActiveKey] = useState(new Key(initKeyNote, initScale));
-    const initInstrument = instruments.get("guitar") as IFrettedInstrument;
+    const initInstrument = instruments.get("guitar") as FrettedInstrument;
     const [activeInstrument, setActiveInstrument] = useState(initInstrument);
     const [activeTuning, setActiveTuning] = useState(initInstrument.getStandardTuning());
     const [isRainbowMode, setIsRainbowMode] = useState(true);
@@ -70,7 +70,7 @@ const App = () => {
     setActiveKey(new Key(keyNote, activeKey.scale));
   }
 
-  const onInstrumentSelect = (instrument: IFrettedInstrument) => {
+  const onInstrumentSelect = (instrument: FrettedInstrument) => {
     setActiveInstrument(instrument);
     // Reset active tuning to the last tuning set on thie instrument selected.
     const activeTuning = checkActiveTuning(instrument);
@@ -103,7 +103,7 @@ const App = () => {
     setActiveTuning(newActiveTuning);
   }
 
-  const checkActiveTuning = (instrument: IFrettedInstrument) => {
+  const checkActiveTuning = (instrument: FrettedInstrument) => {
     const tuningNotes = instrument.fretBoard.courses.map(course => course.tunedStrings[0].tuningNote);
     // const tuningNotes = instrument.fretBoard.tunedStrings.map(tunedString => tunedString.tuningNote);
     const commonTunings = instrument.getCommonTunings();

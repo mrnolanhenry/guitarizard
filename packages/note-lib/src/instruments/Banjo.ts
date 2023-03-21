@@ -2,14 +2,16 @@ import { twelveTET } from "../data/temperaments/twelveTET";
 import { FretBoard } from "../FretBoard";
 import { TunedString } from "../TunedString";
 import type { Note } from "../Note";
-import { getFrettedInstrumentCommonTunings, getFrettedInstrumentStandardTuning } from "../util";
 import { Course } from "../Course";
+import { IStringConfig } from "../IStringConfig";
+import { FrettedInstrument } from "./FrettedInstrument";
 
-export class Banjo {
+export class Banjo extends FrettedInstrument {
   name: string;
   fretBoard: FretBoard;
 
   constructor(fretCount: number, tuning: Note[]) {
+    super();
     this.name = "banjo";
 
     const courses: Course[] = [
@@ -20,7 +22,8 @@ export class Banjo {
       new Course("second-D-string", [new TunedString("second-D-string", tuning[4], "metal", 0.11)]),
     ];
 
-    const stringConfig = [
+
+    const stringConfig: IStringConfig[] = [
       { fret: { start: 5, end: fretCount - 1 } },
       { fret: { start: 0, end: fretCount - 1 } },
       { fret: { start: 0, end: fretCount - 1 } },
@@ -30,7 +33,4 @@ export class Banjo {
 
     this.fretBoard = new FretBoard(twelveTET, courses, stringConfig);
   }
-
-  getCommonTunings = () => getFrettedInstrumentCommonTunings(this.name);
-  getStandardTuning = () => getFrettedInstrumentStandardTuning(this.name);
 }
