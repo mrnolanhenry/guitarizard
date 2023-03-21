@@ -2,17 +2,18 @@ import tap from "tap";
 import { Note } from "../src/Note";
 import { Temperament } from "../src/Temperament";
 import { TunedString } from "../src/TunedString";
+import { NotePitch } from "../src/enums/NotePitch";
 
 tap.test("class TunedString", function (t) {
-  const A = new Note("A", { isNatural: true });
+  const A = new Note("A", NotePitch.Neither);
 
-  const As = new Note("A#", { isSharp: true });
-  const Bb = new Note("Bb", { isFlat: true }, [As]);
+  const As = new Note("A#", NotePitch.Sharp);
+  const Bb = new Note("Bb", NotePitch.Flat, [As]);
   As.addAliasNote(Bb);
 
-  const B = new Note("B", { isNatural: true });
+  const B = new Note("B", NotePitch.Neither);
 
-  const smallTwelveTET = new Temperament("small", [A, As, B]);
+  const smallTwelveTET = new Temperament("small", [A, Bb, B]);
 
   const AString = new TunedString("A", A, "catgut", 0.2);
 
@@ -37,11 +38,11 @@ tap.test("class TunedString", function (t) {
   t.equal(AString.toString(), JSON.stringify(AString));
 
   t.test("setTuningNote", (t) => {
-    const testString = new TunedString("x", new Note("x"), "catgut", 0.2);
+    const testString = new TunedString("x", new Note("x", NotePitch.Neither), "catgut", 0.2);
 
     t.equal(testString.tuningNote.id, "x");
 
-    testString.setTuningNote(new Note("y"));
+    testString.setTuningNote(new Note("y", NotePitch.Neither));
 
     t.equal(testString.tuningNote.id, "y");
 

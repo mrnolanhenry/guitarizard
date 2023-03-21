@@ -12,6 +12,9 @@ tap.test("exposed API", function (t) {
   t.ok(API.instrument.FretBoard, "expect instrument.FretBoard");
   t.ok(API.instrument.Guitar, "expect instrument.Guitar");
   t.ok(API.instrument.Banjo, "expect instrument.Banjo");
+  t.ok(API.instrument.Bass, "expect instrument.Bass");
+  t.ok(API.instrument.Mandolin, "expect instrument.Mandolin");
+  t.ok(API.instrument.Ukulele, "expect instrument.Ukulele");
 
   t.ok(API.data.temperament.twelveTET, "expect twelveTET temperament");
 

@@ -43,7 +43,7 @@ export class Temperament {
       }
     }
 
-    throw `The given noteID: ${noteID} is NOT valid`;
+    throw `The given noteID: ${noteID} is NOT valid in this temperament`;
   }
 
   /**
