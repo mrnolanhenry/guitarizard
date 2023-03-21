@@ -36,5 +36,12 @@ tap.test("class Banjo -- init", function (t) {
   t.same(defaultBanjo.getStandardTuning(), new Tuning('banjo', 'standard', [G, D, G, B, D])
     , 'standard tuning found');
 
+  t.equal(defaultBanjo.fretBoard.courses.length, 5, "5 string has 5 courses");
+  t.equal(
+    defaultBanjo.fretBoard.courses.every(course => course.tunedStrings.length === 1),
+    true, 
+    "5 string has all single strings"
+  );
+
   t.end();
 });
