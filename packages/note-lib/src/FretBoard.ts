@@ -83,7 +83,7 @@ export class FretBoard {
         value: note,
       }));
 
-      return { course, config, notes };
+      return new ScaleOnCourse(course, config, notes);
     });
   }
 
@@ -114,11 +114,7 @@ export class FretBoard {
         return fretNote;
       });
 
-      return {
-        course: string.course,
-        config: string.config,
-        notes: tunedFretNotes,
-      };
+      return new ScaleOnCourse(string.course, string.config, tunedFretNotes);
     });
   }
 
