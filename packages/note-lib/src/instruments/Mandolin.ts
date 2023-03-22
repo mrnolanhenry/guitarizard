@@ -41,8 +41,8 @@ export class Mandolin extends FrettedInstrument{
       course4
     ];
 
-    const stringConfig = this.getDefaultStringConfig(fretCount, tuning);
+    const fretSpan = this.getDefaultFretSpan(fretCount, tuning);
 
-    this.fretBoard = new FretBoard(twelveTET, courses, stringConfig);
+    this.fretBoard = new FretBoard(twelveTET, courses, fretSpan);
   }
 }

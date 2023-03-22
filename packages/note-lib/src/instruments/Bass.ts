@@ -3,7 +3,7 @@ import { FretBoard } from "../FretBoard";
 import { TunedString } from "../TunedString";
 import type { Note } from "../Note";
 import { Course } from "../Course";
-import { IStringConfig } from "../IStringConfig";
+import { IFretSpan } from "../interfaces/IFretSpan";
 import { FrettedInstrument } from "./FrettedInstrument";
 
 export class Bass extends FrettedInstrument {
@@ -47,8 +47,8 @@ export class Bass extends FrettedInstrument {
       throw `Invalid String length of ${courseCount} for ${instrumentName}!`;
     }
 
-    const stringConfig: IStringConfig[] = this.getDefaultStringConfig(fretCount, tuning);
+    const fretSpan: IFretSpan[] = this.getDefaultFretSpan(fretCount, tuning);
 
-    this.fretBoard = new FretBoard(twelveTET, courses, stringConfig);
+    this.fretBoard = new FretBoard(twelveTET, courses, fretSpan);
   }
 }

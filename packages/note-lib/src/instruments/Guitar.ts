@@ -99,9 +99,9 @@ export class Guitar extends FrettedInstrument{
     super();
     const instrumentName = getInstrumentName(tuning, isDoubledStrings);
     const courses = getCourses(tuning, isDoubledStrings);
-    const stringConfig = this.getDefaultStringConfig(fretCount, tuning);
+    const fretSpan = this.getDefaultFretSpan(fretCount, tuning);
     
     this.name = instrumentName;
-    this.fretBoard = new FretBoard(twelveTET, courses, stringConfig);
+    this.fretBoard = new FretBoard(twelveTET, courses, fretSpan);
   }
 }

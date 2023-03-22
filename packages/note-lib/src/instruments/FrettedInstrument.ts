@@ -2,7 +2,7 @@ import { FretBoard } from "../FretBoard";
 import type { Note } from "../Note";
 import { Tuning } from "../Tuning";
 import { Tunings } from "../data/tunings";
-import { IStringConfig } from "../IStringConfig";
+import { IFretSpan } from "../interfaces/IFretSpan";
 
 const getFrettedInstrumentCommonTunings = (name: string): Tuning[] => {
     let commonTunings: Tuning[] = [];
@@ -21,7 +21,7 @@ const getFrettedInstrumentCommonTunings = (name: string): Tuning[] => {
 export abstract class FrettedInstrument {
   abstract name: string;
   abstract fretBoard: FretBoard;
-  getDefaultStringConfig = (fretCount: number, tuning: Note[]): IStringConfig[] => tuning.map(() => {
+  getDefaultFretSpan = (fretCount: number, tuning: Note[]): IFretSpan[] => tuning.map(() => {
     return { fret: { start: 0, end: fretCount - 1 } };
   });
   getCommonTunings = (): Tuning[] => getFrettedInstrumentCommonTunings(this.name);

@@ -9,7 +9,7 @@ import { TunedString } from "../src/TunedString";
 import { FretBoard } from "../src/FretBoard";
 import { NotePitch } from "../src/enums/NotePitch";
 import { Course } from "../src/Course";
-import { IStringConfig } from "../src/IStringConfig";
+import { IFretSpan } from "../src/interfaces/IFretSpan";
 
 const A: Note = twelveTET.getNoteFromID("A");
 const Bb: Note = twelveTET.getNoteFromID("Bb");
@@ -33,7 +33,7 @@ tap.test("class FretBoard --- init", function (t) {
     new Course("Y", [new TunedString("Y", new Note("Y", NotePitch.Neither), "metal", 0.33)]),
   ];
 
-  const stringConfig: IStringConfig[] = [
+  const fretSpan: IFretSpan[] = [
     {
       fret: { start: 0, end: 2 },
     },
@@ -42,12 +42,12 @@ tap.test("class FretBoard --- init", function (t) {
     },
   ];
 
-  const fretBoard = new FretBoard(system, courses, stringConfig);
+  const fretBoard = new FretBoard(system, courses, fretSpan);
 
   t.same(fretBoard.getNotes(), [
     {
       course: courses[0],
-      config: stringConfig[0],
+      config: fretSpan[0],
       notes: [
         { value: new Note("X", NotePitch.Neither), fretNumber: 0 },
         { value: new Note("Y", NotePitch.Neither), fretNumber: 1 },
@@ -56,7 +56,7 @@ tap.test("class FretBoard --- init", function (t) {
     },
     {
       course: courses[1],
-      config: stringConfig[1],
+      config: fretSpan[1],
       notes: [
         { value: new Note("Y", NotePitch.Neither), fretNumber: 1 },
         { value: new Note("X", NotePitch.Neither), fretNumber: 2 },
@@ -73,12 +73,12 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
     new Course("1", [new TunedString("1", A, "metal", 0.3302)]),
   ];
 
-  const stringConfig: IStringConfig[] = [
+  const fretSpan: IFretSpan[] = [
     { fret: { start: 0, end: 5 } },
     { fret: { start: 0, end: 5 } },
   ];
 
-  const stubbyBoard = new FretBoard(twelveTET, courses, stringConfig);
+  const stubbyBoard = new FretBoard(twelveTET, courses, fretSpan);
 
   const chromatic = new Scale(
     "chromatic",
@@ -89,7 +89,7 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
   t.same(stubbyBoard.getNotesInScale(chromatic, new Note("A", NotePitch.Neither)), [
     {
       course: courses[0],
-      config: stringConfig[0],
+      config: fretSpan[0],
       notes: [
         { value: E, fretNumber: 0 },
         { value: F, fretNumber: 1 },
@@ -101,7 +101,7 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
     },
     {
       course: courses[1],
-      config: stringConfig[1],
+      config: fretSpan[1],
       notes: [
         { value: A, fretNumber: 0 },
         { value: Bb, fretNumber: 1 },
@@ -132,7 +132,7 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
     [
       {
         course: courses[0],
-        config: stringConfig[0],
+        config: fretSpan[0],
         notes: [
           { value: E, fretNumber: 0 },
           { value: G, fretNumber: 3 },
@@ -141,7 +141,7 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
       },
       {
         course: courses[1],
-        config: stringConfig[1],
+        config: fretSpan[1],
         notes: [
           { value: A, fretNumber: 0 },
           { value: C, fretNumber: 3 },
@@ -157,7 +157,7 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
     [
       {
         course: courses[0],
-        config: stringConfig[0],
+        config: fretSpan[0],
         notes: [
           { value: E, fretNumber: 0 },
           { value: Fs.aliasNotes[0], fretNumber: 2 },
@@ -166,7 +166,7 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
       },
       {
         course: courses[1],
-        config: stringConfig[1],
+        config: fretSpan[1],
         notes: [
           { value: A, fretNumber: 0 },
           { value: B, fretNumber: 2 },
@@ -187,19 +187,19 @@ tap.test("class FretBoard --- toJSON / valueOf / toString", function (t) {
     new Course("1", [new TunedString("1", A, "metal", 0.3302)]),
   ];
 
-  const stringConfig: IStringConfig[] = [
+  const fretSpan: IFretSpan[] = [
     { fret: { start: 0, end: 5 } },
     { fret: { start: 0, end: 5 } },
   ];
 
-  const stubbyBoard = new FretBoard(twelveTET, courses, stringConfig);
+  const stubbyBoard = new FretBoard(twelveTET, courses, fretSpan);
 
   t.same(
     stubbyBoard.toJSON(),
     {
       temperament: twelveTET,
       courses,
-      stringConfig,
+      fretSpan,
     },
     "correct json format"
   );
@@ -216,12 +216,12 @@ tap.test("setCourseTuningNote()", (t) => {
     new Course("y", [new TunedString("y", A, "metal", 0.3302)]),
   ];
 
-  const stringConfig: IStringConfig[] = [
+  const fretSpan: IFretSpan[] = [
     { fret: { start: 0, end: 5 } },
     { fret: { start: 0, end: 5 } },
   ];
 
-  const stubbyBoard = new FretBoard(twelveTET, courses, stringConfig);
+  const stubbyBoard = new FretBoard(twelveTET, courses, fretSpan);
 
   t.equal(stubbyBoard.courses[0].tunedStrings[0].tuningNote, E);
   t.equal(stubbyBoard.courses[1].tunedStrings[0].tuningNote, A);
@@ -240,12 +240,12 @@ tap.test("getFretCount()", (t) => {
     new Course("y", [new TunedString("y", A, "metal", 0.3302)]),
   ];
 
-  const stringConfig: IStringConfig[] = [
+  const fretSpan: IFretSpan[] = [
     { fret: { start: 0, end: 5 } },
     { fret: { start: 0, end: 5 } },
   ];
 
-  const stubbyBoard = new FretBoard(twelveTET, courses, stringConfig);
+  const stubbyBoard = new FretBoard(twelveTET, courses, fretSpan);
 
   t.equal(stubbyBoard.getFretCount(), 5);
 

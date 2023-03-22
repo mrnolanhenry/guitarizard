@@ -1,7 +1,7 @@
 // Useful Table:
 // https://en.wikipedia.org/wiki/Interval_(music)#Main_intervals
 
-import { IIntervalAlias } from "./IIntervalAlias";
+import { IIntervalAlias } from "./interfaces/IIntervalAlias";
 
 export class Interval {
   semitones: number;
