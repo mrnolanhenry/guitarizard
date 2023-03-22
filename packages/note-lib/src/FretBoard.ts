@@ -3,13 +3,14 @@ import { Course } from "./Course";
 import { Note } from "./Note";
 import type { Scale } from "./Scale";
 import { ScaleOnCourse } from "./ScaleOnCourse";
-import { IStringConfig } from "./IStringConfig";
+import { IFretSpan } from "./interfaces/IFretSpan";
 import { NotePitch } from "./enums/NotePitch";
+import { NoteFretNumberPair } from "./NoteFretNumberPair";
 
 export class FretBoard {
   temperament: Temperament;
   courses: Course[];
-  stringConfig: IStringConfig[];
+  fretSpan: IFretSpan[];
   /**
    * A FretBoard that holds strings.
    *
@@ -27,25 +28,25 @@ export class FretBoard {
    *   high "e" string would be wayyyy on the right, or in
    *   this example, the last element in the array.
    *
-   * @param stringConfig (Array<{ fret: { start,  end } }>):
+   * @param fretSpan (Array<{ fret: { start,  end } }>):
    *   Defines the position of the strings on the FretBoard
    *   with the string's starting position, and tohe
    */
   constructor(
     temperament: Temperament,
     courses: Course[],
-    stringConfig: IStringConfig[]
+    fretSpan: IFretSpan[]
   ) {
     this.temperament = temperament;
     this.courses = courses;
-    this.stringConfig = stringConfig;
+    this.fretSpan = fretSpan;
   }
 
   /**
    * calculate fretCount as the longest given bound
    */
   getFretCount(): number {
-    return this.stringConfig.reduce((max, config) => {
+    return this.fretSpan.reduce((max, config) => {
       return config.fret.end > max ? config.fret.end : max;
     }, 0);
   }
@@ -69,7 +70,7 @@ export class FretBoard {
    */
   getNotes(): ScaleOnCourse[] {
     return this.courses.map((course, i) => {
-      const config = this.stringConfig[i];
+      const config = this.fretSpan[i];
 
       const fret = config.fret;
       const fretSpan = fret.end - fret.start;
@@ -78,10 +79,9 @@ export class FretBoard {
         fretSpan
       )
 
-      const notes = notesOnString.map((note, offset) => ({
-        fretNumber: fret.start + offset,
-        value: note,
-      }));
+      const notes = notesOnString.map((note, offset) => (
+        new NoteFretNumberPair(note, fret.start + offset)
+      ));
 
       return new ScaleOnCourse(course, config, notes);
     });
@@ -122,7 +122,7 @@ export class FretBoard {
     return {
       temperament: this.temperament,
       courses: this.courses,
-      stringConfig: this.stringConfig,
+      fretSpan: this.fretSpan,
     };
   }
 

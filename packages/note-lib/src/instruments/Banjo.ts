@@ -3,7 +3,7 @@ import { FretBoard } from "../FretBoard";
 import { TunedString } from "../TunedString";
 import type { Note } from "../Note";
 import { Course } from "../Course";
-import { IStringConfig } from "../IStringConfig";
+import { IFretSpan } from "../interfaces/IFretSpan";
 import { FrettedInstrument } from "./FrettedInstrument";
 
 export class Banjo extends FrettedInstrument {
@@ -22,7 +22,7 @@ export class Banjo extends FrettedInstrument {
       new Course("second-D-string", [new TunedString("second-D-string", tuning[4], "metal", 0.11)]),
     ];
 
-    const stringConfig: IStringConfig[] = [
+    const fretSpan: IFretSpan[] = [
       { fret: { start: 5, end: fretCount - 1 } },
       { fret: { start: 0, end: fretCount - 1 } },
       { fret: { start: 0, end: fretCount - 1 } },
@@ -30,6 +30,6 @@ export class Banjo extends FrettedInstrument {
       { fret: { start: 0, end: fretCount - 1 } },
     ];
 
-    this.fretBoard = new FretBoard(twelveTET, courses, stringConfig);
+    this.fretBoard = new FretBoard(twelveTET, courses, fretSpan);
   }
 }

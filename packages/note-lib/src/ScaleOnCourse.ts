@@ -1,15 +1,15 @@
 import { NoteFretNumberPair } from "./NoteFretNumberPair";
-import { IStringConfig } from "./IStringConfig";
+import { IFretSpan } from "./interfaces/IFretSpan";
 import { Course } from "./Course";
 
 export class ScaleOnCourse {
-  config: IStringConfig;
+  config: IFretSpan;
   course: Course;
   notes: NoteFretNumberPair[];
 
   constructor(
     course: Course,
-    config: IStringConfig,
+    config: IFretSpan,
     notes: NoteFretNumberPair[]
   ) {
     this.course = course;

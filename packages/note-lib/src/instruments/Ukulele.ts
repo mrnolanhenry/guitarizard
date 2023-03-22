@@ -20,8 +20,8 @@ export class Ukulele extends FrettedInstrument{
       new Course("A-4", [new TunedString("A-4", tuning[3], "nylon", 0.26)]),
     ];
 
-    const stringConfig = this.getDefaultStringConfig(fretCount, tuning);
+    const fretSpan = this.getDefaultFretSpan(fretCount, tuning);
 
-    this.fretBoard = new FretBoard(twelveTET, courses, stringConfig);
+    this.fretBoard = new FretBoard(twelveTET, courses, fretSpan);
   }
 }
