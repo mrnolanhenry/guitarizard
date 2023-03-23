@@ -4,6 +4,7 @@ import { LabeledSelector } from "./LabeledSelector";
 
 interface IEquivKeySelectorProps {
   activeKey: Key;
+  minWidth?: string;
   updateKey: (key: Key) => void;
   theme: Base16Theme;
 }
@@ -11,12 +12,15 @@ interface IEquivKeySelectorProps {
 const EquivKeySelector = (props: IEquivKeySelectorProps) => {
   const { 
     activeKey,
+    minWidth,
     updateKey,
     theme,
    } = props;
   return (
     <LabeledSelector<Key>
+      id="equiv-key-selector"
       label="Equivalent Keys:"
+      minWidth={minWidth}
       items={activeKey.getEquivKeys()}
       getValue={(k: Key) => k.note.id + " " + k.scale.name}
       getDisplay={(k: Key) => k.note.id + " " + k.scale.name}

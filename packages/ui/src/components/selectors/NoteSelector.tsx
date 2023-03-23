@@ -4,6 +4,7 @@ import { LabeledSelector } from "./LabeledSelector";
 
 interface INoteSelectorProps {
   label?: string;
+  minWidth?: string;
   note: Note;
   onNoteSelect: (note: Note) => void;
   temperament: Temperament;
@@ -13,6 +14,7 @@ interface INoteSelectorProps {
 const NoteSelector = (props: INoteSelectorProps) => {
   const {
     label,
+    minWidth,
     note,
     onNoteSelect,
     temperament,
@@ -20,7 +22,9 @@ const NoteSelector = (props: INoteSelectorProps) => {
   } = props;
   return (
     <LabeledSelector<Note>
+      id="note-selector"
       label={label}
+      minWidth={minWidth}
       items={temperament.getKeyNotes()}
       getValue={(note: Note) => note.id}
       getDisplay={(note: Note) => note.id}

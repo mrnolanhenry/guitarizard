@@ -45,6 +45,7 @@ const TopBar = (props: Props) => {
       <div className="left">
         <ToolSelector
           activeToolName={activeToolName}
+          minWidth="10em"
           onToolSelect={onToolSelect}
           theme={cloudCity}
         />

@@ -6,6 +6,7 @@ interface IInstrumentSelectorProps {
   activeInstrument: FrettedInstrument;
   instruments: Map<string, FrettedInstrument>;
   label: string | undefined;
+  minWidth?: string;
   onInstrumentSelect: (instrument: FrettedInstrument) => void;
   theme: Base16Theme;
 }
@@ -15,6 +16,7 @@ const InstrumentSelector = (props: IInstrumentSelectorProps) => {
     activeInstrument,
     instruments,
     label,
+    minWidth,
     onInstrumentSelect,
     theme,
   } = props;
@@ -33,8 +35,10 @@ const InstrumentSelector = (props: IInstrumentSelectorProps) => {
 
   return (
     <LabeledSelector<FrettedInstrument>
+      id="instrument-selector"
       items={items}
       label={label}
+      minWidth={minWidth}
       getValue={(inst: FrettedInstrument) => inst.name}
       getDisplay={(inst: FrettedInstrument) => inst.name}
       activeItem={activeItem}

@@ -6,6 +6,7 @@ import { LabeledSelector } from "./LabeledSelector";
 
 interface IEquivScaleSelectorProps {
   activeScale: Scale;
+  minWidth?: string;
   onScaleSelect: (scale: Scale) => void;
   theme: Base16Theme;
 }
@@ -13,16 +14,19 @@ interface IEquivScaleSelectorProps {
 const EquivScaleSelector = (props: IEquivScaleSelectorProps) => {
   const { 
     activeScale,
+    minWidth,
     onScaleSelect,
     theme,
    } = props;
   
   return (
     <LabeledSelector<Scale>
+      id="equiv-scale-selector"
       label="Equivalent Scales: "
       items={activeScale.getEquivScales(data.scales)}
       getValue={(s: Scale) => s.name}
       getDisplay={(s: Scale) => s.name}
+      minWidth={minWidth}
       activeItem={activeScale}
       onChange={onScaleSelect}
       theme={theme}
