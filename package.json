@@ -2,7 +2,7 @@
   "name": "guitarizard",
   "homepage": "http://enfenry.github.io/guitarizard",
   "scripts": {
-    "predeploy" : "npm run build",
+    "predeploy" : "npm run build -w ui",
     "deploy" : "gh-pages -d build"
   },
   "version": "0.1.0",
