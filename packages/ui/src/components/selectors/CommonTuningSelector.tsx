@@ -8,6 +8,7 @@ interface ICommonTuningSelectorProps {
   activeInstrument: FrettedInstrument;
   activeTuning: Tuning;
   label: string | undefined;
+  minWidth?: string;
   onCommonTuningSelect: (tuning: Tuning) => void;
   theme: Base16Theme;
 }
@@ -17,6 +18,7 @@ const CommonTuningSelector = (props: ICommonTuningSelectorProps) => {
     activeInstrument,
     activeTuning,
     label,
+    minWidth,
     onCommonTuningSelect,
     theme
    } = props;
@@ -29,10 +31,12 @@ const CommonTuningSelector = (props: ICommonTuningSelectorProps) => {
   };
   return (
     <LabeledSelector<Tuning>
+      id="common-tuning-selector"
       items={getItems()}
       label={label}
       getValue={(tuning: Tuning) => tuning.id}
       getDisplay={(tuning: Tuning) => tuning.id}
+      minWidth={minWidth}
       activeItem={activeTuning}
       onChange={onCommonTuningSelect}
       theme={theme}

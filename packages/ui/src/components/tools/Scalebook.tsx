@@ -78,6 +78,7 @@ const Scalebook = (props: IScalebookProps) => {
           activeInstrument={activeInstrument}
           instruments={instruments}
           label="Instrument:"
+          minWidth="12em"
           onInstrumentSelect={onInstrumentSelect}
           theme={theme}
         />
@@ -86,6 +87,7 @@ const Scalebook = (props: IScalebookProps) => {
           activeInstrument={activeInstrument}
           activeTuning={activeTuning}
           label="Common Tunings:"
+          minWidth="10em"
           onCommonTuningSelect={onInstrumentTuneToPreset}
           theme={theme}
         />
@@ -100,12 +102,14 @@ const Scalebook = (props: IScalebookProps) => {
 
         <ScaleSelector
           activeScale={activeScale}
+          minWidth="16em"
           onScaleSelect={onScaleSelect}
           theme={theme}
         />
 
         <EquivKeySelector
           activeKey={activeKey}
+          minWidth="18em"
           updateKey={updateKey}
           theme={theme}
         />
@@ -117,6 +121,7 @@ const Scalebook = (props: IScalebookProps) => {
         /> */}
         <RainbowModeSelector
           isRainbowMode={isRainbowMode}
+          minWidth="8em"
           toggleRainbowMode={toggleRainbowMode}
           theme={theme}
         />
