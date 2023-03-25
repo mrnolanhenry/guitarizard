@@ -16,6 +16,7 @@ const EquivKeySelector = (props: IEquivKeySelectorProps) => {
     updateKey,
     theme,
    } = props;
+
   return (
     <LabeledSelector<Key>
       id="equiv-key-selector"
