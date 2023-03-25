@@ -1,6 +1,6 @@
 {
   "name": "guitarizard",
-  "homepage": "http://enfenry.github.io/guitarizard",
+  "homepage": "https://enfenry.github.io/guitarizard",
   "scripts": {
     "predeploy" : "npm run build -w ui",
     "deploy" : "gh-pages -d ./packages/ui/dist"
