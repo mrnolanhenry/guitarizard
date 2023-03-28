@@ -1,5 +1,16 @@
 {
   "name": "guitarizard",
+  "homepage": "https://enfenry.github.io/guitarizard",
+  "scripts": {
+    "predeploy" : "npm run build -w ui",
+    "deploy" : "gh-pages -d ./packages/ui/dist"
+  },
   "version": "0.1.0",
-  "workspaces": ["packages/ui", "packages/note-lib"]
+  "workspaces": [
+    "packages/ui",
+    "packages/note-lib"
+  ],
+  "devDependencies": {
+    "gh-pages": "^5.0.0"
+  }
 }
