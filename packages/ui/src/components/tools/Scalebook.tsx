@@ -93,6 +93,7 @@ const Scalebook = (props: IScalebookProps) => {
         />
 
         <NoteSelector
+          id="active key"
           label="Key:"
           note={activeKeyNote}
           onNoteSelect={onKeyNoteSelect}

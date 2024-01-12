@@ -2,10 +2,11 @@ import React from "react";
 import { CSSProperties } from "react";
 import { isEqual } from "lodash";
 import Autocomplete from '@mui/material/Autocomplete';
-import { AutocompleteRenderInputParams } from "@mui/material/Autocomplete";
+import { AutocompleteRenderInputParams, createFilterOptions } from "@mui/material/Autocomplete";
 import { styled } from '@mui/system';
 import TextField from '@mui/material/TextField';
 import { Base16Theme } from "../../colors/themes";
+import { FilterOptionsState } from "@mui/material";
 
 // Example styling
 // https://stackoverflow.com/questions/58984406/setting-text-color-outline-and-padding-on-material-ui-autocomplete-component
@@ -19,12 +20,14 @@ interface ISelectorProps<T> {
   onChange: (item: T) => void; // callback for user changes
   getValue?: (item: T) => string; // given an item, what is the option value?
   getDisplay?: (item: T) => any; // given an item, what should we display?
+  filterOptions?: (options: T[], state: FilterOptionsState<T>) => T[] // special handling to filter options
   theme: Base16Theme; // what theme should this component be?
 }
 
 const Selector =<T,> (props: ISelectorProps<T>) => {
     const { 
       activeItem,
+      filterOptions,
       getDisplay,
       getValue,
       id,
@@ -144,6 +147,7 @@ const Selector =<T,> (props: ISelectorProps<T>) => {
         clearOnBlur
         defaultValue={activeItem as NonNullable<T>}
         disableClearable
+        filterOptions={!!filterOptions ? filterOptions : createFilterOptions()}
         // fullWidth
         onChange={onChangeValue as any}
         handleHomeEndKeys

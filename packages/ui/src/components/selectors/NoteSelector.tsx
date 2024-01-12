@@ -3,6 +3,7 @@ import { Base16Theme } from "../../colors/themes";
 import { LabeledSelector } from "./LabeledSelector";
 
 interface INoteSelectorProps {
+  id: string;
   label?: string;
   minWidth?: string;
   note: Note;
@@ -13,6 +14,7 @@ interface INoteSelectorProps {
 
 const NoteSelector = (props: INoteSelectorProps) => {
   const {
+    id,
     label,
     minWidth,
     note,
@@ -22,7 +24,7 @@ const NoteSelector = (props: INoteSelectorProps) => {
   } = props;
   return (
     <LabeledSelector<Note>
-      id="note-selector"
+      id={`note-selector-${id}`}
       label={label}
       minWidth={minWidth}
       items={temperament.getKeyNotes()}

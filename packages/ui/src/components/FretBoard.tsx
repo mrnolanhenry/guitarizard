@@ -56,6 +56,7 @@ const FretBoard = (props: IFretBoardProps) => {
       {fretBoard.courses.map((course) => {
         return (
           <NoteSelector
+            id={course.id}
             key={course.id}
             temperament={fretBoard.temperament}
             note={course.tunedStrings[0].tuningNote}
