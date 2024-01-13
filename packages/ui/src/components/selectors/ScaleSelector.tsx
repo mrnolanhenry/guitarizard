@@ -25,17 +25,10 @@ const ScaleSelector = (props: IScalesSelectorProps) => {
     }
     else {
       let filterOptions = options.filter((option) => {
-        if (isScaleNameMatch(option, inputValue)) {
-          return true;
-        }
-  
         const trimVal = inputValue.trim();
         // trimming each term, so it can handle inputs with lots of empty space e.g. "0,1, 2, 3, 5, , , 6, " or "A, B,C#,D, ,Eb"
         const splitValues = trimVal.split(",").map((val) => val.trim()).filter((val) => !!val);
-
-        if (isIntervalMatch(option, splitValues)) {
-          return true;
-        }
+        return isScaleNameMatch(option, trimVal) || isIntervalMatch(option, splitValues);
         // NOLAN TODO - handle matching by Note names in addition to intervals (and interval long/short names, for that matter)
       });
       return filterOptions;
