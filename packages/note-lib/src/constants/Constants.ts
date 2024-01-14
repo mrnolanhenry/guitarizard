@@ -169,7 +169,7 @@ export class Constants {
   static readonly IONIAN_SHARP_FIFTH: string = "ionian #5";
   static readonly IWATO: string = "iwato";
   static readonly JAPANESE: string = "japanese";
-  static readonly JAPANESE_TWO: string = "japanese";
+  static readonly JAPANESE_TWO: string = "japanese 2";
   static readonly JAPANESE_ICHIKOSUCHO: string = "japanese (ichikosucho)";
   static readonly JAPANESE_INSEN: string = "japanese (insen)";
   static readonly JAPANESE_TAISHIKICHO: string = "japanese (taishikicho)";
