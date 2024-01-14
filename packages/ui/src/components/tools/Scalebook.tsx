@@ -111,8 +111,9 @@ const Scalebook = (props: IScalebookProps) => {
         <EquivKeySelector
           activeKey={activeKey}
           minWidth="18em"
-          updateKey={updateKey}
+          temperament={temperament}
           theme={theme}
+          updateKey={updateKey}
         />
 
         {/* <EquivScaleSelector

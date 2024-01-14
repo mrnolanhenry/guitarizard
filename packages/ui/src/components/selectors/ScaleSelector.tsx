@@ -24,34 +24,26 @@ const ScaleSelector = (props: IScalesSelectorProps) => {
       return options;
     }
     else {
-      let filterOptions = options.filter((option) => {
-        if (isScaleNameMatch(option, inputValue)) {
-          return true;
-        }
-  
-        const trimVal = inputValue.trim();
-        // trimming each term, so it can handle inputs with lots of empty space e.g. "0,1, 2, 3, 5, , , 6, " or "A, B,C#,D, ,Eb"
-        const splitValues = trimVal.split(",").map((val) => val.trim()).filter((val) => !!val);
+      const trimVal = inputValue.trim();
+      // trimming each term, so it can handle inputs with lots of empty space e.g. "0,1, 2, 3, 5, , , 6, " or "A, B,C#,D, ,Eb"
+      const inputValues = trimVal.split(",").map((val) => val.trim()).filter((val) => !!val);
 
-        if (isIntervalMatch(option, splitValues)) {
-          return true;
-        }
-        // NOLAN TODO - handle matching by Note names in addition to intervals (and interval long/short names, for that matter)
+      let filterOptions = options.filter((option) => {
+        return isScaleNameMatch(option, trimVal) || isIntervalMatch(option, inputValues);
       });
       return filterOptions;
     }
   }
 
-  const isScaleNameMatch = (option: Scale, inputValue: string) => {
-    return option.name.indexOf(inputValue) !== -1;
+  const isScaleNameMatch = (scale: Scale, inputValue: string) => {
+    return scale.name.indexOf(inputValue) !== -1;
   }
 
-  const isIntervalMatch = (option: Scale, splitValues: string[]) => {
+  const isIntervalMatch = (scale: Scale, inputValues: string[]) => {
     let allIntervalsMatch: boolean = true;
 
-    splitValues.forEach((value) => {
-      value.trim();  
-      const intervalFound: boolean = !!(option.intervals.find((interval) => interval.semitones.toString() === value.trim()));
+    inputValues.forEach((value) => {  
+      const intervalFound: boolean = !!(scale.intervals.find((interval) => interval.semitones.toString() === value.trim()));
       if (!intervalFound) {
         allIntervalsMatch = false;
       }

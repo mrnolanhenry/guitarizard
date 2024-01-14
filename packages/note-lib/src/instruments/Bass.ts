@@ -5,6 +5,7 @@ import type { Note } from "../Note";
 import { Course } from "../Course";
 import { IFretSpan } from "../interfaces/IFretSpan";
 import { FrettedInstrument } from "./FrettedInstrument";
+import { Constants } from "../constants/Constants";
 
 export class Bass extends FrettedInstrument {
   name: string;
@@ -14,7 +15,7 @@ export class Bass extends FrettedInstrument {
     super();
     const courseCount: number = tuning.length;
 
-    const instrumentName: string = courseCount === 4 ? "bass" : `bass (${courseCount} string)`;
+    const instrumentName: string = courseCount === 4 ? Constants.BASS : `${Constants.BASS} (${courseCount} string)`;
     this.name = instrumentName;
 
     let courses: Course[];

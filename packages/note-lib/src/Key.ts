@@ -63,6 +63,10 @@ export class Key {
     return equivKeys;
   }
 
+  getDisplayName(): string {
+    return this.note.id + " " + this.scale.name;
+  }
+
   toJSON() {
     return {
       note: this.note,

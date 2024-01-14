@@ -4,6 +4,7 @@ import { TunedString } from "../TunedString";
 import type { Note } from "../Note";
 import { Course } from "../Course";
 import { FrettedInstrument } from "./FrettedInstrument";
+import { Constants } from "../constants/Constants";
 
 export class Ukulele extends FrettedInstrument{
   name: string;
@@ -11,7 +12,7 @@ export class Ukulele extends FrettedInstrument{
 
   constructor(fretCount: number, tuning: Note[]) {
     super();
-    this.name = "ukulele";
+    this.name = Constants.UKULELE;
 
     const courses: Course[] = [
       new Course("G-1", [new TunedString("G-1", tuning[0], "nylon", 0.11)]),

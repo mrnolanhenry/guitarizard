@@ -1,11 +1,12 @@
 import tap from "tap";
+import { Constants } from "../src";
 import { Interval } from "../src/Interval";
 
 tap.test("class Interval", function (t) {
   const interval = new Interval(0, [
-    { name: "perfect", long: "Perfect unison", short: "P1" },
-    { name: "diminished", long: "Diminished second", short: "d2" },
-    { name: "root", short: "R" },
+    { name: Constants.PERFECT, long: Constants.PERFECT_UNISON, short: Constants.PERFECT_UNISON_SHORT },
+    { name: Constants.DIMINISHED, long: Constants.DIMINISHED_SECOND, short: Constants.DIMINISHED_SECOND_SHORT },
+    { name: Constants.ROOT, short: Constants.ROOT_SHORT },
   ]);
 
   t.same(
@@ -13,9 +14,9 @@ tap.test("class Interval", function (t) {
     {
       semitones: 0,
       aliases: [
-        { name: "perfect", long: "Perfect unison", short: "P1" },
-        { name: "diminished", long: "Diminished second", short: "d2" },
-        { name: "root", short: "R" },
+        { name: Constants.PERFECT, long: Constants.PERFECT_UNISON, short: Constants.PERFECT_UNISON_SHORT },
+        { name: Constants.DIMINISHED, long: Constants.DIMINISHED_SECOND, short: Constants.DIMINISHED_SECOND_SHORT },
+        { name: Constants.ROOT, short: Constants.ROOT_SHORT },
       ],
       isPerfect: true,
       isDiminished: true,

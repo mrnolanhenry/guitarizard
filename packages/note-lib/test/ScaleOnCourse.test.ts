@@ -7,11 +7,10 @@ import { IFretSpan } from "../src/interfaces/IFretSpan";
 import { TunedString } from "../src/TunedString";
 import { twelveTET } from "../src/data/temperaments/twelveTET";
 import { ScaleOnCourse } from "../src/ScaleOnCourse";
+import { notes } from "../src/data/temperaments";
 
 tap.test("class ScaleOnCourse", function (t) {
-
-  const A = new Note("A", NotePitch.Neither);
-  const E = new Note("E", NotePitch.Neither);
+  const { A, E } = notes;
 
   const courses = [
     new Course("x", [new TunedString("x", E, "metal", 0.254), new TunedString("x", E, "metal", 0.254)]),

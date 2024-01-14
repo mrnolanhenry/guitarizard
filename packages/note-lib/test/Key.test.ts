@@ -5,17 +5,11 @@ import {
   twelveTET,
 } from "../src/data/temperaments/twelveTET";
 import { Key } from "../src/Key";
+import { notes } from "../src/data/temperaments";
 
 // WIP - will finish test file once Key.ts is finalized
 tap.test("class Key", function (t) {
-  const A: Note = twelveTET.getNoteFromID("A");
-  const As: Note = twelveTET.getNoteFromID("A#");
-  const Bb: Note = twelveTET.getNoteFromID("Bb");
-  const C: Note = twelveTET.getNoteFromID("C");
-  const D: Note = twelveTET.getNoteFromID("D");
-  const E: Note = twelveTET.getNoteFromID("E");
-  const F: Note = twelveTET.getNoteFromID("F");
-  const G: Note = twelveTET.getNoteFromID("G");
+  const { A, As, Bb, C, D, E, F, G } = notes;
 
   const lydianScale = new Scale(
     "lydian",

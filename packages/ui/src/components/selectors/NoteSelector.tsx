@@ -27,7 +27,7 @@ const NoteSelector = (props: INoteSelectorProps) => {
       id={`note-selector-${id}`}
       label={label}
       minWidth={minWidth}
-      items={temperament.getKeyNotes()}
+      items={temperament.getNotesInTemperament()}
       getValue={(note: Note) => note.id}
       getDisplay={(note: Note) => note.id}
       activeItem={note}

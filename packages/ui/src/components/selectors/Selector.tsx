@@ -7,6 +7,7 @@ import { styled } from '@mui/system';
 import TextField from '@mui/material/TextField';
 import { Base16Theme } from "../../colors/themes";
 import { FilterOptionsState } from "@mui/material";
+import { Constants } from "note-lib";
 
 // Example styling
 // https://stackoverflow.com/questions/58984406/setting-text-color-outline-and-padding-on-material-ui-autocomplete-component
@@ -98,9 +99,9 @@ const Selector =<T,> (props: ISelectorProps<T>) => {
 
     const display = (item: T): string => {
       const fn =
-        typeof getDisplay === "undefined"
+        typeof getDisplay === Constants.UNDEFINED
           ? (a: T) => String(a)
-          : getDisplay;
+          : getDisplay as (item: T) => any;
 
       return fn(item);
     }
@@ -114,7 +115,7 @@ const Selector =<T,> (props: ISelectorProps<T>) => {
         }
       );
 
-      if (typeof item !== "undefined") {
+      if (typeof item !== Constants.UNDEFINED) {
         onChange(item as T);
       }
     };

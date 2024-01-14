@@ -1,23 +1,14 @@
 import tap from "tap";
-import { Note } from "../src/Note";
 import { Scale } from "../src/Scale";
 import {
   twelveTET,
 } from "../src/data/temperaments/twelveTET";
 import scales from "../src/data/scales";
+import { notes } from "../src/data/temperaments";
 
 tap.test("class Scale", function (t) {
   const blues = new Scale("Blues", twelveTET, [0, 3, 5, 6, 7, 10]);
-  const A: Note = twelveTET.getNoteFromID("A");
-  const Bb: Note = twelveTET.getNoteFromID("Bb");
-  const B: Note = twelveTET.getNoteFromID("B");
-  const C: Note = twelveTET.getNoteFromID("C");
-  const Cs: Note = twelveTET.getNoteFromID("C#");
-  const Eb: Note = twelveTET.getNoteFromID("Eb");
-  const E: Note = twelveTET.getNoteFromID("E");
-  const F: Note = twelveTET.getNoteFromID("F");
-  const Fs: Note = twelveTET.getNoteFromID("F#");
-  const Ab: Note = twelveTET.getNoteFromID("Ab");
+  const { Ab, A, Bb, B, C, Cs, Eb, E, F, Fs } = notes;
 
   const ethiopianAraray = new Scale(
     "ethiopian (a raray)",

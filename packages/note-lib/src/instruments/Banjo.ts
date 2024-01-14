@@ -5,6 +5,7 @@ import type { Note } from "../Note";
 import { Course } from "../Course";
 import { IFretSpan } from "../interfaces/IFretSpan";
 import { FrettedInstrument } from "./FrettedInstrument";
+import { Constants } from "../constants/Constants";
 
 export class Banjo extends FrettedInstrument {
   name: string;
@@ -12,7 +13,7 @@ export class Banjo extends FrettedInstrument {
 
   constructor(fretCount: number, tuning: Note[]) {
     super();
-    this.name = "banjo";
+    this.name = Constants.BANJO;
 
     const courses: Course[] = [
       new Course("first-G-string", [new TunedString("first-G-string", tuning[0], "metal", 0.11)]),

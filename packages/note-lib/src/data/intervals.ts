@@ -1,3 +1,4 @@
+import { Constants } from "../constants/Constants";
 import { Interval } from "../Interval";
 
 interface RawInterval {
@@ -13,100 +14,100 @@ export const mainIntervalsList: RawInterval[] = [
   {
     semitones: 0,
     aliases: [
-      { name: "perfect", long: "Perfect unison", short: "P1" },
-      { name: "diminished", long: "Diminished second", short: "d2" },
-      { name: "root", short: "R" },
+      { name: Constants.PERFECT, long: Constants.PERFECT_UNISON, short: Constants.PERFECT_UNISON_SHORT },
+      { name: Constants.DIMINISHED, long: Constants.DIMINISHED_SECOND, short: Constants.DIMINISHED_SECOND_SHORT },
+      { name: Constants.ROOT, short: Constants.ROOT_SHORT },
     ],
   },
   {
     semitones: 1,
     aliases: [
-      { name: "minor", long: "Minor second", short: "m2" },
-      { name: "augmented", long: "Augmented unison", short: "A1" },
-      { name: "semitone", short: "S" },
-      { name: "half tone" },
-      { name: "half tone" },
+      { name: Constants.MINOR, long: Constants.MINOR_SECOND, short: Constants.MINOR_SECOND_SHORT },
+      { name: Constants.AUGMENTED, long: Constants.AUGMENTED_UNISON, short: Constants.AUGMENTED_UNISON_SHORT },
+      { name: Constants.SEMITONE, short: Constants.SEMITONE_SHORT },
+      { name: Constants.HALF_STEP },
+      { name: Constants.HALF_TONE },
     ],
   },
   {
     semitones: 2,
     aliases: [
-      { name: "major", long: "Major second", short: "M2" },
-      { name: "diminished", long: "Diminished third", short: "d3" },
-      { name: "tone", short: "T" },
-      { name: "whole tone" },
-      { name: "whole step" },
+      { name: Constants.MAJOR, long: Constants.MAJOR_SECOND, short: Constants.MAJOR_SECOND_SHORT },
+      { name: Constants.DIMINISHED, long: Constants.DIMINISHED_THIRD, short: Constants.DIMINISHED_THIRD_SHORT },
+      { name: Constants.TONE, short: Constants.TONE_SHORT },
+      { name: Constants.WHOLE_STEP },
+      { name: Constants.WHOLE_TONE },
     ],
   },
   {
     semitones: 3,
     aliases: [
-      { name: "minor", long: "Minor third", short: "m3" },
-      { name: "augmented", long: "Augmented second", short: "A2" },
+      { name: Constants.MINOR, long: Constants.MINOR_THIRD, short: Constants.MINOR_THIRD_SHORT },
+      { name: Constants.AUGMENTED, long: Constants.AUGMENTED_SECOND, short: Constants.AUGMENTED_SECOND_SHORT },
     ],
   },
   {
     semitones: 4,
     aliases: [
-      { name: "major", long: "Major third", short: "M3" },
-      { name: "diminished", long: "Diminished fourth", short: "d4" },
+      { name: Constants.MAJOR, long: Constants.MAJOR_THIRD, short: Constants.MAJOR_THIRD_SHORT },
+      { name: Constants.DIMINISHED, long: Constants.DIMINISHED_FOURTH, short: Constants.DIMINISHED_FOURTH_SHORT },
     ],
   },
   {
     semitones: 5,
     aliases: [
-      { name: "perfect", long: "Perfect fourth", short: "P4" },
-      { name: "augmented", long: "Augmented third", short: "A3" },
+      { name: Constants.PERFECT, long: Constants.PERFECT_FOURTH, short: Constants.PERFECT_FOURTH_SHORT },
+      { name: Constants.AUGMENTED, long: Constants.AUGMENTED_THIRD, short: Constants.AUGMENTED_THIRD_SHORT },
     ],
   },
   {
     semitones: 6,
     aliases: [
-      { name: "diminished", long: "Diminished fifth", short: "d5" },
-      { name: "augmented", long: "Augmented fourth", short: "A4" },
-      { name: "tritone", short: "TT" },
+      { name: Constants.DIMINISHED, long: Constants.DIMINISHED_FIFTH, short: Constants.DIMINISHED_FIFTH_SHORT },
+      { name: Constants.AUGMENTED, long: Constants.AUGMENTED_FOURTH, short: Constants.AUGMENTED_FOURTH_SHORT },
+      { name: Constants.TRITONE, short: Constants.TRITONE_SHORT },
     ],
   },
   {
     semitones: 7,
     aliases: [
-      { name: "perfect", long: "Perfect fifth", short: "P5" },
-      { name: "diminished", long: "Diminished sixth", short: "d6" },
+      { name: Constants.PERFECT, long: Constants.PERFECT_FIFTH, short: Constants.PERFECT_FIFTH_SHORT },
+      { name: Constants.DIMINISHED, long: Constants.DIMINISHED_SIXTH, short: Constants.DIMINISHED_SIXTH_SHORT },
     ],
   },
   {
     semitones: 8,
     aliases: [
-      { name: "minor", long: "Minor sixth", short: "m6" },
-      { name: "augmented", long: "Augmented fifth", short: "A5" },
+      { name: Constants.MINOR, long: Constants.MINOR_SIXTH, short: Constants.MINOR_SIXTH_SHORT },
+      { name: Constants.AUGMENTED, long: Constants.AUGMENTED_FIFTH, short: Constants.AUGMENTED_FIFTH_SHORT },
     ],
   },
   {
     semitones: 9,
     aliases: [
-      { name: "major", long: "Major sixth", short: "M6" },
-      { name: "diminished", long: "Diminished seventh", short: "d7" },
+      { name: Constants.MAJOR, long: Constants.MAJOR_SIXTH, short: Constants.MAJOR_SIXTH_SHORT },
+      { name: Constants.DIMINISHED, long: Constants.DIMINISHED_SEVENTH, short: Constants.DIMINISHED_SEVENTH_SHORT },
     ],
   },
   {
     semitones: 10,
     aliases: [
-      { name: "minor", long: "Minor seventh", short: "m7" },
-      { name: "augmented", long: "Augmented sixth", short: "A6" },
+      { name: Constants.MINOR, long: Constants.MINOR_SEVENTH, short: Constants.MINOR_SEVENTH_SHORT },
+      { name: Constants.AUGMENTED, long: Constants.AUGMENTED_SIXTH, short: Constants.AUGMENTED_SIXTH_SHORT },
     ],
   },
   {
     semitones: 11,
     aliases: [
-      { name: "major", long: "Major seventh", short: "M7" },
-      { name: "diminished", long: "Diminished octave", short: "d8" },
+      { name: Constants.MAJOR, long: Constants.MAJOR_SEVENTH, short: Constants.MAJOR_SEVENTH_SHORT },
+      { name: Constants.DIMINISHED, long: Constants.DIMINISHED_OCTAVE, short: Constants.DIMINISHED_OCTAVE_SHORT },
     ],
   },
   {
     semitones: 12,
     aliases: [
-      { name: "perfect", long: "Perfect octave", short: "P8" },
-      { name: "augmented", long: "Augmented seventh", short: "A7" },
+      { name: Constants.PERFECT, long: Constants.PERFECT_OCTAVE, short: Constants.PERFECT_OCTAVE_SHORT },
+      { name: Constants.AUGMENTED, long: Constants.AUGMENTED_SEVENTH, short: Constants.AUGMENTED_SEVENTH_SHORT },
     ],
   },
 ];
