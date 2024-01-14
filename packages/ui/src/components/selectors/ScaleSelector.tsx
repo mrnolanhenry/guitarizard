@@ -24,7 +24,7 @@ const ScaleSelector = (props: IScalesSelectorProps) => {
       return options;
     }
     else {
-      const trimVal = inputValue.trim();
+      const trimVal = inputValue.trim().toLowerCase();
       // trimming each term, so it can handle inputs with lots of empty space e.g. "0,1, 2, 3, 5, , , 6, " or "A, B,C#,D, ,Eb"
       const inputValues = trimVal.split(",").map((val) => val.trim()).filter((val) => !!val);
 
@@ -36,7 +36,7 @@ const ScaleSelector = (props: IScalesSelectorProps) => {
   }
 
   const isScaleNameMatch = (scale: Scale, inputValue: string) => {
-    return scale.name.indexOf(inputValue) !== -1;
+    return scale.name.toLowerCase().indexOf(inputValue) !== -1;
   }
 
   const isIntervalMatch = (scale: Scale, inputValues: string[]) => {

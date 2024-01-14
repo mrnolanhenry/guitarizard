@@ -1,9 +1,10 @@
 import { Selector } from "./Selector";
 import { Base16Theme } from "../../colors/themes";
-import { FilterOptionsState } from "@mui/material";
+import { AutocompleteRenderOptionState, FilterOptionsState } from "@mui/material";
+import { ReactNode } from "react";
 
 interface ILabeledSelectorProps<T> {
-  activeItem: T;
+  activeItem?: T;
   filterOptions?: (options: T[], state: FilterOptionsState<T>) => T[] // special handling to filter options
   getValue?: (item: T) => string;
   getDisplay?: (item: T) => string;
@@ -12,6 +13,7 @@ interface ILabeledSelectorProps<T> {
   label?: string;
   minWidth?: string;
   onChange: (item: T) => void;
+  renderOption?: (props: React.HTMLAttributes<HTMLLIElement>, option: T, state: AutocompleteRenderOptionState, ownerState: any) => ReactNode
   theme: Base16Theme;
 }
 
@@ -26,6 +28,7 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
     label,
     minWidth,
     onChange,
+    renderOption,
     theme
   } = props;
   return (
@@ -40,6 +43,7 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
         minWidth={minWidth}
         activeItem={activeItem}
         onChange={onChange}
+        renderOption={renderOption}
         theme={theme}
       />
     </div>

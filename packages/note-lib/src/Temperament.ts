@@ -27,13 +27,13 @@ export class Temperament {
       const note: Note = this.notes[i];
 
       // easy -- found it right away
-      if (note.id === noteID) {
+      if (note.id.toLowerCase() === noteID.toLowerCase()) {
         return note;
       }
 
       // else, check aliases for this note
       const aliasNote: Note | undefined = note.aliasNotes.find(
-        (aliasNote) => aliasNote.id === noteID
+        (aliasNote) => aliasNote.id.toLowerCase() === noteID.toLowerCase()
       );
 
       // return the note as it exists in the temperament
@@ -44,7 +44,7 @@ export class Temperament {
       }
     }
 
-    throw `The given noteID: ${noteID} is NOT valid in this temperament`;
+    return undefined;
   }
 
   /**

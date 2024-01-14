@@ -24,12 +24,12 @@ export class Note {
 
   isSimilar(note: Note): boolean {
     // check the basics
-    if (note.id === this.id) {
+    if (note.id.toLowerCase() === this.id.toLowerCase()) {
       return true;
     }
 
     // check aliases for a match
-    const aliasNote: Note | undefined = this.aliasNotes.find((an) => an.id === note.id);
+    const aliasNote: Note | undefined = this.aliasNotes.find((an) => an.id.toLowerCase() === note.id.toLowerCase());
 
     return !!aliasNote; // force into a bool type (undefined ==> false);
   }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { CSSProperties } from "react";
 import { isEqual } from "lodash";
 import Autocomplete from '@mui/material/Autocomplete';
@@ -6,7 +6,7 @@ import { AutocompleteRenderInputParams, createFilterOptions } from "@mui/materia
 import { styled } from '@mui/system';
 import TextField from '@mui/material/TextField';
 import { Base16Theme } from "../../colors/themes";
-import { FilterOptionsState } from "@mui/material";
+import { AutocompleteRenderOptionState, FilterOptionsState } from "@mui/material";
 import { Constants } from "note-lib";
 
 // Example styling
@@ -22,6 +22,7 @@ interface ISelectorProps<T> {
   getValue?: (item: T) => string; // given an item, what is the option value?
   getDisplay?: (item: T) => any; // given an item, what should we display?
   filterOptions?: (options: T[], state: FilterOptionsState<T>) => T[] // special handling to filter options
+  renderOption?: (props: React.HTMLAttributes<HTMLLIElement>, option: T, state: AutocompleteRenderOptionState, ownerState: any) => ReactNode
   theme: Base16Theme; // what theme should this component be?
 }
 
@@ -36,6 +37,7 @@ const Selector =<T,> (props: ISelectorProps<T>) => {
       label,
       minWidth,
       onChange,
+      renderOption,
       theme,
      } = props;
 
@@ -120,6 +122,14 @@ const Selector =<T,> (props: ISelectorProps<T>) => {
       }
     };
 
+    const defaultRenderOption = (props: React.HTMLAttributes<HTMLLIElement>, option: T, state: AutocompleteRenderOptionState, ownerState: any): ReactNode => {
+      return (
+        <li {...props}>
+          {ownerState.getOptionLabel(option)}
+        </li>
+      );
+    };
+
     const renderTextField = (params: AutocompleteRenderInputParams) => {
       const { inputProps, InputProps } = params;
       // Special case with Material UI's Autocomplete:
@@ -146,9 +156,15 @@ const Selector =<T,> (props: ISelectorProps<T>) => {
       <Autocomplete
         // disablePortal
         clearOnBlur
-        defaultValue={activeItem as NonNullable<T>}
+        clearOnEscape
+        // NOLAN TODO - Check on this undefined statement - don't like it, should be null
+        defaultValue={activeItem ? activeItem as NonNullable<T> : undefined}
         disableClearable
-        filterOptions={!!filterOptions ? filterOptions : createFilterOptions()}
+        filterOptions={!!filterOptions ? filterOptions : createFilterOptions({
+          ignoreAccents: true,
+          ignoreCase: true,
+          trim: true
+        })}
         // fullWidth
         onChange={onChangeValue as any}
         handleHomeEndKeys
@@ -162,6 +178,7 @@ const Selector =<T,> (props: ISelectorProps<T>) => {
           ...classStyling
         }}
         renderInput={renderTextField}
+        renderOption={!!renderOption ? renderOption: defaultRenderOption}
         value={activeItem as NonNullable<T>}
       />
     );
