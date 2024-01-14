@@ -10,20 +10,10 @@ import { FretBoard } from "../src/FretBoard";
 import { NotePitch } from "../src/enums/NotePitch";
 import { Course } from "../src/Course";
 import { IFretSpan } from "../src/interfaces/IFretSpan";
+import { Constants } from "../src";
+import { notes } from "../src/data/temperaments";
 
-const A: Note = twelveTET.getNoteFromID("A");
-const Bb: Note = twelveTET.getNoteFromID("Bb");
-const B: Note = twelveTET.getNoteFromID("B");
-const C: Note = twelveTET.getNoteFromID("C");
-const Cs: Note = twelveTET.getNoteFromID("C#");
-const Db: Note = twelveTET.getNoteFromID("Db");
-const D: Note = twelveTET.getNoteFromID("D");
-const E: Note = twelveTET.getNoteFromID("E");
-const F: Note = twelveTET.getNoteFromID("F");
-const Fs: Note = twelveTET.getNoteFromID("F#");
-const Gb: Note = twelveTET.getNoteFromID("Gb");
-const G: Note = twelveTET.getNoteFromID("G");
-const Ab: Note = twelveTET.getNoteFromID("Ab");
+const { Ab, A, Bb, B, C, Cs, Db, D, E, F, Fs, Gb, G } = notes;
 
 tap.test("class FretBoard --- init", function (t) {
   const system = new Temperament("test", [new Note("X", NotePitch.Neither), new Note("Y", NotePitch.Neither)]);
@@ -86,7 +76,7 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
     [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   );
 
-  t.same(stubbyBoard.getNotesInScale(chromatic, new Note("A", NotePitch.Neither)), [
+  t.same(stubbyBoard.getNotesInScale(chromatic, new Note(Constants.A, NotePitch.Neither)), [
     {
       course: courses[0],
       config: fretSpan[0],
@@ -114,13 +104,13 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
   ]);
 
   t.same(
-    stubbyBoard.getNotesInScale(chromatic, new Note("A", NotePitch.Neither)),
-    stubbyBoard.getNotesInScale(chromatic, new Note("B", NotePitch.Neither)),
+    stubbyBoard.getNotesInScale(chromatic, new Note(Constants.A, NotePitch.Neither)),
+    stubbyBoard.getNotesInScale(chromatic, new Note(Constants.B, NotePitch.Neither)),
     "chromatic scale does not change based on key"
   );
 
   t.same(
-    stubbyBoard.getNotesInScale(chromatic, new Note("A", NotePitch.Neither)),
+    stubbyBoard.getNotesInScale(chromatic, new Note(Constants.A, NotePitch.Neither)),
     stubbyBoard.getNotes(),
     "chromatic scale is the same as `getNotes()`"
   );
@@ -128,7 +118,7 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
   const blues = new Scale("blues", twelveTET, [0, 3, 5, 6, 7, 10, 12]);
 
   t.same(
-    stubbyBoard.getNotesInScale(blues, new Note("A", NotePitch.Neither)),
+    stubbyBoard.getNotesInScale(blues, new Note(Constants.A, NotePitch.Neither)),
     [
       {
         course: courses[0],
@@ -153,7 +143,7 @@ tap.test("class FretBoard --- getNotesInScale", function (t) {
   );
 
   t.same(
-    stubbyBoard.getNotesInScale(blues, new Note("F#", NotePitch.Sharp)),
+    stubbyBoard.getNotesInScale(blues, new Note(Constants.F_SHARP, NotePitch.Sharp)),
     [
       {
         course: courses[0],

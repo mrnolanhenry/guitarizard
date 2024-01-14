@@ -3,19 +3,14 @@ import { Note } from "../src/Note";
 import { Temperament } from "../src/Temperament";
 import { TunedString } from "../src/TunedString";
 import { NotePitch } from "../src/enums/NotePitch";
+import { notes } from "../src/data/temperaments";
+import { Constants } from "../src";
 
 tap.test("class TunedString", function (t) {
-  const A = new Note("A", NotePitch.Neither);
-
-  const As = new Note("A#", NotePitch.Sharp);
-  const Bb = new Note("Bb", NotePitch.Flat, [As]);
-  As.addAliasNote(Bb);
-
-  const B = new Note("B", NotePitch.Neither);
-
+  const { A, Bb, B } = notes;
   const smallTwelveTET = new Temperament("small", [A, Bb, B]);
 
-  const AString = new TunedString("A", A, "catgut", 0.2);
+  const AString = new TunedString(Constants.A, A, "catgut", 0.2);
 
   t.same(AString.getFrettedNotes(smallTwelveTET, 0), [A], "single fret");
   t.same(AString.getFrettedNotes(smallTwelveTET, 1), [A, Bb], "two frets");
@@ -26,7 +21,7 @@ tap.test("class TunedString", function (t) {
     "looping temperament"
   );
 
-  const BFlatString = new TunedString("Bb", Bb, "catgut", 0.4);
+  const BFlatString = new TunedString(Constants.B_FLAT, Bb, "catgut", 0.4);
 
   t.same(
     BFlatString.getFrettedNotes(smallTwelveTET, 0),

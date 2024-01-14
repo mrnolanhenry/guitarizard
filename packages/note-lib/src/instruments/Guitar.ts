@@ -4,6 +4,7 @@ import { TunedString } from "../TunedString";
 import type { Note } from "../Note";
 import { FrettedInstrument } from "./FrettedInstrument";
 import { Course } from "../Course";
+import { Constants } from "../constants/Constants";
 
 const getCourses = (tuning: Note[], isDoubledStrings: boolean): Course[] => {
   const courseCount: number = tuning.length;
@@ -83,12 +84,12 @@ const getInstrumentName = (tuning: Note[], isDoubledStrings: boolean): string =>
   const courseCount: number = tuning.length;
   if (courseCount === 6) {
     if (!isDoubledStrings){ 
-      return "guitar";
+      return Constants.GUITAR;
     } else {
-      return `guitar (${courseCount * 2} string)`
+      return `${Constants.GUITAR} (${courseCount * 2} string)`
     }
   } else {
-    return `guitar (${courseCount} string)`
+    return `${Constants.GUITAR} (${courseCount} string)`
   }
 }
 

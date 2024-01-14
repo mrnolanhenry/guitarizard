@@ -1,5 +1,6 @@
 import tap from "tap";
 import * as API from "../src/index";
+import { Constants } from "../src/index";
 
 tap.test("exposed API", function (t) {
   t.ok(API.Note, "expect Note");
@@ -16,7 +17,7 @@ tap.test("exposed API", function (t) {
   t.ok(API.instrument.Mandolin, "expect instrument.Mandolin");
   t.ok(API.instrument.Ukulele, "expect instrument.Ukulele");
 
-  t.ok(API.data.temperament.twelveTET, "expect twelveTET temperament");
+  t.ok(API.data.temperaments.find((temperament) => temperament.name = Constants.TWELVE_TET, "expect twelveTET temperament"));
 
   t.equal(API.data.scales.length, 130, "expect correct scale length");
 

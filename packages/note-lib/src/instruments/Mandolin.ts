@@ -4,10 +4,9 @@ import { TunedString } from "../TunedString";
 import { Course } from "../Course";
 import type { Note } from "../Note";
 import { FrettedInstrument } from "./FrettedInstrument";
+import { Constants } from "../constants/Constants";
 
-// TODO: Implement support for "Courses" or "double stringed" instruments (e.g. 12-string guitar, Bouzouki, https://en.wikipedia.org/wiki/Lute, etc.)
-// For now, representing Mandolin without doubled strings.
-// https://en.wikipedia.org/wiki/Mandolin
+// TODO: Implement support for other "double stringed" instruments (e.g. 12-string guitar, Bouzouki, https://en.wikipedia.org/wiki/Lute, etc.)
 // https://en.wikipedia.org/wiki/Course_(music)
 
 export class Mandolin extends FrettedInstrument{
@@ -15,7 +14,7 @@ export class Mandolin extends FrettedInstrument{
   fretBoard: FretBoard;
   constructor(fretCount: number, tuning: Note[]) {
     super();
-    this.name = "mandolin";
+    this.name = Constants.MANDOLIN;
 
     const course1 = new Course("G-strings",[
       new TunedString("G-string-1", tuning[0], "metal", 4),

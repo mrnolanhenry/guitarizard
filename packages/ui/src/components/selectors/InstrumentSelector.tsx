@@ -1,3 +1,4 @@
+import { Constants } from "note-lib";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { Base16Theme } from "../../colors/themes";
 import { LabeledSelector } from "./LabeledSelector";
@@ -25,7 +26,7 @@ const InstrumentSelector = (props: IInstrumentSelectorProps) => {
   const items: FrettedInstrument[] = [];
   instruments.forEach((instrument) => {
     if (
-      typeof activeInstrument.name !== "undefined" &&
+      typeof activeInstrument.name !== Constants.UNDEFINED &&
       instrument.name === activeInstrument.name
     ) {
       activeItem = instrument;

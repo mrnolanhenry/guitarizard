@@ -1,17 +1,14 @@
 import tap from "tap";
-import { Note } from "../src/Note";
 import { TunedString } from "../src/TunedString";
-import { NotePitch } from "../src/enums/NotePitch";
 import { Course } from "../src/Course";
+import { Constants } from "../src/constants/Constants";
+import { notes } from "../src/data/temperaments";
 
 tap.test("class Course", function (t) {
-  const A = new Note("A", NotePitch.Neither);
-  const As = new Note("A#", NotePitch.Sharp);
-  const Bb = new Note("Bb", NotePitch.Flat, [As]);
-  As.addAliasNote(Bb);
+  const { A, Bb } = notes;
 
-  const AString = new TunedString("A", A, "catgut", 0.2);
-  const BFlatString = new TunedString("Bb", Bb, "catgut", 0.4);
+  const AString = new TunedString(Constants.A, A, "catgut", 0.2);
+  const BFlatString = new TunedString(Constants.B_FLAT, Bb, "catgut", 0.4);
 
   const course = new Course("test-course", [AString, BFlatString]);
 

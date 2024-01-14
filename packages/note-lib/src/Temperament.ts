@@ -1,5 +1,6 @@
 import { Note } from "./Note";
 import type { NoteID } from "./Note";
+import { Constants } from "./constants/Constants";
 
 /**
  * A temperament is a musical system of defining intervals/notes... it's hard to explain.
@@ -38,7 +39,7 @@ export class Temperament {
       // return the note as it exists in the temperament
       // order and NOT the alias note. The note will
       // contain the alias should the consumer need it.
-      if (typeof aliasNote !== "undefined") {
+      if (typeof aliasNote !== Constants.UNDEFINED) {
         return note;
       }
     }
@@ -51,7 +52,7 @@ export class Temperament {
    * as keys. Basically takes all availables notes, and
    * their aliases, and smushes them together.
    */
-  getKeyNotes(): Note[] {
+  getNotesInTemperament(): Note[] {
     return this.notes.reduce((acc: Note[], note: Note) => {
       acc = acc.concat(note.aliasNotes);
       acc = acc.concat([note]);
@@ -148,7 +149,7 @@ export class Temperament {
    *
    */
   getNextNote(fromNote: Note, stepsAway?: number): Note {
-    if (typeof stepsAway === "undefined") {
+    if (typeof stepsAway === Constants.UNDEFINED) {
       stepsAway = 1;
     }
 

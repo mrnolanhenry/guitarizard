@@ -14,13 +14,13 @@ import { FretBoard } from "note-lib/src/FretBoard";
 type InstrumentMap = Map<string, FrettedInstrument>;
 
 const initInstruments = (temperament: Temperament) => {
-  const A: Note = temperament.getNoteFromID("A");
-  const B: Note = temperament.getNoteFromID("B");
-  const C: Note = temperament.getNoteFromID("C");
-  const D: Note = temperament.getNoteFromID("D");
-  const E: Note = temperament.getNoteFromID("E");
-  const Fs: Note = temperament.getNoteFromID("F#");
-  const G: Note = temperament.getNoteFromID("G");
+  const A: Note = temperament.getNoteFromID(Constants.A);
+  const B: Note = temperament.getNoteFromID(Constants.B);
+  const C: Note = temperament.getNoteFromID(Constants.C);
+  const D: Note = temperament.getNoteFromID(Constants.D);
+  const E: Note = temperament.getNoteFromID(Constants.E);
+  const Fs: Note = temperament.getNoteFromID(Constants.F_SHARP);
+  const G: Note = temperament.getNoteFromID(Constants.G);
 
   const instrumentMap: InstrumentMap = new Map();
   const guitar = new instrument.Guitar(21, [E, A, D, G, B, E]);
@@ -48,10 +48,10 @@ const initInstruments = (temperament: Temperament) => {
 }
 
 const App = () => {
-    const twelveTET: Temperament = data.temperament.twelveTET;
+    const twelveTET: Temperament = data.temperaments.find((temperament) => temperament.name === Constants.TWELVE_TET) as Temperament;
     const scales: Scale[] = data.scales;
-    const initKeyNote: Note = twelveTET.getNoteFromID("E");
-    const initScale: Scale = scales.find(scale => scale.name === "major") as Scale;
+    const initKeyNote: Note = twelveTET.getNoteFromID(Constants.E);
+    const initScale: Scale = scales.find(scale => scale.name === Constants.MAJOR) as Scale;
     const instrumentMap = initInstruments(twelveTET);
     const [instruments, setInstruments] = useState(instrumentMap);
     const [activeKey, setActiveKey] = useState(new Key(initKeyNote, initScale));
@@ -93,7 +93,7 @@ const App = () => {
     const instrument = activeInstrument;
     const fretBoard = instrument.fretBoard;
 
-    if (typeof instrument === "undefined") {
+    if (typeof instrument === Constants.UNDEFINED) {
       return;
     }
 
@@ -123,7 +123,7 @@ const App = () => {
     const instrument: FrettedInstrument = activeInstrument;
     const fretBoard: FretBoard = instrument.fretBoard;
 
-    if (typeof instrument === "undefined") {
+    if (typeof instrument === Constants.UNDEFINED) {
       return;
     }
     fretBoard.courses.forEach((course, index) => 
