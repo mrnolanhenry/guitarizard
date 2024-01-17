@@ -3,6 +3,9 @@ import { Scale } from "./Scale";
 
 import Scales from "./data/scales";
 import * as util from "./util";
+import lodash from "lodash";
+
+const { isEqual } = lodash;
 
 export class Key {
   note: Note;
@@ -14,10 +17,10 @@ export class Key {
 
   // Given a key's note and scale, return equivalent keys if you were to transpose into other notes & scales
   // e.g. the B Lydian scale is exactly the same series of notes as the Bb neapolitan minor or Db mixolydian, just with a different note designated as the 'key' or root.
-  getEquivKeys() {
-    let equivKeys = [];
-    let scaleArray = [];
-    let scaleLength = this.scale.intervals.length;
+  getEquivKeys(): Key[] {
+    let equivKeys: Key[] = [];
+    let scaleArray: number[] = [];
+    let scaleLength: number = this.scale.intervals.length;
 
     // Fill array of intervalsBySemitones for the given scale
     for (let i = 0; i < scaleLength; i++) {
@@ -50,7 +53,7 @@ export class Key {
           util.sortArray(newScaleArray);
 
           // Check if arrays are equal after having sorted the newScale
-          if (util.isEqualArray1D(scaleArray, newScaleArray)) {
+          if (isEqual(scaleArray, newScaleArray)) {
             let key = new Key(this.scale.temperament.notes[j], Scales[k]);
             equivKeys.push(key);
           }
@@ -58,6 +61,10 @@ export class Key {
       }
     }
     return equivKeys;
+  }
+
+  getDisplayName(): string {
+    return this.note.id + " " + this.scale.name;
   }
 
   toJSON() {

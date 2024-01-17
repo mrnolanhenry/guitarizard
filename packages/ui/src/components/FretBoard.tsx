@@ -1,32 +1,39 @@
-import React from "react";
 import "./FretBoard.css";
-import { Key, instrument, Note, Scale } from "note-lib";
+import { CSSProperties } from "react";
+import { Key, Note } from "note-lib";
 import { FretBoard as Fretboard } from "../../../note-lib/src/FretBoard";
-import { Base16Theme } from "../colors/colors";
-import FretSegment from "./FretSegment";
-import NoteSelector from "./NoteSelector";
+import { Base16Theme } from "../colors/themes";
+import { FretSegment } from "./FretSegment";
+import { NoteSelector } from "./selectors/NoteSelector";
+import { ScaleOnCourse } from "note-lib/src/ScaleOnCourse";
+import { TunedString } from "note-lib/src/TunedString";
 
-interface Props {
-  instrumentName: string;
-  fretBoard: Fretboard;
-  scale: Scale;
-  keyNote: Note;
+interface IFretBoardProps {
   activeKey: Key;
-  showFretBar: boolean;
-  onTune: (instrumentName: string, stringID: string, newTuning: Note) => void;
+  fretBoard: Fretboard;
   isRainbowMode: boolean;
+  onTune: (courseId: string, newTuning: Note) => void;
+  showFretBar: boolean;
   theme: Base16Theme;
 }
 
-export default function FretBoard(props: Props) {
-  const fretBarStyle = {
-    backgroundColor: props.theme.base00,
-    borderColor: props.theme.base01,
+const FretBoard = (props: IFretBoardProps) => {
+  const { 
+    activeKey, 
+    fretBoard, 
+    isRainbowMode, 
+    onTune, 
+    showFretBar, 
+    theme 
+  } = props;
+  const fretBarStyle: CSSProperties = {
+    backgroundColor: theme.base00,
+    borderColor: theme.base01,
   };
 
-  const fretBar = props.showFretBar && (
+  const fretBar = showFretBar && (
     <div className="fret-labels">
-      {[...Array(props.fretBoard.getFretCount())].map((_, i) => {
+      {[...Array(fretBoard.getFretCount())].map((_, i) => {
         // TODO: this is a terrible key
         return (
           <div key={`${i}:${Math.random()}`} style={fretBarStyle}>
@@ -37,78 +44,84 @@ export default function FretBoard(props: Props) {
     </div>
   );
 
-  const tuningPegsStyle = {
-    backgroundColor: props.theme.base07,
-    color: props.theme.base04,
-    borderColor: props.theme.base03,
-    boxShadow: "2px 0px " + props.theme.base07,
+  const tuningPegsStyle: CSSProperties = {
+    backgroundColor: theme.base07,
+    color: theme.base04,
+    borderColor: theme.base03,
+    boxShadow: "2px 0px " + theme.base07,
   };
 
   const tuningPegs = (
     <div className="tuning-pegs" style={tuningPegsStyle}>
-      {props.fretBoard.tunedStrings.map((string) => {
+      {fretBoard.courses.map((course) => {
         return (
           <NoteSelector
-            key={string.id}
-            temperament={props.fretBoard.temperament}
-            note={string.tuningNote}
+            id={course.id}
+            key={course.id}
+            temperament={fretBoard.temperament}
+            note={course.tunedStrings[0].tuningNote}
             onNoteSelect={(n: Note) =>
-              props.onTune(props.instrumentName, string.id, n)
+              onTune(course.id, n)
             }
-            theme={props.theme}
+            theme={theme}
           />
         );
       })}
     </div>
   );
 
-  const stringStyle = { borderColor: props.theme.base09 };
+  const stringStyle: CSSProperties = { borderColor: theme.base09 };
+  const boardStyle: CSSProperties = { backgroundColor: theme.base0F };
 
-  const stringScales = props.fretBoard.getNotesInScale(
-    props.scale,
-    props.keyNote
+  const scalesOnCourses: ScaleOnCourse[] = fretBoard.getNotesInScale(
+    activeKey.scale,
+    activeKey.note
   );
 
-  const boardStyle = { backgroundColor: props.theme.base0F };
+  const courses = scalesOnCourses.map((scaleOnCourse, courseIndex) => {
+    const tunedStrings: TunedString[] = scaleOnCourse.course.tunedStrings;
+    return tunedStrings.map((tunedString, stringIndex) => {
+      // only want to return true for this if there are multiple strings in 1 course
+      // and it is the last string in the course
+      // const isLastStringInCourse: boolean = !!(stringIndex) && stringIndex === tunedStrings.length - 1;
+      // const lastStringStyle = {paddingTop: ".5em"};
+      const fretSegments = [...Array(fretBoard.getFretCount())].map(
+        (_, i) => {
+          return (
+            <FretSegment
+              activeKey={activeKey}
+              fret={i}
+              key={`fret-segment-${courseIndex}-${stringIndex}-${i}`}
+              isRainbowMode={isRainbowMode}
+              scaleOnCourse={scaleOnCourse}
+              // style={isLastStringInCourse ? lastStringStyle : {}}
+              theme={theme}
+            />
+          );
+        }
+      );
 
-  const strings = stringScales.map((stringScale, idx) => {
-    const fretSegments = [...Array(props.fretBoard.getFretCount())].map(
-      (_, i) => {
-        // TODO: this is a terrible key
-        return (
-          <FretSegment
-            key={`${i}:${Math.random()}`}
-            activeKey={props.activeKey}
-            stringScale={stringScale}
-            fret={i}
-            isRainbowMode={props.isRainbowMode}
-            theme={props.theme}
-          />
-        );
-      }
-    );
-
-    // TODO: this is a terrible key
-    return (
-      <div
-        key={`${idx}:${Math.random()}`}
-        className="string"
-        style={stringStyle}
-      >
-        {fretSegments}
-      </div>
-    );
+      return (
+        <div
+          className="string"
+          key={`string-${courseIndex}-${stringIndex}`}
+          style={stringStyle}
+        >
+          {fretSegments}
+        </div>
+      );
+    });
   });
 
   const board = (
     <div className="board" style={boardStyle}>
-      {strings}
+      {courses}
     </div>
   );
 
-  const style = {
-    backgroundColor: props.theme.base00,
-    borderColor: props.theme.base00,
+  const style: CSSProperties = {
+    backgroundColor: theme.base00,
+    borderColor: theme.base00,
   };
 
   return (
@@ -119,3 +132,5 @@ export default function FretBoard(props: Props) {
     </div>
   );
 }
+
+export { FretBoard };

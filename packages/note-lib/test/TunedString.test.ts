@@ -2,19 +2,15 @@ import tap from "tap";
 import { Note } from "../src/Note";
 import { Temperament } from "../src/Temperament";
 import { TunedString } from "../src/TunedString";
+import { NotePitch } from "../src/enums/NotePitch";
+import { notes } from "../src/data/temperaments";
+import { Constants } from "../src";
 
 tap.test("class TunedString", function (t) {
-  const A = new Note("A", { isNatural: true });
+  const { A, Bb, B } = notes;
+  const smallTwelveTET = new Temperament("small", [A, Bb, B]);
 
-  const As = new Note("A#", { isSharp: true });
-  const Bb = new Note("Bb", { isFlat: true }, [As]);
-  As.addAliasNote(Bb);
-
-  const B = new Note("B", { isNatural: true });
-
-  const smallTwelveTET = new Temperament("small", [A, As, B]);
-
-  const AString = new TunedString("A", A, "catgut", 0.2);
+  const AString = new TunedString(Constants.A, A, "catgut", 0.2);
 
   t.same(AString.getFrettedNotes(smallTwelveTET, 0), [A], "single fret");
   t.same(AString.getFrettedNotes(smallTwelveTET, 1), [A, Bb], "two frets");
@@ -25,7 +21,7 @@ tap.test("class TunedString", function (t) {
     "looping temperament"
   );
 
-  const BFlatString = new TunedString("Bb", Bb, "catgut", 0.4);
+  const BFlatString = new TunedString(Constants.B_FLAT, Bb, "catgut", 0.4);
 
   t.same(
     BFlatString.getFrettedNotes(smallTwelveTET, 0),
@@ -37,11 +33,11 @@ tap.test("class TunedString", function (t) {
   t.equal(AString.toString(), JSON.stringify(AString));
 
   t.test("setTuningNote", (t) => {
-    const testString = new TunedString("x", new Note("x"), "catgut", 0.2);
+    const testString = new TunedString("x", new Note("x", NotePitch.Neither), "catgut", 0.2);
 
     t.equal(testString.tuningNote.id, "x");
 
-    testString.setTuningNote(new Note("y"));
+    testString.setTuningNote(new Note("y", NotePitch.Neither));
 
     t.equal(testString.tuningNote.id, "y");
 

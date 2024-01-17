@@ -1,14 +1,14 @@
 import { Key, Note } from "note-lib";
-import { Base16Theme, rainbow } from "../colors/colors";
-import React, { CSSProperties } from "react";
+import { Base16Theme, rainbow } from "../colors/themes";
+import { CSSProperties } from "react";
 
-interface Props {
+interface INoteTableProps {
   activeKey: Key;
   isRainbowMode: boolean;
   theme: Base16Theme;
 }
 
-export default function noteTable(props: Props) {
+const NoteTable = (props: INoteTableProps) => {
   const { activeKey, isRainbowMode, theme } = props;
 
   const rowDiv: CSSProperties = {
@@ -37,16 +37,16 @@ export default function noteTable(props: Props) {
     noteStyle: CSSProperties,
     note: Note | null,
     activeKey: Key
-  ) => {
+    ): CSSProperties => {
     let noteTextStyle: CSSProperties = noteStyle;
 
     if (isRainbowMode && note) {
-      let notes = activeKey.scale.getNotesInKey(activeKey.note);
-      let semitones = activeKey.scale.intervals.map(
+      let notes: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
+      let semitones: number[] = activeKey.scale.intervals.map(
         (interval) => interval.semitones
       );
 
-      let semitoneColors = semitones.map((semitone) => rainbow[semitone]);
+      let semitoneColors: string[] = semitones.map((semitone) => rainbow[semitone]);
 
       let noteIntervalColorCombos = notes.map((n, i) => ({
         note: n,
@@ -68,7 +68,7 @@ export default function noteTable(props: Props) {
     return noteTextStyle;
   };
 
-  let notes = activeKey.scale.getNotesInKey(activeKey.note);
+  let notes: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
 
   const mapNotes = (findFlats: boolean): JSX.Element => {
     return (
@@ -119,3 +119,5 @@ export default function noteTable(props: Props) {
     </div>
   );
 }
+
+export { NoteTable };

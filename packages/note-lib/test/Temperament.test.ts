@@ -1,60 +1,16 @@
 import tap from "tap";
+import { Constants } from "../src";
+import { notes } from "../src/data/temperaments";
+import { twelveTET } from "../src/data/temperaments/twelveTET";
+import { NotePitch } from "../src/enums/NotePitch";
 import { Note } from "../src/Note";
-import { Temperament } from "../src/Temperament";
 
 tap.test("class Temperament", function (t) {
-  const A = new Note("A", { isNatural: true });
-
-  const As = new Note("A#", { isSharp: true });
-  const Bb = new Note("Bb", { isFlat: true }, [As]);
-  As.addAliasNote(Bb);
-
-  const B = new Note("B", { isNatural: true });
-
-  const C = new Note("C", { isNatural: true });
-
-  const Cs = new Note("C#", { isSharp: true });
-  const Db = new Note("Db", { isFlat: true }, [Cs]);
-  Cs.addAliasNote(Db);
-
-  const D = new Note("D", { isNatural: true });
-
-  const Ds = new Note("D#", { isSharp: true });
-  const Eb = new Note("Eb", { isFlat: true }, [Ds]);
-  Ds.addAliasNote(Eb);
-
-  const E = new Note("E", { isNatural: true });
-
-  const F = new Note("F", { isNatural: true });
-
-  const Fs = new Note("F#", { isSharp: true });
-  const Gb = new Note("Gb", { isFlat: true }, [Fs]);
-  Fs.addAliasNote(Gb);
-
-  const G = new Note("G", { isNatural: true });
-
-  const Gs = new Note("G#", { isSharp: true });
-  const Ab = new Note("Ab", { isFlat: true }, [Gs]);
-  Gs.addAliasNote(Ab);
-
-  const twelveTET = new Temperament("twelveTET", [
-    A,
-    Bb,
-    B,
-    C,
-    Db,
-    D,
-    Eb,
-    E,
-    F,
-    Gb,
-    G,
-    Ab,
-  ]);
+  const { Ab, A, As, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs} = notes;
 
   t.equal(twelveTET.notes.length, 12, "should have 12 notes");
 
-  t.same(twelveTET.getNoteFromID("A#"), Bb, "pluck note given an id");
+  t.same(twelveTET.getNoteFromID(Constants.A_SHARP), Bb, "pluck note given an id");
 
   t.equal(twelveTET.getNoteInterval(A, C), 3, "correct offset (basic)");
 
@@ -92,7 +48,7 @@ tap.test("class Temperament", function (t) {
   t.equal(twelveTET.toString(), JSON.stringify(twelveTET));
 
   t.same(
-    twelveTET.getKeyNotes(),
+    twelveTET.getNotesInTemperament(),
     [A, As, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs, Ab],
     "should list all key notes"
   );
@@ -100,10 +56,10 @@ tap.test("class Temperament", function (t) {
   t.equal(
     (() => {
       try {
-        twelveTET.getShiftedNotes(new Note("invalid-note"));
+        twelveTET.getShiftedNotes(new Note("invalid-note", NotePitch.Flat));
       } catch (error) {
         return (
-          `${error}` === "fromNote 'invalid-note' does not exist in temperament"
+          `${error}` === `The given noteID: invalid-note is NOT valid in this temperament`
         );
       }
 

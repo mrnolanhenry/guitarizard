@@ -3,12 +3,14 @@ import { Note } from "../src/Note";
 import { Scale } from "../src/Scale";
 import {
   twelveTET,
-  notes as twelveTET_notes,
 } from "../src/data/temperaments/twelveTET";
 import { Key } from "../src/Key";
+import { notes } from "../src/data/temperaments";
 
-// WIP - will finish test file once Key.js is finalized
+// WIP - will finish test file once Key.ts is finalized
 tap.test("class Key", function (t) {
+  const { A, As, Bb, C, D, E, F, G } = notes;
+
   const lydianScale = new Scale(
     "lydian",
     twelveTET,
@@ -16,6 +18,11 @@ tap.test("class Key", function (t) {
   );
   const neapolitanMinorScale = new Scale(
     "neapolitan minor",
+    twelveTET,
+    [0, 1, 3, 5, 7, 8, 10, 12]
+  );
+  const phrygianScale = new Scale(
+    "phrygian",
     twelveTET,
     [0, 1, 3, 5, 7, 8, 10, 12]
   );
@@ -29,10 +36,35 @@ tap.test("class Key", function (t) {
     twelveTET,
     [0, 2, 3, 5, 7, 8, 10, 12]
   );
+  const ethiopianEzelScale = new Scale(
+    "ethiopian (ezel)",
+    twelveTET,
+    [0, 2, 3, 5, 7, 8, 10, 12]
+  );
+  const ethiopianGeezScale = new Scale(
+    "ethiopian (geez)",
+    twelveTET,
+    [0, 2, 3, 5, 7, 8, 10, 12]
+  );
+  const melodicMinorDescScale = new Scale(
+    "melodic minor (descending)",
+    twelveTET,
+    [0, 2, 3, 5, 7, 8, 10, 12]
+  );
+  const naturalMinorScale = new Scale(
+    "natural minor",
+    twelveTET,
+    [0, 2, 3, 5, 7, 8, 10, 12]
+  );
   const locrianScale = new Scale(
     "locrian",
     twelveTET,
     [0, 1, 3, 5, 6, 8, 10, 12]
+  );
+  const ethiopianArarayScale = new Scale(
+    "ethiopian (a raray)",
+    twelveTET,
+    [0, 2, 4, 5, 7, 9, 11, 12]
   );
   const ionianScale = new Scale(
     "ionian",
@@ -46,31 +78,37 @@ tap.test("class Key", function (t) {
     [0, 2, 3, 5, 7, 9, 10, 12]
   );
 
-  const BbLydian = new Key(twelveTET_notes.Bb, lydianScale);
-  const AsLydian = new Key(twelveTET_notes.As, lydianScale);
-  const ANeapolitanMinor = new Key(twelveTET_notes.A, neapolitanMinorScale);
-  const CMixolydian = new Key(twelveTET_notes.C, mixolydianScale);
-  const DAeolian = new Key(twelveTET_notes.D, aeolianScale);
-  const ELocrian = new Key(twelveTET_notes.E, locrianScale);
-  const FIonian = new Key(twelveTET_notes.F, ionianScale);
-  const FMajor = new Key(twelveTET_notes.F, majorScale);
-  const GDorian = new Key(twelveTET_notes.G, dorianScale);
+  const BbLydian = new Key(Bb, lydianScale);
+  const AsLydian = new Key(As, lydianScale);
+  const ANeapolitanMinor = new Key(A, neapolitanMinorScale);
+  const APhrygian = new Key(A, phrygianScale);
+  const CMixolydian = new Key(C, mixolydianScale);
+  const DAeolian = new Key(D, aeolianScale);
+  const DEthiopianEzel = new Key(D, ethiopianEzelScale);
+  const DEthiopianGeez = new Key(D, ethiopianGeezScale);
+  const DMelodicMinorDesc = new Key(D, melodicMinorDescScale);
+  const DNaturalMinor = new Key(D, naturalMinorScale);
+  const ELocrian = new Key(E, locrianScale);
+  const FEthiopianAraray = new Key(F, ethiopianArarayScale);
+  const FIonian = new Key(F, ionianScale);
+  const FMajor = new Key(F, majorScale);
+  const GDorian = new Key(G, dorianScale);
 
-  const BbLydianequivKeys = BbLydian.getEquivKeys();
-  const AsLydianequivKeys = AsLydian.getEquivKeys();
+  const BbLydianEquivKeys: Key[] = BbLydian.getEquivKeys();
+  const AsLydianEquivKeys: Key[] = AsLydian.getEquivKeys();
 
   t.same(BbLydian.scale, lydianScale, "scale identified");
 
-  t.same(BbLydian.note, twelveTET_notes.Bb, "flat note identified");
-  t.same(AsLydian.note, twelveTET_notes.As, "sharp note identified");
+  t.same(BbLydian.note, Bb, "flat note identified");
+  t.same(AsLydian.note, As, "sharp note identified");
 
   t.same(
-    BbLydianequivKeys[0],
+    BbLydianEquivKeys[0],
     ANeapolitanMinor,
     "equivalent key 0 identified given flat note"
   );
   t.same(
-    AsLydianequivKeys[0],
+    AsLydianEquivKeys[0],
     ANeapolitanMinor,
     "equivalent key 0 identified given sharp note"
   );
@@ -79,10 +117,16 @@ tap.test("class Key", function (t) {
     BbLydian.getEquivKeys(),
     [
       ANeapolitanMinor,
+      APhrygian,
       BbLydian,
       CMixolydian,
       DAeolian,
+      DEthiopianEzel,
+      DEthiopianGeez,
+      DMelodicMinorDesc,
+      DNaturalMinor,
       ELocrian,
+      FEthiopianAraray,
       FIonian,
       FMajor,
       GDorian,
@@ -94,10 +138,16 @@ tap.test("class Key", function (t) {
     AsLydian.getEquivKeys(),
     [
       ANeapolitanMinor,
+      APhrygian,
       BbLydian,
       CMixolydian,
       DAeolian,
+      DEthiopianEzel,
+      DEthiopianGeez,
+      DMelodicMinorDesc,
+      DNaturalMinor,
       ELocrian,
+      FEthiopianAraray,
       FIonian,
       FMajor,
       GDorian,

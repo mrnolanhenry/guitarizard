@@ -1,253 +1,178 @@
 import "./App.css";
-import { Component } from "react";
-import { cloudCity, Base16Theme } from "./colors/colors";
-import { ToolName } from "./components/ToolSelector";
-import TopBar from "./components/TopBar";
-import Scalebook from "./components/Scalebook";
+import { CSSProperties, useState } from "react";
+import { cloudCity } from "./colors/themes";
+import { ToolName } from "./components/selectors/ToolSelector";
+import { TopBar } from "./components/TopBar";
+import { Scalebook } from "./components/tools/Scalebook";
 import { Key, Note, Scale, Temperament, instrument, data } from "note-lib";
-import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
 import { Tuning } from "note-lib/src/Tuning";
-import { Constants } from "note-lib/src/constants/Constants"
+import { Constants } from "note-lib/src/constants/Constants";
+import { Course } from "note-lib/src/Course";
+import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
+import { FretBoard } from "note-lib/src/FretBoard";
 
-type InstrumentMap = Map<string, IFrettedInstrument>;
+type InstrumentMap = Map<string, FrettedInstrument>;
 
-interface State {
-  instruments: InstrumentMap;
-  activeInstrument: IFrettedInstrument;
-  activeScale: Scale;
-  activeTuning: Tuning;
-  keyNote: Note;
-  activeKey: Key;
-  temperament: Temperament;
-  activeToolName: ToolName;
-  isRainbowMode: boolean;
-  onToggleNoteTable: boolean;
-  onToggleIntervalTable: boolean;
-  theme: Base16Theme;
+const initInstruments = (temperament: Temperament) => {
+  const A: Note = temperament.getNoteFromID(Constants.A);
+  const B: Note = temperament.getNoteFromID(Constants.B);
+  const C: Note = temperament.getNoteFromID(Constants.C);
+  const D: Note = temperament.getNoteFromID(Constants.D);
+  const E: Note = temperament.getNoteFromID(Constants.E);
+  const Fs: Note = temperament.getNoteFromID(Constants.F_SHARP);
+  const G: Note = temperament.getNoteFromID(Constants.G);
+
+  const instrumentMap: InstrumentMap = new Map();
+  const guitar = new instrument.Guitar(21, [E, A, D, G, B, E]);
+  const sevenStringGuitar = new instrument.Guitar(21, [B, E, A, D, G, B, E]);
+  const eightStringGuitar = new instrument.Guitar(21, [Fs, B, E, A, D, G, B, E]);
+  const twelveStringGuitar = new instrument.Guitar(21, [E, A, D, G, B, E], true);
+  const banjo = new instrument.Banjo(21, [G, D, G, B, D]);
+  const ukulele = new instrument.Ukulele(20, [G, C, E, A]);
+  const fourStringBass = new instrument.Bass(21, [E, A, D, G]);
+  const fiveStringBass = new instrument.Bass(21, [B, E, A, D, G]);
+  const sixStringBass = new instrument.Bass(21, [B, E, A, D, G, C]);
+  const mandolin = new instrument.Mandolin(17, [G, D, A, E]);
+
+  instrumentMap.set("guitar", guitar);
+  instrumentMap.set("guitar (7 string)", sevenStringGuitar);
+  instrumentMap.set("guitar (8 string)", eightStringGuitar);
+  instrumentMap.set("guitar (12 string)", twelveStringGuitar);
+  instrumentMap.set("banjo", banjo);
+  instrumentMap.set("ukulele",ukulele);
+  instrumentMap.set("bass", fourStringBass);
+  instrumentMap.set("bass (5 string)",fiveStringBass);
+  instrumentMap.set("bass (6 string)",sixStringBass);
+  instrumentMap.set("mandolin", mandolin);
+  return instrumentMap;
 }
 
-interface Props {}
-
-class App extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    const twelveTET: Temperament = data.temperament.twelveTET;
+const App = () => {
+    const twelveTET: Temperament = data.temperaments.find((temperament) => temperament.name === Constants.TWELVE_TET) as Temperament;
     const scales: Scale[] = data.scales;
-    // const tunings = data.tunings;
+    const initKeyNote: Note = twelveTET.getNoteFromID(Constants.E);
+    const initScale: Scale = scales.find(scale => scale.name === Constants.MAJOR) as Scale;
+    const instrumentMap = initInstruments(twelveTET);
+    const [instruments, setInstruments] = useState(instrumentMap);
+    const [activeKey, setActiveKey] = useState(new Key(initKeyNote, initScale));
+    const initInstrument = instruments.get("guitar") as FrettedInstrument;
+    const [activeInstrument, setActiveInstrument] = useState(initInstrument);
+    const [activeTuning, setActiveTuning] = useState(initInstrument.getStandardTuning());
+    const [isRainbowMode, setIsRainbowMode] = useState(true);
+    const [activeTemperament, setActiveTemperament] = useState(twelveTET);
+    const [activeToolName, setActiveToolName] = useState("scalebook");
+    const [theme, setTheme] = useState(cloudCity);
 
-    const instruments: InstrumentMap = new Map();
-    const guitar = new instrument.Guitar(
-      22,
-      ["E", "A", "D", "G", "B", "E"].map((noteID) =>
-        twelveTET.getNoteFromID(noteID)
-      )
-    );
-    const banjo = new instrument.Banjo(
-      22,
-      ["G", "D", "G", "B", "D"].map((noteID) =>
-        twelveTET.getNoteFromID(noteID)
-      )
-    );
-    const ukulele = new instrument.Ukulele(
-      20,
-      ["G", "C", "E", "A"].map((noteID) => twelveTET.getNoteFromID(noteID))
-    );
-    const fourStringBass = new instrument.Bass(
-      22,
-      ["E", "A", "D", "G"].map((noteID) => twelveTET.getNoteFromID(noteID))
-    );
-    const fiveStringBass = new instrument.Bass(
-      22,
-      ["B", "E", "A", "D", "G"].map((noteID) =>
-        twelveTET.getNoteFromID(noteID)
-      )
-    );
-    const sixStringBass = new instrument.Bass(
-      22,
-      ["B", "E", "A", "D", "G", "C"].map((noteID) =>
-        twelveTET.getNoteFromID(noteID)
-      )
-    );
-
-    instruments.set("guitar", guitar);
-    instruments.set("banjo", banjo);
-    instruments.set("ukulele",ukulele);
-    instruments.set("bass (4 string)",fourStringBass);
-    instruments.set("bass (5 string)",fiveStringBass);
-    instruments.set("bass (6 string)",sixStringBass);
-
-    let activeScale: Scale = scales[86];
-    let keyNote: Note= twelveTET.getNoteFromID("E");
-
-    this.state = {
-      instruments,
-      activeKey: new Key(keyNote, activeScale),
-      activeInstrument: guitar,
-      activeScale,
-      activeTuning: guitar.getStandardTuning(),
-      keyNote,
-      onToggleNoteTable: false,
-      onToggleIntervalTable: false,
-      isRainbowMode: true,
-      temperament: twelveTET,
-      activeToolName: "scalebook",
-      theme: cloudCity,
-    };
-
-    this.onToggleNoteTable = this.onToggleNoteTable.bind(this);
-    this.onToggleIntervalTable = this.onToggleIntervalTable.bind(this);
-
-    this.onKeyNoteSelect = this.onKeyNoteSelect.bind(this);
-    this.onInstrumentSelect = this.onInstrumentSelect.bind(this);
-    this.onScaleSelect = this.onScaleSelect.bind(this);
-    this.updateKey = this.updateKey.bind(this);
-    this.onInstrumentTune = this.onInstrumentTune.bind(this);
-    this.onInstrumentTuneToPreset = this.onInstrumentTuneToPreset.bind(this);
-    this.toggleRainbowMode = this.toggleRainbowMode.bind(this);
+  const toggleRainbowMode = (): void => {
+    setIsRainbowMode(!isRainbowMode);
   }
 
-  toggleRainbowMode() {
-    this.setState({
-      isRainbowMode: !this.state.isRainbowMode,
-    });
+  const onKeyNoteSelect = (keyNote: Note): void => {
+    setActiveKey(new Key(keyNote, activeKey.scale));
   }
 
-  onKeyNoteSelect(keyNote: Note) {
-    this.setState({
-      keyNote,
-      activeKey: new Key(keyNote, this.state.activeScale),
-    });
+  const onInstrumentSelect = (instrument: FrettedInstrument): void => {
+    setActiveInstrument(instrument);
+    // Reset active tuning to the last tuning set on thie instrument selected.
+    const activeTuning: Tuning = checkActiveTuning(instrument);
+    setActiveTuning(activeTuning);
   }
 
-  onInstrumentSelect(instrument: IFrettedInstrument) {
-    this.setState({ activeInstrument: instrument });
+  const onScaleSelect = (scale: Scale): void => {
+    setActiveKey(new Key(activeKey.note, scale));
   }
 
-  onScaleSelect(scale: Scale) {
-    this.setState({
-      activeScale: scale,
-      activeKey: new Key(this.state.keyNote, scale),
-    });
+  const updateKey = (key: Key): void => {
+    setActiveKey(new Key(key.note, key.scale));
   }
 
-  updateKey(key: Key) {
-    this.setState({
-      keyNote: key.note,
-      activeScale: key.scale,
-      activeKey: new Key(key.note, key.scale),
-    });
-  }
-
-  setInstrumentTuning(
-    instrumentName: string,
-    stringID: string,
+  const setInstrumentTuning = (
+    courseId: string,
     newTuning: Note
-  ) {
-    const instrument = this.state.instruments.get(instrumentName);
+    ): void => {
+    const instrument = activeInstrument;
+    const fretBoard = instrument.fretBoard;
 
-    if (typeof instrument === "undefined") {
+    if (typeof instrument === Constants.UNDEFINED) {
       return;
     }
 
-    instrument.fretBoard.setStringTuningNote(stringID, newTuning);
-    const newActiveTuning = this.checkActiveTuning();
+    const courseSelected: Course = fretBoard.courses.find(course => course.id === courseId) as Course;
+    fretBoard.setCourseTuningNote(courseSelected.id, newTuning)
+    const newActiveTuning = checkActiveTuning(activeInstrument);
 
-    // TODO: hella shit
-    this.setState({
-      instruments: this.state.instruments,
-      activeTuning: newActiveTuning,
-    });
+    setActiveTuning(newActiveTuning);
   }
 
-  checkActiveTuning = () => {
-    const activeInstrument = this.state.activeInstrument;
-    const activeTuningNotes = activeInstrument.fretBoard.tunedStrings.map(tunedString => tunedString.tuningNote)
-    const commonTunings = activeInstrument.getCommonTunings();
-    const commonTuningMatch = commonTunings.find(tuning => {
-      let isMatch = true;
+  const checkActiveTuning = (instrument: FrettedInstrument): Tuning => {
+    const tuningNotes: Note[] = instrument.fretBoard.courses.map(course => course.tunedStrings[0].tuningNote);
+    const commonTunings: Tuning[] = instrument.getCommonTunings();
+    const commonTuningMatch: Tuning | undefined = commonTunings.find(tuning => {
+      let isMatch: boolean = true;
       tuning.notes.forEach((note, index) => {
-        if (activeTuningNotes[index].id !== note.id) {
+        if (tuningNotes[index].id !== note.id) {
           isMatch = false;
         }
       });
       return isMatch;
     });
-    return commonTuningMatch ? commonTuningMatch : new Tuning(this.state.activeInstrument.name, Constants.CUSTOM, activeTuningNotes);
+    return commonTuningMatch ? commonTuningMatch : new Tuning(instrument.name, Constants.CUSTOM, tuningNotes);
   }
 
-  setInstrumentTuningToPreset(tuning: Tuning) {
-    const instrument = this.state.activeInstrument;
-    const fretBoard = instrument.fretBoard;
+  const setInstrumentTuningToPreset = (tuning: Tuning): void => {
+    const instrument: FrettedInstrument = activeInstrument;
+    const fretBoard: FretBoard = instrument.fretBoard;
 
-    if (typeof instrument === "undefined") {
+    if (typeof instrument === Constants.UNDEFINED) {
       return;
     }
-    fretBoard.tunedStrings.forEach((tunedString, index) => 
-      fretBoard.setStringTuningNote(tunedString.id, tuning.notes[index])
+    fretBoard.courses.forEach((course, index) => 
+      fretBoard.setCourseTuningNote(course.id, tuning.notes[index])
     )
-    
-
-    // TODO: hella shit
-    this.setState({
-      activeTuning: tuning,
-      instruments: this.state.instruments
-    });
+    setActiveTuning(tuning);
   }
 
-  onInstrumentTune(instrumentName: string, stringID: string, newTuning: Note) {
-    return this.setInstrumentTuning(instrumentName, stringID, newTuning);
+  const onInstrumentTune = (courseId: string, newTuning: Note): void => {
+    return setInstrumentTuning(courseId, newTuning);
   }
 
-  onInstrumentTuneToPreset(tuning: Tuning) {
-    return this.setInstrumentTuningToPreset(tuning);
+  const onInstrumentTuneToPreset = (tuning: Tuning): void => {
+    return setInstrumentTuningToPreset(tuning);
   }
 
-  onToggleNoteTable() {
-    return false;
-  }
-
-  onToggleIntervalTable() {
-    return false;
-  }
-
-  render() {
     let tool;
 
-    switch (this.state.activeToolName) {
+    switch (activeToolName) {
       case "scalebook": {
         tool = (
           <Scalebook
-            activeScale={this.state.activeScale}
-            activeTuning={this.state.activeTuning}
-            temperament={this.state.temperament}
-            keyNote={this.state.keyNote}
-            activeKey={this.state.activeKey}
-            instruments={this.state.instruments}
-            activeInstrument={this.state.activeInstrument}
-            isRainbowMode={this.state.isRainbowMode}
-            toggleRainbowMode={this.toggleRainbowMode}
-            onToggleNoteTable={this.state.onToggleNoteTable}
-            onToggleIntervalTable={this.state.onToggleIntervalTable}
-            onKeyNoteSelect={this.onKeyNoteSelect}
-            onInstrumentSelect={this.onInstrumentSelect}
-            onScaleSelect={this.onScaleSelect}
-            updateKey={this.updateKey}
-            onInstrumentTune={this.onInstrumentTune}
-            onInstrumentTuneToPreset={this.onInstrumentTuneToPreset}
-            theme={this.state.theme}
+            activeInstrument={activeInstrument}
+            activeKey={activeKey}
+            activeTuning={activeTuning}
+            temperament={activeTemperament}
+            instruments={instruments}
+            isRainbowMode={isRainbowMode}
+            onInstrumentSelect={onInstrumentSelect}
+            onInstrumentTune={onInstrumentTune}
+            onInstrumentTuneToPreset={onInstrumentTuneToPreset}
+            onKeyNoteSelect={onKeyNoteSelect}
+            onScaleSelect={onScaleSelect}
+            toggleRainbowMode={toggleRainbowMode}
+            theme={theme}
+            updateKey={updateKey}
           />
         );
         break;
       }
       // case "songbook": {
-      //   tool = <div>NOLAN FIX ME!</div>;
+      //   tool = <div>COMING SOON</div>;
       //   break;
       // }
     }
 
-    const style = {
-      backgroundColor: this.state.theme.base01,
-      color: this.state.theme.base05,
+    const style: CSSProperties = {
+      backgroundColor: theme.base01,
+      color: theme.base05,
       position: "fixed" as "fixed", // lol what the heck typescript
       top: 0,
       right: 0,
@@ -264,19 +189,16 @@ class App extends Component<Props, State> {
             onLoginClick={() => false}
             onLogoutClick={() => false}
             onToolSelect={(activeToolName) => {
-              this.setState({ activeToolName });
+              setActiveToolName(activeToolName);
             }}
-            activeToolName={this.state.activeToolName}
+            activeToolName={activeToolName as ToolName}
             theme={cloudCity}
           />
 
           {tool}
-          {/* {<button id='toggleNoteTable' onClick={this.onToggleNoteTable}>Hide Note Table</button>}
-          {<button id='toggleIntervalTable' onClick={this.onToggleIntervalTable}>Hide Interval Table</button>} */}
         </div>
       </div>
     );
-  }
 }
 
 export default App;

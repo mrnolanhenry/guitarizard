@@ -5,7 +5,7 @@ export { Key } from "./Key";
 export { Interval } from "./Interval";
 export { Constants } from "./constants/Constants";
 
-import { twelveTET } from "./data/temperaments/twelveTET";
+import { temperaments } from "./data/temperaments/index";
 import * as intervals from "./data/intervals";
 import scales from "./data/scales";
 
@@ -16,12 +16,11 @@ import { Guitar } from "./instruments/Guitar";
 import { Banjo } from "./instruments/Banjo";
 import { Bass } from "./instruments/Bass";
 import { Ukulele } from "./instruments/Ukulele";
-import { IFrettedInstrument } from "./IFrettedInstrument";
+import { Mandolin } from "./instruments/Mandolin";
+import { FrettedInstrument } from "./instruments/FrettedInstrument";
 
 export const data = {
-  temperament: {
-    twelveTET,
-  },
+  temperaments,
   intervals,
   scales,
 };
@@ -29,9 +28,11 @@ export const data = {
 export const instrument = {
   TunedString,
   Tuning,
-  FretBoard,
-  Guitar,
   Banjo,
   Bass,
+  FretBoard,
+  FrettedInstrument,
+  Guitar,
+  Mandolin,
   Ukulele,
 };

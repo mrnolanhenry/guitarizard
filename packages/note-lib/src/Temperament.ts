@@ -1,5 +1,6 @@
 import { Note } from "./Note";
 import type { NoteID } from "./Note";
+import { Constants } from "./constants/Constants";
 
 /**
  * A temperament is a musical system of defining intervals/notes... it's hard to explain.
@@ -23,7 +24,7 @@ export class Temperament {
   // from this temperament.
   getNoteFromID(noteID: NoteID): Note {
     for (let i = 0; i < this.notes.length; i++) {
-      const note = this.notes[i];
+      const note: Note = this.notes[i];
 
       // easy -- found it right away
       if (note.id === noteID) {
@@ -31,19 +32,19 @@ export class Temperament {
       }
 
       // else, check aliases for this note
-      const aliasNote = note.aliasNotes.find(
+      const aliasNote: Note | undefined = note.aliasNotes.find(
         (aliasNote) => aliasNote.id === noteID
       );
 
       // return the note as it exists in the temperament
       // order and NOT the alias note. The note will
       // contain the alias should the consumer need it.
-      if (typeof aliasNote !== "undefined") {
+      if (typeof aliasNote !== Constants.UNDEFINED) {
         return note;
       }
     }
 
-    throw `The given noteID: ${noteID} is NOT valid`;
+    throw `The given noteID: ${noteID} is NOT valid in this temperament`;
   }
 
   /**
@@ -51,7 +52,7 @@ export class Temperament {
    * as keys. Basically takes all availables notes, and
    * their aliases, and smushes them together.
    */
-  getKeyNotes() {
+  getNotesInTemperament(): Note[] {
     return this.notes.reduce((acc: Note[], note: Note) => {
       acc = acc.concat(note.aliasNotes);
       acc = acc.concat([note]);
@@ -67,16 +68,16 @@ export class Temperament {
    *
    * This function
    */
-  getShiftedNotes(fromNote: Note) {
+  getShiftedNotes(fromNote: Note): Note[] {
     // Get the representation of this note as it appears in this system.
-    const internalNote = this.getNoteFromID(fromNote.id);
+    const internalNote: Note = this.getNoteFromID(fromNote.id);
 
     if (!internalNote) {
       throw `fromNote '${fromNote.id}' does not exist in temperament`;
     }
 
-    let notes = [];
-    let currentNote = internalNote;
+    let notes: Note[] = [];
+    let currentNote: Note = internalNote;
 
     for (let i = 0; i < this.notes.length; i++) {
       notes.push(currentNote);
@@ -95,7 +96,7 @@ export class Temperament {
    * i.e. the relative offset to THIS temperament
    *
    */
-  _getRelativeNoteOffset(fromNote: Note) {
+  _getRelativeNoteOffset(fromNote: Note): number {
     // We have a list of notes in this "temperament" (this.notes)
     // and we want the offset that `fromNote` exists in it.
     //
@@ -104,16 +105,14 @@ export class Temperament {
     // If we return `true` from any iterations, then we have
     // found the note we were looking for!
 
-    const offset = this.notes.findIndex((note) => {
-      // "Sorry for replacing the following line! This solution didn't work properly if fromNote was a sharpNote" -- Nolan
-      //   return note.id === fromNote.id;
+    const offset: number = this.notes.findIndex((note) => {
       return note.id === this.getNoteFromID(fromNote.id).id;
     });
 
     return offset;
   }
 
-  getNoteInterval(fromNote: Note, toNote: Note) {
+  getNoteInterval(fromNote: Note, toNote: Note): number {
     const fromNoteOffset = this._getRelativeNoteOffset(fromNote);
     const toNoteOffset = this._getRelativeNoteOffset(toNote);
 
@@ -149,14 +148,14 @@ export class Temperament {
    *  > Given Note('Ab'), this will return Note('A')
    *
    */
-  getNextNote(fromNote: Note, stepsAway?: number) {
-    if (typeof stepsAway === "undefined") {
+  getNextNote(fromNote: Note, stepsAway?: number): Note {
+    if (typeof stepsAway === Constants.UNDEFINED) {
       stepsAway = 1;
     }
 
-    const offset = this._getRelativeNoteOffset(fromNote);
+    const offset: number = this._getRelativeNoteOffset(fromNote);
 
-    let index = (offset + stepsAway) % this.notes.length;
+    let index: number = (offset + stepsAway) % this.notes.length;
 
     if (index < 0) {
       index = this.notes.length + index;

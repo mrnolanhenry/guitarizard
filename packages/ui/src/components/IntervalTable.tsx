@@ -1,14 +1,14 @@
 import { Scale, Interval } from "note-lib";
-import { Base16Theme, rainbow } from "../colors/colors";
-import React, { CSSProperties } from "react";
+import { Base16Theme, rainbow } from "../colors/themes";
+import { CSSProperties } from "react";
 
-interface Props {
+interface IIntervalTableProps {
   scale: Scale;
   isRainbowMode: boolean;
   theme: Base16Theme;
 }
 
-export default function intervalTable(props: Props) {
+const IntervalTable = (props: IIntervalTableProps) => {
   const { scale, isRainbowMode, theme } = props;
 
   const rowDiv: CSSProperties = {
@@ -36,11 +36,11 @@ export default function intervalTable(props: Props) {
     isRainbowMode: boolean,
     intervalStyle: CSSProperties,
     interval: Interval
-  ) => {
+    ): CSSProperties => {
     let intervalTextStyle: CSSProperties = intervalStyle;
 
     if (isRainbowMode) {
-      const semitoneColor = rainbow[interval.semitones];
+      const semitoneColor: string = rainbow[interval.semitones];
 
       if (semitoneColor) {
         intervalTextStyle = {
@@ -55,7 +55,7 @@ export default function intervalTable(props: Props) {
   const displayIntervalProperty = (
     interval: Interval,
     rowLabel: string
-  ): string => {
+    ): string => {
     switch (rowLabel) {
       case "Semitones:":
         return interval.semitones.toString();
@@ -119,3 +119,5 @@ export default function intervalTable(props: Props) {
     </div>
   );
 }
+
+export { IntervalTable };

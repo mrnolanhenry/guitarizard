@@ -1,32 +1,35 @@
-import React from "react";
-import { Key, Note, Scale, instrument } from "note-lib";
-import { Base16Theme } from "../colors/colors";
-import FretBoard from "./FretBoard";
-import { IFrettedInstrument } from "note-lib/src/IFrettedInstrument";
+import { Key, Note } from "note-lib";
+import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
+import { Base16Theme } from "../colors/themes";
+import { FretBoard } from "./FretBoard";
 
-//  NOLAN - kill this component - just use Fretboard
-interface Props {
-  instrument: IFrettedInstrument;
-  keyNote: Note;
-  scale: Scale;
-  onTune: (instrumentName: string, stringID: string, newTuning: Note) => void;
-  isRainbowMode: boolean;
-  theme: Base16Theme;
+interface IInstrumentProps {
   activeKey: Key;
+  instrument: FrettedInstrument;
+  isRainbowMode: boolean;
+  onTune: (courseId: string, newTuning: Note) => void;
+  theme: Base16Theme;
 }
 
-export default function Guitar(props: Props) {
+// This component is currently redundant, but will be useful once other instruments (like Piano) are incorporated.
+const Instrument = (props: IInstrumentProps) => {
+  const { 
+    activeKey,
+    instrument,
+    isRainbowMode,
+    onTune,
+    theme,
+   } = props;
   return (
     <FretBoard
-      instrumentName={props.instrument.name}
-      fretBoard={props.instrument.fretBoard}
-      scale={props.scale}
-      keyNote={props.keyNote}
+      activeKey={activeKey}
+      fretBoard={instrument.fretBoard}
+      isRainbowMode={isRainbowMode}
+      onTune={onTune}
       showFretBar={true}
-      onTune={props.onTune}
-      activeKey={props.activeKey}
-      isRainbowMode={props.isRainbowMode}
-      theme={props.theme}
+      theme={theme}
     />
   );
 }
+
+export { Instrument };

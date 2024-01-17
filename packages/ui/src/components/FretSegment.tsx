@@ -1,16 +1,17 @@
-import React from "react";
 import "./FretSegment.css";
-import { instrument, Key, Note } from "note-lib";
-import { Base16Theme, rainbow } from "../colors/colors";
+import { Key, Note } from "note-lib";
+import { Base16Theme, rainbow } from "../colors/themes";
 import { CSSProperties } from "react";
-import { StringScale } from "note-lib/src/StringScale";
+import { ScaleOnCourse } from "note-lib/src/ScaleOnCourse";
+import { NoteFretNumberPair } from "note-lib/src/NoteFretNumberPair";
 
-interface Props {
-  stringScale: StringScale;
+interface IFretSegmentProps {
+  scaleOnCourse: ScaleOnCourse;
   fret: number;
   theme: Base16Theme;
   isRainbowMode: boolean;
   activeKey: Key;
+  style?: CSSProperties;
 }
 
 const getNoteTextStyle = (
@@ -18,20 +19,20 @@ const getNoteTextStyle = (
   theme: Base16Theme,
   note: Note | undefined,
   activeKey: Key
-) => {
+  ): CSSProperties => {
   let noteTextStyle: CSSProperties = {
     backgroundColor: theme.base00,
     color: theme.base05,
   };
 
   if (isRainbowMode && note) {
-    let notes = activeKey.scale.getNotesInKey(activeKey.note);
+    let notes: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
 
-    let semitones = activeKey.scale.intervals.map(
+    let semitones: number[] = activeKey.scale.intervals.map(
       (interval) => interval.semitones
     );
 
-    let semitoneColors = semitones.map((semitone) => rainbow[semitone]);
+    let semitoneColors: string[] = semitones.map((semitone) => rainbow[semitone]);
 
     let noteIntervalColorCombos = notes.map((n, i) => ({
       note: n,
@@ -53,26 +54,24 @@ const getNoteTextStyle = (
   return noteTextStyle;
 };
 
-export default function fretSegment(props: Props) {
-  const { fret, isRainbowMode, stringScale, theme, activeKey } = props;
+const FretSegment = (props: IFretSegmentProps) => {
+  const { fret, isRainbowMode, scaleOnCourse, theme, activeKey } = props;
 
   // Get the note on this string (if it exists)
-  const noteFretNumberPair = stringScale.notes.find((note) => {
+  const noteFretNumberPair: NoteFretNumberPair | undefined = scaleOnCourse.notes.find((note) => {
     return note.fretNumber === fret;
   });
 
-  const note = noteFretNumberPair ? noteFretNumberPair.value : undefined;
+  const note: Note | undefined = noteFretNumberPair ? noteFretNumberPair.value : undefined;
+  const noteDisplay: string = note ? note.id : "";
 
-  const noteDisplay = note ? note.id : "";
+  const fretLineStyle: CSSProperties = { backgroundColor: theme.base07 };
+  const stringLineStyle: CSSProperties = { backgroundColor: theme.base0E };
 
-  const fretLineStyle = { backgroundColor: theme.base07 };
+  const noteTextStyle: CSSProperties = getNoteTextStyle(isRainbowMode, theme, note, activeKey);
 
-  const stringLineStyle = { backgroundColor: theme.base0E };
-
-  const noteTextStyle = getNoteTextStyle(isRainbowMode, theme, note, activeKey);
-
-  const backgroundStyle =
-    fret <= stringScale.config.fret.start
+  const backgroundStyle: CSSProperties =
+    fret <= scaleOnCourse.config.fret.start
       ? {
           backgroundColor: theme.base01,
         }
@@ -95,3 +94,5 @@ export default function fretSegment(props: Props) {
     </div>
   );
 }
+
+export { FretSegment };
