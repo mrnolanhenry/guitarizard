@@ -155,7 +155,8 @@ export class Temperament {
 
     const offset: number = this._getRelativeNoteOffset(fromNote);
 
-    let index: number = (offset + stepsAway) % this.notes.length;
+    const steps_away = typeof stepsAway === 'undefined' ? 0 : stepsAway;
+    let index: number = (offset + steps_away) % this.notes.length;
 
     if (index < 0) {
       index = this.notes.length + index;
