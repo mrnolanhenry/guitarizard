@@ -18,7 +18,8 @@
   },
   "include": [
     "src",
-    "../ui/.eslintrc.cjs",
+    "test",
+    "../../.eslintrc.cjs",
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

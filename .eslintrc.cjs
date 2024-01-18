@@ -58,5 +58,6 @@ module.exports = {
         "react/react-in-jsx-scope": "off",
         "multiline-ternary": "off",
         "@typescript-eslint/no-confusing-void-expression": "off",
+        "@typescript-eslint/restrict-template-expressions": ["error", { allowAny: true }],
     }
 }
