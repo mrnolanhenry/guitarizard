@@ -27,13 +27,13 @@ export class Temperament {
       const note: Note = this.notes[i];
 
       // easy -- found it right away
-      if (note.id === noteID) {
+      if (note.id.toLowerCase() === noteID.toLowerCase()) {
         return note;
       }
 
       // else, check aliases for this note
       const aliasNote: Note | undefined = note.aliasNotes.find(
-        (aliasNote) => aliasNote.id === noteID
+        (aliasNote) => aliasNote.id.toLowerCase() === noteID.toLowerCase()
       );
 
       // return the note as it exists in the temperament
@@ -44,7 +44,7 @@ export class Temperament {
       }
     }
 
-    throw `The given noteID: ${noteID} is NOT valid in this temperament`;
+    return undefined;
   }
 
   /**
@@ -155,7 +155,8 @@ export class Temperament {
 
     const offset: number = this._getRelativeNoteOffset(fromNote);
 
-    let index: number = (offset + stepsAway) % this.notes.length;
+    const steps_away = typeof stepsAway === 'undefined' ? 0 : stepsAway;
+    let index: number = (offset + steps_away) % this.notes.length;
 
     if (index < 0) {
       index = this.notes.length + index;

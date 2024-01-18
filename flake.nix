@@ -1,16 +1,16 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-22.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
-  outputs = { self, nixpkgs, ... }: let
+  outputs = { self, nixpkgs-unstable, ... }: let
     system = "x86_64-linux";
-    pkgs = import nixpkgs {
+    pkgs = import nixpkgs-unstable {
       inherit system;
 
       overlays = [
         (final: prev: {
-          nodejs = prev.nodejs-18_x;
+          nodejs = prev.nodejs_21;
         })
       ];
 
@@ -29,11 +29,8 @@
     #
     devShell.${system} = pkgs.mkShell {
       buildInputs = with pkgs; [
-        # Developer Experience Section :)
-        cowsay
-
-        # Compilers & Runtimes.
         nodejs
+        cowsay
       ];
 
       shellHook = builtins.readFile ./sh/dev-shell.sh;
@@ -73,7 +70,7 @@
       ui = pkgs.buildNpmPackage rec {
         pname = "ui";
         version = "0.1.0";
-        npmDepsHash = "sha256-csGyOHWtPu1240lCMr164Vlz6kF7ogt7biTmumQyF74=";
+        npmDepsHash = "sha256-tSCfX/WAprFEpOAijwLVO3pLpUOFDQ4DYKf9kVW9FAI=";
         # npmDepsHash = pkgs.lib.fakeHash;
 
         src = ./.;

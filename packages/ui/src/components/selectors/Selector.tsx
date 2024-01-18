@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { CSSProperties } from "react";
 import { isEqual } from "lodash";
 import Autocomplete from '@mui/material/Autocomplete';
@@ -6,7 +6,7 @@ import { AutocompleteRenderInputParams, createFilterOptions } from "@mui/materia
 import { styled } from '@mui/system';
 import TextField from '@mui/material/TextField';
 import { Base16Theme } from "../../colors/themes";
-import { FilterOptionsState } from "@mui/material";
+import { AutocompleteChangeDetails, AutocompleteChangeReason, AutocompleteInputChangeReason, AutocompleteRenderOptionState, FilterOptionsState } from "@mui/material";
 import { Constants } from "note-lib";
 
 // Example styling
@@ -19,9 +19,11 @@ interface ISelectorProps<T> {
   label?: string;
   minWidth?: string;
   onChange: (item: T) => void; // callback for user changes
+  onInputChange?: (event: React.SyntheticEvent, value: string) => void; // callback for user input changes
   getValue?: (item: T) => string; // given an item, what is the option value?
   getDisplay?: (item: T) => any; // given an item, what should we display?
   filterOptions?: (options: T[], state: FilterOptionsState<T>) => T[] // special handling to filter options
+  renderOption?: (props: React.HTMLAttributes<HTMLLIElement>, option: T, state: AutocompleteRenderOptionState, ownerState: any) => ReactNode
   theme: Base16Theme; // what theme should this component be?
 }
 
@@ -36,8 +38,12 @@ const Selector =<T,> (props: ISelectorProps<T>) => {
       label,
       minWidth,
       onChange,
+      onInputChange,
+      renderOption,
       theme,
      } = props;
+
+    const [inputVal, setInputVal] = React.useState(!!activeItem && !!getDisplay ? getDisplay(activeItem as T) : "");
 
     const fontSizeStyling = { 
       fontSize: label ? "inherit" : "12px"
@@ -106,18 +112,33 @@ const Selector =<T,> (props: ISelectorProps<T>) => {
       return fn(item);
     }
 
-    const onChangeValue = (e: React.ChangeEvent, val: T) => {
+    const onChangeValue = (e: React.SyntheticEvent, val: T, reason: AutocompleteChangeReason, details?: AutocompleteChangeDetails<T>) => {
       e.preventDefault();
 
       const item: T | undefined = items.find(
         (item: T) => {
-          return item === val;
+          return isEqual(item, val);
         }
       );
 
       if (typeof item !== Constants.UNDEFINED) {
         onChange(item as T);
       }
+    };
+
+    const onInputChangeValue = (e: React.SyntheticEvent, val: string, reason: AutocompleteInputChangeReason) => {
+      setInputVal(val);
+      if (!!onInputChange) {
+        onInputChange(e, val);
+      }
+    };
+
+    const defaultRenderOption = (props: React.HTMLAttributes<HTMLLIElement>, option: T, state: AutocompleteRenderOptionState, ownerState: any): ReactNode => {
+      return (
+        <li {...props}>
+          {ownerState.getOptionLabel(option)}
+        </li>
+      );
     };
 
     const renderTextField = (params: AutocompleteRenderInputParams) => {
@@ -146,11 +167,19 @@ const Selector =<T,> (props: ISelectorProps<T>) => {
       <Autocomplete
         // disablePortal
         clearOnBlur
-        defaultValue={activeItem as NonNullable<T>}
+        clearOnEscape
+        // NOLAN TODO - Check on this undefined statement - don't like it, should be null
+        defaultValue={activeItem ? activeItem as NonNullable<T> : undefined}
         disableClearable
-        filterOptions={!!filterOptions ? filterOptions : createFilterOptions()}
+        filterOptions={!!filterOptions ? filterOptions : createFilterOptions({
+          ignoreAccents: true,
+          ignoreCase: true,
+          trim: true
+        })}
         // fullWidth
-        onChange={onChangeValue as any}
+        inputValue={inputVal}
+        onChange={onChangeValue}
+        onInputChange={onInputChangeValue}
         handleHomeEndKeys
         id={id}
         isOptionEqualToValue={(option, value) => isEqual(option, value)}
@@ -162,6 +191,7 @@ const Selector =<T,> (props: ISelectorProps<T>) => {
           ...classStyling
         }}
         renderInput={renderTextField}
+        renderOption={!!renderOption ? renderOption: defaultRenderOption}
         value={activeItem as NonNullable<T>}
       />
     );

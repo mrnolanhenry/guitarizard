@@ -6,6 +6,7 @@ import { InstrumentSelector } from "../selectors/InstrumentSelector";
 import { NoteSelector } from "../selectors/NoteSelector";
 import { ScaleSelector } from "../selectors/ScaleSelector";
 import { EquivKeySelector } from "../selectors/EquivKeySelector";
+import { KeySearchSelector } from "../selectors/KeySearchSelector";
 import { RainbowModeSelector } from "../selectors/RainbowModeSelector";
 import { IntervalTable } from "../IntervalTable";
 import { NoteTable } from "../NoteTable";
@@ -111,16 +112,17 @@ const Scalebook = (props: IScalebookProps) => {
         <EquivKeySelector
           activeKey={activeKey}
           minWidth="18em"
-          temperament={temperament}
           theme={theme}
           updateKey={updateKey}
         />
 
-        {/* <EquivScaleSelector
-          activeScale={activeScale}
-          onScaleSelect={onScaleSelect}
+        <KeySearchSelector
+          minWidth="18em"
+          temperament={temperament}
           theme={theme}
-        /> */}
+          updateKey={updateKey}
+          />
+
         <RainbowModeSelector
           isRainbowMode={isRainbowMode}
           minWidth="8em"
