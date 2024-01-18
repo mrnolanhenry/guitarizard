@@ -117,7 +117,6 @@ const Scalebook = (props: IScalebookProps) => {
         />
 
         <KeySearchSelector
-          activeKey={activeKey}
           minWidth="18em"
           temperament={temperament}
           theme={theme}

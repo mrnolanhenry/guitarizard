@@ -6,7 +6,7 @@ import { AutocompleteRenderInputParams, createFilterOptions } from "@mui/materia
 import { styled } from '@mui/system';
 import TextField from '@mui/material/TextField';
 import { Base16Theme } from "../../colors/themes";
-import { AutocompleteRenderOptionState, FilterOptionsState } from "@mui/material";
+import { AutocompleteChangeDetails, AutocompleteChangeReason, AutocompleteInputChangeReason, AutocompleteRenderOptionState, FilterOptionsState } from "@mui/material";
 import { Constants } from "note-lib";
 
 // Example styling
@@ -19,6 +19,7 @@ interface ISelectorProps<T> {
   label?: string;
   minWidth?: string;
   onChange: (item: T) => void; // callback for user changes
+  onInputChange?: (event: React.SyntheticEvent, value: string) => void; // callback for user input changes
   getValue?: (item: T) => string; // given an item, what is the option value?
   getDisplay?: (item: T) => any; // given an item, what should we display?
   filterOptions?: (options: T[], state: FilterOptionsState<T>) => T[] // special handling to filter options
@@ -37,9 +38,12 @@ const Selector =<T,> (props: ISelectorProps<T>) => {
       label,
       minWidth,
       onChange,
+      onInputChange,
       renderOption,
       theme,
      } = props;
+
+    const [inputVal, setInputVal] = React.useState(!!activeItem && !!getDisplay ? getDisplay(activeItem as T) : "");
 
     const fontSizeStyling = { 
       fontSize: label ? "inherit" : "12px"
@@ -108,17 +112,24 @@ const Selector =<T,> (props: ISelectorProps<T>) => {
       return fn(item);
     }
 
-    const onChangeValue = (e: React.ChangeEvent, val: T) => {
+    const onChangeValue = (e: React.SyntheticEvent, val: T, reason: AutocompleteChangeReason, details?: AutocompleteChangeDetails<T>) => {
       e.preventDefault();
 
       const item: T | undefined = items.find(
         (item: T) => {
-          return item === val;
+          return isEqual(item, val);
         }
       );
 
       if (typeof item !== Constants.UNDEFINED) {
         onChange(item as T);
+      }
+    };
+
+    const onInputChangeValue = (e: React.SyntheticEvent, val: string, reason: AutocompleteInputChangeReason) => {
+      setInputVal(val);
+      if (!!onInputChange) {
+        onInputChange(e, val);
       }
     };
 
@@ -166,7 +177,9 @@ const Selector =<T,> (props: ISelectorProps<T>) => {
           trim: true
         })}
         // fullWidth
-        onChange={onChangeValue as any}
+        inputValue={inputVal}
+        onChange={onChangeValue}
+        onInputChange={onInputChangeValue}
         handleHomeEndKeys
         id={id}
         isOptionEqualToValue={(option, value) => isEqual(option, value)}

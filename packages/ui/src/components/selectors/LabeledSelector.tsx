@@ -12,7 +12,8 @@ interface ILabeledSelectorProps<T> {
   items: Array<T>;
   label?: string;
   minWidth?: string;
-  onChange: (item: T) => void;
+  onChange: (item: T) => void; // callback for user changes
+  onInputChange?: (event: React.SyntheticEvent, value: string) => void; // callback for user input changes
   renderOption?: (props: React.HTMLAttributes<HTMLLIElement>, option: T, state: AutocompleteRenderOptionState, ownerState: any) => ReactNode
   theme: Base16Theme;
 }
@@ -28,6 +29,7 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
     label,
     minWidth,
     onChange,
+    onInputChange,
     renderOption,
     theme
   } = props;
@@ -43,6 +45,7 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
         minWidth={minWidth}
         activeItem={activeItem}
         onChange={onChange}
+        onInputChange={onInputChange}
         renderOption={renderOption}
         theme={theme}
       />
