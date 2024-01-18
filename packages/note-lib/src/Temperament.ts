@@ -22,7 +22,7 @@ export class Temperament {
 
   // Given an ID, e.g. "A#", return the "Note" instance
   // from this temperament.
-  getNoteFromID(noteID: NoteID): Note {
+  getNoteFromID(noteID: NoteID): Note | undefined {
     for (let i = 0; i < this.notes.length; i++) {
       const note: Note = this.notes[i];
 
@@ -39,7 +39,7 @@ export class Temperament {
       // return the note as it exists in the temperament
       // order and NOT the alias note. The note will
       // contain the alias should the consumer need it.
-      if (typeof aliasNote !== Constants.UNDEFINED) {
+      if (typeof aliasNote !== "undefined") {
         return note;
       }
     }
@@ -70,7 +70,7 @@ export class Temperament {
    */
   getShiftedNotes(fromNote: Note): Note[] {
     // Get the representation of this note as it appears in this system.
-    const internalNote: Note = this.getNoteFromID(fromNote.id);
+    const internalNote: Note = this.getNoteFromID(fromNote.id) as Note;
 
     if (!internalNote) {
       throw `fromNote '${fromNote.id}' does not exist in temperament`;
@@ -106,7 +106,7 @@ export class Temperament {
     // found the note we were looking for!
 
     const offset: number = this.notes.findIndex((note) => {
-      return note.id === this.getNoteFromID(fromNote.id).id;
+      return note.id === (this.getNoteFromID(fromNote.id) as Note).id;
     });
 
     return offset;
@@ -149,7 +149,7 @@ export class Temperament {
    *
    */
   getNextNote(fromNote: Note, stepsAway?: number): Note {
-    if (typeof stepsAway === Constants.UNDEFINED) {
+    if (typeof stepsAway === "undefined") {
       stepsAway = 1;
     }
 

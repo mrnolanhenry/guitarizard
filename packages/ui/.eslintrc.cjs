@@ -54,7 +54,9 @@ module.exports = {
         "@typescript-eslint/strict-boolean-expressions": "off",
         "brace-style": "off",
         "@typescript-eslint/brace-style": ["error", "stroustrup"],
-
-
+        "@typescript-eslint/array-type": ["error", { default: "array-simple" }],
+        "react/react-in-jsx-scope": "off",
+        "multiline-ternary": "off",
+        "@typescript-eslint/no-confusing-void-expression": "off",
     }
 }

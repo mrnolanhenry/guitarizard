@@ -2,16 +2,16 @@ import { Tuning } from "../Tuning";
 import { twelveTET } from "./temperaments/twelveTET";
 import { Note } from "../Note";
 
-const A: Note = twelveTET.getNoteFromID("A");
-const B: Note = twelveTET.getNoteFromID("B");
-const C: Note = twelveTET.getNoteFromID("C");
-const Cs: Note = twelveTET.getNoteFromID("C#");
-const D: Note = twelveTET.getNoteFromID("D");
-const E: Note = twelveTET.getNoteFromID("E");
-const F: Note = twelveTET.getNoteFromID("F");
-const Fs: Note = twelveTET.getNoteFromID("F#");
-const G: Note = twelveTET.getNoteFromID("G");
-const Gs: Note = twelveTET.getNoteFromID("G#");
+const A: Note = twelveTET.getNoteFromID("A") as Note;
+const B: Note = twelveTET.getNoteFromID("B") as Note;
+const C: Note = twelveTET.getNoteFromID("C") as Note;
+const Cs: Note = twelveTET.getNoteFromID("C#") as Note;
+const D: Note = twelveTET.getNoteFromID("D") as Note;
+const E: Note = twelveTET.getNoteFromID("E") as Note;
+const F: Note = twelveTET.getNoteFromID("F") as Note;
+const Fs: Note = twelveTET.getNoteFromID("F#") as Note;
+const G: Note = twelveTET.getNoteFromID("G") as Note;
+const Gs: Note = twelveTET.getNoteFromID("G#") as Note;
 
 // Common tunings for various instruments so that these can be used as presets and selected by name from a dropdown
 export const Tunings = [

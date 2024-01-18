@@ -1,7 +1,6 @@
 export class Constants {
   static readonly CUSTOM: string = "custom";
   static readonly TWELVE_TET: string = "twelveTET";
-  static readonly UNDEFINED: string = "undefined";
 
   // Instruments
   static readonly BANJO: string = "banjo";

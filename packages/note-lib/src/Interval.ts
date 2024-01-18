@@ -28,7 +28,7 @@ export class Interval {
 
   hasAliasName(name: string) {
     const alias = this.aliases.find((a) => a.name === name);
-    return typeof alias !== Constants.UNDEFINED;
+    return typeof alias !== "undefined";
   }
 
   toJSON() {

@@ -13,11 +13,12 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "jsx": "react-jsx"
   },
   "include": [
     "src",
-    "../ui/.eslintrc.js",
+    "../ui/.eslintrc.cjs",
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
