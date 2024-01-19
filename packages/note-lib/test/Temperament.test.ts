@@ -58,7 +58,7 @@ void tap.test("class Temperament", function (t) {
 			try {
 				twelveTET.getShiftedNotes(new Note("invalid-note", NotePitch.Flat));
 			}
-			catch (error: any) {
+			catch (error) {
 				return (
 					`${error}` === "The given noteID: invalid-note is NOT valid in this temperament"
 				);

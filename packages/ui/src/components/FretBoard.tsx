@@ -1,5 +1,5 @@
 import "./FretBoard.css";
-import { CSSProperties } from "react";
+import React, { CSSProperties } from "react";
 import { Key, Note } from "note-lib";
 import { FretBoard as Fretboard } from "../../../note-lib/src/FretBoard";
 import { Base16Theme } from "../colors/themes";

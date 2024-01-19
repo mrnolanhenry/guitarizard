@@ -74,7 +74,8 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
 		}
 	};
 
-	const getFilterOptions = (options: Key[], state: FilterOptionsState<any>): Key[] => filterOptions;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const getFilterOptions = (_options: Key[], _state: FilterOptionsState<Key>): Key[] => filterOptions;
 
 	const isKeyDisplayNameMatch = (key: Key, inputValue: string) => {
 		return key.getDisplayName().toLowerCase().includes(inputValue);

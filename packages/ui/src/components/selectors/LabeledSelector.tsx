@@ -14,7 +14,13 @@ interface ILabeledSelectorProps<T> {
 	minWidth?: string;
 	onChange: (item: T) => void; // callback for user changes
 	onInputChange?: (event: React.SyntheticEvent, value: string) => void; // callback for user input changes
-	renderOption?: (props: React.HTMLAttributes<HTMLLIElement>, option: T, state: AutocompleteRenderOptionState, ownerState: any) => ReactNode;
+	renderOption?: (
+    props: React.HTMLAttributes<HTMLLIElement>,
+    option: T,
+    state: AutocompleteRenderOptionState,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ownerState: any
+  ) => ReactNode;
 	theme: Base16Theme;
 }
 

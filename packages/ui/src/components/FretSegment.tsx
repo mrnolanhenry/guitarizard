@@ -1,7 +1,7 @@
 import "./FretSegment.css";
 import { Key, Note } from "note-lib";
 import { Base16Theme, rainbow } from "../colors/themes";
-import { CSSProperties } from "react";
+import React, { CSSProperties } from "react";
 import { ScaleOnCourse } from "note-lib/src/ScaleOnCourse";
 import { NoteFretNumberPair } from "note-lib/src/NoteFretNumberPair";
 

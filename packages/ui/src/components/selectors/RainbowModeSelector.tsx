@@ -1,3 +1,4 @@
+import React from 'react';
 import { Base16Theme } from "../../colors/themes";
 import { LabeledSelector } from "./LabeledSelector";
 

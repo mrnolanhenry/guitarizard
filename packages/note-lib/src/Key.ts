@@ -48,7 +48,7 @@ export class Key {
 
 					// Remove last semitone, which should be some offset of the duplicate '12' note in a twelveTET system, for example.
 					newScaleArray.pop();
-					util.sortArray(newScaleArray);
+					util.sortNumericArray(newScaleArray);
 
 					// Check if arrays are equal after having sorted the newScale
 					if (isEqual(scaleArray, newScaleArray)) {

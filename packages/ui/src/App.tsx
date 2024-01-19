@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import "./App.css";
-import { CSSProperties, useState } from "react";
+import React, { CSSProperties, useState } from "react";
 import { cloudCity } from "./colors/themes";
 import { ToolName } from "./components/selectors/ToolSelector";
 import { TopBar } from "./components/TopBar";
@@ -172,7 +172,7 @@ const App = () => {
 	const style: CSSProperties = {
 		backgroundColor: theme.base01,
 		color: theme.base05,
-		position: "fixed" as "fixed", // lol what the heck typescript
+		position: "fixed",
 		top: 0,
 		right: 0,
 		bottom: 0,

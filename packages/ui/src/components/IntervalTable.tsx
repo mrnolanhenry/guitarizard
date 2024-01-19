@@ -1,6 +1,6 @@
 import { Scale, Interval } from "note-lib";
 import { Base16Theme, rainbow } from "../colors/themes";
-import { CSSProperties } from "react";
+import React, { CSSProperties } from "react";
 
 interface IIntervalTableProps {
 	scale: Scale;

@@ -1,5 +1,5 @@
 import "./TopBar.css";
-import { CSSProperties } from "react";
+import React, { CSSProperties } from "react";
 import { ToolSelector, ToolName } from "./selectors/ToolSelector";
 import { cloudCity, Base16Theme } from "../colors/themes";
 

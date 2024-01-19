@@ -18,8 +18,7 @@
   },
   "include": [
     "src",
-    "test",
-    "../../.eslintrc.cjs",
+    "test"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

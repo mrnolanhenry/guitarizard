@@ -1,3 +1,4 @@
+import React from 'react';
 import { FilterOptionsState } from "@mui/material";
 import { data, Scale } from "note-lib";
 import { Base16Theme } from "../../colors/themes";
@@ -18,7 +19,7 @@ const ScaleSelector = (props: IScalesSelectorProps) => {
 		theme
 	} = props;
 
-	const getSpecialFilterOptions = (options: Scale[], state: FilterOptionsState<any>): any[] => {
+	const getSpecialFilterOptions = (options: Scale[], state: FilterOptionsState<Scale>): Scale[] => {
 		const { inputValue } = state;
 		if (!inputValue) {
 			return options;

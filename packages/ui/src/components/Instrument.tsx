@@ -1,3 +1,4 @@
+import React from 'react';
 import { Key, Note } from "note-lib";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { Base16Theme } from "../colors/themes";

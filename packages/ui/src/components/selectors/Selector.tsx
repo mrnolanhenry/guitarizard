@@ -1,4 +1,4 @@
-import { ReactNode, CSSProperties, useState } from "react";
+import React, { ReactNode, CSSProperties, useState } from "react";
 import { isEqual } from "lodash";
 import Autocomplete, { AutocompleteRenderInputParams, createFilterOptions } from "@mui/material/Autocomplete";
 import { Base16Theme } from "../../colors/themes";
@@ -16,8 +16,10 @@ interface ISelectorProps<T> {
 	onChange: (item: T) => void; // callback for user changes
 	onInputChange?: (event: React.SyntheticEvent, value: string) => void; // callback for user input changes
 	getValue?: (item: T) => string; // given an item, what is the option value?
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 	getDisplay?: (item: T) => any; // given an item, what should we display?
 	filterOptions?: (options: T[], state: FilterOptionsState<T>) => T[]; // special handling to filter options
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 	renderOption?: (props: React.HTMLAttributes<HTMLLIElement>, option: T, state: AutocompleteRenderOptionState, ownerState: any) => ReactNode;
 	theme: Base16Theme; // what theme should this component be?
 }
@@ -98,11 +100,19 @@ const Selector = <T,> (props: ISelectorProps<T>) => {
 	};
 
 	const display = (item: T): string => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const fn = typeof getDisplay === "undefined" ? (a: T) => String(a) : getDisplay as (item: T) => any;
 		return fn(item);
 	};
 
-	const onChangeValue = (e: React.SyntheticEvent, val: T, reason: AutocompleteChangeReason, details?: AutocompleteChangeDetails<T>) => {
+	const onChangeValue = (
+    e: React.SyntheticEvent,
+    val: T,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _reason: AutocompleteChangeReason,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _details?: AutocompleteChangeDetails<T>
+  ) => {
 		e.preventDefault();
 
 		const item: T | undefined = items.find(
@@ -116,14 +126,26 @@ const Selector = <T,> (props: ISelectorProps<T>) => {
 		}
 	};
 
-	const onInputChangeValue = (e: React.SyntheticEvent, val: string, reason: AutocompleteInputChangeReason) => {
+	const onInputChangeValue = (
+    e: React.SyntheticEvent,
+    val: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _reason: AutocompleteInputChangeReason
+  ) => {
 		setInputVal(val);
 		if (onInputChange) {
 			onInputChange(e, val);
 		}
 	};
 
-	const defaultRenderOption = (props: React.HTMLAttributes<HTMLLIElement>, option: T, state: AutocompleteRenderOptionState, ownerState: any): ReactNode => {
+	const defaultRenderOption = (
+    props: React.HTMLAttributes<HTMLLIElement>,
+    option: T,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _state: AutocompleteRenderOptionState,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ownerState: any
+  ): ReactNode => {
 		return (
 			<li {...props}>
 				{ownerState.getOptionLabel(option)}

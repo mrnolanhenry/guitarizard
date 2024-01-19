@@ -1,3 +1,6 @@
+/* eslint-disable */w
+// ^ TURNS OFF ESLINT FOR THIS SCRATCHPAD FILE!!
+
 // const assert = require('assert');
 
 //Data Dump of individual scales that go into scales array
