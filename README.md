@@ -24,6 +24,12 @@ To check if the ui build works:
 npm -w ui run build
 ```
 
+To lint:
+
+```
+npm run lint
+```
+
 Dependencies
 --------------------------------------------------
 
