@@ -13,34 +13,37 @@ const Fs: Note = twelveTET.getNoteFromID("F#");
 const G: Note = twelveTET.getNoteFromID("G");
 
 void tap.test("class Banjo -- init", function (t) {
-	const defaultBanjo = new Banjo(21, [
-		G,
-		D,
-		G,
-		B,
-		D
-	]);
+  const defaultBanjo = new Banjo(21, [G, D, G, B, D]);
 
-	t.ok(defaultBanjo);
+  t.ok(defaultBanjo);
 
-	t.same(defaultBanjo.getCommonTunings(), [
-		new Tuning("banjo", "standard", [G, D, G, B, D]),
-		new Tuning("banjo", "double C", [G, C, G, C, D]),
-		new Tuning("banjo", "drop C", [G, C, G, B, D]),
-		new Tuning("banjo", "D", [Fs, D, Fs, A, D]),
-		new Tuning("banjo", "G modal", [G, D, G, C, D]),
-		new Tuning("banjo", "guitar", [G, D, G, B, E])
-	], "common tunings found");
+  t.same(
+    defaultBanjo.getCommonTunings(),
+    [
+      new Tuning("banjo", "standard", [G, D, G, B, D]),
+      new Tuning("banjo", "double C", [G, C, G, C, D]),
+      new Tuning("banjo", "drop C", [G, C, G, B, D]),
+      new Tuning("banjo", "D", [Fs, D, Fs, A, D]),
+      new Tuning("banjo", "G modal", [G, D, G, C, D]),
+      new Tuning("banjo", "guitar", [G, D, G, B, E]),
+    ],
+    "common tunings found",
+  );
 
-	t.same(defaultBanjo.getStandardTuning(), new Tuning("banjo", "standard", [G, D, G, B, D])
-		, "standard tuning found");
+  t.same(
+    defaultBanjo.getStandardTuning(),
+    new Tuning("banjo", "standard", [G, D, G, B, D]),
+    "standard tuning found",
+  );
 
-	t.equal(defaultBanjo.fretBoard.courses.length, 5, "5 string has 5 courses");
-	t.equal(
-		defaultBanjo.fretBoard.courses.every(course => course.tunedStrings.length === 1),
-		true,
-		"5 string has all single strings"
-	);
+  t.equal(defaultBanjo.fretBoard.courses.length, 5, "5 string has 5 courses");
+  t.equal(
+    defaultBanjo.fretBoard.courses.every(
+      (course) => course.tunedStrings.length === 1,
+    ),
+    true,
+    "5 string has all single strings",
+  );
 
-	t.end();
+  t.end();
 });

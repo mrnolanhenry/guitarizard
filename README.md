@@ -2,8 +2,7 @@
 
 Collection of tools for string-based instruments.
 
-Development
---------------------------------------------------
+## Development
 
 Install npm dependencies and run the UI:
 
@@ -30,13 +29,11 @@ To lint:
 npm run lint
 ```
 
-Dependencies
---------------------------------------------------
+## Dependencies
 
 - Node.js 18 (LTS)
 
-Projects
---------------------------------------------------
+## Projects
 
 - `note-lib`: music theory library.
 - `web-ui`: web interface for guitarizard.

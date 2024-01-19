@@ -1,4 +1,4 @@
-/* eslint-disable */w
+/* eslint-disable */
 // ^ TURNS OFF ESLINT FOR THIS SCRATCHPAD FILE!!
 
 // const assert = require('assert');
@@ -649,7 +649,7 @@ function findScaleOnInstrument(key, scale, instrument) {
     const scaleFound = findScaleOnString(
       key,
       scale,
-      clonedInstrument.strings[i]
+      clonedInstrument.strings[i],
     );
     if (validStrings.indexOf(i) !== -1 && typeof scaleFound !== "undefined") {
       newScale.push(scaleFound);
@@ -685,7 +685,7 @@ function findChord(note, chord, instrument) {
     const noteFound = findNoteOnInstrument(
       newChordNotes[i].note,
       clonedInstrument,
-      validStrings
+      validStrings,
     );
     //FAILURE CASE
     //-----------------------------------------------------
@@ -753,12 +753,12 @@ function findSomeVoicingPositions(note, chord, instrument, string) {
     positions = positions.concat(currentChord);
     currentString = findFullStringFromStringOrder(
       currentChord.strings[string].stringOrder,
-      newInstrument
+      newInstrument,
     );
     newInstrument = removeFretFromInstrument(
       currentChord.strings[string].fretNum,
       currentString,
-      newInstrument
+      newInstrument,
     );
   }
   // console.log('newInstrument ' ,newInstrument);
@@ -830,12 +830,12 @@ function findChordPositions(note, chord, instrument) {
     let currentPositions = findVoicingPositions(
       note,
       chordPermutations[i],
-      instrument
+      instrument,
     );
     let currentPositions4Wide = findVoicingPositions(
       note,
       chordPermutations[i],
-      instrument
+      instrument,
     ).filter((data) => {
       return data.fretWidth <= 4;
     });

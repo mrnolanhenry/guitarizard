@@ -4,7 +4,8 @@
   "scripts": {
     "predeploy": "npm run build -w ui",
     "deploy": "gh-pages -d ./packages/ui/dist",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "format": "prettier . --write"
   },
   "version": "0.1.0",
   "workspaces": [
