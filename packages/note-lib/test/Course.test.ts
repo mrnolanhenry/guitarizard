@@ -1,7 +1,7 @@
 import tap from "tap";
 import { TunedString } from "../src/TunedString";
 import { Course } from "../src/Course";
-import { Constants } from "../src/constants/Constants";
+import * as Constants from "../src/constants/Constants";
 import { notes } from "../src/data/temperaments";
 
 void tap.test("class Course", function (t) {

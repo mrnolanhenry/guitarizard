@@ -4,7 +4,7 @@ import { Temperament } from "../src/Temperament";
 import { TunedString } from "../src/TunedString";
 import { NotePitch } from "../src/enums/NotePitch";
 import { notes } from "../src/data/temperaments";
-import { Constants } from "../src";
+import * as Constants from "../src";
 
 void tap.test("class TunedString", function (t) {
 	const { A, Bb, B } = notes;

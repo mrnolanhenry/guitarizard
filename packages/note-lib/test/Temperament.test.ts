@@ -1,5 +1,5 @@
 import tap from "tap";
-import { Constants } from "../src";
+import * as Constants from "../src";
 import { notes } from "../src/data/temperaments";
 import { twelveTET } from "../src/data/temperaments/twelveTET";
 import { NotePitch } from "../src/enums/NotePitch";

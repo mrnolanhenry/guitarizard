@@ -1,10 +1,3 @@
-export { Note } from "./Note";
-export { Temperament } from "./Temperament";
-export { Scale } from "./Scale";
-export { Key } from "./Key";
-export { Interval } from "./Interval";
-export { Constants } from "./constants/Constants";
-
 import { temperaments } from "./data/temperaments/index";
 import * as intervals from "./data/intervals";
 import scales from "./data/scales";
@@ -19,20 +12,27 @@ import { Ukulele } from "./instruments/Ukulele";
 import { Mandolin } from "./instruments/Mandolin";
 import { FrettedInstrument } from "./instruments/FrettedInstrument";
 
+export { Note } from "./Note";
+export { Temperament } from "./Temperament";
+export { Scale } from "./Scale";
+export { Key } from "./Key";
+export { Interval } from "./Interval";
+export * as Constants from "./constants/Constants";
+
 export const data = {
-  temperaments,
-  intervals,
-  scales,
+	temperaments,
+	intervals,
+	scales
 };
 
 export const instrument = {
-  TunedString,
-  Tuning,
-  Banjo,
-  Bass,
-  FretBoard,
-  FrettedInstrument,
-  Guitar,
-  Mandolin,
-  Ukulele,
+	TunedString,
+	Tuning,
+	Banjo,
+	Bass,
+	FretBoard,
+	FrettedInstrument,
+	Guitar,
+	Mandolin,
+	Ukulele
 };

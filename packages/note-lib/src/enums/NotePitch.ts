@@ -1,5 +1,5 @@
 export enum NotePitch {
-    Flat,
-    Sharp,
-    Neither
-  }
+	Flat,
+	Sharp,
+	Neither
+}

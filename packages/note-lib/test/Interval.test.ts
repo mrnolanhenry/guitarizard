@@ -1,5 +1,5 @@
 import tap from "tap";
-import { Constants } from "../src";
+import * as Constants from "../src";
 import { Interval } from "../src/Interval";
 
 void tap.test("class Interval", function (t) {

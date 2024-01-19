@@ -1,6 +1,6 @@
 import tap from "tap";
 import * as API from "../src/index";
-import { Constants } from "../src/index";
+import * as Constants from "../src/index";
 
 void tap.test("exposed API", function (t) {
 	t.ok(API.Note, "expect Note");

@@ -1,6 +1,6 @@
 export interface IFretSpan {
-  fret: {
-    start: number;
-    end: number;
-  };
+	fret: {
+		start: number;
+		end: number;
+	};
 }

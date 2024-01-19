@@ -10,7 +10,7 @@ import { FretBoard } from "../src/FretBoard";
 import { NotePitch } from "../src/enums/NotePitch";
 import { Course } from "../src/Course";
 import { IFretSpan } from "../src/interfaces/IFretSpan";
-import { Constants } from "../src";
+import * as Constants from "../src";
 import { notes } from "../src/data/temperaments";
 
 const { Ab, A, Bb, B, C, Cs, Db, D, E, F, Fs, Gb, G } = notes;
