@@ -1,0 +1,7 @@
+{
+    "eslint.enable": true,
+    "eslint.workingDirectories": [
+      { "directory": "packages/note-lib", "changeProcessCWD": true },
+      { "directory": "packages/ui", "changeProcessCWD": true }
+    ],
+  }

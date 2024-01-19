@@ -1,4 +1,4 @@
-import { Constants } from "../../constants/Constants";
+import * as Constants from "../../constants/Constants";
 import { NotePitch } from "../../enums/NotePitch";
 import { Note } from "../../Note";
 import { Temperament } from "../../Temperament";

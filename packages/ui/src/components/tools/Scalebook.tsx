@@ -16,136 +16,136 @@ import { Tuning } from "note-lib/src/Tuning";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 
 interface IScalebookProps {
-  activeInstrument: FrettedInstrument;
-  activeKey: Key;
-  activeTuning: Tuning;  
-  instruments: Map<string, FrettedInstrument>;
-  isRainbowMode: boolean;
-  onInstrumentSelect: (instrument: FrettedInstrument) => void;
-  onInstrumentTune: (
-    courseId: string,
-    newTuning: Note
-  ) => void;
-  onInstrumentTuneToPreset: (
-    tuning: Tuning
-  ) => void;
-  onKeyNoteSelect: (keyNote: Note) => void;
-  onScaleSelect: (scale: Scale) => void;
-  temperament: Temperament;
-  theme: Base16Theme;
-  toggleRainbowMode: () => void;
-  updateKey: (key: Key) => void;
+	activeInstrument: FrettedInstrument;
+	activeKey: Key;
+	activeTuning: Tuning;
+	instruments: Map<string, FrettedInstrument>;
+	isRainbowMode: boolean;
+	onInstrumentSelect: (instrument: FrettedInstrument) => void;
+	onInstrumentTune: (
+		courseId: string,
+		newTuning: Note
+	) => void;
+	onInstrumentTuneToPreset: (
+		tuning: Tuning
+	) => void;
+	onKeyNoteSelect: (keyNote: Note) => void;
+	onScaleSelect: (scale: Scale) => void;
+	temperament: Temperament;
+	theme: Base16Theme;
+	toggleRainbowMode: () => void;
+	updateKey: (key: Key) => void;
 }
 
 const Scalebook = (props: IScalebookProps) => {
-  const {
-    activeInstrument,
-    activeKey,
-    activeTuning,
-    instruments,
-    isRainbowMode,
-    onInstrumentSelect,
-    onInstrumentTune,
-    onInstrumentTuneToPreset,
-    onKeyNoteSelect,
-    onScaleSelect,
-    temperament,
-    theme,
-    toggleRainbowMode,
-    updateKey,
-  } = props;
-  const settingsBarStyle: CSSProperties = {
-    backgroundColor: theme.base01,
-  };
+	const {
+		activeInstrument,
+		activeKey,
+		activeTuning,
+		instruments,
+		isRainbowMode,
+		onInstrumentSelect,
+		onInstrumentTune,
+		onInstrumentTuneToPreset,
+		onKeyNoteSelect,
+		onScaleSelect,
+		temperament,
+		theme,
+		toggleRainbowMode,
+		updateKey
+	} = props;
+	const settingsBarStyle: CSSProperties = {
+		backgroundColor: theme.base01
+	};
 
-  const instrument: FrettedInstrument = activeInstrument;
-  const activeKeyNote: Note = activeKey.note;
-  const activeScale: Scale = activeKey.scale;
+	const instrument: FrettedInstrument = activeInstrument;
+	const activeKeyNote: Note = activeKey.note;
+	const activeScale: Scale = activeKey.scale;
 
-  const instrumentComponent = instrument ? (
-    <Instrument
-      activeKey={activeKey}
-      instrument={instrument}
-      isRainbowMode={isRainbowMode}
-      onTune={onInstrumentTune}
-      theme={theme}
-    />
-  ) : <></>;
+	const instrumentComponent = instrument ? (
+		<Instrument
+			activeKey={activeKey}
+			instrument={instrument}
+			isRainbowMode={isRainbowMode}
+			onTune={onInstrumentTune}
+			theme={theme}
+		/>
+	) : <></>;
 
-  return (
-    <div className="scalebook">
-      <div className="settings-bar" style={settingsBarStyle}>
-        <InstrumentSelector
-          activeInstrument={activeInstrument}
-          instruments={instruments}
-          label="Instrument:"
-          minWidth="12em"
-          onInstrumentSelect={onInstrumentSelect}
-          theme={theme}
-        />
+	return (
+		<div className="scalebook">
+			<div className="settings-bar" style={settingsBarStyle}>
+				<InstrumentSelector
+					activeInstrument={activeInstrument}
+					instruments={instruments}
+					label="Instrument:"
+					minWidth="12em"
+					onInstrumentSelect={onInstrumentSelect}
+					theme={theme}
+				/>
 
-        <CommonTuningSelector
-          activeInstrument={activeInstrument}
-          activeTuning={activeTuning}
-          label="Common Tunings:"
-          minWidth="10em"
-          onCommonTuningSelect={onInstrumentTuneToPreset}
-          theme={theme}
-        />
+				<CommonTuningSelector
+					activeInstrument={activeInstrument}
+					activeTuning={activeTuning}
+					label="Common Tunings:"
+					minWidth="10em"
+					onCommonTuningSelect={onInstrumentTuneToPreset}
+					theme={theme}
+				/>
 
-        <NoteSelector
-          id="active key"
-          label="Key:"
-          note={activeKeyNote}
-          onNoteSelect={onKeyNoteSelect}
-          temperament={temperament}
-          theme={theme}
-        />
+				<NoteSelector
+					id="active key"
+					label="Key:"
+					note={activeKeyNote}
+					onNoteSelect={onKeyNoteSelect}
+					temperament={temperament}
+					theme={theme}
+				/>
 
-        <ScaleSelector
-          activeScale={activeScale}
-          minWidth="16em"
-          onScaleSelect={onScaleSelect}
-          theme={theme}
-        />
+				<ScaleSelector
+					activeScale={activeScale}
+					minWidth="16em"
+					onScaleSelect={onScaleSelect}
+					theme={theme}
+				/>
 
-        <EquivKeySelector
-          activeKey={activeKey}
-          minWidth="18em"
-          theme={theme}
-          updateKey={updateKey}
-        />
+				<EquivKeySelector
+					activeKey={activeKey}
+					minWidth="18em"
+					theme={theme}
+					updateKey={updateKey}
+				/>
 
-        <KeySearchSelector
-          minWidth="18em"
-          temperament={temperament}
-          theme={theme}
-          updateKey={updateKey}
-          />
+				<KeySearchSelector
+					minWidth="18em"
+					temperament={temperament}
+					theme={theme}
+					updateKey={updateKey}
+				/>
 
-        <RainbowModeSelector
-          isRainbowMode={isRainbowMode}
-          minWidth="8em"
-          toggleRainbowMode={toggleRainbowMode}
-          theme={theme}
-        />
-      </div>
+				<RainbowModeSelector
+					isRainbowMode={isRainbowMode}
+					minWidth="8em"
+					toggleRainbowMode={toggleRainbowMode}
+					theme={theme}
+				/>
+			</div>
 
-      {instrumentComponent}
+			{instrumentComponent}
 
-      <NoteTable
-        activeKey={activeKey}
-        isRainbowMode={isRainbowMode}
-        theme={theme}
-      />
+			<NoteTable
+				activeKey={activeKey}
+				isRainbowMode={isRainbowMode}
+				theme={theme}
+			/>
 
-      <IntervalTable
-        isRainbowMode={isRainbowMode}
-        scale={activeScale}
-        theme={theme}
-      />
-    </div>
-  );
-}
+			<IntervalTable
+				isRainbowMode={isRainbowMode}
+				scale={activeScale}
+				theme={theme}
+			/>
+		</div>
+	);
+};
 
 export { Scalebook };
