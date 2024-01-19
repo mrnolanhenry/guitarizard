@@ -23,11 +23,18 @@ To check if the ui build works:
 npm -w ui run build
 ```
 
-To lint:
+To lint the source code:
 
 ```
 npm run lint
 ```
+
+To format projects source code:
+
+```
+npm run format
+```
+
 
 ## Dependencies
 
