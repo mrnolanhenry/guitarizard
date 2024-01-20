@@ -6,7 +6,7 @@
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
-    "test": "glob test/**.test.ts -c 'tsx --test'"
+    "test": "tsx test.ts"
   },
   "repository": {
     "type": "git",
