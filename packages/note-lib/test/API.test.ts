@@ -2,7 +2,6 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import * as API from "../src/index";
-// import * as Constants from "../src/index";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("exposed API", function (_t) {
@@ -20,24 +19,12 @@ test("exposed API", function (_t) {
   assert.ok(API.instrument.Mandolin, "expect instrument.Mandolin");
   assert.ok(API.instrument.Ukulele, "expect instrument.Ukulele");
 
-  // > 2023-01-19;
-  // >              Dear FreshBS,
-  // >
-  // >              I commented this out because I had no idea what it was doing
-  // >              or how to fix it.
-  // >
-  // >              Best,
-  // >              Mr. Querie
-  //
-  // NOLAN TODO: Fix
-  //
-  //
-  // assert.ok(
-  //   API.data.temperaments.find(
-  //     (temperament) => temperament.name === Constants.TWELVE_TET,
-  //     "expect twelveTET temperament",
-  //   ),
-  // );
+  assert.ok(
+    API.data.temperaments.find(
+      (temperament) => temperament.name === API.Constants.TWELVE_TET,
+      "expect twelveTET temperament",
+    ),
+  );
 
   assert.equal(API.data.scales.length, 129, "expect correct scale length");
 

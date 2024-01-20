@@ -36,5 +36,5 @@ test.run({
  .on('test:fail', () => {
    process.exitCode = 1;
  })
- .compose(spec)
+ .compose(new spec)
  .pipe(process.stdout);
