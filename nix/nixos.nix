@@ -50,6 +50,11 @@ in {
         type = types.nullOr types.str;
         default = null;
       };
+
+      enable_acme = mkOption {
+        type = types.bool;
+        default = false;
+      };
     };
   };
 
@@ -68,6 +73,7 @@ in {
       virtualHosts."${cfg.nginx.virtual_host}" = {
         forceSSL = mkIf cfg.nginx.force_ssl cfg.nginx.force_ssl;
         useACMEHost = mkIf (cfg.nginx.use_acme_host != null) "${cfg.nginx.use_acme_host}";
+        enableACME = mkIf cfg.nginx.enable_acme cfg.nginx.enable_acme;
         locations = {
           "=/robots.txt" = mkIf cfg.nginx.disable_robots {
             return = ''200 "User-agent: *\nDisallow: /\n"'';
