@@ -17,6 +17,7 @@ const Fs: Note = twelveTET.getNoteFromID("F#");
 const G: Note = twelveTET.getNoteFromID("G");
 const Gs: Note = twelveTET.getNoteFromID("G#");
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class Guitar -- init", function (_t) {
   const defaultGuitar = new Guitar(21, [E, A, D, G, B, E]);
   const sevenStringGuitar = new Guitar(21, [B, E, A, D, G, B, E]);

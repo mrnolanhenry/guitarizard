@@ -6,6 +6,7 @@ import { twelveTET } from "../src/data/temperaments/twelveTET";
 import scales from "../src/data/scales";
 import { notes } from "../src/data/temperaments";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class Scale", function (_t) {
   const blues = new Scale("Blues", twelveTET, [0, 3, 5, 6, 7, 10]);
   const { Ab, A, Bb, B, C, Cs, Eb, E, F, Fs } = notes;

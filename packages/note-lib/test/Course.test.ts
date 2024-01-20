@@ -6,6 +6,7 @@ import { Course } from "../src/Course";
 import * as Constants from "../src/constants/Constants";
 import { notes } from "../src/data/temperaments";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class Course", function (_t) {
   const { A, Bb } = notes;
 

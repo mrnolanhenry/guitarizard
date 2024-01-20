@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import { NotePitch } from "../src/enums/NotePitch";
 import { Note } from "../src/Note";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class Note", function (_t) {
   const Xs = new Note("X#", NotePitch.Sharp);
   const Yb = new Note("Yb", NotePitch.Flat);

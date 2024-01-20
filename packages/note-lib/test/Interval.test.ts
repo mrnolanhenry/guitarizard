@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import * as lib from "../src";
 import { Interval } from "../src/Interval";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class Interval", function (_t) {
   const interval = new Interval(0, [
     {

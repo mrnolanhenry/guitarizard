@@ -15,6 +15,7 @@ const E: Note = twelveTET.getNoteFromID("E");
 const F: Note = twelveTET.getNoteFromID("F");
 const G: Note = twelveTET.getNoteFromID("G");
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class Mandolin -- init", function (_t) {
   const defaultMandolin = new Mandolin(17, [G, D, A, E]);
 

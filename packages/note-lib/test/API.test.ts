@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import * as API from "../src/index";
 // import * as Constants from "../src/index";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("exposed API", function (_t) {
   assert.ok(API.Note, "expect Note");
   assert.ok(API.Temperament, "expect Temperament");
@@ -27,6 +28,8 @@ test("exposed API", function (_t) {
   // >
   // >              Best,
   // >              Mr. Querie
+  //
+  // NOLAN TODO: Fix
   //
   //
   // assert.ok(

@@ -14,6 +14,7 @@ import { notes } from "../src/data/temperaments";
 
 const { Ab, A, Bb, B, C, Cs, Db, D, E, F, Fs, Gb, G } = notes;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class FretBoard --- init", function (_t) {
   const system = new Temperament("test", [
     new Note("X", NotePitch.Neither),
@@ -61,6 +62,7 @@ test("class FretBoard --- init", function (_t) {
   ]);
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class FretBoard --- getNotesInScale", function (_t) {
   const courses = [
     new Course("0", [new TunedString("0", E, "metal", 0.254)]),
@@ -170,6 +172,8 @@ test("class FretBoard --- getNotesInScale", function (_t) {
   // > Can you look into this failing test?
   // > Thx, T-dawg
   //
+  // NOLAN TODO: Fix
+  //
   // assert.deepEqual(
   //   stubbyBoard.getNotesInScale(
   //     blues,
@@ -200,6 +204,7 @@ test("class FretBoard --- getNotesInScale", function (_t) {
   // );
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class FretBoard --- toJSON / valueOf / toString", function (_t) {
   const courses = [
     new Course("0", [new TunedString("0", E, "metal", 0.254)]),
@@ -230,6 +235,7 @@ test("class FretBoard --- toJSON / valueOf / toString", function (_t) {
   );
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("setCourseTuningNote()", (_t) => {
   const courses = [
     new Course("x", [new TunedString("x", E, "metal", 0.254)]),
@@ -252,6 +258,7 @@ test("setCourseTuningNote()", (_t) => {
   assert.deepEqual(stubbyBoard.courses[1].tunedStrings[0].tuningNote, A);
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("getFretCount()", (_t) => {
   const courses = [
     new Course("x", [new TunedString("x", E, "metal", 0.254)]),
