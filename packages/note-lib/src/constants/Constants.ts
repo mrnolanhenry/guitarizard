@@ -1,14 +1,14 @@
 export const CUSTOM: string = "custom";
 export const TWELVE_TET: string = "twelveTET";
 
-	// Instruments
+// Instruments
 export const BANJO: string = "banjo";
 export const BASS: string = "bass";
 export const GUITAR: string = "guitar";
 export const MANDOLIN: string = "mandolin";
 export const UKULELE: string = "ukulele";
 
-	// Notes
+// Notes
 export const A_FLAT: string = "Ab";
 export const A: string = "A";
 export const A_SHARP: string = "A#";
@@ -27,7 +27,7 @@ export const G_FLAT: string = "Gb";
 export const G: string = "G";
 export const G_SHARP: string = "G#";
 
-	// Intervals
+// Intervals
 export const AUGMENTED_UNISON: string = "Augmented unison";
 export const AUGMENTED_UNISON_SHORT: string = "A1";
 export const AUGMENTED_SECOND: string = "Augmented second";
@@ -102,7 +102,7 @@ export const TRITONE: string = "tritone";
 export const TRITONE_SHORT: string = "TT";
 export const WHOLE_STEP: string = "whole step";
 
-	// Scale Names
+// Scale Names
 export const AEOLIAN: string = "aeolian";
 export const AEOLIAN_DOMINANT: string = "aeolian dominant";
 export const ALGERIAN_FIRST_OCTAVE: string = "algerian (1st octave)";

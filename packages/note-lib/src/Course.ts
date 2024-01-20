@@ -14,25 +14,25 @@ import { TunedString } from "./TunedString";
  */
 
 export class Course {
-	id: string;
-	tunedStrings: TunedString[];
+  id: string;
+  tunedStrings: TunedString[];
 
-	constructor (id: string, tunedStrings: TunedString[]) {
-		this.id = id;
-		this.tunedStrings = tunedStrings;
-	}
+  constructor(id: string, tunedStrings: TunedString[]) {
+    this.id = id;
+    this.tunedStrings = tunedStrings;
+  }
 
-	toJSON () {
-		return {
-			tunedStrings: this.tunedStrings
-		};
-	}
+  toJSON() {
+    return {
+      tunedStrings: this.tunedStrings,
+    };
+  }
 
-	valueOf () {
-		return JSON.stringify(this);
-	}
+  valueOf() {
+    return JSON.stringify(this);
+  }
 
-	toString () {
-		return JSON.stringify(this);
-	}
+  toString() {
+    return JSON.stringify(this);
+  }
 }

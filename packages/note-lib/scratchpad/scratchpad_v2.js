@@ -1,3 +1,6 @@
+/* eslint-disable */
+// ^ TURNS OFF ESLINT FOR THIS SCRATCHPAD FILE!!
+
 // const assert = require('assert');
 
 //Data Dump of individual scales that go into scales array
@@ -654,14 +657,14 @@ function findNoteOnInstrument(
   instrument,
   validStrings,
   minFret,
-  maxFret
+  maxFret,
 ) {
   for (let i = validStrings[0]; i < instrument.strings.length; i++) {
     const noteFound = findNoteOnString(
       note,
       instrument.strings[i],
       minFret,
-      maxFret
+      maxFret,
     );
     if (validStrings.indexOf(i) !== -1 && typeof noteFound !== "undefined") {
       return noteFound;
@@ -704,7 +707,7 @@ function findScaleOnInstrument(key, scale, instrument) {
     const scaleFound = findScaleOnString(
       key,
       scale,
-      clonedInstrument.strings[i]
+      clonedInstrument.strings[i],
     );
     if (validStrings.indexOf(i) !== -1 && typeof scaleFound !== "undefined") {
       newScale.push(scaleFound);
@@ -746,7 +749,7 @@ function findChord(note, chord, instrument, maxWidth) {
       clonedInstrument,
       validStrings,
       minFret,
-      maxFret
+      maxFret,
     );
     // console.log('noteFound', noteFound);
     //FAILURE CASE
@@ -820,12 +823,12 @@ function findSomeVoicingPositions(note, chord, instrument, string, maxWidth) {
     positions = positions.concat(currentChord);
     currentString = findFullStringFromStringOrder(
       currentChord.strings[string].stringOrder,
-      newInstrument
+      newInstrument,
     );
     newInstrument = removeFretFromInstrument(
       currentChord.strings[string].fretNum,
       currentString,
-      newInstrument
+      newInstrument,
     );
   }
   return positions;
@@ -871,7 +874,7 @@ function findVoicingPositions(note, chord, instrument, maxWidth) {
       chord,
       instrument,
       i,
-      maxWidth
+      maxWidth,
     );
     if (i !== 0) {
       newPositions.shift();
@@ -903,7 +906,7 @@ function findChordPositions(note, chord, instrument, maxWidth) {
       note,
       chordPermutations[i],
       instrument,
-      maxWidth
+      maxWidth,
     );
     // console.log('i',i,'chordPermutations[i]',chordPermutations[i],'positions at i:', currentPositions.length);
     // if(currentPositions.length !== 0){
@@ -950,7 +953,7 @@ for (let i = 0; i < 21; i++) {
     "results ",
     res.length,
     "results less than 4 frets wide",
-    res4.length
+    res4.length,
   );
 }
 

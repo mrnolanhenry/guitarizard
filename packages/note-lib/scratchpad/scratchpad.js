@@ -1,3 +1,6 @@
+/* eslint-disable */
+// ^ TURNS OFF ESLINT FOR THIS SCRATCHPAD FILE!!
+
 // const assert = require('assert');
 
 //Data Dump of individual scales that go into scales array
@@ -533,7 +536,7 @@ function genericFretBoard(simpleInstrument) {
     let currentString = genericString(lastFretNum, openFrets[i]);
     let currentModString = modifyString(
       currentString,
-      stringOffsets[i] - openFrets[i]
+      stringOffsets[i] - openFrets[i],
     );
     newStrings.push(currentModString);
   }
@@ -557,11 +560,11 @@ function createCrossSection(simpleInstrument, startFret, fretWidth) {
   for (let i = 0; i < stringOffsets.length; i++) {
     let currentStringOpen = genericString(lastFretNum, openFrets[i]).splice(
       openFrets[i],
-      1
+      1,
     );
     let currentStringPressed = genericString(lastFretNum, openFrets[i]).splice(
       startFret,
-      fretWidth
+      fretWidth,
     );
     let openFretIndex = currentStringPressed.indexOf(currentStringOpen[0]);
     if (openFretIndex !== -1) {
@@ -570,7 +573,7 @@ function createCrossSection(simpleInstrument, startFret, fretWidth) {
     let currentString = currentStringOpen.concat(currentStringPressed);
     let currentModString = modifyString(
       currentString,
-      stringOffsets[i] - openFrets[i]
+      stringOffsets[i] - openFrets[i],
     );
     newStrings.push(currentModString);
   }
@@ -676,11 +679,11 @@ function findChordAtSection(chord, simpleInstrument, startFret, fretWidth) {
     intervalFound = findIntervalOnBoard(
       currentInterval,
       crossSection,
-      validStrings
+      validStrings,
     );
     validStrings = removeInvalidStringsBelow(
       validStrings,
-      intervalFound.string
+      intervalFound.string,
     );
     chordAtSection.push(intervalFound);
   }
@@ -700,5 +703,5 @@ function findChordPositionsAtSection(
   chord,
   simpleInstrument,
   startFret,
-  fretWidth
+  fretWidth,
 ) {}

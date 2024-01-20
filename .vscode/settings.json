@@ -1,7 +1,8 @@
 {
-    "eslint.enable": true,
-    "eslint.workingDirectories": [
-      { "directory": "packages/note-lib", "changeProcessCWD": true },
-      { "directory": "packages/ui", "changeProcessCWD": true }
-    ],
-  }
+  "eslint.enable": true,
+  "eslint.workingDirectories": [
+    { "directory": "packages/note-lib", "changeProcessCWD": true },
+    { "directory": "packages/ui", "changeProcessCWD": true }
+  ],
+  "prettier.useTabs": true
+}

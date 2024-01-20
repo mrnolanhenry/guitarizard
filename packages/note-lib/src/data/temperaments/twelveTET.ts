@@ -40,6 +40,37 @@ const Gs = new Note(Constants.G_SHARP, NotePitch.Sharp);
 const Ab = new Note(Constants.A_FLAT, NotePitch.Flat, [Gs]);
 Gs.addAliasNote(Ab);
 
-export const twelveTETNotes = { Ab, A, As, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs };
+export const twelveTETNotes = {
+  Ab,
+  A,
+  As,
+  Bb,
+  B,
+  C,
+  Cs,
+  Db,
+  D,
+  Ds,
+  Eb,
+  E,
+  F,
+  Fs,
+  Gb,
+  G,
+  Gs,
+};
 
-export const twelveTET = new Temperament(Constants.TWELVE_TET, [A, Bb, B, C, Db, D, Eb, E, F, Gb, G, Ab]);
+export const twelveTET = new Temperament(Constants.TWELVE_TET, [
+  A,
+  Bb,
+  B,
+  C,
+  Db,
+  D,
+  Eb,
+  E,
+  F,
+  Gb,
+  G,
+  Ab,
+]);

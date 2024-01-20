@@ -20,19 +20,19 @@ export { Interval } from "./Interval";
 export * as Constants from "./constants/Constants";
 
 export const data = {
-	temperaments,
-	intervals,
-	scales
+  temperaments,
+  intervals,
+  scales,
 };
 
 export const instrument = {
-	TunedString,
-	Tuning,
-	Banjo,
-	Bass,
-	FretBoard,
-	FrettedInstrument,
-	Guitar,
-	Mandolin,
-	Ukulele
+  TunedString,
+  Tuning,
+  Banjo,
+  Bass,
+  FretBoard,
+  FrettedInstrument,
+  Guitar,
+  Mandolin,
+  Ukulele,
 };
