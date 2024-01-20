@@ -1,4 +1,6 @@
-import tap from "tap";
+import test from "node:test";
+import assert from "node:assert/strict";
+
 import { Note } from "../../src";
 import { twelveTET } from "../../src/data/temperaments/twelveTET";
 import { Ukulele } from "../../src/instruments/Ukulele";
@@ -12,12 +14,12 @@ const E: Note = twelveTET.getNoteFromID("E");
 const Fs: Note = twelveTET.getNoteFromID("F#");
 const G: Note = twelveTET.getNoteFromID("G");
 
-void tap.test("class Ukulele -- init", function (t) {
+test("class Ukulele -- init", function (_t) {
   const defaultUkulele = new Ukulele(20, [G, C, E, A]);
 
-  t.ok(defaultUkulele);
+  assert.ok(defaultUkulele);
 
-  t.same(
+  assert.deepEqual(
     defaultUkulele.getCommonTunings(),
     [
       new Tuning("ukulele", "standard", [G, C, E, A]),
@@ -27,20 +29,22 @@ void tap.test("class Ukulele -- init", function (t) {
     "common tunings found",
   );
 
-  t.same(
+  assert.deepEqual(
     defaultUkulele.getStandardTuning(),
     new Tuning("ukulele", "standard", [G, C, E, A]),
     "standard tuning found",
   );
 
-  t.equal(defaultUkulele.fretBoard.courses.length, 4, "4 string has 4 courses");
-  t.equal(
+  assert.equal(
+    defaultUkulele.fretBoard.courses.length,
+    4,
+    "4 string has 4 courses",
+  );
+  assert.equal(
     defaultUkulele.fretBoard.courses.every(
       (course) => course.tunedStrings.length === 1,
     ),
     true,
     "4 string has all single strings",
   );
-
-  t.end();
 });

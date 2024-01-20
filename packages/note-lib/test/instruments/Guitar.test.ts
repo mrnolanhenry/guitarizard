@@ -1,4 +1,6 @@
-import tap from "tap";
+import test from "node:test";
+import assert from "node:assert/strict";
+
 import { Note } from "../../src";
 import { twelveTET } from "../../src/data/temperaments/twelveTET";
 import { Guitar } from "../../src/instruments/Guitar";
@@ -15,18 +17,18 @@ const Fs: Note = twelveTET.getNoteFromID("F#");
 const G: Note = twelveTET.getNoteFromID("G");
 const Gs: Note = twelveTET.getNoteFromID("G#");
 
-void tap.test("class Guitar -- init", function (t) {
+test("class Guitar -- init", function (_t) {
   const defaultGuitar = new Guitar(21, [E, A, D, G, B, E]);
   const sevenStringGuitar = new Guitar(21, [B, E, A, D, G, B, E]);
   const eightStringGuitar = new Guitar(21, [Fs, B, E, A, D, G, B, E]);
   const twelveStringGuitar = new Guitar(21, [E, A, D, G, B, E], true);
 
-  t.ok(defaultGuitar);
-  t.ok(sevenStringGuitar);
-  t.ok(eightStringGuitar);
-  t.ok(twelveStringGuitar);
+  assert.ok(defaultGuitar);
+  assert.ok(sevenStringGuitar);
+  assert.ok(eightStringGuitar);
+  assert.ok(twelveStringGuitar);
 
-  t.same(
+  assert.deepEqual(
     defaultGuitar.getCommonTunings(),
     [
       new Tuning("guitar", "standard", [E, A, D, G, B, E]),
@@ -41,19 +43,19 @@ void tap.test("class Guitar -- init", function (t) {
     "common tunings found",
   );
 
-  t.same(
+  assert.deepEqual(
     sevenStringGuitar.getCommonTunings(),
     [new Tuning("guitar (7 string)", "standard", [B, E, A, D, G, B, E])],
     "common tunings found - 7 string",
   );
 
-  t.same(
+  assert.deepEqual(
     eightStringGuitar.getCommonTunings(),
     [new Tuning("guitar (8 string)", "standard", [Fs, B, E, A, D, G, B, E])],
     "common tunings found - 8 string",
   );
 
-  t.same(
+  assert.deepEqual(
     twelveStringGuitar.getCommonTunings(),
     [
       new Tuning("guitar (12 string)", "standard", [E, A, D, G, B, E]),
@@ -68,74 +70,76 @@ void tap.test("class Guitar -- init", function (t) {
     "common tunings found - 12 string",
   );
 
-  t.same(
+  assert.deepEqual(
     defaultGuitar.getStandardTuning(),
     new Tuning("guitar", "standard", [E, A, D, G, B, E]),
     "standard tuning found",
   );
 
-  t.same(
+  assert.deepEqual(
     sevenStringGuitar.getStandardTuning(),
     new Tuning("guitar (7 string)", "standard", [B, E, A, D, G, B, E]),
     "standard tuning found - 7 string",
   );
 
-  t.same(
+  assert.deepEqual(
     eightStringGuitar.getStandardTuning(),
     new Tuning("guitar (8 string)", "standard", [Fs, B, E, A, D, G, B, E]),
     "standard tuning found - 8 string",
   );
 
-  t.same(
+  assert.deepEqual(
     twelveStringGuitar.getStandardTuning(),
     new Tuning("guitar (12 string)", "standard", [E, A, D, G, B, E]),
     "standard tuning found - 12 string",
   );
 
-  t.equal(defaultGuitar.fretBoard.courses.length, 6, "6 string has 6 courses");
-  t.equal(
+  assert.equal(
+    defaultGuitar.fretBoard.courses.length,
+    6,
+    "6 string has 6 courses",
+  );
+  assert.equal(
     sevenStringGuitar.fretBoard.courses.length,
     7,
     "7 string has 7 courses",
   );
-  t.equal(
+  assert.equal(
     eightStringGuitar.fretBoard.courses.length,
     8,
     "8 string has 8 courses",
   );
-  t.equal(
+  assert.equal(
     twelveStringGuitar.fretBoard.courses.length,
     6,
     "12 string has 6 courses",
   );
-  t.equal(
+  assert.equal(
     defaultGuitar.fretBoard.courses.every(
       (course) => course.tunedStrings.length === 1,
     ),
     true,
     "6 string has all single strings",
   );
-  t.equal(
+  assert.equal(
     sevenStringGuitar.fretBoard.courses.every(
       (course) => course.tunedStrings.length === 1,
     ),
     true,
     "7 string has all single strings",
   );
-  t.equal(
+  assert.equal(
     eightStringGuitar.fretBoard.courses.every(
       (course) => course.tunedStrings.length === 1,
     ),
     true,
     "8 string has all single strings",
   );
-  t.equal(
+  assert.equal(
     twelveStringGuitar.fretBoard.courses.every(
       (course) => course.tunedStrings.length === 2,
     ),
     true,
     "12 string has all doubled strings",
   );
-
-  t.end();
 });

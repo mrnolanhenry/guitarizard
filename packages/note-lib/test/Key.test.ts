@@ -1,11 +1,13 @@
-import tap from "tap";
+import test from "node:test";
+import assert from "node:assert";
+
 import { Scale } from "../src/Scale";
 import { twelveTET } from "../src/data/temperaments/twelveTET";
 import { Key } from "../src/Key";
 import { notes } from "../src/data/temperaments";
 
 // WIP - will finish test file once Key.ts is finalized
-void tap.test("class Key", function (t) {
+test("class Key", function (_t) {
   const { A, As, Bb, C, D, E, F, G } = notes;
 
   const lydianScale = new Scale(
@@ -94,23 +96,23 @@ void tap.test("class Key", function (t) {
   const BbLydianEquivKeys: Key[] = BbLydian.getEquivKeys();
   const AsLydianEquivKeys: Key[] = AsLydian.getEquivKeys();
 
-  t.same(BbLydian.scale, lydianScale, "scale identified");
+  assert.deepEqual(BbLydian.scale, lydianScale, "scale identified");
 
-  t.same(BbLydian.note, Bb, "flat note identified");
-  t.same(AsLydian.note, As, "sharp note identified");
+  assert.deepEqual(BbLydian.note, Bb, "flat note identified");
+  assert.deepEqual(AsLydian.note, As, "sharp note identified");
 
-  t.same(
+  assert.deepEqual(
     BbLydianEquivKeys[0],
     ANeapolitanMinor,
     "equivalent key 0 identified given flat note",
   );
-  t.same(
+  assert.deepEqual(
     AsLydianEquivKeys[0],
     ANeapolitanMinor,
     "equivalent key 0 identified given sharp note",
   );
 
-  t.same(
+  assert.deepEqual(
     BbLydian.getEquivKeys(),
     [
       ANeapolitanMinor,
@@ -131,7 +133,7 @@ void tap.test("class Key", function (t) {
     "equivalent keys identified given flat note",
   );
 
-  t.same(
+  assert.deepEqual(
     AsLydian.getEquivKeys(),
     [
       ANeapolitanMinor,
@@ -152,8 +154,6 @@ void tap.test("class Key", function (t) {
     "equivalent keys identified given sharp note",
   );
 
-  t.equal(BbLydian.valueOf(), JSON.stringify(BbLydian), "valueOf works");
-  t.equal(BbLydian.toString(), JSON.stringify(BbLydian), "toString works");
-
-  t.end();
+  assert.equal(BbLydian.valueOf(), JSON.stringify(BbLydian), "valueOf works");
+  assert.equal(BbLydian.toString(), JSON.stringify(BbLydian), "toString works");
 });

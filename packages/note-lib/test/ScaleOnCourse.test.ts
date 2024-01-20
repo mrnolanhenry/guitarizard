@@ -1,4 +1,6 @@
-import tap from "tap";
+import test from "node:test";
+import assert from "node:assert/strict";
+
 import { Course } from "../src/Course";
 import { NoteFretNumberPair } from "../src/NoteFretNumberPair";
 import { IFretSpan } from "../src/interfaces/IFretSpan";
@@ -7,7 +9,7 @@ import { twelveTET } from "../src/data/temperaments/twelveTET";
 import { ScaleOnCourse } from "../src/ScaleOnCourse";
 import { notes } from "../src/data/temperaments";
 
-void tap.test("class ScaleOnCourse", function (t) {
+test("class ScaleOnCourse", function (_t) {
   const { A, E } = notes;
 
   const courses = [
@@ -66,30 +68,28 @@ void tap.test("class ScaleOnCourse", function (t) {
   const scaleOnCourse2String1 = new ScaleOnCourse(courses[0], config2, notes3);
   const scaleOnCourse4String2 = new ScaleOnCourse(courses[0], config2, notes4);
 
-  t.same(
+  assert.deepEqual(
     scaleOnCourse1String1,
     scaleOnCourse1String2,
     "scale is same based on either string in course1",
   );
-  t.same(
+  assert.deepEqual(
     scaleOnCourse2String1,
     scaleOnCourse4String2,
     "scale is same based on either string in course2",
   );
-  t.notSame(
+  assert.notDeepEqual(
     scaleOnCourse1String1,
     scaleOnCourse2String1,
     "scale is NOT same from course to course",
   );
 
-  t.equal(
+  assert.equal(
     scaleOnCourse1String1.valueOf(),
     JSON.stringify(scaleOnCourse1String1),
   );
-  t.equal(
+  assert.equal(
     scaleOnCourse1String1.toString(),
     JSON.stringify(scaleOnCourse1String1),
   );
-
-  t.end();
 });

@@ -17,6 +17,9 @@ To run the note-lib tests:
 npm -w note-lib run test
 ```
 
+- These tests make use of the [official Node.js test runner](https://nodejs.org/api/test.html#test-runner)
+  and the official [node assert library](https://nodejs.org/api/assert.html#assertokvalue-message).
+
 To check if the ui build works:
 
 ```
@@ -34,7 +37,6 @@ To format projects source code:
 ```
 npm run format
 ```
-
 
 ## Dependencies
 

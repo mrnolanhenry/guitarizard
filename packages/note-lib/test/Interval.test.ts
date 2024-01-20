@@ -1,38 +1,40 @@
-import tap from "tap";
-import * as Constants from "../src";
+import test from "node:test";
+import assert from "node:assert/strict";
+
+import * as lib from "../src";
 import { Interval } from "../src/Interval";
 
-void tap.test("class Interval", function (t) {
+test("class Interval", function (_t) {
   const interval = new Interval(0, [
     {
-      name: Constants.PERFECT,
-      long: Constants.PERFECT_UNISON,
-      short: Constants.PERFECT_UNISON_SHORT,
+      name: lib.Constants.PERFECT,
+      long: lib.Constants.PERFECT_UNISON,
+      short: lib.Constants.PERFECT_UNISON_SHORT,
     },
     {
-      name: Constants.DIMINISHED,
-      long: Constants.DIMINISHED_SECOND,
-      short: Constants.DIMINISHED_SECOND_SHORT,
+      name: lib.Constants.DIMINISHED,
+      long: lib.Constants.DIMINISHED_SECOND,
+      short: lib.Constants.DIMINISHED_SECOND_SHORT,
     },
-    { name: Constants.ROOT, short: Constants.ROOT_SHORT },
+    { name: lib.Constants.ROOT, short: lib.Constants.ROOT_SHORT },
   ]);
 
-  t.same(
+  assert.deepEqual(
     interval.toJSON(),
     {
       semitones: 0,
       aliases: [
         {
-          name: Constants.PERFECT,
-          long: Constants.PERFECT_UNISON,
-          short: Constants.PERFECT_UNISON_SHORT,
+          name: lib.Constants.PERFECT,
+          long: lib.Constants.PERFECT_UNISON,
+          short: lib.Constants.PERFECT_UNISON_SHORT,
         },
         {
-          name: Constants.DIMINISHED,
-          long: Constants.DIMINISHED_SECOND,
-          short: Constants.DIMINISHED_SECOND_SHORT,
+          name: lib.Constants.DIMINISHED,
+          long: lib.Constants.DIMINISHED_SECOND,
+          short: lib.Constants.DIMINISHED_SECOND_SHORT,
         },
-        { name: Constants.ROOT, short: Constants.ROOT_SHORT },
+        { name: lib.Constants.ROOT, short: lib.Constants.ROOT_SHORT },
       ],
       isPerfect: true,
       isDiminished: true,
@@ -44,14 +46,12 @@ void tap.test("class Interval", function (t) {
     "JSON should be correct",
   );
 
-  t.equal(interval.valueOf(), JSON.stringify(interval));
-  t.equal(interval.toString(), JSON.stringify(interval));
+  assert.equal(interval.valueOf(), JSON.stringify(interval));
+  assert.equal(interval.toString(), JSON.stringify(interval));
 
-  t.equal(interval.isPerfect, true);
-  t.equal(interval.isDiminished, true);
-  t.equal(interval.isAugmented, false);
-  t.equal(interval.isMajor, false);
-  t.equal(interval.isMinor, false);
-
-  t.end();
+  assert.equal(interval.isPerfect, true);
+  assert.equal(interval.isDiminished, true);
+  assert.equal(interval.isAugmented, false);
+  assert.equal(interval.isMajor, false);
+  assert.equal(interval.isMinor, false);
 });

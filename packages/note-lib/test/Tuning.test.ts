@@ -1,8 +1,10 @@
-import tap from "tap";
+import test from "node:test";
+import assert from "node:assert/strict";
+
 import { Tuning } from "../src/Tuning";
 import { notes } from "../src/data/temperaments";
 
-void tap.test("class Tuning", function (t) {
+test("class Tuning", function (_t) {
   const { A, B, D, G, E } = notes;
 
   const standardGuitarTuning = new Tuning("guitar", "standard", [
@@ -14,11 +16,12 @@ void tap.test("class Tuning", function (t) {
     E,
   ]);
 
-  t.equal(standardGuitarTuning.valueOf(), JSON.stringify(standardGuitarTuning));
-  t.equal(
+  assert.equal(
+    standardGuitarTuning.valueOf(),
+    JSON.stringify(standardGuitarTuning),
+  );
+  assert.equal(
     standardGuitarTuning.toString(),
     JSON.stringify(standardGuitarTuning),
   );
-
-  t.end();
 });
