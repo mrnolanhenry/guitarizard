@@ -50,7 +50,7 @@ const Scalebook = (props: IScalebookProps) => {
     updateKey,
   } = props;
   const settingsBarStyle: CSSProperties = {
-    backgroundColor: theme.base01,
+    backgroundColor: theme.swatch.base01,
   };
 
   const instrument: FrettedInstrument = activeInstrument;

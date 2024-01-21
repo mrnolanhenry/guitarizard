@@ -21,8 +21,8 @@ const getNoteTextStyle = (
   activeKey: Key,
 ): CSSProperties => {
   let noteTextStyle: CSSProperties = {
-    backgroundColor: theme.base00,
-    color: theme.base05,
+    backgroundColor: theme.swatch.base00,
+    color: theme.swatch.base05,
   };
 
   if (isRainbowMode && note) {
@@ -68,8 +68,8 @@ const FretSegment = (props: IFretSegmentProps) => {
     : undefined;
   const noteDisplay: string = note ? note.id : "";
 
-  const fretLineStyle: CSSProperties = { backgroundColor: theme.base07 };
-  const stringLineStyle: CSSProperties = { backgroundColor: theme.base0E };
+  const fretLineStyle: CSSProperties = { backgroundColor: theme.swatch.base07 };
+  const stringLineStyle: CSSProperties = { backgroundColor: theme.swatch.base0E };
 
   const noteTextStyle: CSSProperties = getNoteTextStyle(
     isRainbowMode,
@@ -80,7 +80,7 @@ const FretSegment = (props: IFretSegmentProps) => {
 
   const backgroundStyle: CSSProperties =
     fret <= scaleOnCourse.config.fret.start
-      ? { backgroundColor: theme.base01 }
+      ? { backgroundColor: theme.swatch.base01 }
       : {};
 
   return (

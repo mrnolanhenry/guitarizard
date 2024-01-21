@@ -21,8 +21,8 @@ const FretBoard = (props: IFretBoardProps) => {
   const { activeKey, fretBoard, isRainbowMode, onTune, showFretBar, theme } =
     props;
   const fretBarStyle: CSSProperties = {
-    backgroundColor: theme.base00,
-    borderColor: theme.base01,
+    backgroundColor: theme.swatch.base00,
+    borderColor: theme.swatch.base01,
   };
 
   const fretBar = showFretBar && (
@@ -39,10 +39,10 @@ const FretBoard = (props: IFretBoardProps) => {
   );
 
   const tuningPegsStyle: CSSProperties = {
-    backgroundColor: theme.base07,
-    color: theme.base04,
-    borderColor: theme.base03,
-    boxShadow: "2px 0px " + theme.base07,
+    backgroundColor: theme.swatch.base07,
+    color: theme.swatch.base04,
+    borderColor: theme.swatch.base03,
+    boxShadow: "2px 0px " + theme.swatch.base07,
   };
 
   const tuningPegs = (
@@ -62,8 +62,8 @@ const FretBoard = (props: IFretBoardProps) => {
     </div>
   );
 
-  const stringStyle: CSSProperties = { borderColor: theme.base09 };
-  const boardStyle: CSSProperties = { backgroundColor: theme.base0F };
+  const stringStyle: CSSProperties = { borderColor: theme.swatch.base09 };
+  const boardStyle: CSSProperties = { backgroundColor: theme.swatch.base0F };
 
   const scalesOnCourses: ScaleOnCourse[] = fretBoard.getNotesInScale(
     activeKey.scale,
@@ -110,8 +110,8 @@ const FretBoard = (props: IFretBoardProps) => {
   );
 
   const style: CSSProperties = {
-    backgroundColor: theme.base00,
-    borderColor: theme.base00,
+    backgroundColor: theme.swatch.base00,
+    borderColor: theme.swatch.base00,
   };
 
   return (

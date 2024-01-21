@@ -23,10 +23,10 @@ const NoteTable = (props: INoteTableProps) => {
   };
 
   const noteStyle: CSSProperties = {
-    backgroundColor: theme.base00,
-    color: theme.base05,
+    backgroundColor: theme.swatch.base00,
+    color: theme.swatch.base05,
     borderStyle: "solid",
-    borderColor: theme.base01,
+    borderColor: theme.swatch.base01,
     borderWidth: "1px",
     padding: "2px 0px 2px 5px",
     width: "100px",

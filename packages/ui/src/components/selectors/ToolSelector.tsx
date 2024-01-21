@@ -8,20 +8,22 @@ interface IToolSelectorProps {
   activeToolName: ToolName;
   minWidth?: string;
   onToolSelect: (toolName: ToolName) => void;
+  size?: string // "small" will set styling to smaller sizes
   theme: Base16Theme;
 }
 
 const ToolSelector = (props: IToolSelectorProps) => {
-  const { activeToolName, minWidth, onToolSelect, theme } = props;
+  const { activeToolName, minWidth, onToolSelect, size, theme } = props;
   return (
     <Selector<ToolName>
       id="tool-selector"
       items={["scalebook"]}
-      // TODO: Return to songbook
+      // NOLAN TODO: Return to songbook
       // items={["scalebook", "songbook"]}
       minWidth={minWidth}
       activeItem={activeToolName}
       onChange={(v: ToolName) => onToolSelect(v)}
+      size={size}
       theme={theme}
     />
   );

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import "./App.css";
-import React, { CSSProperties, useState } from "react";
-import { cloudCity } from "./colors/themes";
+import React, { CSSProperties, useState, useEffect } from "react";
+import { themes, cloudCity, tomorrow } from "./colors/themes";
 import { ToolName } from "./components/selectors/ToolSelector";
 import { TopBar } from "./components/TopBar";
 import { Scalebook } from "./components/tools/Scalebook";
@@ -82,6 +82,13 @@ const App = () => {
   const [activeTemperament, setActiveTemperament] = useState(twelveTET);
   const [activeToolName, setActiveToolName] = useState("scalebook");
   const [theme, setTheme] = useState(cloudCity);
+
+  useEffect(() => {
+    const ls_theme = localStorage.getItem("theme");
+    if (ls_theme) {
+      setTheme(themes[ls_theme])
+    }
+  }, [ setTheme ]);
 
   const toggleRainbowMode = (): void => {
     setIsRainbowMode(!isRainbowMode);
@@ -197,8 +204,8 @@ const App = () => {
   }
 
   const style: CSSProperties = {
-    backgroundColor: theme.base01,
-    color: theme.base05,
+    backgroundColor: theme.swatch.base01,
+    color: theme.swatch.base05,
     position: "fixed",
     top: 0,
     right: 0,
@@ -218,7 +225,8 @@ const App = () => {
             setActiveToolName(activeToolName);
           }}
           activeToolName={activeToolName as ToolName}
-          theme={cloudCity}
+          theme={theme}
+          setTheme={setTheme}
         />
 
         {tool}

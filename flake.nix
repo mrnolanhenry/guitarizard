@@ -70,8 +70,8 @@
       ui = pkgs.buildNpmPackage rec {
         pname = "ui";
         version = "0.1.0";
-        npmDepsHash = "sha256-iAdQtEt8C7hJ5ZgeBYj2OmweQnqiFa8k0YtXM8hPwqw=";
-        # npmDepsHash = pkgs.lib.fakeHash;;
+        npmDepsHash = "sha256-ysoGxIj0vzcHHHH6mBpWc6NmLv9lZek+JPSPnWWPa98=";
+        # npmDepsHash = pkgs.lib.fakeHash;
 
         src = ./.;
 
