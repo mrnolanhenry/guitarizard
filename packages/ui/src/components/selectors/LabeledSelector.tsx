@@ -24,6 +24,7 @@ interface ILabeledSelectorProps<T> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ownerState: any,
   ) => ReactNode;
+  size?: string // "small" will set styling to smaller sizes
   theme: Base16Theme;
 }
 
@@ -40,6 +41,7 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
     onChange,
     onInputChange,
     renderOption,
+    size,
     theme,
   } = props;
   return (
@@ -62,6 +64,7 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
         onChange={onChange}
         onInputChange={onInputChange}
         renderOption={renderOption}
+        size={size}
         theme={theme}
       />
     </div>

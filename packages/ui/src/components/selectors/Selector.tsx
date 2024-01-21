@@ -34,6 +34,7 @@ interface ISelectorProps<T> {
     state: AutocompleteRenderOptionState,
     ownerState: unknown,
   ) => ReactNode;
+  size?: string // "small" will set styling to smaller sizes
   theme: Base16Theme; // what theme should this component be?
 }
 
@@ -49,6 +50,7 @@ const Selector = <T,>(props: ISelectorProps<T>) => {
     onChange,
     onInputChange,
     renderOption,
+    size,
     theme,
   } = props;
 
@@ -57,7 +59,8 @@ const Selector = <T,>(props: ISelectorProps<T>) => {
   );
 
   const fontSizeStyling = {
-    fontSize: label ? "inherit" : "12px",
+    // fontSize: label ? "inherit" : "12px",
+    fontSize: size === "small" ? "12px" : "inherit",
   };
 
   const classStyling = {

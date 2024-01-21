@@ -84,7 +84,7 @@ const App = () => {
   const [theme, setTheme] = useState(cloudCity);
 
   useEffect(() => {
-    let ls_theme = localStorage.getItem("theme");
+    const ls_theme = localStorage.getItem("theme");
     if (ls_theme) {
       setTheme(themes[ls_theme])
     }

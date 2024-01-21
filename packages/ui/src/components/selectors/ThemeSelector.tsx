@@ -1,18 +1,6 @@
-import React from 'react';
-import { themes, Base16Theme } from "../../colors/themes";
 
-export type ThemeSelectorProps = {
-  theme: Base16Theme;
-  setTheme: React.Dispatch<React.SetStateAction<Base16Theme>>;
-}
-
-export default function ThemeSelector({ theme, setTheme }: ThemeSelectorProps) {
-  return (
-    <div>
-      <span style={{ fontSize: '1.5em' }}>🎨</span>
-      <select
+      {/* <select
         onChange={(e) => {
-          console.log(e.currentTarget.value);
           setTheme(themes[e.currentTarget.value]);
           localStorage.setItem("theme", e.currentTarget.value);
         }}
@@ -26,12 +14,43 @@ export default function ThemeSelector({ theme, setTheme }: ThemeSelectorProps) {
           marginLeft: '1em',
         }}>
         {Object.keys(themes).map(theme_key => {
-          let theme = themes[theme_key];
+          const theme = themes[theme_key];
           return (
             <option value={theme_key} key={theme_key}>{theme.name}</option>
           );
         })}
-      </select>
-    </div>
-  );
+      </select> */}
+//
+
+import React from "react";
+import { themes, Base16Theme } from "../../colors/themes";
+import { LabeledSelector } from "./LabeledSelector";
+
+interface IThemeSelectorProps {
+  activeTheme: Base16Theme;
+  minWidth?: string;
+  onThemeSelect: (theme: Base16Theme) => void;
+  size?: string // "small" will set styling to smaller sizes
 }
+
+const ThemeSelector = (props: IThemeSelectorProps) => {
+  const { activeTheme, minWidth, onThemeSelect, size } = props;
+  const items = Object.keys(themes).map(theme_key => themes[theme_key]);
+
+  return (
+    <LabeledSelector<Base16Theme>
+      id="theme-selector"
+      label="Theme:"
+      minWidth={minWidth}
+      items={items}
+      getValue={(theme: Base16Theme) => theme.id}
+      getDisplay={(theme: Base16Theme) => theme.name}
+      activeItem={activeTheme}
+      onChange={onThemeSelect}
+      size={size}
+      theme={activeTheme}
+    />
+  );
+};
+
+export { ThemeSelector };

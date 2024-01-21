@@ -2,7 +2,7 @@ import "./TopBar.css";
 import React, { CSSProperties } from "react";
 import { ToolSelector, ToolName } from "./selectors/ToolSelector";
 import { Base16Theme } from "../colors/themes";
-import ThemeSelector from './selectors/ThemeSelector';
+import { ThemeSelector } from './selectors/ThemeSelector';
 
 interface Props {
   activeToolName: ToolName;
@@ -32,11 +32,9 @@ const TopBar = (props: Props) => {
 
   const logo = (
     <img
-      src="/guitarizard-logo-128_border.png"
-      style={{
-        width: '32px',
-        height: 'auto',
-      }} />
+      className="logo"
+      src="/guitarizard_logo_sq_20.png"
+    />
   );
 
   const style: CSSProperties = {
@@ -45,6 +43,14 @@ const TopBar = (props: Props) => {
     borderColor: theme.swatch.base03,
     display: 'flex',
     alignItems: 'center',
+  };
+
+  const onThemeSelect = (theme: Base16Theme): void => {
+    console.log(theme);
+    setTheme(theme);
+    localStorage.setItem("theme", theme.id);
+    // setTheme(themes[e.currentTarget.value]);
+    // localStorage.setItem("theme", e.currentTarget.value);
   };
 
   return (
@@ -56,19 +62,25 @@ const TopBar = (props: Props) => {
         alignItems: 'end',
       }}>
         {logo}
-        <span style={{ position: 'relative', left: '-2px' }}>uitarizard</span>
+        <span style={{ position: 'relative', left: '-10px' }}>uitarizard</span>
       </div>
       <div className="center">{auth}</div>
       <div className="right" style={{ display: 'flex', alignItems: 'center' }}>
-        <div style={{ marginRight: '1em' }}>
-          <ThemeSelector theme={theme} setTheme={setTheme} />
-        </div>
         <ToolSelector
           activeToolName={activeToolName}
           minWidth="10em"
           onToolSelect={onToolSelect}
+          size="small"
           theme={theme}
         />
+
+        <ThemeSelector 
+            activeTheme={theme}
+            minWidth={"12em"}
+            onThemeSelect={onThemeSelect}
+            size="small"
+          />
+
       </div>            
     </div>
   );
