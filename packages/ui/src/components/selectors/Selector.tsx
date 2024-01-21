@@ -64,16 +64,16 @@ const Selector = <T,>(props: ISelectorProps<T>) => {
 
   const classStyling = {
     "& .MuiButtonBase-root": {
-      color: theme.base05,
+      color: theme.swatch.base05,
     },
     "& .MuiOutlinedInput-notchedOutline": {
-      borderColor: theme.base05,
+      borderColor: theme.swatch.base05,
     },
   };
 
   const autoCompleteStyle: CSSProperties = {
-    backgroundColor: theme.base00,
-    color: theme.base05,
+    backgroundColor: theme.swatch.base00,
+    color: theme.swatch.base05,
     borderWidth: "0",
     borderRadius: "4px",
     borderStyle: "solid",
@@ -83,13 +83,13 @@ const Selector = <T,>(props: ISelectorProps<T>) => {
 
   const inputLabelProps = {
     sx: {
-      color: theme.base05,
+      color: theme.swatch.base05,
     },
   };
 
   const customInputProps = {
     sx: {
-      color: theme.base05,
+      color: theme.swatch.base05,
       width: "1em",
       minWidth: "1em",
       ...fontSizeStyling,
@@ -98,8 +98,8 @@ const Selector = <T,>(props: ISelectorProps<T>) => {
 
   const listBoxProps = {
     sx: {
-      backgroundColor: theme.base00,
-      color: theme.base05,
+      backgroundColor: theme.swatch.base00,
+      color: theme.swatch.base05,
       ...fontSizeStyling,
     },
   };
