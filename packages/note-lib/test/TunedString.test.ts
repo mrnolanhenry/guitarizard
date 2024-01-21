@@ -46,6 +46,7 @@ test("class TunedString", function (t) {
   assert.equal(AString.valueOf(), JSON.stringify(AString));
   assert.equal(AString.toString(), JSON.stringify(AString));
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   void t.test("setTuningNote", (_t) => {
     const testString = new TunedString(
       "x",

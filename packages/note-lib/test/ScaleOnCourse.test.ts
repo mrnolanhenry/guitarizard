@@ -9,6 +9,7 @@ import { twelveTET } from "../src/data/temperaments/twelveTET";
 import { ScaleOnCourse } from "../src/ScaleOnCourse";
 import { notes } from "../src/data/temperaments";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class ScaleOnCourse", function (_t) {
   const { A, E } = notes;
 

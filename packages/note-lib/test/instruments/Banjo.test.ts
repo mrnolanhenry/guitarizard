@@ -14,6 +14,7 @@ const E: Note = twelveTET.getNoteFromID("E");
 const Fs: Note = twelveTET.getNoteFromID("F#");
 const G: Note = twelveTET.getNoteFromID("G");
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class Banjo -- init", function (_t) {
   const defaultBanjo = new Banjo(21, [G, D, G, B, D]);
 

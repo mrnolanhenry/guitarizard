@@ -14,6 +14,7 @@ import { notes } from "../src/data/temperaments";
 
 const { Ab, A, Bb, B, C, Cs, Db, D, E, F, Fs, Gb, G } = notes;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class FretBoard --- init", function (_t) {
   const system = new Temperament("test", [
     new Note("X", NotePitch.Neither),
@@ -61,6 +62,7 @@ test("class FretBoard --- init", function (_t) {
   ]);
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class FretBoard --- getNotesInScale", function (_t) {
   const courses = [
     new Course("0", [new TunedString("0", E, "metal", 0.254)]),
@@ -164,42 +166,54 @@ test("class FretBoard --- getNotesInScale", function (_t) {
     "blues scale in A works ok",
   );
 
-  // > 2024-01-19;
-  // >
-  // > Dear FreshBS,
-  // > Can you look into this failing test?
-  // > Thx, T-dawg
-  //
-  // assert.deepEqual(
-  //   stubbyBoard.getNotesInScale(
-  //     blues,
-  //     new Note(lib.Constants.F_SHARP, NotePitch.Sharp),
-  //   ),
-  //   [
-  //     {
-  //       course: courses[0],
-  //       config: fretSpan[0],
-  //       notes: [
-  //         { value: E, fretNumber: 0 },
-  //         { value: Fs.aliasNotes[0], fretNumber: 2 },
-  //         { value: A, fretNumber: 5 },
-  //       ],
-  //     },
-  //     {
-  //       course: courses[1],
-  //       config: fretSpan[1],
-  //       notes: [
-  //         { value: A, fretNumber: 0 },
-  //         { value: B, fretNumber: 2 },
-  //         { value: C, fretNumber: 3 },
-  //         { value: Cs.aliasNotes[0], fretNumber: 4 },
-  //       ],
-  //     },
-  //   ],
-  //   "blues scale in F# works ok",
-  // );
+  try {
+  assert.deepEqual(
+    stubbyBoard.getNotesInScale(
+      blues,
+      new Note(lib.Constants.F_SHARP, NotePitch.Sharp),
+    ),
+    [
+      {
+        config: fretSpan[0],
+        course: courses[0],
+        notes: [
+          { value: E, fretNumber: 0 },
+          { value: Fs, fretNumber: 2 },
+          { value: A, fretNumber: 5 },
+        ],
+      },
+      {
+        config: fretSpan[1],
+        course: courses[1],
+        notes: [
+          { value: A, fretNumber: 0 },
+          { value: B, fretNumber: 2 },
+          { value: C, fretNumber: 3 },
+          { value: Cs, fretNumber: 4 },
+        ],
+      },
+    ],
+    "blues scale in F# works ok",
+  );
+  }
+  catch (error) {
+    console.log("error.actual");
+    console.log(error.actual);
+    console.log("error.expected");
+    console.log(error.expected);
+    console.log("error.actual[0].notes");
+    console.log(error.actual[0].notes);
+    console.log("error.expected[0].notes");
+    console.log(error.expected[0].notes);
+    console.log("error.actual[1].notes");
+    console.log(error.actual[1].notes);
+    console.log("error.expected[1].notes");
+    console.log(error.expected[1].notes);
+    throw error;
+  }
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class FretBoard --- toJSON / valueOf / toString", function (_t) {
   const courses = [
     new Course("0", [new TunedString("0", E, "metal", 0.254)]),
@@ -230,6 +244,7 @@ test("class FretBoard --- toJSON / valueOf / toString", function (_t) {
   );
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("setCourseTuningNote()", (_t) => {
   const courses = [
     new Course("x", [new TunedString("x", E, "metal", 0.254)]),
@@ -252,6 +267,7 @@ test("setCourseTuningNote()", (_t) => {
   assert.deepEqual(stubbyBoard.courses[1].tunedStrings[0].tuningNote, A);
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("getFretCount()", (_t) => {
   const courses = [
     new Course("x", [new TunedString("x", E, "metal", 0.254)]),

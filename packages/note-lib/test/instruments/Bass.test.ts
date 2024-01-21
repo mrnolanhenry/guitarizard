@@ -14,6 +14,7 @@ const E: Note = twelveTET.getNoteFromID("E");
 const F: Note = twelveTET.getNoteFromID("F");
 const G: Note = twelveTET.getNoteFromID("G");
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class Bass -- init", function (_t) {
   const defaultBass = new Bass(21, [E, A, D, G]);
   const fiveStringBass = new Bass(21, [B, E, A, D, G]);

@@ -11,7 +11,7 @@ import {
   AutocompleteInputChangeReason,
   AutocompleteRenderOptionState,
   FilterOptionsState,
-  TextField,
+  TextField
 } from "@mui/material";
 
 // Example styling
@@ -26,15 +26,13 @@ interface ISelectorProps<T> {
   onChange: (item: T) => void; // callback for user changes
   onInputChange?: (event: React.SyntheticEvent, value: string) => void; // callback for user input changes
   getValue?: (item: T) => string; // given an item, what is the option value?
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getDisplay?: (item: T) => any; // given an item, what should we display?
+  getDisplay?: (item: T) => string; // given an item, what should we display?
   filterOptions?: (options: T[], state: FilterOptionsState<T>) => T[]; // special handling to filter options
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   renderOption?: (
     props: React.HTMLAttributes<HTMLLIElement>,
     option: T,
     state: AutocompleteRenderOptionState,
-    ownerState: any,
+    ownerState: unknown,
   ) => ReactNode;
   theme: Base16Theme; // what theme should this component be?
 }
@@ -121,7 +119,7 @@ const Selector = <T,>(props: ISelectorProps<T>) => {
     const fn =
       typeof getDisplay === "undefined"
         ? (a: T) => String(a)
-        : (getDisplay as (item: T) => any);
+        : (getDisplay as (item: T) => string);
     return fn(item);
   };
 

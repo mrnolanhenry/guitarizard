@@ -7,6 +7,7 @@ import { Key } from "../src/Key";
 import { notes } from "../src/data/temperaments";
 
 // WIP - will finish test file once Key.ts is finalized
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class Key", function (_t) {
   const { A, As, Bb, C, D, E, F, G } = notes;
 
