@@ -46,11 +46,8 @@ const TopBar = (props: Props) => {
   };
 
   const onThemeSelect = (theme: Base16Theme): void => {
-    console.log(theme);
     setTheme(theme);
     localStorage.setItem("theme", theme.id);
-    // setTheme(themes[e.currentTarget.value]);
-    // localStorage.setItem("theme", e.currentTarget.value);
   };
 
   return (
