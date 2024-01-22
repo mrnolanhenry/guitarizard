@@ -35,14 +35,13 @@ interface IThemeSelectorProps {
 
 const ThemeSelector = (props: IThemeSelectorProps) => {
   const { activeTheme, minWidth, onThemeSelect, size } = props;
-  const items = Object.keys(themes).map(theme_key => themes[theme_key]);
 
   return (
     <LabeledSelector<Base16Theme>
       id="theme-selector"
       label="Theme:"
       minWidth={minWidth}
-      items={items}
+      items={themes}
       getValue={(theme: Base16Theme) => theme.id}
       getDisplay={(theme: Base16Theme) => theme.name}
       activeItem={activeTheme}
