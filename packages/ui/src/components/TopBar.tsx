@@ -33,7 +33,7 @@ const TopBar = (props: Props) => {
   const logo = (
     <img
       className="logo"
-      src="/guitarizard_logo_sq.png"
+      src="/guitarizard_logo_NEW_sq_v5.png"
     />
   );
 
@@ -62,7 +62,7 @@ const TopBar = (props: Props) => {
         alignItems: 'end',
       }}>
         {logo}
-        <span style={{ position: 'relative', left: '-12px' }}>uitarizard</span>
+        <span style={{ position: 'relative', left: '-10px' }}>uitarizard</span>
       </div>
       <div className="center">{auth}</div>
       <div className="right" style={{ display: 'flex', alignItems: 'center' }}>
