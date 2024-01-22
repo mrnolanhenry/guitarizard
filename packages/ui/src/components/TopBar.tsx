@@ -76,7 +76,7 @@ const TopBar = (props: Props) => {
 
         <ThemeSelector 
             activeTheme={theme}
-            minWidth={"12em"}
+            minWidth={"9em"}
             onThemeSelect={onThemeSelect}
             size="small"
           />

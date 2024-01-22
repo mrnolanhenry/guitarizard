@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import "./App.css";
 import React, { CSSProperties, useState, useEffect } from "react";
-import { themes, cloudCity, tomorrow } from "./colors/themes";
+import { themes, cloudCity, Base16Theme } from "./colors/themes";
 import { ToolName } from "./components/selectors/ToolSelector";
 import { TopBar } from "./components/TopBar";
 import { Scalebook } from "./components/tools/Scalebook";
@@ -86,7 +86,10 @@ const App = () => {
   useEffect(() => {
     const ls_theme = localStorage.getItem("theme");
     if (ls_theme) {
-      setTheme(themes[ls_theme])
+      const themeFound = themes.find((theme: Base16Theme) => theme.id === ls_theme);
+      if (themeFound) {
+        setTheme(themeFound);
+      }
     }
   }, [ setTheme ]);
 
