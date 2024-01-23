@@ -3,10 +3,12 @@ import React, { CSSProperties } from "react";
 import { ToolSelector, ToolName } from "./selectors/ToolSelector";
 import { Base16Theme } from "../colors/themes";
 import { ThemeSelector } from './selectors/ThemeSelector';
+import { Grid } from "@mui/material";
 
 interface Props {
   activeToolName: ToolName;
   isAuthenticated: boolean;
+  isLargeScreen: boolean;
   onLoginClick: () => void;
   onLogoutClick: () => void;
   onToolSelect: (toolName: ToolName) => void;
@@ -18,6 +20,7 @@ const TopBar = (props: Props) => {
   const {
     activeToolName,
     isAuthenticated,
+    isLargeScreen,
     onLoginClick,
     onLogoutClick,
     onToolSelect,
@@ -41,8 +44,11 @@ const TopBar = (props: Props) => {
     backgroundColor: theme.swatch.base00,
     color: theme.swatch.base04,
     borderColor: theme.swatch.base03,
-    display: 'flex',
-    alignItems: 'center',
+  };
+
+  const leftStyle: CSSProperties = {
+    color: theme.swatch.base06,
+    textShadow: `0 0 1px ${theme.swatch.base00}`,
   };
 
   const onThemeSelect = (theme: Base16Theme): void => {
@@ -51,35 +57,34 @@ const TopBar = (props: Props) => {
   };
 
   return (
-    <div className="top-bar" style={style}>
-      <div className="left" style={{
-        color: theme.swatch.base06,
-        textShadow: `0 0 1px ${theme.swatch.base00}`,
-        display: 'flex',
-        alignItems: 'end',
-      }}>
+    <Grid container className="top-bar" alignItems="center" style={style} padding={2}>
+      <Grid item container className="left" xs={12} sm={3} md={2} justifyContent={isLargeScreen ? "flex-start" : "center"} paddingBottom={isLargeScreen ? 0 : 2} style={leftStyle}>
         {logo}
         <span style={{ position: 'relative', left: '-10px' }}>uitarizard</span>
-      </div>
-      <div className="center">{auth}</div>
-      <div className="right" style={{ display: 'flex', alignItems: 'center' }}>
-        <ToolSelector
-          activeToolName={activeToolName}
-          minWidth="10em"
-          onToolSelect={onToolSelect}
-          size="small"
-          theme={theme}
-        />
-
-        <ThemeSelector 
-            activeTheme={theme}
-            minWidth={"9em"}
-            onThemeSelect={onThemeSelect}
+      </Grid>
+      <Grid item container className="center" xs={12} sm={2} md={5} lg={6}>
+        {auth}
+      </Grid>
+      <Grid item container className="right" xs={12} sm={7} md={5} lg={4} justifyContent="flex-end" columnSpacing={2}>
+        <Grid item xs={6} sm="auto">
+          <ToolSelector
+            activeToolName={activeToolName}
+            minWidth="10em"
+            onToolSelect={onToolSelect}
             size="small"
+            theme={theme}
           />
-
-      </div>            
-    </div>
+        </Grid>
+        <Grid item xs={6} sm="auto">
+          <ThemeSelector 
+              activeTheme={theme}
+              minWidth={"9em"}
+              onThemeSelect={onThemeSelect}
+              size="small"
+            />
+        </Grid>
+      </Grid>           
+    </Grid>
   );
 };
 

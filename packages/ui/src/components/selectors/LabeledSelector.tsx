@@ -24,7 +24,7 @@ interface ILabeledSelectorProps<T> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ownerState: any,
   ) => ReactNode;
-  size?: string // "small" will set styling to smaller sizes
+  size?: string; // "small" will set styling to smaller sizes
   theme: Base16Theme;
 }
 
@@ -49,7 +49,6 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
       style={{
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex-start",
       }}
     >
       <Selector<T>

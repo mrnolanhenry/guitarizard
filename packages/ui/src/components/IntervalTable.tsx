@@ -1,26 +1,17 @@
 import { Scale, Interval } from "note-lib";
 import { Base16Theme, rainbow } from "../colors/themes";
 import React, { CSSProperties } from "react";
+import { Grid } from "@mui/material";
 
 interface IIntervalTableProps {
   scale: Scale;
+  isLargeScreen: boolean;
   isRainbowMode: boolean;
   theme: Base16Theme;
 }
 
 const IntervalTable = (props: IIntervalTableProps) => {
-  const { scale, isRainbowMode, theme } = props;
-
-  const rowDiv: CSSProperties = {
-    display: "flex",
-    flexDirection: "row",
-  };
-
-  const colDiv: CSSProperties = {
-    padding: "5px",
-    textAlign: "left",
-    listStylePosition: "inside",
-  };
+  const { scale, isLargeScreen, isRainbowMode, theme } = props;
 
   const intervalStyle: CSSProperties = {
     backgroundColor: theme.swatch.base00,
@@ -82,14 +73,13 @@ const IntervalTable = (props: IIntervalTableProps) => {
             interval,
           );
           return (
-            <div
+            <Grid item xs={1}
               key={`${i}:${Math.random()}`}
               className="intervalItem"
               style={intervalTextStyle}
             >
-              {" "}
               {displayIntervalProperty(interval, rowLabel)}
-            </div>
+            </Grid>
           );
         })}
       </>
@@ -97,26 +87,29 @@ const IntervalTable = (props: IIntervalTableProps) => {
   };
 
   const renderIntervalRow = (rowLabel: string): JSX.Element => {
+    const xsColumns: number = scale.intervals.length + 2;
+
     return (
-      <div id="intervalRow" style={rowDiv}>
-        <div className="intervalItem" style={intervalStyle}>
-          {" "}
+      <Grid item container id="intervalRow"  xs={xsColumns} sm={xsColumns - 1} lg={xsColumns - 1} columns={isLargeScreen ? xsColumns - 1 : xsColumns}>
+        <Grid item className="intervalItem" xs={2} sm={1} md={1} lg={1} style={intervalStyle}>
           {rowLabel}
-        </div>
+        </Grid>
         {mapIntervals(rowLabel)}
-      </div>
+      </Grid>
     );
   };
 
   return (
-    <div id="intervalTable" style={colDiv}>
-      Intervals included:
+    <Grid container id="intervalTable">
+      <Grid item xs={12}>
+        Intervals included:
+      </Grid>
       {renderIntervalRow("Semitones:")}
       {renderIntervalRow("Short:")}
       {renderIntervalRow("Long:")}
       {renderIntervalRow("Short (Alt):")}
       {renderIntervalRow("Long (Alt):")}
-    </div>
+    </Grid>
   );
 };
 

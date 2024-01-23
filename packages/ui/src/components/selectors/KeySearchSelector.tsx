@@ -87,7 +87,6 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
     }
   };
 
-  
   const getFilterOptions = (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _options: Key[],
