@@ -5,7 +5,7 @@
   opacity: 0.7;
   margin-right: 5px;
   transform: rotate(-50deg);
-  margin-top: -10px;
+  margin-top: -8px;
 }
 
 .top-bar > select::-ms-expand {

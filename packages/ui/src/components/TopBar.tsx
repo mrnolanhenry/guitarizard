@@ -57,7 +57,7 @@ const TopBar = (props: Props) => {
   };
 
   return (
-    <Grid container className="top-bar" alignItems="center" style={style} padding={2}>
+    <Grid container className="top-bar" alignItems="center" style={style} padding={isLargeScreen ? 1 : 2}>
       <Grid item container className="left" xs={12} sm={3} md={2} justifyContent={isLargeScreen ? "flex-start" : "center"} paddingBottom={isLargeScreen ? 0 : 2} style={leftStyle}>
         {logo}
         <span style={{ position: 'relative', left: '-10px' }}>uitarizard</span>
