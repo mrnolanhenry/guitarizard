@@ -143,7 +143,7 @@ const Scalebook = (props: IScalebookProps) => {
             updateKey={updateKey}
           />
         </Grid>
-        <Grid item xs={4} sm="auto" md="auto" lg="auto">
+        <Grid item xs={"auto"} sm="auto" md="auto" lg="auto">
           {/* NOLAN TODO - Decide whether to delete old RainbowMode Selector */}
           {/* <RainbowModeSelector
             isRainbowMode={isRainbowMode}
