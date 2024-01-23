@@ -11,6 +11,9 @@ import * as Constants from "note-lib/src/constants/Constants";
 import { Course } from "note-lib/src/Course";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { FretBoard } from "note-lib/src/FretBoard";
+import { Grid } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 type InstrumentMap = Map<string, FrettedInstrument>;
 
@@ -62,6 +65,9 @@ const initInstruments = (temperament: Temperament) => {
 };
 
 const App = () => {
+  const muiTheme = useTheme();
+  const isLargeScreen: boolean = useMediaQuery(muiTheme.breakpoints.up('sm'));
+
   const twelveTET: Temperament = data.temperaments.find(
     (temperament) => temperament.name === Constants.TWELVE_TET,
   ) as Temperament;
@@ -187,6 +193,7 @@ const App = () => {
           activeTuning={activeTuning}
           temperament={activeTemperament}
           instruments={instruments}
+          isLargeScreen={isLargeScreen}
           isRainbowMode={isRainbowMode}
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}
@@ -209,19 +216,14 @@ const App = () => {
   const style: CSSProperties = {
     backgroundColor: theme.swatch.base01,
     color: theme.swatch.base05,
-    position: "fixed",
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    overflow: "auto",
   };
 
   return (
-    <div id="app">
-      <div style={style}>
+    <Grid container id="app" justifyContent="center" alignItems="center" style={style}>
+      <Grid item xs={12}>
         <TopBar
           isAuthenticated={false}
+          isLargeScreen={isLargeScreen}
           onLoginClick={() => false}
           onLogoutClick={() => false}
           onToolSelect={(activeToolName) => {
@@ -231,10 +233,11 @@ const App = () => {
           theme={theme}
           setTheme={setTheme}
         />
-
+      </Grid>
+      <Grid item xs={12}>
         {tool}
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 };
 

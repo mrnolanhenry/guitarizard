@@ -11,7 +11,7 @@ import {
   AutocompleteInputChangeReason,
   AutocompleteRenderOptionState,
   FilterOptionsState,
-  TextField
+  TextField,
 } from "@mui/material";
 
 // Example styling
@@ -34,7 +34,7 @@ interface ISelectorProps<T> {
     state: AutocompleteRenderOptionState,
     ownerState: unknown,
   ) => ReactNode;
-  size?: string // "small" will set styling to smaller sizes
+  size?: string; // "small" will set styling to smaller sizes
   theme: Base16Theme; // what theme should this component be?
 }
 

@@ -14,12 +14,14 @@ import { Instrument } from "../Instrument";
 import { CommonTuningSelector } from "../selectors/CommonTuningSelector";
 import { Tuning } from "note-lib/src/Tuning";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
+import { Grid } from "@mui/material";
 
 interface IScalebookProps {
   activeInstrument: FrettedInstrument;
   activeKey: Key;
   activeTuning: Tuning;
   instruments: Map<string, FrettedInstrument>;
+  isLargeScreen: boolean;
   isRainbowMode: boolean;
   onInstrumentSelect: (instrument: FrettedInstrument) => void;
   onInstrumentTune: (courseId: string, newTuning: Note) => void;
@@ -38,6 +40,7 @@ const Scalebook = (props: IScalebookProps) => {
     activeKey,
     activeTuning,
     instruments,
+    isLargeScreen,
     isRainbowMode,
     onInstrumentSelect,
     onInstrumentTune,
@@ -70,78 +73,93 @@ const Scalebook = (props: IScalebookProps) => {
   );
 
   return (
-    <div className="scalebook">
-      <div className="settings-bar" style={settingsBarStyle}>
-        <InstrumentSelector
-          activeInstrument={activeInstrument}
-          instruments={instruments}
-          label="Instrument:"
-          minWidth="12em"
-          onInstrumentSelect={onInstrumentSelect}
-          theme={theme}
-        />
-
-        <CommonTuningSelector
-          activeInstrument={activeInstrument}
-          activeTuning={activeTuning}
-          label="Common Tunings:"
-          minWidth="10em"
-          onCommonTuningSelect={onInstrumentTuneToPreset}
-          theme={theme}
-        />
-
-        <NoteSelector
-          id="active key"
-          label="Key:"
-          note={activeKeyNote}
-          onNoteSelect={onKeyNoteSelect}
-          temperament={temperament}
-          theme={theme}
-        />
-
-        <ScaleSelector
-          activeScale={activeScale}
-          minWidth="16em"
-          onScaleSelect={onScaleSelect}
-          theme={theme}
-        />
-
-        <EquivKeySelector
+    <Grid container className="scalebook">
+      <Grid item container xs={12} className="settings-bar" justifyContent="center" paddingBottom={1} style={settingsBarStyle}
+      >
+        <Grid item xs={5} sm={5} md="auto" lg="auto">
+          <InstrumentSelector
+            activeInstrument={activeInstrument}
+            instruments={instruments}
+            label="Instrument:"
+            minWidth={isLargeScreen ? "12em" : "8em"}
+            onInstrumentSelect={onInstrumentSelect}
+            theme={theme}
+          />
+        </Grid>
+        <Grid item xs={5} sm={5} md="auto" lg="auto">
+          <CommonTuningSelector
+            activeInstrument={activeInstrument}
+            activeTuning={activeTuning}
+            label="Common Tunings:"
+            minWidth={isLargeScreen ? "10em" : "8em"}
+            onCommonTuningSelect={onInstrumentTuneToPreset}
+            theme={theme}
+          />
+        </Grid>
+        <Grid item xs={2} sm="auto" md="auto" lg="auto">
+          <NoteSelector
+            id="active key"
+            label="Key:"
+            note={activeKeyNote}
+            onNoteSelect={onKeyNoteSelect}
+            temperament={temperament}
+            theme={theme}
+          />
+        </Grid>
+        <Grid item xs={8} sm="auto" md={4} lg="auto">
+          <ScaleSelector
+            activeScale={activeScale}
+            label="Scale:"
+            minWidth={isLargeScreen ? "16em" : "14em"}
+            onScaleSelect={onScaleSelect}
+            theme={theme}
+          />
+        </Grid>
+        <Grid item xs={12} sm="auto" md="auto" lg="auto">
+          <EquivKeySelector
+            activeKey={activeKey}
+            minWidth="18em"
+            theme={theme}
+            updateKey={updateKey}
+          />
+        </Grid>
+        <Grid item xs={12} sm="auto" md="auto" lg="auto">
+          <KeySearchSelector
+            minWidth="18em"
+            temperament={temperament}
+            theme={theme}
+            updateKey={updateKey}
+          />
+        </Grid>
+        <Grid item xs={4} sm="auto" md="auto" lg="auto">
+          <RainbowModeSelector
+            isRainbowMode={isRainbowMode}
+            minWidth="8em"
+            toggleRainbowMode={toggleRainbowMode}
+            theme={theme}
+          />
+        </Grid>
+      </Grid>
+      <Grid item xs={12}>
+        {instrumentComponent}
+      </Grid>
+      <Grid item xs={12} paddingTop={1} paddingBottom={1}>
+        <NoteTable
           activeKey={activeKey}
-          minWidth="18em"
-          theme={theme}
-          updateKey={updateKey}
-        />
-
-        <KeySearchSelector
-          minWidth="18em"
-          temperament={temperament}
-          theme={theme}
-          updateKey={updateKey}
-        />
-
-        <RainbowModeSelector
+          isLargeScreen={isLargeScreen}
           isRainbowMode={isRainbowMode}
-          minWidth="8em"
-          toggleRainbowMode={toggleRainbowMode}
           theme={theme}
         />
-      </div>
-
-      {instrumentComponent}
-
-      <NoteTable
-        activeKey={activeKey}
-        isRainbowMode={isRainbowMode}
-        theme={theme}
-      />
-
-      <IntervalTable
-        isRainbowMode={isRainbowMode}
-        scale={activeScale}
-        theme={theme}
-      />
-    </div>
+      </Grid>
+      <Grid item xs={12}>
+        <IntervalTable
+          isLargeScreen={isLargeScreen}
+          isRainbowMode={isRainbowMode}
+          scale={activeScale}
+          theme={theme}
+        />
+      </Grid>
+    </Grid>
   );
 };
 

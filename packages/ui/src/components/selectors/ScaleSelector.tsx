@@ -6,13 +6,14 @@ import { LabeledSelector } from "./LabeledSelector";
 
 interface IScalesSelectorProps {
   activeScale: Scale;
+  label: string;
   minWidth?: string;
   onScaleSelect: (scale: Scale) => void;
   theme: Base16Theme;
 }
 
 const ScaleSelector = (props: IScalesSelectorProps) => {
-  const { activeScale, minWidth, onScaleSelect, theme } = props;
+  const { activeScale, label, minWidth, onScaleSelect, theme } = props;
 
   const getSpecialFilterOptions = (
     options: Scale[],
@@ -60,7 +61,7 @@ const ScaleSelector = (props: IScalesSelectorProps) => {
   return (
     <LabeledSelector<Scale>
       id="scale-selector"
-      label="Scale:"
+      label={label}
       minWidth={minWidth}
       items={data.scales}
       filterOptions={getSpecialFilterOptions}

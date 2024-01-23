@@ -1,26 +1,17 @@
 import { Key, Note } from "note-lib";
 import { Base16Theme, rainbow } from "../colors/themes";
 import React, { CSSProperties } from "react";
+import { Grid } from "@mui/material";
 
 interface INoteTableProps {
   activeKey: Key;
+  isLargeScreen: boolean;
   isRainbowMode: boolean;
   theme: Base16Theme;
 }
 
 const NoteTable = (props: INoteTableProps) => {
-  const { activeKey, isRainbowMode, theme } = props;
-
-  const rowDiv: CSSProperties = {
-    display: "flex",
-    flexDirection: "row",
-  };
-
-  const colDiv: CSSProperties = {
-    padding: "5px",
-    textAlign: "left",
-    listStylePosition: "inside",
-  };
+  const { activeKey, isLargeScreen, isRainbowMode, theme } = props;
 
   const noteStyle: CSSProperties = {
     backgroundColor: theme.swatch.base00,
@@ -28,8 +19,6 @@ const NoteTable = (props: INoteTableProps) => {
     borderStyle: "solid",
     borderColor: theme.swatch.base01,
     borderWidth: "1px",
-    padding: "2px 0px 2px 5px",
-    width: "100px",
   };
 
   const getNoteTextStyle = (
@@ -88,13 +77,13 @@ const NoteTable = (props: INoteTableProps) => {
           );
 
           return (
-            <div
+            <Grid item xs={1}
               key={`${i}:${Math.random()}`}
               className="noteItem"
               style={noteTextStyle}
             >
               {correctNote ? correctNote.id : ""}
-            </div>
+            </Grid>
           );
         })}
       </>
@@ -102,23 +91,26 @@ const NoteTable = (props: INoteTableProps) => {
   };
 
   const renderNoteRow = (findFlats: boolean): JSX.Element => {
+    const xsColumns: number = notes.length + 2;
+
     return (
-      <div id="noteRow" style={rowDiv}>
-        <div className="noteItem" style={noteStyle}>
-          {" "}
+      <Grid item container id="noteRow" xs={xsColumns} sm={xsColumns - 1} lg={xsColumns - 1} columns={isLargeScreen ? xsColumns - 1 : xsColumns}>
+        <Grid item className="noteItem" xs={2} sm={1} md={1} lg={1} style={noteStyle}>
           {findFlats ? "Flats:" : "Sharps:"}
-        </div>
+        </Grid>
         {mapNotes(findFlats)}
-      </div>
+      </Grid>
     );
   };
 
   return (
-    <div id="noteTable" style={colDiv}>
-      Notes included:
+    <Grid container id="noteTable">
+      <Grid item xs={12}>
+        Notes included:
+      </Grid>
       {renderNoteRow(true)}
       {renderNoteRow(false)}
-    </div>
+    </Grid>
   );
 };
 

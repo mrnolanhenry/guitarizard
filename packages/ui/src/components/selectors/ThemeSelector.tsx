@@ -30,7 +30,7 @@ interface IThemeSelectorProps {
   activeTheme: Base16Theme;
   minWidth?: string;
   onThemeSelect: (theme: Base16Theme) => void;
-  size?: string // "small" will set styling to smaller sizes
+  size?: string; // "small" will set styling to smaller sizes
 }
 
 const ThemeSelector = (props: IThemeSelectorProps) => {
