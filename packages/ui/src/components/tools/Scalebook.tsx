@@ -153,7 +153,7 @@ const Scalebook = (props: IScalebookProps) => {
         </Grid>
       </Grid>
       {!isLargeScreen && 
-        <Grid container item xs={12} justifyContent="center" paddingBottom={1}>
+        <Grid container item xs={12} justifyContent="center" paddingBottom={2}>
           <HtmlTooltip showTooltip={!showInstrument} theme={theme} title={showInstrumentTooltipContent}>
             <Button variant="outlined" onClick={() => setShowInstrument(!showInstrument)} color="secondary">
               {`${showInstrument ? `Hide` : `Show`} Instrument`}
@@ -162,7 +162,7 @@ const Scalebook = (props: IScalebookProps) => {
         </Grid>
       }
       {showInstrument && 
-        <Grid item xs={12} paddingTop={1} paddingBottom={1}>
+        <Grid item xs={12} paddingBottom={1}>
           {instrumentComponent}
         </Grid>
       }
