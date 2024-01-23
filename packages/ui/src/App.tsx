@@ -12,7 +12,7 @@ import { Course } from "note-lib/src/Course";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { FretBoard } from "note-lib/src/FretBoard";
 import { Grid } from "@mui/material";
-import { useTheme } from '@mui/material/styles';
+import { ThemeProvider, useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 type InstrumentMap = Map<string, FrettedInstrument>;
@@ -65,7 +65,16 @@ const initInstruments = (temperament: Temperament) => {
 };
 
 const App = () => {
+  const [theme, setTheme] = useState(cloudCity);
+
   const muiTheme = useTheme();
+  muiTheme.palette.secondary = {
+    main: theme.swatch.base06,
+    light: theme.swatch.base01,
+    dark: theme.swatch.base02,
+    contrastText: theme.swatch.base03
+  };
+
   const isLargeScreen: boolean = useMediaQuery(muiTheme.breakpoints.up('sm'));
 
   const twelveTET: Temperament = data.temperaments.find(
@@ -87,7 +96,6 @@ const App = () => {
   const [isRainbowMode, setIsRainbowMode] = useState(true);
   const [activeTemperament, setActiveTemperament] = useState(twelveTET);
   const [activeToolName, setActiveToolName] = useState("scalebook");
-  const [theme, setTheme] = useState(cloudCity);
 
   useEffect(() => {
     const ls_theme = localStorage.getItem("theme");
@@ -219,25 +227,27 @@ const App = () => {
   };
 
   return (
-    <Grid container id="app" justifyContent="center" alignItems="center" style={style}>
-      <Grid item xs={12}>
-        <TopBar
-          isAuthenticated={false}
-          isLargeScreen={isLargeScreen}
-          onLoginClick={() => false}
-          onLogoutClick={() => false}
-          onToolSelect={(activeToolName) => {
-            setActiveToolName(activeToolName);
-          }}
-          activeToolName={activeToolName as ToolName}
-          theme={theme}
-          setTheme={setTheme}
-        />
+    <ThemeProvider theme={muiTheme}>
+      <Grid container id="app" justifyContent="center" alignItems="center" style={style}>
+        <Grid item xs={12}>
+          <TopBar
+            isAuthenticated={false}
+            isLargeScreen={isLargeScreen}
+            onLoginClick={() => false}
+            onLogoutClick={() => false}
+            onToolSelect={(activeToolName) => {
+              setActiveToolName(activeToolName);
+            }}
+            activeToolName={activeToolName as ToolName}
+            theme={theme}
+            setTheme={setTheme}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          {tool}
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        {tool}
-      </Grid>
-    </Grid>
+    </ThemeProvider>
   );
 };
 

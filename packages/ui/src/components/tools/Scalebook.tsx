@@ -1,5 +1,5 @@
 import "./Scalebook.css";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useState } from "react";
 import { Key, Note, Scale, Temperament } from "note-lib";
 import { Base16Theme } from "../../colors/themes";
 import { InstrumentSelector } from "../selectors/InstrumentSelector";
@@ -14,7 +14,8 @@ import { Instrument } from "../Instrument";
 import { CommonTuningSelector } from "../selectors/CommonTuningSelector";
 import { Tuning } from "note-lib/src/Tuning";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
+import { HtmlTooltip } from "../HtmlTooltip";
 
 interface IScalebookProps {
   activeInstrument: FrettedInstrument;
@@ -52,6 +53,8 @@ const Scalebook = (props: IScalebookProps) => {
     toggleRainbowMode,
     updateKey,
   } = props;
+
+  const [showInstrument, setShowInstrument] = useState(isLargeScreen);
   const settingsBarStyle: CSSProperties = {
     backgroundColor: theme.swatch.base01,
   };
@@ -72,30 +75,39 @@ const Scalebook = (props: IScalebookProps) => {
     <></>
   );
 
+  const showInstrumentTooltipContent = (
+    <React.Fragment>
+    <span>{`Instruments are best viewed on a desktop. You've been warned!`}</span>
+  </React.Fragment>
+  );
+
   return (
     <Grid container className="scalebook">
-      <Grid item container xs={12} className="settings-bar" justifyContent="center" paddingBottom={1} style={settingsBarStyle}
-      >
-        <Grid item xs={5} sm={5} md="auto" lg="auto">
-          <InstrumentSelector
-            activeInstrument={activeInstrument}
-            instruments={instruments}
-            label="Instrument:"
-            minWidth={isLargeScreen ? "12em" : "8em"}
-            onInstrumentSelect={onInstrumentSelect}
-            theme={theme}
-          />
-        </Grid>
-        <Grid item xs={5} sm={5} md="auto" lg="auto">
-          <CommonTuningSelector
-            activeInstrument={activeInstrument}
-            activeTuning={activeTuning}
-            label="Common Tunings:"
-            minWidth={isLargeScreen ? "10em" : "8em"}
-            onCommonTuningSelect={onInstrumentTuneToPreset}
-            theme={theme}
-          />
-        </Grid>
+      <Grid item container xs={12} className="settings-bar" justifyContent="center" paddingTop={1} paddingBottom={1} style={settingsBarStyle}>
+        {showInstrument && (
+          <>
+            <Grid item xs={5} sm={5} md="auto" lg="auto">
+              <InstrumentSelector
+                activeInstrument={activeInstrument}
+                instruments={instruments}
+                label="Instrument:"
+                minWidth={isLargeScreen ? "12em" : "8em"}
+                onInstrumentSelect={onInstrumentSelect}
+                theme={theme}
+              />
+            </Grid>
+            <Grid item xs={5} sm={5} md="auto" lg="auto">
+              <CommonTuningSelector
+                activeInstrument={activeInstrument}
+                activeTuning={activeTuning}
+                label="Common Tunings:"
+                minWidth={isLargeScreen ? "10em" : "8em"}
+                onCommonTuningSelect={onInstrumentTuneToPreset}
+                theme={theme}
+              />
+            </Grid>
+          </>
+        )}
         <Grid item xs={2} sm="auto" md="auto" lg="auto">
           <NoteSelector
             id="active key"
@@ -140,9 +152,20 @@ const Scalebook = (props: IScalebookProps) => {
           />
         </Grid>
       </Grid>
-      <Grid item xs={12}>
-        {instrumentComponent}
-      </Grid>
+      {!isLargeScreen && 
+        <Grid container item xs={12} justifyContent="center" paddingBottom={1}>
+          <HtmlTooltip showTooltip={!showInstrument} theme={theme} title={showInstrumentTooltipContent}>
+            <Button variant="outlined" onClick={() => setShowInstrument(!showInstrument)} color="secondary">
+              {`${showInstrument ? `Hide` : `Show`} Instrument`}
+            </Button>
+          </HtmlTooltip>
+        </Grid>
+      }
+      {showInstrument && 
+        <Grid item xs={12} paddingTop={1} paddingBottom={1}>
+          {instrumentComponent}
+        </Grid>
+      }
       <Grid item xs={12} paddingTop={1} paddingBottom={1}>
         <NoteTable
           activeKey={activeKey}
