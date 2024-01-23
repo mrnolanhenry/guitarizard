@@ -7,7 +7,6 @@ import { NoteSelector } from "../selectors/NoteSelector";
 import { ScaleSelector } from "../selectors/ScaleSelector";
 import { EquivKeySelector } from "../selectors/EquivKeySelector";
 import { KeySearchSelector } from "../selectors/KeySearchSelector";
-import { RainbowModeSelector } from "../selectors/RainbowModeSelector";
 import { IntervalTable } from "../IntervalTable";
 import { NoteTable } from "../NoteTable";
 import { Instrument } from "../Instrument";
@@ -16,6 +15,7 @@ import { Tuning } from "note-lib/src/Tuning";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { Button, Grid } from "@mui/material";
 import { HtmlTooltip } from "../HtmlTooltip";
+import { RainbowModeSwitch } from "../RainbowModeSwitch";
 
 interface IScalebookProps {
   activeInstrument: FrettedInstrument;
@@ -144,11 +144,16 @@ const Scalebook = (props: IScalebookProps) => {
           />
         </Grid>
         <Grid item xs={4} sm="auto" md="auto" lg="auto">
-          <RainbowModeSelector
+          {/* NOLAN TODO - Decide whether to delete old RainbowMode Selector */}
+          {/* <RainbowModeSelector
             isRainbowMode={isRainbowMode}
             minWidth="8em"
             toggleRainbowMode={toggleRainbowMode}
             theme={theme}
+          /> */}
+          <RainbowModeSwitch
+            isRainbowMode={isRainbowMode}
+            toggleRainbowMode={toggleRainbowMode}
           />
         </Grid>
       </Grid>
