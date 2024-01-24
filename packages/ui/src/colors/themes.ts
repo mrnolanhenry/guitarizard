@@ -90,11 +90,11 @@ export const tomorrow: Base16Theme = {
   }
 };
 
-export const themes: { [key: string]: Base16Theme } = {
+export const themes = [
   bespin,
   cloudCity,
   tomorrow
-};
+];
 
 export const rainbow = [
   "#FA3C3C",

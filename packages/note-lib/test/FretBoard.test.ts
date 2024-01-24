@@ -166,7 +166,6 @@ test("class FretBoard --- getNotesInScale", function (_t) {
     "blues scale in A works ok",
   );
 
-  try {
   assert.deepEqual(
     stubbyBoard.getNotesInScale(
       blues,
@@ -195,22 +194,6 @@ test("class FretBoard --- getNotesInScale", function (_t) {
     ],
     "blues scale in F# works ok",
   );
-  }
-  catch (error) {
-    console.log("error.actual");
-    console.log(error.actual);
-    console.log("error.expected");
-    console.log(error.expected);
-    console.log("error.actual[0].notes");
-    console.log(error.actual[0].notes);
-    console.log("error.expected[0].notes");
-    console.log(error.expected[0].notes);
-    console.log("error.actual[1].notes");
-    console.log(error.actual[1].notes);
-    console.log("error.expected[1].notes");
-    console.log(error.expected[1].notes);
-    throw error;
-  }
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

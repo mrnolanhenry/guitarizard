@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import "./App.css";
 import React, { CSSProperties, useState, useEffect } from "react";
-import { themes, cloudCity, tomorrow } from "./colors/themes";
+import { themes, cloudCity, Base16Theme } from "./colors/themes";
 import { ToolName } from "./components/selectors/ToolSelector";
 import { TopBar } from "./components/TopBar";
 import { Scalebook } from "./components/tools/Scalebook";
@@ -11,6 +11,9 @@ import * as Constants from "note-lib/src/constants/Constants";
 import { Course } from "note-lib/src/Course";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { FretBoard } from "note-lib/src/FretBoard";
+import { Grid } from "@mui/material";
+import { ThemeProvider, useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 type InstrumentMap = Map<string, FrettedInstrument>;
 
@@ -62,6 +65,18 @@ const initInstruments = (temperament: Temperament) => {
 };
 
 const App = () => {
+  const [theme, setTheme] = useState(cloudCity);
+
+  const muiTheme = useTheme();
+  muiTheme.palette.secondary = {
+    main: theme.swatch.base06,
+    light: theme.swatch.base01,
+    dark: theme.swatch.base02,
+    contrastText: theme.swatch.base03
+  };
+
+  const isLargeScreen: boolean = useMediaQuery(muiTheme.breakpoints.up('sm'));
+
   const twelveTET: Temperament = data.temperaments.find(
     (temperament) => temperament.name === Constants.TWELVE_TET,
   ) as Temperament;
@@ -81,12 +96,14 @@ const App = () => {
   const [isRainbowMode, setIsRainbowMode] = useState(true);
   const [activeTemperament, setActiveTemperament] = useState(twelveTET);
   const [activeToolName, setActiveToolName] = useState("scalebook");
-  const [theme, setTheme] = useState(cloudCity);
 
   useEffect(() => {
     const ls_theme = localStorage.getItem("theme");
     if (ls_theme) {
-      setTheme(themes[ls_theme])
+      const themeFound = themes.find((theme: Base16Theme) => theme.id === ls_theme);
+      if (themeFound) {
+        setTheme(themeFound);
+      }
     }
   }, [ setTheme ]);
 
@@ -184,6 +201,7 @@ const App = () => {
           activeTuning={activeTuning}
           temperament={activeTemperament}
           instruments={instruments}
+          isLargeScreen={isLargeScreen}
           isRainbowMode={isRainbowMode}
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}
@@ -206,32 +224,30 @@ const App = () => {
   const style: CSSProperties = {
     backgroundColor: theme.swatch.base01,
     color: theme.swatch.base05,
-    position: "fixed",
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    overflow: "auto",
   };
 
   return (
-    <div id="app">
-      <div style={style}>
-        <TopBar
-          isAuthenticated={false}
-          onLoginClick={() => false}
-          onLogoutClick={() => false}
-          onToolSelect={(activeToolName) => {
-            setActiveToolName(activeToolName);
-          }}
-          activeToolName={activeToolName as ToolName}
-          theme={theme}
-          setTheme={setTheme}
-        />
-
-        {tool}
-      </div>
-    </div>
+    <ThemeProvider theme={muiTheme}>
+      <Grid container id="app" justifyContent="center" alignItems="center" style={style}>
+        <Grid item xs={12}>
+          <TopBar
+            isAuthenticated={false}
+            isLargeScreen={isLargeScreen}
+            onLoginClick={() => false}
+            onLogoutClick={() => false}
+            onToolSelect={(activeToolName) => {
+              setActiveToolName(activeToolName);
+            }}
+            activeToolName={activeToolName as ToolName}
+            theme={theme}
+            setTheme={setTheme}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          {tool}
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 };
 

@@ -8,7 +8,7 @@ interface IToolSelectorProps {
   activeToolName: ToolName;
   minWidth?: string;
   onToolSelect: (toolName: ToolName) => void;
-  size?: string // "small" will set styling to smaller sizes
+  size?: string; // "small" will set styling to smaller sizes
   theme: Base16Theme;
 }
 
