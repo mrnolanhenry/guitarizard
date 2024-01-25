@@ -5,13 +5,13 @@ import { Grid } from "@mui/material";
 
 interface IIntervalTableProps {
   scale: Scale;
-  isLargeScreen: boolean;
+  isSmallScreen: boolean;
   isRainbowMode: boolean;
   theme: Base16Theme;
 }
 
 const IntervalTable = (props: IIntervalTableProps) => {
-  const { scale, isLargeScreen, isRainbowMode, theme } = props;
+  const { scale, isSmallScreen, isRainbowMode, theme } = props;
 
   const intervalStyle: CSSProperties = {
     backgroundColor: theme.swatch.base00,
@@ -90,7 +90,7 @@ const IntervalTable = (props: IIntervalTableProps) => {
     const xsColumns: number = scale.intervals.length + 2;
 
     return (
-      <Grid item container id="intervalRow"  xs={xsColumns} sm={xsColumns - 1} lg={xsColumns - 1} columns={isLargeScreen ? xsColumns - 1 : xsColumns}>
+      <Grid item container id="intervalRow"  xs={xsColumns} sm={xsColumns - 1} lg={xsColumns - 1} columns={isSmallScreen ? xsColumns : xsColumns - 1}>
         <Grid item className="intervalItem" xs={2} sm={1} md={1} lg={1} style={intervalStyle}>
           {rowLabel}
         </Grid>

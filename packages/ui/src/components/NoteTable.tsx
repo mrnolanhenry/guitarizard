@@ -5,13 +5,13 @@ import { Grid } from "@mui/material";
 
 interface INoteTableProps {
   activeKey: Key;
-  isLargeScreen: boolean;
+  isSmallScreen: boolean;
   isRainbowMode: boolean;
   theme: Base16Theme;
 }
 
 const NoteTable = (props: INoteTableProps) => {
-  const { activeKey, isLargeScreen, isRainbowMode, theme } = props;
+  const { activeKey, isSmallScreen, isRainbowMode, theme } = props;
 
   const noteStyle: CSSProperties = {
     backgroundColor: theme.swatch.base00,
@@ -94,7 +94,7 @@ const NoteTable = (props: INoteTableProps) => {
     const xsColumns: number = notes.length + 2;
 
     return (
-      <Grid item container id="noteRow" xs={xsColumns} sm={xsColumns - 1} lg={xsColumns - 1} columns={isLargeScreen ? xsColumns - 1 : xsColumns}>
+      <Grid item container id="noteRow" xs={xsColumns} sm={xsColumns - 1} lg={xsColumns - 1} columns={isSmallScreen ? xsColumns : xsColumns - 1}>
         <Grid item className="noteItem" xs={2} sm={1} md={1} lg={1} style={noteStyle}>
           {findFlats ? "Flats:" : "Sharps:"}
         </Grid>

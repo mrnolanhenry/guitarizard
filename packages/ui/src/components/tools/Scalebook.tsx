@@ -1,5 +1,5 @@
 import "./Scalebook.css";
-import React, { CSSProperties, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { Key, Note, Scale, Temperament } from "note-lib";
 import { Base16Theme } from "../../colors/themes";
 import { InstrumentSelector } from "../selectors/InstrumentSelector";
@@ -22,7 +22,7 @@ interface IScalebookProps {
   activeKey: Key;
   activeTuning: Tuning;
   instruments: Map<string, FrettedInstrument>;
-  isLargeScreen: boolean;
+  isSmallScreen: boolean;
   isRainbowMode: boolean;
   onInstrumentSelect: (instrument: FrettedInstrument) => void;
   onInstrumentTune: (courseId: string, newTuning: Note) => void;
@@ -41,7 +41,7 @@ const Scalebook = (props: IScalebookProps) => {
     activeKey,
     activeTuning,
     instruments,
-    isLargeScreen,
+    isSmallScreen,
     isRainbowMode,
     onInstrumentSelect,
     onInstrumentTune,
@@ -54,7 +54,8 @@ const Scalebook = (props: IScalebookProps) => {
     updateKey,
   } = props;
 
-  const [showInstrument, setShowInstrument] = useState(isLargeScreen);
+  const [showInstrument, setShowInstrument] = useState(!isSmallScreen);
+  useEffect(() => setShowInstrument(!isSmallScreen), [isSmallScreen])
   const settingsBarStyle: CSSProperties = {
     backgroundColor: theme.swatch.base01,
   };
@@ -91,7 +92,7 @@ const Scalebook = (props: IScalebookProps) => {
                 activeInstrument={activeInstrument}
                 instruments={instruments}
                 label="Instrument:"
-                minWidth={isLargeScreen ? "12em" : "8em"}
+                minWidth={isSmallScreen ? "8em" : "12em"}
                 onInstrumentSelect={onInstrumentSelect}
                 theme={theme}
               />
@@ -101,7 +102,7 @@ const Scalebook = (props: IScalebookProps) => {
                 activeInstrument={activeInstrument}
                 activeTuning={activeTuning}
                 label="Common Tunings:"
-                minWidth={isLargeScreen ? "10em" : "8em"}
+                minWidth={isSmallScreen ? "8em" : "10em"}
                 onCommonTuningSelect={onInstrumentTuneToPreset}
                 theme={theme}
               />
@@ -122,7 +123,7 @@ const Scalebook = (props: IScalebookProps) => {
           <ScaleSelector
             activeScale={activeScale}
             label="Scale:"
-            minWidth={isLargeScreen ? "16em" : "14em"}
+            minWidth={isSmallScreen ? "14em" : "16em"}
             onScaleSelect={onScaleSelect}
             theme={theme}
           />
@@ -157,7 +158,7 @@ const Scalebook = (props: IScalebookProps) => {
           />
         </Grid>
       </Grid>
-      {!isLargeScreen && 
+      {isSmallScreen && 
         <Grid container item xs={12} justifyContent="center" paddingBottom={2}>
           <HtmlTooltip showTooltip={!showInstrument} theme={theme} title={showInstrumentTooltipContent}>
             <Button variant="outlined" onClick={() => setShowInstrument(!showInstrument)} color="secondary">
@@ -174,14 +175,14 @@ const Scalebook = (props: IScalebookProps) => {
       <Grid item xs={12} paddingTop={1} paddingBottom={1}>
         <NoteTable
           activeKey={activeKey}
-          isLargeScreen={isLargeScreen}
+          isSmallScreen={isSmallScreen}
           isRainbowMode={isRainbowMode}
           theme={theme}
         />
       </Grid>
       <Grid item xs={12}>
         <IntervalTable
-          isLargeScreen={isLargeScreen}
+          isSmallScreen={isSmallScreen}
           isRainbowMode={isRainbowMode}
           scale={activeScale}
           theme={theme}
