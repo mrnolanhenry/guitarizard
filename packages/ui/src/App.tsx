@@ -76,7 +76,8 @@ const App = () => {
   };
 
   const isSmallScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("sm"));
-  const isLandscape: boolean = useMediaQuery(`(orientation: landscape)`);
+  // NOLAN TODO - for later use
+  // const isPortrait: boolean = useMediaQuery(`(orientation: portrait)`);
 
   const twelveTET: Temperament = data.temperaments.find(
     (temperament) => temperament.name === Constants.TWELVE_TET,
