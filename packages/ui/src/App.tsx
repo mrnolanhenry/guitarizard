@@ -75,7 +75,8 @@ const App = () => {
     contrastText: theme.swatch.base03
   };
 
-  const isLargeScreen: boolean = useMediaQuery(muiTheme.breakpoints.up('sm'));
+  const isSmallScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("sm"));
+  const isLandscape: boolean = useMediaQuery(`(orientation: landscape)`);
 
   const twelveTET: Temperament = data.temperaments.find(
     (temperament) => temperament.name === Constants.TWELVE_TET,
@@ -201,7 +202,7 @@ const App = () => {
           activeTuning={activeTuning}
           temperament={activeTemperament}
           instruments={instruments}
-          isLargeScreen={isLargeScreen}
+          isSmallScreen={isSmallScreen}
           isRainbowMode={isRainbowMode}
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}
@@ -232,7 +233,7 @@ const App = () => {
         <Grid item xs={12}>
           <TopBar
             isAuthenticated={false}
-            isLargeScreen={isLargeScreen}
+            isSmallScreen={isSmallScreen}
             onLoginClick={() => false}
             onLogoutClick={() => false}
             onToolSelect={(activeToolName) => {

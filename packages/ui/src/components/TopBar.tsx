@@ -8,7 +8,7 @@ import { Grid } from "@mui/material";
 interface Props {
   activeToolName: ToolName;
   isAuthenticated: boolean;
-  isLargeScreen: boolean;
+  isSmallScreen: boolean;
   onLoginClick: () => void;
   onLogoutClick: () => void;
   onToolSelect: (toolName: ToolName) => void;
@@ -20,7 +20,7 @@ const TopBar = (props: Props) => {
   const {
     activeToolName,
     isAuthenticated,
-    isLargeScreen,
+    isSmallScreen,
     onLoginClick,
     onLogoutClick,
     onToolSelect,
@@ -57,8 +57,8 @@ const TopBar = (props: Props) => {
   };
 
   return (
-    <Grid container className="top-bar" alignItems="center" style={style} padding={isLargeScreen ? 1 : 2}>
-      <Grid item container className="left" xs={12} sm={3} md={2} justifyContent={isLargeScreen ? "flex-start" : "center"} paddingBottom={isLargeScreen ? 0 : 2} style={leftStyle}>
+    <Grid container className="top-bar" alignItems="center" style={style} padding={isSmallScreen ? 2 : 1}>
+      <Grid item container className="left" xs={12} sm={3} md={2} justifyContent={isSmallScreen ? "center" : "flex-start"} paddingBottom={isSmallScreen ? 2 : 0} style={leftStyle}>
         {logo}
         <span style={{ position: 'relative', left: '-10px' }}>uitarizard</span>
       </Grid>
