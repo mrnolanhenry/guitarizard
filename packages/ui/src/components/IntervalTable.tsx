@@ -74,7 +74,7 @@ const IntervalTable = (props: IIntervalTableProps) => {
           );
           return (
             <Grid item xs={1}
-              key={`${i}:${Math.random()}`}
+              key={`interval-item-${i}:${interval.aliases[0].name}`}
               className="intervalItem"
               style={intervalTextStyle}
             >
