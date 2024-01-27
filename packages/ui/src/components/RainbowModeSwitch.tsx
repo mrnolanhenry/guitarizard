@@ -30,7 +30,7 @@ const RainbowModeSwitch = (props: IRainbowModeSelectorProps) => {
     const { isRainbowMode, toggleRainbowMode } = props;
     return (
       <Box paddingTop={1}>
-        <RainbowSwitch size="small" checked={isRainbowMode} onChange={toggleRainbowMode} />
+        <RainbowSwitch id="rainbow-mode-switch" size="small" checked={isRainbowMode} onChange={toggleRainbowMode} />
       </Box>
     );
 };
