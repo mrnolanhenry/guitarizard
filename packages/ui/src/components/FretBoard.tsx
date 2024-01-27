@@ -28,9 +28,8 @@ const FretBoard = (props: IFretBoardProps) => {
   const fretBar = showFretBar && (
     <div className="fret-labels">
       {[...Array(fretBoard.getFretCount())].map((_, i) => {
-        // TODO: this is a terrible key
         return (
-          <div key={`${i}:${Math.random()}`} style={fretBarStyle}>
+          <div key={`fret-${i}`} style={fretBarStyle}>
             {i === 0 ? "*" : i}
           </div>
         );
