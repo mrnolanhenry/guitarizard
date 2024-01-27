@@ -78,7 +78,7 @@ const NoteTable = (props: INoteTableProps) => {
 
           return (
             <Grid item xs={1}
-              key={`${i}:${Math.random()}`}
+              key={`note-item-${i}:${(correctNote as Note).id}`}
               className="noteItem"
               style={noteTextStyle}
             >
