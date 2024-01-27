@@ -77,10 +77,52 @@ const Scalebook = (props: IScalebookProps) => {
   );
 
   const showInstrumentTooltipContent = (
-    <React.Fragment>
-    <span>{`Instruments are best viewed on a desktop. You've been warned!`}</span>
-  </React.Fragment>
+    <>
+      <span>{`Instruments are best viewed on a desktop. You've been warned!`}</span>
+    </>
   );
+
+  const renderNoteAndIntervalTable = (isSmallScreen: boolean) => {
+    return isSmallScreen ? 
+    <>
+      <Grid container item paddingTop={1} paddingBottom={1}>
+        <Grid item xs={3}>
+          <NoteTable
+            activeKey={activeKey}
+            isSmallScreen={isSmallScreen}
+            isRainbowMode={isRainbowMode}
+            theme={theme}
+          />
+        </Grid>
+        <Grid item xs={9}>
+          <IntervalTable
+            isSmallScreen={isSmallScreen}
+            isRainbowMode={isRainbowMode}
+            scale={activeScale}
+            theme={theme}
+          />
+        </Grid>
+      </Grid>
+    </> :
+    <>
+      <Grid item xs={12} paddingTop={1} paddingBottom={1}>
+        <NoteTable
+          activeKey={activeKey}
+          isSmallScreen={isSmallScreen}
+          isRainbowMode={isRainbowMode}
+          theme={theme}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <IntervalTable
+          isSmallScreen={isSmallScreen}
+          isRainbowMode={isRainbowMode}
+          scale={activeScale}
+          theme={theme}
+        />
+      </Grid> 
+    </>
+  }
 
   return (
     <Grid container className="scalebook">
@@ -172,22 +214,7 @@ const Scalebook = (props: IScalebookProps) => {
           {instrumentComponent}
         </Grid>
       }
-      <Grid item xs={12} paddingTop={1} paddingBottom={1}>
-        <NoteTable
-          activeKey={activeKey}
-          isSmallScreen={isSmallScreen}
-          isRainbowMode={isRainbowMode}
-          theme={theme}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <IntervalTable
-          isSmallScreen={isSmallScreen}
-          isRainbowMode={isRainbowMode}
-          scale={activeScale}
-          theme={theme}
-        />
-      </Grid>
+      {renderNoteAndIntervalTable(isSmallScreen)}
     </Grid>
   );
 };
