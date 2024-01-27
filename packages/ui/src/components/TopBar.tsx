@@ -36,7 +36,7 @@ const TopBar = (props: Props) => {
   const logo = (
     <img
       className="logo"
-      src="/guitarizard_logo_NEW_sq_v5.png"
+      src="/favicon_v5.png"
     />
   );
 
