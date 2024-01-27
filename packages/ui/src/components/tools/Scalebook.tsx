@@ -1,5 +1,8 @@
 import "./Scalebook.css";
 import React, { CSSProperties, useEffect, useState } from "react";
+// IMPORTANT - must import @mui/icons-material BEFORE @mui/material or app breaks (vite doesn't like)
+import { ScreenRotation as ScreenRotationIcon } from '@mui/icons-material';
+import { Grid } from "@mui/material";
 import { Key, Note, Scale, Temperament } from "note-lib";
 import { Base16Theme } from "../../colors/themes";
 import { InstrumentSelector } from "../selectors/InstrumentSelector";
@@ -13,8 +16,6 @@ import { Instrument } from "../Instrument";
 import { CommonTuningSelector } from "../selectors/CommonTuningSelector";
 import { Tuning } from "note-lib/src/Tuning";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
-import { Button, Grid } from "@mui/material";
-import { HtmlTooltip } from "../HtmlTooltip";
 import { RainbowModeSwitch } from "../RainbowModeSwitch";
 
 interface IScalebookProps {
@@ -74,12 +75,6 @@ const Scalebook = (props: IScalebookProps) => {
     />
   ) : (
     <></>
-  );
-
-  const showInstrumentTooltipContent = (
-    <>
-      <span>{`Instruments are best viewed on a desktop. You've been warned!`}</span>
-    </>
   );
 
   const renderNoteAndIntervalTable = (isSmallScreen: boolean) => {
@@ -201,12 +196,9 @@ const Scalebook = (props: IScalebookProps) => {
         </Grid>
       </Grid>
       {isSmallScreen && 
-        <Grid container item xs={12} justifyContent="center" paddingBottom={2}>
-          <HtmlTooltip showTooltip={!showInstrument} theme={theme} title={showInstrumentTooltipContent}>
-            <Button variant="outlined" onClick={() => setShowInstrument(!showInstrument)} color="secondary">
-              {`${showInstrument ? `Hide` : `Show`} Instrument`}
-            </Button>
-          </HtmlTooltip>
+        <Grid container item xs={12} justifyContent="center" alignContent="center" paddingBottom={2}>
+          <span>Rotate Screen to Show Instrument </span>
+          <ScreenRotationIcon sx={{ paddingLeft: "5px", paddingRight: "5px" }}/>
         </Grid>
       }
       {showInstrument && 
