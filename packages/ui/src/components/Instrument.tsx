@@ -12,7 +12,7 @@ interface IInstrumentProps {
   theme: Base16Theme;
 }
 
-// This component is currently redundant, but will be useful once other instruments (like Piano) are incorporated.
+// NOLAN TODO - This component is currently redundant, but will be useful once other instruments (like Piano) are incorporated.
 const Instrument = (props: IInstrumentProps) => {
   const { activeKey, instrument, isRainbowMode, onTune, theme } = props;
   return (
