@@ -24,6 +24,7 @@ interface IScalebookProps {
   activeTuning: Tuning;
   instruments: Map<string, FrettedInstrument>;
   isSmallScreen: boolean;
+  isMediumScreen: boolean;
   isRainbowMode: boolean;
   onInstrumentSelect: (instrument: FrettedInstrument) => void;
   onInstrumentTune: (courseId: string, newTuning: Note) => void;
@@ -43,6 +44,7 @@ const Scalebook = (props: IScalebookProps) => {
     activeTuning,
     instruments,
     isSmallScreen,
+    isMediumScreen,
     isRainbowMode,
     onInstrumentSelect,
     onInstrumentTune,
@@ -69,8 +71,10 @@ const Scalebook = (props: IScalebookProps) => {
     <Instrument
       activeKey={activeKey}
       instrument={instrument}
+      isMediumScreen={isMediumScreen}
       isRainbowMode={isRainbowMode}
       onTune={onInstrumentTune}
+      temperament={temperament}
       theme={theme}
     />
   ) : (

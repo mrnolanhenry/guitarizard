@@ -1,6 +1,6 @@
 import "./FretBoard.css";
 import React, { CSSProperties } from "react";
-import { Key, Note } from "note-lib";
+import { Key, Note, Temperament } from "note-lib";
 import { FretBoard as Fretboard } from "../../../note-lib/src/FretBoard";
 import { Base16Theme } from "../colors/themes";
 import { FretSegment } from "./FretSegment";
@@ -11,23 +11,27 @@ import { TunedString } from "note-lib/src/TunedString";
 interface IFretBoardProps {
   activeKey: Key;
   fretBoard: Fretboard;
+  isMediumScreen: boolean;
   isRainbowMode: boolean;
   onTune: (courseId: string, newTuning: Note) => void;
   showFretBar: boolean;
+  temperament: Temperament;
   theme: Base16Theme;
 }
 
 const FretBoard = (props: IFretBoardProps) => {
-  const { activeKey, fretBoard, isRainbowMode, onTune, showFretBar, theme } =
+  const { activeKey, fretBoard, isMediumScreen, isRainbowMode, onTune, showFretBar, temperament, theme } =
     props;
   const fretBarStyle: CSSProperties = {
     backgroundColor: theme.swatch.base00,
     borderColor: theme.swatch.base01,
   };
 
+  const maxFretCount = isMediumScreen && temperament ? temperament.notes.length + 1 : fretBoard.getFretCount();
+
   const fretBar = showFretBar && (
     <div className="fret-labels">
-      {[...Array(fretBoard.getFretCount())].map((_, i) => {
+      {[...Array(maxFretCount)].map((_, i) => {
         return (
           <div key={`fret-${i}`} style={fretBarStyle}>
             {i === 0 ? "*" : i}
@@ -76,7 +80,7 @@ const FretBoard = (props: IFretBoardProps) => {
       // and it is the last string in the course
       // const isLastStringInCourse: boolean = !!(stringIndex) && stringIndex === tunedStrings.length - 1;
       // const lastStringStyle = {paddingTop: ".5em"};
-      const fretSegments = [...Array(fretBoard.getFretCount())].map((_, i) => {
+      const fretSegments = [...Array(maxFretCount)].map((_, i) => {
         return (
           <FretSegment
             activeKey={activeKey}
