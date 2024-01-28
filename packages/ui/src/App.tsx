@@ -76,6 +76,7 @@ const App = () => {
   };
 
   const isSmallScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("sm"));
+  const isMediumScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("md")) && !isSmallScreen;
   // NOLAN TODO - for later use
   // const isPortrait: boolean = useMediaQuery(`(orientation: portrait)`);
 
@@ -204,6 +205,7 @@ const App = () => {
           temperament={activeTemperament}
           instruments={instruments}
           isSmallScreen={isSmallScreen}
+          isMediumScreen={isMediumScreen}
           isRainbowMode={isRainbowMode}
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}
