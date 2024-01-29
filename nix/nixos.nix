@@ -36,6 +36,13 @@ in {
         '';
       };
 
+      marketing_virtual_host = mkOption {
+        type = types.str;
+        description = mdDoc ''
+          The NGINX virtual host for the guitarizard marketing site.
+        '';
+      };
+
       force_ssl = mkOption {
         type = types.bool;
         default = true;
@@ -83,6 +90,21 @@ in {
           };
         };
       };
+
+      virtualHosts."${cfg.nginx.marketing_virtual_host}" = {
+        forceSSL = mkIf cfg.nginx.force_ssl cfg.nginx.force_ssl;
+        useACMEHost = mkIf (cfg.nginx.use_acme_host != null) "${cfg.nginx.use_acme_host}";
+        enableACME = mkIf cfg.nginx.enable_acme cfg.nginx.enable_acme;
+        locations = {
+          "=/robots.txt" = mkIf cfg.nginx.disable_robots {
+            return = ''200 "User-agent: *\nDisallow: /\n"'';
+          };
+          "/" = {
+            root = "${pkg}/marketing";
+          };
+        };
+      };
+        
     };
 
   };
