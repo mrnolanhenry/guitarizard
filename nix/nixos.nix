@@ -95,7 +95,8 @@ in {
   config = mkIf cfg.enable  {
 
     networking.extraHosts = mkIf cfg.is_dev ''
-      127.0.0.1 ${cfg.nginx.virtual_host}
+      127.0.0.1 ${cfg.app.nginx.virtual_host}
+      127.0.0.1 ${cfg.marketing.nginx.virtual_host}
     '';
 
     services.nginx = mkIf cfg.app.nginx.enable {
