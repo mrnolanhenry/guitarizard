@@ -117,9 +117,7 @@ in {
         };
       };
 
-    };
-
-    services.nginx = mkIf cfg.marketing.nginx.enable {
+    } // mkIf cfg.marketing.nginx.enable {
       enable = true;
 
       virtualHosts."${cfg.marketing.nginx.virtual_host}" = let
