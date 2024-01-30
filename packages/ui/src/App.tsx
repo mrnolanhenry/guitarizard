@@ -69,10 +69,12 @@ const App = () => {
   const [theme, setTheme] = useState(cloudCity);
   const secondaryMain = theme.swatch.base05;
 
-  const getContrastText = (color: string) => {
+  const isDarkColor = (color: string): boolean => {
     const contrastThreshold: number = 4.5;
-    return getContrastRatio(color, '#fff') > contrastThreshold ? '#fff' : '#111';
+    return getContrastRatio(color, '#fff') > contrastThreshold;
   }
+
+  const getContrastText = (color: string) =>  isDarkColor(color) ? '#fff' : '#111';
 
   const muiTheme = useTheme();
   muiTheme.palette.secondary = {
@@ -247,6 +249,7 @@ const App = () => {
             activeToolName={activeToolName as ToolName}
             dialogState={dialogState}
             isAuthenticated={false}
+            isDarkTheme={isDarkColor(theme.swatch.base01)}
             isRainbowMode={isRainbowMode}
             isSmallScreen={isSmallScreen}
             onLoginClick={() => false}

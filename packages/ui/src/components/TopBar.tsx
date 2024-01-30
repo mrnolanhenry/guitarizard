@@ -12,6 +12,7 @@ interface Props {
   activeToolName: ToolName;
   dialogState: IAppDialogState;
   isAuthenticated: boolean;
+  isDarkTheme: boolean;
   isRainbowMode: boolean;
   isSmallScreen: boolean;
   onLoginClick: () => void;
@@ -28,6 +29,7 @@ const TopBar = (props: Props) => {
     activeToolName,
     dialogState,
     isAuthenticated,
+    isDarkTheme,
     isRainbowMode,
     isSmallScreen,
     onLoginClick,
@@ -57,7 +59,7 @@ const TopBar = (props: Props) => {
 
   const logo = (
     <img
-      className="logo"
+      className={`logo ${!isDarkTheme ? "shadowed" : ""}`}
       src="/favicon_v5.png"
     />
   );
