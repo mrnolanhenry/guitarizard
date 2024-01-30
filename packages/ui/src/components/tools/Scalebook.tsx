@@ -16,7 +16,6 @@ import { Instrument } from "../Instrument";
 import { CommonTuningSelector } from "../selectors/CommonTuningSelector";
 import { Tuning } from "note-lib/src/Tuning";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
-import { RainbowModeSwitch } from "../RainbowModeSwitch";
 
 interface IScalebookProps {
   activeInstrument: FrettedInstrument;
@@ -33,7 +32,6 @@ interface IScalebookProps {
   onScaleSelect: (scale: Scale) => void;
   temperament: Temperament;
   theme: Base16Theme;
-  toggleRainbowMode: () => void;
   updateKey: (key: Key) => void;
 }
 
@@ -53,7 +51,6 @@ const Scalebook = (props: IScalebookProps) => {
     onScaleSelect,
     temperament,
     theme,
-    toggleRainbowMode,
     updateKey,
   } = props;
 
@@ -183,19 +180,6 @@ const Scalebook = (props: IScalebookProps) => {
             temperament={temperament}
             theme={theme}
             updateKey={updateKey}
-          />
-        </Grid>
-        <Grid item xs={"auto"} sm="auto" md="auto" lg="auto">
-          {/* NOLAN TODO - Decide whether to delete old RainbowMode Selector */}
-          {/* <RainbowModeSelector
-            isRainbowMode={isRainbowMode}
-            minWidth="8em"
-            toggleRainbowMode={toggleRainbowMode}
-            theme={theme}
-          /> */}
-          <RainbowModeSwitch
-            isRainbowMode={isRainbowMode}
-            toggleRainbowMode={toggleRainbowMode}
           />
         </Grid>
       </Grid>

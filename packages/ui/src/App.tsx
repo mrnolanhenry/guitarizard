@@ -12,8 +12,9 @@ import { Course } from "note-lib/src/Course";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { FretBoard } from "note-lib/src/FretBoard";
 import { Grid } from "@mui/material";
-import { ThemeProvider, useTheme } from '@mui/material/styles';
+import { getContrastRatio, ThemeProvider, useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { AppDialog, IAppDialogState } from "./components/AppDialog";
 
 type InstrumentMap = Map<string, FrettedInstrument>;
 
@@ -66,13 +67,19 @@ const initInstruments = (temperament: Temperament) => {
 
 const App = () => {
   const [theme, setTheme] = useState(cloudCity);
+  const secondaryMain = theme.swatch.base05;
+
+  const getContrastText = (color: string) => {
+    const contrastThreshold: number = 4.5;
+    return getContrastRatio(color, '#fff') > contrastThreshold ? '#fff' : '#111';
+  }
 
   const muiTheme = useTheme();
   muiTheme.palette.secondary = {
-    main: theme.swatch.base06,
-    light: theme.swatch.base01,
+    main: secondaryMain,
+    light: theme.swatch.base06,
     dark: theme.swatch.base02,
-    contrastText: theme.swatch.base03
+    contrastText: getContrastText(secondaryMain)
   };
 
   const isSmallScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("sm"));
@@ -99,6 +106,9 @@ const App = () => {
   const [isRainbowMode, setIsRainbowMode] = useState(true);
   const [activeTemperament, setActiveTemperament] = useState(twelveTET);
   const [activeToolName, setActiveToolName] = useState("scalebook");
+  const initDialogState: IAppDialogState = { isOpen: false }
+  const [dialogState, setDialogState] = useState(initDialogState);
+
 
   useEffect(() => {
     const ls_theme = localStorage.getItem("theme");
@@ -212,7 +222,6 @@ const App = () => {
           onInstrumentTuneToPreset={onInstrumentTuneToPreset}
           onKeyNoteSelect={onKeyNoteSelect}
           onScaleSelect={onScaleSelect}
-          toggleRainbowMode={toggleRainbowMode}
           theme={theme}
           updateKey={updateKey}
         />
@@ -235,22 +244,27 @@ const App = () => {
       <Grid container id="app" justifyContent="center" alignItems="center" style={style}>
         <Grid item xs={12}>
           <TopBar
+            activeToolName={activeToolName as ToolName}
+            dialogState={dialogState}
             isAuthenticated={false}
+            isRainbowMode={isRainbowMode}
             isSmallScreen={isSmallScreen}
             onLoginClick={() => false}
             onLogoutClick={() => false}
             onToolSelect={(activeToolName) => {
               setActiveToolName(activeToolName);
             }}
-            activeToolName={activeToolName as ToolName}
-            theme={theme}
+            setDialogState={setDialogState}
             setTheme={setTheme}
+            theme={theme}
+            toggleRainbowMode={toggleRainbowMode}
           />
         </Grid>
         <Grid item xs={12}>
           {tool}
         </Grid>
       </Grid>
+      <AppDialog dialogState={dialogState} setDialogState={setDialogState} fullScreen={isSmallScreen} theme={theme} />
     </ThemeProvider>
   );
 };
