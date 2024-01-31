@@ -62,7 +62,7 @@ const getNoteTextStyle = (
 };
 
 const KeySegment = (props: IKeySegmentProps) => {
-  const { allNotesOnCourse, fret, isRainbowMode, scaleOnCourse, theme, activeKey } = props;
+  const { allNotesOnCourse, columnsCount, fret, isRainbowMode, scaleOnCourse, theme, activeKey } = props;
 
   // Get the note on this string (if it exists)
   const note: Note | undefined = scaleOnCourse.getNoteFromFretNumber(fret);
@@ -89,7 +89,7 @@ const KeySegment = (props: IKeySegmentProps) => {
   };
 
   return (
-    <Grid container columns={58} item xs={2} className="key-segment" alignContent="flex-end"  paddingBottom={1} justifyContent="center" style={keySegmentStyle}>
+    <Grid container columns={columnsCount} item xs={2} className="key-segment" alignContent="flex-end"  paddingBottom={1} justifyContent="center" style={keySegmentStyle}>
       <Grid container className="inner" alignContent="center" justifyContent="center">
         {note && (
           <Grid container className="note-container" alignContent="flex-end" justifyContent="center">
