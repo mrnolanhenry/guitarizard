@@ -74,6 +74,16 @@ export class Note {
     } else return this.findByPitch(NotePitch.Flat);
   }
 
+  isAccidental(): boolean {
+    const flatFound = this.findFlat();
+     if(!!flatFound) {
+      return !!flatFound;
+     }
+     else {
+      return !!this.findSharp();
+     }
+  }
+
   toJSON() {
     return {
       id: this.id,

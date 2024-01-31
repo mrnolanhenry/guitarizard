@@ -8,8 +8,9 @@ import { FretBoard } from "./FretBoard";
 import { Guitar } from "./instruments/Guitar";
 import { Banjo } from "./instruments/Banjo";
 import { Bass } from "./instruments/Bass";
-import { Ukulele } from "./instruments/Ukulele";
 import { Mandolin } from "./instruments/Mandolin";
+import { Piano } from "./instruments/Piano";
+import { Ukulele } from "./instruments/Ukulele";
 import { FrettedInstrument } from "./instruments/FrettedInstrument";
 
 export { Note } from "./Note";
@@ -34,5 +35,6 @@ export const instrument = {
   FrettedInstrument,
   Guitar,
   Mandolin,
+  Piano,
   Ukulele,
 };

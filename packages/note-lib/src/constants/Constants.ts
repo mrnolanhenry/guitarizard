@@ -6,6 +6,7 @@ export const BANJO: string = "banjo";
 export const BASS: string = "bass";
 export const GUITAR: string = "guitar";
 export const MANDOLIN: string = "mandolin";
+export const PIANO: string = "piano";
 export const UKULELE: string = "ukulele";
 
 // Notes

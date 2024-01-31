@@ -46,22 +46,24 @@ const initInstruments = (temperament: Temperament) => {
     true,
   );
   const banjo = new instrument.Banjo(21, [G, D, G, B, D]);
-  const ukulele = new instrument.Ukulele(20, [G, C, E, A]);
   const fourStringBass = new instrument.Bass(21, [E, A, D, G]);
   const fiveStringBass = new instrument.Bass(21, [B, E, A, D, G]);
   const sixStringBass = new instrument.Bass(21, [B, E, A, D, G, C]);
   const mandolin = new instrument.Mandolin(17, [G, D, A, E]);
+  const piano = new instrument.Piano(30, [C]);
+  const ukulele = new instrument.Ukulele(20, [G, C, E, A]);
 
   instrumentMap.set("guitar", guitar);
   instrumentMap.set("guitar (7 string)", sevenStringGuitar);
   instrumentMap.set("guitar (8 string)", eightStringGuitar);
   instrumentMap.set("guitar (12 string)", twelveStringGuitar);
   instrumentMap.set("banjo", banjo);
-  instrumentMap.set("ukulele", ukulele);
   instrumentMap.set("bass", fourStringBass);
   instrumentMap.set("bass (5 string)", fiveStringBass);
   instrumentMap.set("bass (6 string)", sixStringBass);
   instrumentMap.set("mandolin", mandolin);
+  instrumentMap.set("piano", piano);
+  instrumentMap.set("ukulele", ukulele);
   return instrumentMap;
 };
 
@@ -110,7 +112,6 @@ const App = () => {
   const [activeToolName, setActiveToolName] = useState("scalebook");
   const initDialogState: IAppDialogState = { isOpen: false }
   const [dialogState, setDialogState] = useState(initDialogState);
-
 
   useEffect(() => {
     const ls_theme = localStorage.getItem("theme");

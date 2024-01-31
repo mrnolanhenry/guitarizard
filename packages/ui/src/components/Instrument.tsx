@@ -1,8 +1,9 @@
 import React from "react";
-import { Key, Note, Temperament } from "note-lib";
+import { Constants, Key, Note, Temperament } from "note-lib";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { Base16Theme } from "../colors/themes";
 import { FretBoard } from "./FretBoard";
+import { KeyBoard } from "./KeyBoard";
 
 interface IInstrumentProps {
   activeKey: Key;
@@ -18,7 +19,19 @@ interface IInstrumentProps {
 const Instrument = (props: IInstrumentProps) => {
   const { activeKey, instrument, isMediumScreen, isRainbowMode, onTune, temperament, theme } = props;
 
-  return (
+  return instrument.name === Constants.PIANO ?
+   (
+    <KeyBoard
+      activeKey={activeKey}
+      fretBoard={instrument.fretBoard}
+      isMediumScreen={isMediumScreen}
+      isRainbowMode={isRainbowMode}
+      onTune={onTune}
+      temperament={temperament}
+      theme={theme}
+    />
+  ) :
+  (
     <FretBoard
       activeKey={activeKey}
       fretBoard={instrument.fretBoard}
@@ -29,7 +42,7 @@ const Instrument = (props: IInstrumentProps) => {
       temperament={temperament}
       theme={theme}
     />
-  );
+  )
 };
 
 export { Instrument };
