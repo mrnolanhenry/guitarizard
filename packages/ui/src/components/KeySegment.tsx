@@ -23,6 +23,51 @@ const getNoteTextStyle = (
   activeKey: Key,
 ): CSSProperties => {
   let noteTextStyle: CSSProperties = {
+    color: "#BBB",
+    borderRadius: "10px",
+    margin: "5px",
+    fontWeight: "bold",
+    textShadow: "0px 0px 1em black",
+  };
+
+  if (isRainbowMode && note) {
+    const notes: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
+
+    const semitones: number[] = activeKey.scale.intervals.map(
+      (interval) => interval.semitones,
+    );
+
+    const semitoneColors: string[] = semitones.map(
+      (semitone) => rainbow[semitone],
+    );
+
+    const noteIntervalColorCombos = notes.map((n, i) => ({
+      note: n,
+      semitone: semitones[i],
+      semitoneColor: semitoneColors[i],
+    }));
+
+    const thisNoteIntervalColorCombo = noteIntervalColorCombos.find(
+      (noteIntervalColorCombo) => noteIntervalColorCombo.note.isSimilar(note),
+    );
+
+    if (thisNoteIntervalColorCombo) {
+      noteTextStyle = {
+        ...noteTextStyle,
+        color: thisNoteIntervalColorCombo.semitoneColor,
+      };
+    }
+  }
+  return noteTextStyle;
+};
+
+const getInnerKeyStyle = (
+  isRainbowMode: boolean,
+  theme: Base16Theme,
+  note: Note | undefined,
+  activeKey: Key,
+): CSSProperties => {
+  let noteTextStyle: CSSProperties = {
     color: "#111",
     backgroundColor: "#BBB",
     textShadow: "1px 1px 1px 1rem black",
@@ -66,7 +111,6 @@ const KeySegment = (props: IKeySegmentProps) => {
 
   // Get the note on this string (if it exists)
   const note: Note | undefined = scaleOnCourse.getNoteFromFretNumber(fret);
-  const noteDisplay: string = note ? note.id : "";
 
   // Get the note on this "string" (whether it exists in the scale or not)
   const noteIgnoreScale: Note| undefined = allNotesOnCourse.getNoteFromFretNumber(fret);
@@ -78,7 +122,15 @@ const KeySegment = (props: IKeySegmentProps) => {
     activeKey,
   );
 
+  const innerKeyStyle: CSSProperties = getInnerKeyStyle(
+    isRainbowMode,
+    theme,
+    note,
+    activeKey,
+  );
+
   const isAccidental = noteIgnoreScale && !!noteIgnoreScale.isAccidental();
+  const noteDisplay: string = note && isAccidental ? note.id : "";
 
   const keySegmentStyle: CSSProperties = {
     backgroundColor: isAccidental ? "black" : "white",

@@ -55,7 +55,7 @@ const KeyBoard = (props: IKeyBoardProps) => {
     const allNotesOnCourse: ScaleOnCourse = allNotesOnCourses[courseIndex];
 
     return tunedStrings.map((tunedString, stringIndex) => {
-      const keySegments = [...Array(maxFretCount)].map((_, i) => {
+      const keySegments = [...Array(maxFretCount)].map((_, i) => {      
         return (
           <KeySegment
             activeKey={activeKey}
@@ -76,9 +76,12 @@ const KeyBoard = (props: IKeyBoardProps) => {
           columnsRemaining = columnsRemaining - columnWidth;
           return (
             <KeySegmentBottom
+              activeKey={activeKey}
               columnWidth={columnWidth}
               note={note}
               key={`fret-segment-${courseIndex}-${stringIndex}-${i}`}
+              isRainbowMode={isRainbowMode}
+              theme={theme}
             />
           );
         }
