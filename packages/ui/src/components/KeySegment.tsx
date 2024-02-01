@@ -3,7 +3,7 @@ import { Key, Note } from "note-lib";
 import { Base16Theme, rainbow } from "../colors/themes";
 import React, { CSSProperties } from "react";
 import { ScaleOnCourse } from "note-lib/src/ScaleOnCourse";
-import { Grid } from "@mui/material";
+import { lighten, darken, Grid } from "@mui/material";
 
 interface IKeySegmentProps {
   allNotesOnCourse: ScaleOnCourse;
@@ -16,96 +16,6 @@ interface IKeySegmentProps {
   style?: CSSProperties;
 }
 
-const getNoteTextStyle = (
-  isRainbowMode: boolean,
-  theme: Base16Theme,
-  note: Note | undefined,
-  activeKey: Key,
-): CSSProperties => {
-  let noteTextStyle: CSSProperties = {
-    color: "#BBB",
-    borderRadius: "10px",
-    margin: "5px",
-    fontWeight: "bold",
-    textShadow: "0px 0px 1em black",
-  };
-
-  if (isRainbowMode && note) {
-    const notes: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
-
-    const semitones: number[] = activeKey.scale.intervals.map(
-      (interval) => interval.semitones,
-    );
-
-    const semitoneColors: string[] = semitones.map(
-      (semitone) => rainbow[semitone],
-    );
-
-    const noteIntervalColorCombos = notes.map((n, i) => ({
-      note: n,
-      semitone: semitones[i],
-      semitoneColor: semitoneColors[i],
-    }));
-
-    const thisNoteIntervalColorCombo = noteIntervalColorCombos.find(
-      (noteIntervalColorCombo) => noteIntervalColorCombo.note.isSimilar(note),
-    );
-
-    if (thisNoteIntervalColorCombo) {
-      noteTextStyle = {
-        ...noteTextStyle,
-        color: thisNoteIntervalColorCombo.semitoneColor,
-      };
-    }
-  }
-  return noteTextStyle;
-};
-
-const getInnerKeyStyle = (
-  isRainbowMode: boolean,
-  theme: Base16Theme,
-  note: Note | undefined,
-  activeKey: Key,
-): CSSProperties => {
-  let noteTextStyle: CSSProperties = {
-    color: "#111",
-    backgroundColor: "#BBB",
-    textShadow: "1px 1px 1px 1rem black",
-    borderRadius: "10px",
-    margin: "5px"
-  };
-
-  if (isRainbowMode && note) {
-    const notes: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
-
-    const semitones: number[] = activeKey.scale.intervals.map(
-      (interval) => interval.semitones,
-    );
-
-    const semitoneColors: string[] = semitones.map(
-      (semitone) => rainbow[semitone],
-    );
-
-    const noteIntervalColorCombos = notes.map((n, i) => ({
-      note: n,
-      semitone: semitones[i],
-      semitoneColor: semitoneColors[i],
-    }));
-
-    const thisNoteIntervalColorCombo = noteIntervalColorCombos.find(
-      (noteIntervalColorCombo) => noteIntervalColorCombo.note.isSimilar(note),
-    );
-
-    if (thisNoteIntervalColorCombo) {
-      noteTextStyle = {
-        ...noteTextStyle,
-        backgroundColor: thisNoteIntervalColorCombo.semitoneColor,
-      };
-    }
-  }
-  return noteTextStyle;
-};
-
 const KeySegment = (props: IKeySegmentProps) => {
   const { allNotesOnCourse, columnsCount, fret, isRainbowMode, scaleOnCourse, theme, activeKey } = props;
 
@@ -115,26 +25,57 @@ const KeySegment = (props: IKeySegmentProps) => {
   // Get the note on this "string" (whether it exists in the scale or not)
   const noteIgnoreScale: Note| undefined = allNotesOnCourse.getNoteFromFretNumber(fret);
 
-  const noteTextStyle: CSSProperties = getNoteTextStyle(
-    isRainbowMode,
-    theme,
-    note,
-    activeKey,
-  );
+  const notesInKey: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
+  const noteIsInKey = note && !!notesInKey.find((noteInKey) => noteInKey.isSimilar(note));
 
-  const innerKeyStyle: CSSProperties = getInnerKeyStyle(
-    isRainbowMode,
-    theme,
-    note,
-    activeKey,
-  );
+  const getRainbowColor = () => {
+    if (isRainbowMode && note && noteIsInKey) {
+      const semitones: number[] = activeKey.scale.intervals.map(
+        (interval) => interval.semitones,
+      );
+
+      const semitoneColors: string[] = semitones.map(
+        (semitone) => rainbow[semitone],
+      );
+
+      const indexFound = notesInKey.findIndex((noteInKey) => noteInKey.isSimilar(note));
+      return semitoneColors[indexFound];
+    }
+    else {
+      return "#BBB";
+    }
+  }
+
+  const rainbowColor = getRainbowColor();
 
   const isAccidental = noteIgnoreScale && !!noteIgnoreScale.isAccidental();
   const noteDisplay: string = note && isAccidental ? note.id : "";
 
+  const noteTextStyle: CSSProperties = {
+    color: isAccidental ? lighten(rainbowColor, .4) : rainbowColor,
+    borderRadius: "10px",
+    margin: "5px",
+    fontWeight: "bold",
+  };
+
+  const getBackgroundColor = () => {
+    let backgroundColor = isAccidental ? "black" : "white";
+    if (noteIsInKey) {
+
+
+      if (isAccidental) {
+        backgroundColor = darken(theme.swatch.base0A, .4);
+      }
+      else {
+        backgroundColor = theme.swatch.base0A;
+      }
+    }
+    return backgroundColor;
+  }
+
   const keySegmentStyle: CSSProperties = {
-    backgroundColor: isAccidental ? "black" : "white",
-    borderWidth: "0px 1px 0px 1px",
+    backgroundColor: getBackgroundColor(),
+    borderWidth: isAccidental ? "0px 1px 1px 1px" : "0px 1px 0px 1px",
     borderStyle: "solid",
     borderColor: "black",
     height: "12rem",
