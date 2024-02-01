@@ -1,6 +1,7 @@
 import { NoteFretNumberPair } from "./NoteFretNumberPair";
 import { IFretSpan } from "./interfaces/IFretSpan";
 import { Course } from "./Course";
+import { Note } from "./Note";
 
 export class ScaleOnCourse {
   config: IFretSpan;
@@ -12,6 +13,11 @@ export class ScaleOnCourse {
     this.config = config;
     this.notes = notes;
   }
+
+  getNoteFromFretNumber(fretNumber: number): Note | undefined {
+    const noteFretNumberPair: NoteFretNumberPair| undefined =  this.notes.find((note) => note.fretNumber === fretNumber);
+    return noteFretNumberPair ? noteFretNumberPair.value : undefined;
+  };
 
   toJSON() {
     return {

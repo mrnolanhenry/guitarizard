@@ -81,6 +81,9 @@ export const Tunings = [
   new Tuning("mandolin", "cross A", [A, E, A, E]),
   new Tuning("mandolin", "open A", [A, E, A, Cs]),
 
+  // PIANO
+  new Tuning("piano", "standard", [C]),
+
   // UKULELE
   new Tuning("ukulele", "standard", [G, C, E, A]),
   new Tuning("ukulele", "D", [A, D, Fs, B]),

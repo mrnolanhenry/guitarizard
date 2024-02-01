@@ -1,30 +1,6 @@
-
-      {/* <select
-        onChange={(e) => {
-          setTheme(themes[e.currentTarget.value]);
-          localStorage.setItem("theme", e.currentTarget.value);
-        }}
-        value={theme.id}
-        style={{
-          backgroundColor: theme.swatch.base00,
-          color: theme.swatch.base05,
-          borderWidth: '1px',
-          padding: '0.5em 1em',
-          borderRadius: '5px',
-          marginLeft: '1em',
-        }}>
-        {Object.keys(themes).map(theme_key => {
-          const theme = themes[theme_key];
-          return (
-            <option value={theme_key} key={theme_key}>{theme.name}</option>
-          );
-        })}
-      </select> */}
-//
-
 import React from "react";
 import { themes, Base16Theme } from "../../colors/themes";
-import { LabeledSelector } from "./LabeledSelector";
+import { Selector } from "./Selector";
 
 interface IThemeSelectorProps {
   activeTheme: Base16Theme;
@@ -37,9 +13,8 @@ const ThemeSelector = (props: IThemeSelectorProps) => {
   const { activeTheme, minWidth, onThemeSelect, size } = props;
 
   return (
-    <LabeledSelector<Base16Theme>
+    <Selector<Base16Theme>
       id="theme-selector"
-      label="Theme:"
       minWidth={minWidth}
       items={themes}
       getValue={(theme: Base16Theme) => theme.id}

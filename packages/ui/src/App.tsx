@@ -12,8 +12,9 @@ import { Course } from "note-lib/src/Course";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { FretBoard } from "note-lib/src/FretBoard";
 import { Grid } from "@mui/material";
-import { ThemeProvider, useTheme } from '@mui/material/styles';
+import { getContrastRatio, ThemeProvider, useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { AppDialog, IAppDialogState } from "./components/AppDialog";
 
 type InstrumentMap = Map<string, FrettedInstrument>;
 
@@ -45,38 +46,50 @@ const initInstruments = (temperament: Temperament) => {
     true,
   );
   const banjo = new instrument.Banjo(21, [G, D, G, B, D]);
-  const ukulele = new instrument.Ukulele(20, [G, C, E, A]);
   const fourStringBass = new instrument.Bass(21, [E, A, D, G]);
   const fiveStringBass = new instrument.Bass(21, [B, E, A, D, G]);
   const sixStringBass = new instrument.Bass(21, [B, E, A, D, G, C]);
   const mandolin = new instrument.Mandolin(17, [G, D, A, E]);
+  const piano = new instrument.Piano(40, [C]);
+  const ukulele = new instrument.Ukulele(20, [G, C, E, A]);
 
   instrumentMap.set("guitar", guitar);
   instrumentMap.set("guitar (7 string)", sevenStringGuitar);
   instrumentMap.set("guitar (8 string)", eightStringGuitar);
   instrumentMap.set("guitar (12 string)", twelveStringGuitar);
   instrumentMap.set("banjo", banjo);
-  instrumentMap.set("ukulele", ukulele);
   instrumentMap.set("bass", fourStringBass);
   instrumentMap.set("bass (5 string)", fiveStringBass);
   instrumentMap.set("bass (6 string)", sixStringBass);
   instrumentMap.set("mandolin", mandolin);
+  instrumentMap.set("piano", piano);
+  instrumentMap.set("ukulele", ukulele);
   return instrumentMap;
 };
 
 const App = () => {
   const [theme, setTheme] = useState(cloudCity);
+  const secondaryMain = theme.swatch.base05;
+
+  const isDarkColor = (color: string): boolean => {
+    const contrastThreshold: number = 4.5;
+    return getContrastRatio(color, '#fff') > contrastThreshold;
+  }
+
+  const getContrastText = (color: string) =>  isDarkColor(color) ? '#fff' : '#111';
 
   const muiTheme = useTheme();
   muiTheme.palette.secondary = {
-    main: theme.swatch.base06,
-    light: theme.swatch.base01,
+    main: secondaryMain,
+    light: theme.swatch.base06,
     dark: theme.swatch.base02,
-    contrastText: theme.swatch.base03
+    contrastText: getContrastText(secondaryMain)
   };
 
   const isSmallScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("sm"));
   const isMediumScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("md")) && !isSmallScreen;
+  // NOLAN TODO - isLarge, not isExtraLarge!! be careful with this mediaQuery, consider renaming
+  const isLargeScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("lg")) && !isSmallScreen && !isMediumScreen;
   // NOLAN TODO - for later use
   // const isPortrait: boolean = useMediaQuery(`(orientation: portrait)`);
 
@@ -99,6 +112,8 @@ const App = () => {
   const [isRainbowMode, setIsRainbowMode] = useState(true);
   const [activeTemperament, setActiveTemperament] = useState(twelveTET);
   const [activeToolName, setActiveToolName] = useState("scalebook");
+  const initDialogState: IAppDialogState = { isOpen: false }
+  const [dialogState, setDialogState] = useState(initDialogState);
 
   useEffect(() => {
     const ls_theme = localStorage.getItem("theme");
@@ -206,13 +221,13 @@ const App = () => {
           instruments={instruments}
           isSmallScreen={isSmallScreen}
           isMediumScreen={isMediumScreen}
+          isLargeScreen={isLargeScreen}
           isRainbowMode={isRainbowMode}
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}
           onInstrumentTuneToPreset={onInstrumentTuneToPreset}
           onKeyNoteSelect={onKeyNoteSelect}
           onScaleSelect={onScaleSelect}
-          toggleRainbowMode={toggleRainbowMode}
           theme={theme}
           updateKey={updateKey}
         />
@@ -235,22 +250,28 @@ const App = () => {
       <Grid container id="app" justifyContent="center" alignItems="center" style={style}>
         <Grid item xs={12}>
           <TopBar
+            activeToolName={activeToolName as ToolName}
+            dialogState={dialogState}
             isAuthenticated={false}
+            isDarkTheme={isDarkColor(theme.swatch.base01)}
+            isRainbowMode={isRainbowMode}
             isSmallScreen={isSmallScreen}
             onLoginClick={() => false}
             onLogoutClick={() => false}
             onToolSelect={(activeToolName) => {
               setActiveToolName(activeToolName);
             }}
-            activeToolName={activeToolName as ToolName}
-            theme={theme}
+            setDialogState={setDialogState}
             setTheme={setTheme}
+            theme={theme}
+            toggleRainbowMode={toggleRainbowMode}
           />
         </Grid>
         <Grid item xs={12}>
           {tool}
         </Grid>
       </Grid>
+      <AppDialog dialogState={dialogState} setDialogState={setDialogState} fullScreen={isSmallScreen} theme={theme} />
     </ThemeProvider>
   );
 };
