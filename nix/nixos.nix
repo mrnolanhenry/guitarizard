@@ -102,9 +102,7 @@ in {
     services.nginx = mkIf cfg.app.nginx.enable {
       enable = true;
 
-      virtualHosts."${cfg.app.nginx.virtual_host}" = let
-        acme_host_matches_virtual_host = cfg.app.nginx.use_acme_host == cfg.app.nginx.virtual_host;
-      in {
+      virtualHosts."${cfg.app.nginx.virtual_host}" = mkIf cfg.app.nginx.enable {
         forceSSL = mkIf cfg.app.nginx.force_ssl cfg.app.nginx.force_ssl;
         useACMEHost = mkIf (cfg.app.nginx.use_acme_host != null) "${cfg.app.nginx.use_acme_host}";
         enableACME = mkIf cfg.app.nginx.enable_acme cfg.app.nginx.enable_acme;
@@ -118,12 +116,7 @@ in {
         };
       };
 
-    } // mkIf cfg.marketing.nginx.enable {
-      enable = true;
-
-      virtualHosts."${cfg.marketing.nginx.virtual_host}" = let
-        acme_host_matches_virtual_host = cfg.marketing.nginx.use_acme_host == cfg.marketing.nginx.virtual_host;
-      in {
+      virtualHosts."${cfg.marketing.nginx.virtual_host}" = mkIf cfg.marketing.nginx.enable {
         forceSSL = mkIf cfg.marketing.nginx.force_ssl cfg.marketing.nginx.force_ssl;
         useACMEHost = mkIf (cfg.marketing.nginx.use_acme_host != null) "${cfg.marketing.nginx.use_acme_host}";
         enableACME = mkIf cfg.marketing.nginx.enable_acme cfg.marketing.nginx.enable_acme;
@@ -132,13 +125,13 @@ in {
             return = ''200 "User-agent: *\nDisallow: /\n"'';
           };
           "/" = {
-            root = "${pkg}/ui";
+            root = "${pkg}/marketing";
           };
         };
       };
 
     };
-
+    
   };
-
+  
 }

@@ -86,6 +86,14 @@
 
         installPhase = ''
           mkdir -p $out;
+
+          ls -alh .
+
+          # 1nject3d
+          sed -i -e \
+            '/<!--{{{marketing_html}}}-->/r packages/marketing/marketing.html' \
+            packages/ui/dist/index.html
+
           cp -r ./* $out;
         '';
 
@@ -98,11 +106,25 @@
 
         src = ./.;
 
-        buildInputs = with pkgs; [];
+        buildInputs = with pkgs; [
+          mustache-go
+        ];
 
-        buildPhase = ''
+        buildPhase = let
+          template_data = pkgs.writeTextFile {
+            name = "mustache template data";
+            destination = "/data.json";
+            executable = false;
+            text = builtins.toJSON {
+              marketing_html = builtins.readFile ./packages/marketing/marketing.html;
+            };
+          };
+        in ''
           mkdir -p BUILD_DIR/marketing;
-          cp -r ./packages/marketing/* BUILD_DIR/marketing
+          cat ${template_data}/data.json | \
+              mustache \
+                ./packages/marketing/index.mu.html \
+                --allow-missing-variables=false > BUILD_DIR/marketing/index.html
         '';
 
         installPhase = ''
