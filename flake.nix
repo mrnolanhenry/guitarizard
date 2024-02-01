@@ -59,6 +59,12 @@
             cd BUILD_DIR/ui;
             cp -r ${self.packages.${system}.ui}/packages/ui/dist/* .
           )
+
+          (
+            mkdir -p BUILD_DIR/marketing;
+            cd BUILD_DIR/marketing;
+            cp -r ${self.packages.${system}.marketing}/marketing/* .
+          )
         '';
 
         installPhase = ''
@@ -84,6 +90,25 @@
         '';
 
         npmBuildFlags = [ "--workspace" "ui" ];
+      };
+
+      marketing = pkgs.stdenv.mkDerivation rec {
+        name = "guitarizard-marketing";
+        version = "0.1.0";
+
+        src = ./.;
+
+        buildInputs = with pkgs; [];
+
+        buildPhase = ''
+          mkdir -p BUILD_DIR/marketing;
+          cp -r ./packages/marketing/* BUILD_DIR/marketing
+        '';
+
+        installPhase = ''
+          mkdir -p $out;
+          cp -r BUILD_DIR/* $out
+        '';
       };
     };
   };
