@@ -13,6 +13,7 @@ interface IKeyBoardProps {
   activeKey: Key;
   fretBoard: Fretboard;
   isMediumScreen: boolean;
+  isLargeScreen: boolean;
   isRainbowMode: boolean;
   onTune: (courseId: string, newTuning: Note) => void;
   temperament: Temperament;
@@ -20,13 +21,21 @@ interface IKeyBoardProps {
 }
 
 const KeyBoard = (props: IKeyBoardProps) => {
-  const { activeKey, fretBoard, isMediumScreen, isRainbowMode, onTune, temperament, theme } =
+  const { activeKey, fretBoard, isMediumScreen, isLargeScreen, isRainbowMode, onTune, temperament, theme } =
     props;
 
-  const maxFretCount = isMediumScreen && temperament ? Math.round((temperament.notes.length + 1) * 1.5) : fretBoard.getFretCount();
+  const getMaxFretCount = () => {
+    let maxFretCount = fretBoard.getFretCount();
+    const multiple = isMediumScreen ? 1.5 : 2.3;
+    if (temperament && (isMediumScreen || isLargeScreen)) {
+      maxFretCount = Math.round((temperament.notes.length + 1) * multiple);
+    }
+    return maxFretCount;
+  } 
+  const maxFretCount = getMaxFretCount();
   const columnsCount = maxFretCount * 2;
 
-  // NOLAN TODO - this is terrible lol, figure out spacing a better way
+  // NOLAN TODO - this is terrible lol, figure out spacing a better way, if you can
   let columnsRemaining = columnsCount;
 
   const stringStyle: CSSProperties = { borderColor: theme.swatch.base09 };

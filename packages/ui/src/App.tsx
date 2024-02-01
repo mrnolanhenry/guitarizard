@@ -50,7 +50,7 @@ const initInstruments = (temperament: Temperament) => {
   const fiveStringBass = new instrument.Bass(21, [B, E, A, D, G]);
   const sixStringBass = new instrument.Bass(21, [B, E, A, D, G, C]);
   const mandolin = new instrument.Mandolin(17, [G, D, A, E]);
-  const piano = new instrument.Piano(30, [C]);
+  const piano = new instrument.Piano(40, [C]);
   const ukulele = new instrument.Ukulele(20, [G, C, E, A]);
 
   instrumentMap.set("guitar", guitar);
@@ -88,6 +88,8 @@ const App = () => {
 
   const isSmallScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("sm"));
   const isMediumScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("md")) && !isSmallScreen;
+  // NOLAN TODO - isLarge, not isExtraLarge!! be careful with this mediaQuery, consider renaming
+  const isLargeScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("lg")) && !isSmallScreen && !isMediumScreen;
   // NOLAN TODO - for later use
   // const isPortrait: boolean = useMediaQuery(`(orientation: portrait)`);
 
@@ -219,6 +221,7 @@ const App = () => {
           instruments={instruments}
           isSmallScreen={isSmallScreen}
           isMediumScreen={isMediumScreen}
+          isLargeScreen={isLargeScreen}
           isRainbowMode={isRainbowMode}
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}

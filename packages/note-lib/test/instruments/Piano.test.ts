@@ -38,6 +38,6 @@ test("class Piano -- init", function (_t) {
       (course) => course.tunedStrings.length === 1,
     ),
     true,
-    "piano has all single strings",
+    "piano has a single string",
   );
 });

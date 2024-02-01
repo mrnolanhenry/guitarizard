@@ -3,7 +3,7 @@ import React, { CSSProperties, useEffect, useState } from "react";
 // IMPORTANT - must import @mui/icons-material BEFORE @mui/material or app breaks (vite doesn't like)
 import { ScreenRotation as ScreenRotationIcon } from '@mui/icons-material';
 import { Grid } from "@mui/material";
-import { Key, Note, Scale, Temperament } from "note-lib";
+import { Constants, Key, Note, Scale, Temperament } from "note-lib";
 import { Base16Theme } from "../../colors/themes";
 import { InstrumentSelector } from "../selectors/InstrumentSelector";
 import { NoteSelector } from "../selectors/NoteSelector";
@@ -24,6 +24,7 @@ interface IScalebookProps {
   instruments: Map<string, FrettedInstrument>;
   isSmallScreen: boolean;
   isMediumScreen: boolean;
+  isLargeScreen: boolean;
   isRainbowMode: boolean;
   onInstrumentSelect: (instrument: FrettedInstrument) => void;
   onInstrumentTune: (courseId: string, newTuning: Note) => void;
@@ -43,6 +44,7 @@ const Scalebook = (props: IScalebookProps) => {
     instruments,
     isSmallScreen,
     isMediumScreen,
+    isLargeScreen,
     isRainbowMode,
     onInstrumentSelect,
     onInstrumentTune,
@@ -69,6 +71,7 @@ const Scalebook = (props: IScalebookProps) => {
       activeKey={activeKey}
       instrument={instrument}
       isMediumScreen={isMediumScreen}
+      isLargeScreen={isLargeScreen}
       isRainbowMode={isRainbowMode}
       onTune={onInstrumentTune}
       temperament={temperament}
@@ -135,16 +138,18 @@ const Scalebook = (props: IScalebookProps) => {
                 theme={theme}
               />
             </Grid>
-            <Grid item xs={5} sm={5} md="auto" lg="auto">
-              <CommonTuningSelector
-                activeInstrument={activeInstrument}
-                activeTuning={activeTuning}
-                label="Common Tunings:"
-                minWidth={isSmallScreen ? "8em" : "10em"}
-                onCommonTuningSelect={onInstrumentTuneToPreset}
-                theme={theme}
-              />
-            </Grid>
+            {activeInstrument.name !== Constants.PIANO && (
+              <Grid item xs={5} sm={5} md="auto" lg="auto">
+                <CommonTuningSelector
+                  activeInstrument={activeInstrument}
+                  activeTuning={activeTuning}
+                  label="Common Tunings:"
+                  minWidth={isSmallScreen ? "8em" : "10em"}
+                  onCommonTuningSelect={onInstrumentTuneToPreset}
+                  theme={theme}
+                />
+              </Grid>
+            )}
           </>
         )}
         <Grid item xs={2} sm="auto" md="auto" lg="auto">
