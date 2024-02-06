@@ -9,7 +9,7 @@ export class Note {
   pitch: NotePitch;
   aliasNotes: Note[];
 
-  // TODO: Don't use array of keys & enforce with type
+  // NOLAN TODO - Don't use array of keys & enforce with type
   constructor(id: NoteID, pitch: NotePitch, aliasNotes?: Note[]) {
     this.id = id;
     this.pitch = pitch;

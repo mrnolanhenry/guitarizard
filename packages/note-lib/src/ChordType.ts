@@ -5,30 +5,39 @@ import { Note } from "./Note";
 import { NotePitch } from "./enums/NotePitch";
 
 /**
- * A single scale.
+ * A single chord "type."
  *
- * e.g. "play me the Blues scale, bro"
+ * e.g. "7th chord" or "major chord"
  *
- * If you were a formal person, you'd call this a "mode".
+ * Technically this is would be called a chord.
+ * NOT to be confused with specifying the key note and its chord type, like "C7" or "Em."
+ * For simplicity, THAT level of specificity (i.e. key note and chord type together) will be referred to as a chord. 
+ * A chord's "type" will not tell you which notes to play, like A# or Eb, but instead about the intervals within the chord.
+ * So, a "ChordType" is to a "Chord," what a "ChordType" is to a "Key"
  */
-export class Scale {
-  name: string;
+export class ChordType {
+  // shortHand e.g. "m7" or "maj13"
+  shortHand: string;
   temperament: Temperament;
   intervals: Interval[];
+  // array of names e.g. ["minor 7", "minor 7th"]
+  names: string[];
 
   constructor(
-    name: string,
+    shortHand: string,
     temperament: Temperament,
     intervalsBySemitones: number[],
+    names?: string[],
   ) {
-    this.name = name;
+    this.shortHand = shortHand;
+    this.names = names ? [...names, shortHand] : [shortHand];
     this.temperament = temperament;
     this.intervals = intervalsBySemitones.map(
       (semitone) => mainIntervals[semitone],
     );
   }
 
-  getNotesInKey(keyNote: Note): Note[] {
+  getNotesFromKeyNote(keyNote: Note): Note[] {
     // start the temperament at the correct note
     const shiftedNotes: Note[] = this.temperament.getShiftedNotes(keyNote);
 
@@ -50,10 +59,14 @@ export class Scale {
     });
   }
 
-  // Given a scale, return equivalent scales that have the same intervals
-  // e.g. the Ionian scale is exactly the same series of notes as the Major scale and Ethiopian (a raray) scale.
-  getEquivScales(scales: Scale[]): Scale[] {
-    const equivScales: Scale[] = [];
+  // Given a chord type, return equivalent chord types that have the same intervals
+  // NOLAN TODO - determine if this function is necessary or useful. 
+  // There may not be cases of chord types overlapping in terms of intervals,
+  // unless they go by different names in western vs. eastern theory
+  // but these would have to still be under the same temperament anyways...
+  // so, unlikely.
+  getEquivChordTypes(scales: ChordType[]): ChordType[] {
+    const equivChordTypes: ChordType[] = [];
     const scaleLength: number = this.intervals.length;
 
     // Loop through each scale
@@ -71,18 +84,19 @@ export class Scale {
               break loopThruIntervals;
             }
           }
-          equivScales.push(scales[i]);
+          equivChordTypes.push(scales[i]);
         }
       }
     }
-    return equivScales;
+    return equivChordTypes;
   }
 
   toJSON() {
     return {
-      name: this.name,
+      shortHand: this.shortHand,
       temperament: this.temperament,
       intervals: this.intervals,
+      names: this.names,
     };
   }
 

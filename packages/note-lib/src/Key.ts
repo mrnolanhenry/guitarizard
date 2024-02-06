@@ -1,7 +1,7 @@
 import { Note } from "./Note";
 import { Scale } from "./Scale";
 
-import Scales from "./data/scales";
+import scales from "./data/scales";
 import * as util from "./util";
 import isEqual from "lodash/isEqual";
 
@@ -35,13 +35,13 @@ export class Key {
         this.scale.temperament.notes[j],
       );
       // Loop through each scale and create an array of intervalsBySemitones that we adjust by the interval between the key notes
-      for (let k = 0; k < Scales.length; k++) {
+      for (let k = 0; k < scales.length; k++) {
         // This if check is only here to speed up function - testing dropped from ~71ms to ~47ms
-        if (scaleLength === Scales[k].intervals.length) {
+        if (scaleLength === scales[k].intervals.length) {
           const newScaleArray = [];
-          for (let l = 0; l < Scales[k].intervals.length; l++) {
+          for (let l = 0; l < scales[k].intervals.length; l++) {
             newScaleArray.push(
-              (Scales[k].intervals[l].semitones + noteInterval) %
+              (scales[k].intervals[l].semitones + noteInterval) %
                 this.scale.temperament.notes.length,
             );
           }
@@ -52,7 +52,7 @@ export class Key {
 
           // Check if arrays are equal after having sorted the newScale
           if (isEqual(scaleArray, newScaleArray)) {
-            const key = new Key(this.scale.temperament.notes[j], Scales[k]);
+            const key = new Key(this.scale.temperament.notes[j], scales[k]);
             equivKeys.push(key);
           }
         }

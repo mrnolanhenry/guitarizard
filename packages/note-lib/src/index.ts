@@ -1,6 +1,7 @@
-import { temperaments } from "./data/temperaments/index";
+import chordTypes from "./data/chordTypes";
 import * as intervals from "./data/intervals";
 import scales from "./data/scales";
+import { temperaments } from "./data/temperaments/index";
 
 import { TunedString } from "./TunedString";
 import { Tuning } from "./Tuning";
@@ -15,15 +16,18 @@ import { FrettedInstrument } from "./instruments/FrettedInstrument";
 
 export { Note } from "./Note";
 export { Temperament } from "./Temperament";
+export { Chord } from "./Chord";
+export { ChordType } from "./ChordType";
 export { Scale } from "./Scale";
 export { Key } from "./Key";
 export { Interval } from "./Interval";
 export * as Constants from "./constants/Constants";
 
 export const data = {
-  temperaments,
+  chordTypes,
   intervals,
   scales,
+  temperaments,
 };
 
 export const instrument = {
