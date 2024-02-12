@@ -120,7 +120,7 @@ const NoteTable = (props: INoteTableProps) => {
 
   const renderNoteData = (isSmallScreen: boolean, findFlats: boolean) => isSmallScreen ? renderNoteColumn(findFlats) : renderNoteRow(findFlats);
   const renderNoteDataTable = () => {
-    return isSmallScreen ? 
+    return isSmallScreen ?
     <Grid container item>
       <Grid item xs={6}>{renderNoteData(isSmallScreen, true)}</Grid>
       <Grid item xs={6}>{renderNoteData(isSmallScreen, false)}</Grid>
