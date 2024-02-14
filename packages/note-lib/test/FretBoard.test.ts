@@ -48,7 +48,10 @@ test("class FretBoard --- init", function (_t) {
       notes: [
         { value: new Note("X", NotePitch.Neither), fretNumber: 0 },
         { value: new Note("Y", NotePitch.Neither), fretNumber: 1 },
-        { value: (new Note("X", NotePitch.Neither)).withOctave(1), fretNumber: 2 },
+        {
+          value: new Note("X", NotePitch.Neither).withOctave(1),
+          fretNumber: 2,
+        },
       ],
     },
     {
@@ -56,7 +59,10 @@ test("class FretBoard --- init", function (_t) {
       config: fretSpan[1],
       notes: [
         { value: new Note("Y", NotePitch.Neither), fretNumber: 1 },
-        { value: (new Note("X", NotePitch.Neither)).withOctave(1), fretNumber: 2 },
+        {
+          value: new Note("X", NotePitch.Neither).withOctave(1),
+          fretNumber: 2,
+        },
       ],
     },
   ]);
@@ -137,7 +143,7 @@ test("class FretBoard --- getNotesInScale", function (_t) {
   );
 
   const blues = new Scale("blues", twelveTET, [0, 3, 5, 6, 7, 10, 12]);
-  
+
   assert.deepEqual(
     stubbyBoard.getNotesInScale(
       blues,
@@ -167,10 +173,12 @@ test("class FretBoard --- getNotesInScale", function (_t) {
   );
 
   assert.deepEqual(
-    JSON.stringify(stubbyBoard.getNotesInScale(
-      blues,
-      new Note(lib.Constants.F_SHARP, NotePitch.Sharp),
-    )),
+    JSON.stringify(
+      stubbyBoard.getNotesInScale(
+        blues,
+        new Note(lib.Constants.F_SHARP, NotePitch.Sharp),
+      ),
+    ),
     JSON.stringify([
       {
         config: fretSpan[0],
