@@ -12,15 +12,16 @@ interface IFretBoardProps {
   activeKey: Key;
   fretBoard: Fretboard;
   isMediumScreen: boolean;
-  isRainbowMode: boolean;
   onTune: (courseId: string, newTuning: Note) => void;
   showFretBar: boolean;
   temperament: Temperament;
   theme: Base16Theme;
+  isRainbowMode: boolean;
+  octaveUIEnabled: boolean;
 }
 
 const FretBoard = (props: IFretBoardProps) => {
-  const { activeKey, fretBoard, isMediumScreen, isRainbowMode, onTune, showFretBar, temperament, theme } =
+  const { activeKey, fretBoard, isMediumScreen, onTune, showFretBar, temperament, theme, isRainbowMode, octaveUIEnabled } =
     props;
   const fretBarStyle: CSSProperties = {
     backgroundColor: theme.swatch.base00,
@@ -59,6 +60,7 @@ const FretBoard = (props: IFretBoardProps) => {
             note={course.tunedStrings[0].tuningNote}
             onNoteSelect={(n: Note) => onTune(course.id, n)}
             theme={theme}
+            octaveUIEnabled={octaveUIEnabled}
           />
         );
       })}
@@ -86,10 +88,11 @@ const FretBoard = (props: IFretBoardProps) => {
             activeKey={activeKey}
             fret={i}
             key={`fret-segment-${courseIndex}-${stringIndex}-${i}`}
-            isRainbowMode={isRainbowMode}
             scaleOnCourse={scaleOnCourse}
             // style={isLastStringInCourse ? lastStringStyle : {}}
             theme={theme}
+            isRainbowMode={isRainbowMode}
+            octaveUIEnabled={octaveUIEnabled}
           />
         );
       });

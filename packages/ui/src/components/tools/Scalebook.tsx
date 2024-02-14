@@ -25,15 +25,19 @@ interface IScalebookProps {
   isSmallScreen: boolean;
   isMediumScreen: boolean;
   isLargeScreen: boolean;
-  isRainbowMode: boolean;
+
   onInstrumentSelect: (instrument: FrettedInstrument) => void;
   onInstrumentTune: (courseId: string, newTuning: Note) => void;
   onInstrumentTuneToPreset: (tuning: Tuning) => void;
   onKeyNoteSelect: (keyNote: Note) => void;
   onScaleSelect: (scale: Scale) => void;
   temperament: Temperament;
-  theme: Base16Theme;
   updateKey: (key: Key) => void;
+
+  // - - -
+  theme: Base16Theme;
+  isRainbowMode: boolean;
+  octaveUIEnabled: boolean;
 }
 
 const Scalebook = (props: IScalebookProps) => {
@@ -45,15 +49,17 @@ const Scalebook = (props: IScalebookProps) => {
     isSmallScreen,
     isMediumScreen,
     isLargeScreen,
-    isRainbowMode,
     onInstrumentSelect,
     onInstrumentTune,
     onInstrumentTuneToPreset,
     onKeyNoteSelect,
     onScaleSelect,
     temperament,
-    theme,
     updateKey,
+    // - - -
+    theme,
+    isRainbowMode,
+    octaveUIEnabled,
   } = props;
 
   const [showInstrument, setShowInstrument] = useState(!isSmallScreen);
@@ -72,17 +78,18 @@ const Scalebook = (props: IScalebookProps) => {
       instrument={instrument}
       isMediumScreen={isMediumScreen}
       isLargeScreen={isLargeScreen}
-      isRainbowMode={isRainbowMode}
       onTune={onInstrumentTune}
       temperament={temperament}
       theme={theme}
+      isRainbowMode={isRainbowMode}
+      octaveUIEnabled={octaveUIEnabled}
     />
   ) : (
     <></>
   );
 
   const renderNoteAndIntervalTable = (isSmallScreen: boolean) => {
-    return isSmallScreen ? 
+    return isSmallScreen ?
     <>
       <Grid container item paddingTop={1} paddingBottom={1}>
         <Grid item xs={3}>
@@ -119,7 +126,7 @@ const Scalebook = (props: IScalebookProps) => {
           scale={activeScale}
           theme={theme}
         />
-      </Grid> 
+      </Grid>
     </>
   }
 
@@ -188,13 +195,13 @@ const Scalebook = (props: IScalebookProps) => {
           />
         </Grid>
       </Grid>
-      {isSmallScreen && 
+      {isSmallScreen &&
         <Grid container item xs={12} justifyContent="center" alignContent="center" paddingBottom={2}>
           <span>Rotate Screen to Show Instrument </span>
           <ScreenRotationIcon sx={{ paddingLeft: "5px", paddingRight: "5px" }}/>
         </Grid>
       }
-      {showInstrument && 
+      {showInstrument &&
         <Grid item xs={12} paddingBottom={1}>
           {instrumentComponent}
         </Grid>

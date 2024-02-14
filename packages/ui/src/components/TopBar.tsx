@@ -13,7 +13,6 @@ interface Props {
   dialogState: IAppDialogState;
   isAuthenticated: boolean;
   isDarkTheme: boolean;
-  isRainbowMode: boolean;
   isSmallScreen: boolean;
   onLoginClick: () => void;
   onLogoutClick: () => void;
@@ -21,7 +20,10 @@ interface Props {
   setDialogState: React.Dispatch<React.SetStateAction<IAppDialogState>>;
   setTheme: React.Dispatch<React.SetStateAction<Base16Theme>>;
   theme: Base16Theme;
+  isRainbowMode: boolean;
   toggleRainbowMode: () => void;
+  octaveUIEnabled: boolean;
+  toggleOctaveUIMode: () => void;
 }
 
 const TopBar = (props: Props) => {
@@ -30,7 +32,6 @@ const TopBar = (props: Props) => {
     dialogState,
     isAuthenticated,
     isDarkTheme,
-    isRainbowMode,
     isSmallScreen,
     onLoginClick,
     onLogoutClick,
@@ -38,7 +39,12 @@ const TopBar = (props: Props) => {
     setDialogState,
     setTheme,
     theme,
-    toggleRainbowMode
+    // - - -
+    // Settings
+    isRainbowMode,
+    toggleRainbowMode,
+    octaveUIEnabled,
+    toggleOctaveUIMode
   } = props;
 
   // NOLAN TODO - This is a poor way of making the dialog dynamic AND reload props,
@@ -46,10 +52,10 @@ const TopBar = (props: Props) => {
   // Would need to give dialog an id prop (like id="settings") to check which inner dialog component to render.
   useEffect(() => {
     setDialogState({
-      ...dialogState, 
+      ...dialogState,
       content: renderSettingsMenu()
       });
-  }, [isRainbowMode, theme]);
+  }, [isRainbowMode, octaveUIEnabled, theme]);
 
   const auth = isAuthenticated ? (
     <div onClick={onLogoutClick}>logout</div>
@@ -82,11 +88,13 @@ const TopBar = (props: Props) => {
 
   const renderSettingsMenu = () => {
     return (
-      <SettingsMenu 
-        isRainbowMode={isRainbowMode}
+      <SettingsMenu
         setTheme={setTheme}
         theme={theme}
+        isRainbowMode={isRainbowMode}
         toggleRainbowMode={toggleRainbowMode}
+        octaveUIEnabled={octaveUIEnabled}
+        toggleOctaveUIMode={toggleOctaveUIMode}
       />
     )
   }
@@ -113,13 +121,13 @@ const TopBar = (props: Props) => {
             theme={theme}
           />
         </Grid> */}
-          <div 
-            id="settings-button" 
-            aria-label="settings-button" 
+          <div
+            id="settings-button"
+            aria-label="settings-button"
             onClick={() => setDialogState({
-              ...dialogState, 
-              isOpen: true, 
-              title: "Settings", 
+              ...dialogState,
+              isOpen: true,
+              title: "Settings",
               content: renderSettingsMenu()
               })}>
             <IconButton color="secondary">

@@ -2,12 +2,12 @@ import { Box, styled, Switch, SwitchProps } from "@mui/material";
 import React from "react";
 import { rainbow } from "../colors/themes";
 
-interface IRainbowModeSelectorProps {
-  isRainbowMode: boolean;
-  toggleRainbowMode: () => void;
+interface IOctaveUIModeSelectorProps {
+  enabled: boolean;
+  toggle: () => void;
 }
 
-const RainbowSwitch = styled(({  ...props }: SwitchProps) => (
+const OctaveUISwitch = styled(({  ...props }: SwitchProps) => (
   <Switch {...props} />
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 ))(({ theme }) => ({
@@ -26,17 +26,17 @@ const RainbowSwitch = styled(({  ...props }: SwitchProps) => (
     },
 }));
 
-const RainbowModeSwitch = (props: IRainbowModeSelectorProps) => {
-    const { isRainbowMode, toggleRainbowMode } = props;
+const OctaveUIModeSwitch = (props: IOctaveUIModeSelectorProps) => {
+    const { enabled, toggle } = props;
     return (
       <Box paddingTop={1}>
-        <RainbowSwitch
-          id="rainbow-mode-switch"
+        <OctaveUISwitch
+          id="octave-ui-mode-switch"
           size="small"
-          checked={isRainbowMode}
-          onChange={toggleRainbowMode} />
+          checked={enabled}
+          onChange={toggle} />
       </Box>
     );
 };
 
-export { RainbowModeSwitch };
+export { OctaveUIModeSwitch };

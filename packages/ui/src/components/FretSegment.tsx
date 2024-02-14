@@ -234,10 +234,11 @@ export type FretSegmentProps = {
   isRainbowMode: boolean;
   activeKey: Key;
   style?: CSSProperties;
+  octaveUIEnabled: boolean;
 }
 
 const FretSegment = (props: FretSegmentProps) => {
-  const { fret, isRainbowMode, scaleOnCourse, theme, activeKey } = props;
+  const { fret, isRainbowMode, scaleOnCourse, theme, activeKey, octaveUIEnabled } = props;
 
   // Get the note on this string (if it exists)
   const noteFretNumberPair: NoteFretNumberPair | undefined =
@@ -247,11 +248,9 @@ const FretSegment = (props: FretSegmentProps) => {
     ? noteFretNumberPair.value
     : undefined;
   const noteDisplay = note ? (
-    <span style={{ }}>{
-      `${note.id.replace('b', '♭')}`
-    }<sub>{
-      `${note.octave}`
-    }</sub>
+    <span style={{ }}>
+      {note.id.replace('b', '♭')}
+      {octaveUIEnabled ? (<sub>{`${note.octave}`}</sub>) : (<></>)}
     </span>
   ) : "";
 

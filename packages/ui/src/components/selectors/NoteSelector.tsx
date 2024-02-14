@@ -11,10 +11,11 @@ interface INoteSelectorProps {
   onNoteSelect: (note: Note) => void;
   temperament: Temperament;
   theme: Base16Theme;
+  octaveUIEnabled: boolean;
 }
 
 const NoteSelector = (props: INoteSelectorProps) => {
-  const { id, label, minWidth, note, onNoteSelect, temperament, theme } = props;
+  const { id, label, minWidth, note, onNoteSelect, temperament, theme, octaveUIEnabled } = props;
 
   const previousNotes: Note[] = [];
   for (let i = 0; i < temperament.notes.length; i++) {
@@ -34,7 +35,7 @@ const NoteSelector = (props: INoteSelectorProps) => {
       minWidth={minWidth}
       items={previousNotes.concat(nextNotes)}
       getValue={(note: Note) => note.id}
-      getDisplay={(note: Note) => `${note.id}${note.octave}`}
+      getDisplay={(note: Note) => `${note.id}${octaveUIEnabled ? note.octave: ''}`}
       activeItem={note}
       onChange={onNoteSelect}
       theme={theme}

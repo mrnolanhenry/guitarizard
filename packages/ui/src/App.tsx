@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import "./App.css";
-import React, { CSSProperties, useState, useEffect } from "react";
+import React, { CSSProperties, useState, useEffect, useCallback } from "react";
 import { themes, cloudCity, Base16Theme } from "./colors/themes";
 import { ToolName } from "./components/selectors/ToolSelector";
 import { TopBar } from "./components/TopBar";
@@ -133,7 +133,14 @@ const initInstruments = (temperament: Temperament) => {
 };
 
 const App = () => {
+  // todo($): move to Context vs. prop drilling these:
+  //   - theme
+  //   - isRainbowMode
+  //   - octaveUIEnabled
   const [theme, setTheme] = useState(cloudCity);
+  const [isRainbowMode, setIsRainbowMode] = useState(true);
+  const [octaveUIEnabled, setOctaveUIEnabled] = useState(false);
+
   const secondaryMain = theme.swatch.base05;
 
   const isDarkColor = (color: string): boolean => {
@@ -151,12 +158,16 @@ const App = () => {
     contrastText: getContrastText(secondaryMain)
   };
 
+  // - - -
+  // todo ($): move `is{Small/Medium/Large}Screen` into Context vs. prop-drilling
   const isSmallScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("sm"));
   const isMediumScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("md")) && !isSmallScreen;
   // NOLAN TODO - isLarge, not isExtraLarge!! be careful with this mediaQuery, consider renaming
   const isLargeScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("lg")) && !isSmallScreen && !isMediumScreen;
+
   // NOLAN TODO - for later use
   // const isPortrait: boolean = useMediaQuery(`(orientation: portrait)`);
+  // - - -
 
   const twelveTET: Temperament = data.temperaments.find(
     (temperament) => temperament.name === Constants.TWELVE_TET,
@@ -174,11 +185,13 @@ const App = () => {
   const [activeTuning, setActiveTuning] = useState(
     initInstrument.getStandardTuning(),
   );
-  const [isRainbowMode, setIsRainbowMode] = useState(true);
+  
+  
   const [activeTemperament, setActiveTemperament] = useState(twelveTET);
   const [activeToolName, setActiveToolName] = useState("scalebook");
   const initDialogState: IAppDialogState = { isOpen: false }
   const [dialogState, setDialogState] = useState(initDialogState);
+
 
   useEffect(() => {
     const ls_theme = localStorage.getItem("theme");
@@ -190,9 +203,13 @@ const App = () => {
     }
   }, [setTheme]);
 
-  const toggleRainbowMode = (): void => {
+  const toggleRainbowMode = useCallback((): void => {
     setIsRainbowMode(!isRainbowMode);
-  };
+  }, [ isRainbowMode, setIsRainbowMode ]);
+
+  const toggleOctaveUIMode = useCallback((): void => {
+    setOctaveUIEnabled(!octaveUIEnabled);
+  }, [ octaveUIEnabled, setOctaveUIEnabled ]);
 
   const onKeyNoteSelect = (keyNote: Note): void => {
     setActiveKey(new Key(keyNote, activeKey.scale));
@@ -295,6 +312,7 @@ const App = () => {
           onScaleSelect={onScaleSelect}
           theme={theme}
           updateKey={updateKey}
+          octaveUIEnabled={octaveUIEnabled}
         />
       );
       break;
@@ -319,7 +337,6 @@ const App = () => {
             dialogState={dialogState}
             isAuthenticated={false}
             isDarkTheme={isDarkColor(theme.swatch.base01)}
-            isRainbowMode={isRainbowMode}
             isSmallScreen={isSmallScreen}
             onLoginClick={() => false}
             onLogoutClick={() => false}
@@ -329,14 +346,22 @@ const App = () => {
             setDialogState={setDialogState}
             setTheme={setTheme}
             theme={theme}
+
+            isRainbowMode={isRainbowMode}
             toggleRainbowMode={toggleRainbowMode}
+            octaveUIEnabled={octaveUIEnabled}
+            toggleOctaveUIMode={toggleOctaveUIMode}
           />
         </Grid>
         <Grid item xs={12}>
           {tool}
         </Grid>
       </Grid>
-      <AppDialog dialogState={dialogState} setDialogState={setDialogState} fullScreen={isSmallScreen} theme={theme} />
+      <AppDialog
+        dialogState={dialogState}
+        setDialogState={setDialogState}
+        fullScreen={isSmallScreen}
+        theme={theme} />
     </ThemeProvider>
   );
 };
