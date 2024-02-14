@@ -16,7 +16,9 @@ interface IKeySegmentBottomProps {
 const KeySegmentBottom = (props: IKeySegmentBottomProps) => {
   const { activeKey, columnWidth, isRainbowMode, note, theme } = props;
   const notesInKey: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
-  const noteIsInKey = !!notesInKey.find((noteInKey) => noteInKey.isSimilar(note));
+  const noteIsInKey = !!notesInKey.find((noteInKey) =>
+    noteInKey.isSimilar(note),
+  );
 
   const getRainbowColor = () => {
     if (isRainbowMode && note && noteIsInKey) {
@@ -28,21 +30,22 @@ const KeySegmentBottom = (props: IKeySegmentBottomProps) => {
         (semitone) => rainbow[semitone],
       );
 
-      const indexFound = notesInKey.findIndex((noteInKey) => noteInKey.isSimilar(note));
+      const indexFound = notesInKey.findIndex((noteInKey) =>
+        noteInKey.isSimilar(note),
+      );
       return semitoneColors[indexFound];
-    }
-    else {
+    } else {
       return "#BBB";
     }
-  }
+  };
 
   const rainbowColor = getRainbowColor();
 
   const noteTextStyle: CSSProperties = {
-      color: rainbowColor,
-      fontWeight: "bold",
-      margin: "5px"
-    };
+    color: rainbowColor,
+    fontWeight: "bold",
+    margin: "5px",
+  };
 
   const keySegmentStyle: CSSProperties = {
     backgroundColor: noteIsInKey ? theme.swatch.base0A : "white",
@@ -53,18 +56,32 @@ const KeySegmentBottom = (props: IKeySegmentBottomProps) => {
   };
 
   return (
-      <Grid item xs={columnWidth} id={`key-segment-${note.id}`} className="key-segment" style={keySegmentStyle}>
-        <Grid container className="inner">
-            <Grid container className="note-container">
-              {/* <Grid item className="note-text" style={noteTextStyle}> */}
-              <Grid container item id={`note-text-${note.id}`} className="note-text" alignContent="center" justifyContent="center" style={noteTextStyle}>
-                {noteIsInKey ? note.id : ""}
-              </Grid>
-            </Grid>
-          <Grid className="key-line"></Grid>
+    <Grid
+      item
+      xs={columnWidth}
+      id={`key-segment-${note.id}`}
+      className="key-segment"
+      style={keySegmentStyle}
+    >
+      <Grid container className="inner">
+        <Grid container className="note-container">
+          {/* <Grid item className="note-text" style={noteTextStyle}> */}
+          <Grid
+            container
+            item
+            id={`note-text-${note.id}`}
+            className="note-text"
+            alignContent="center"
+            justifyContent="center"
+            style={noteTextStyle}
+          >
+            {noteIsInKey ? note.id : ""}
+          </Grid>
         </Grid>
+        <Grid className="key-line"></Grid>
       </Grid>
-    );
+    </Grid>
+  );
 };
 
 export { KeySegmentBottom };

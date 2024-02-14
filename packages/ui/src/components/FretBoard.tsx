@@ -21,14 +21,26 @@ interface IFretBoardProps {
 }
 
 const FretBoard = (props: IFretBoardProps) => {
-  const { activeKey, fretBoard, isMediumScreen, onTune, showFretBar, temperament, theme, isRainbowMode, octaveUIEnabled } =
-    props;
+  const {
+    activeKey,
+    fretBoard,
+    isMediumScreen,
+    onTune,
+    showFretBar,
+    temperament,
+    theme,
+    isRainbowMode,
+    octaveUIEnabled,
+  } = props;
   const fretBarStyle: CSSProperties = {
     backgroundColor: theme.swatch.base00,
     borderColor: theme.swatch.base01,
   };
 
-  const maxFretCount = isMediumScreen && temperament ? temperament.notes.length + 1 : fretBoard.getFretCount();
+  const maxFretCount =
+    isMediumScreen && temperament
+      ? temperament.notes.length + 1
+      : fretBoard.getFretCount();
 
   const fretBar = showFretBar && (
     <div className="fret-labels">

@@ -161,14 +161,10 @@ export class Temperament {
       index = this.notes.length + index;
     }
 
-    const tillOctiveShift = this.notes.length - offset;
-
     const nextNote = this.notes[index].clone();
 
     const octaveShifts = Math.floor((offset + stepsAway) / this.notes.length);
-    
     const newOctave = fromNote.clone().octave + octaveShifts;
-    
     nextNote.setOctave(newOctave as Octave);
 
     return nextNote;

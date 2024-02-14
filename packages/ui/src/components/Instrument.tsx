@@ -12,7 +12,7 @@ interface IInstrumentProps {
   isLargeScreen: boolean;
   onTune: (courseId: string, newTuning: Note) => void;
   temperament: Temperament;
-  
+
   // - - -
   theme: Base16Theme;
   isRainbowMode: boolean;
@@ -21,10 +21,19 @@ interface IInstrumentProps {
 
 // NOLAN TODO - This component is currently redundant, but will be useful once other instruments (like Piano) are incorporated.
 const Instrument = (props: IInstrumentProps) => {
-  const { activeKey, instrument, isMediumScreen, isLargeScreen, onTune, temperament, theme, isRainbowMode, octaveUIEnabled } = props;
+  const {
+    activeKey,
+    instrument,
+    isMediumScreen,
+    isLargeScreen,
+    onTune,
+    temperament,
+    theme,
+    isRainbowMode,
+    octaveUIEnabled,
+  } = props;
 
-  return instrument.name === Constants.PIANO ?
-   (
+  return instrument.name === Constants.PIANO ? (
     <KeyBoard
       activeKey={activeKey}
       fretBoard={instrument.fretBoard}
@@ -35,8 +44,7 @@ const Instrument = (props: IInstrumentProps) => {
       temperament={temperament}
       theme={theme}
     />
-  ) :
-  (
+  ) : (
     <FretBoard
       activeKey={activeKey}
       fretBoard={instrument.fretBoard}
@@ -48,7 +56,7 @@ const Instrument = (props: IInstrumentProps) => {
       isRainbowMode={isRainbowMode}
       octaveUIEnabled={octaveUIEnabled}
     />
-  )
+  );
 };
 
 export { Instrument };

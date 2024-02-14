@@ -1,10 +1,9 @@
 import "./TopBar.css";
 import React, { CSSProperties, useEffect } from "react";
-import { ToolSelector, ToolName } from "./selectors/ToolSelector";
+import { ToolName } from "./selectors/ToolSelector";
 import { Base16Theme } from "../colors/themes";
-import { ThemeSelector } from './selectors/ThemeSelector';
-import { Settings as SettingsIcon } from '@mui/icons-material';
-import { Grid, IconButton, useTheme } from "@mui/material";
+import { Settings as SettingsIcon } from "@mui/icons-material";
+import { Grid, IconButton } from "@mui/material";
 import { IAppDialogState } from "./AppDialog";
 import { SettingsMenu } from "./SettingsMenu";
 
@@ -28,14 +27,12 @@ interface Props {
 
 const TopBar = (props: Props) => {
   const {
-    activeToolName,
     dialogState,
     isAuthenticated,
     isDarkTheme,
     isSmallScreen,
     onLoginClick,
     onLogoutClick,
-    onToolSelect,
     setDialogState,
     setTheme,
     theme,
@@ -44,7 +41,7 @@ const TopBar = (props: Props) => {
     isRainbowMode,
     toggleRainbowMode,
     octaveUIEnabled,
-    toggleOctaveUIMode
+    toggleOctaveUIMode,
   } = props;
 
   // NOLAN TODO - This is a poor way of making the dialog dynamic AND reload props,
@@ -53,8 +50,8 @@ const TopBar = (props: Props) => {
   useEffect(() => {
     setDialogState({
       ...dialogState,
-      content: renderSettingsMenu()
-      });
+      content: renderSettingsMenu(),
+    });
   }, [isRainbowMode, octaveUIEnabled, theme]);
 
   const auth = isAuthenticated ? (
@@ -81,11 +78,6 @@ const TopBar = (props: Props) => {
     textShadow: `0 0 1px ${theme.swatch.base00}`,
   };
 
-  const onThemeSelect = (theme: Base16Theme): void => {
-    setTheme(theme);
-    localStorage.setItem("theme", theme.id);
-  };
-
   const renderSettingsMenu = () => {
     return (
       <SettingsMenu
@@ -96,21 +88,46 @@ const TopBar = (props: Props) => {
         octaveUIEnabled={octaveUIEnabled}
         toggleOctaveUIMode={toggleOctaveUIMode}
       />
-    )
-  }
+    );
+  };
 
   return (
-    <Grid container className="top-bar" alignItems="center" style={style} padding={isSmallScreen ? 2 : 1}>
-      <Grid item container className="left" xs={9} sm={3} md={2} justifyContent={"flex-start"} style={leftStyle}>
+    <Grid
+      container
+      className="top-bar"
+      alignItems="center"
+      style={style}
+      padding={isSmallScreen ? 2 : 1}
+    >
+      <Grid
+        item
+        container
+        className="left"
+        xs={9}
+        sm={3}
+        md={2}
+        justifyContent={"flex-start"}
+        style={leftStyle}
+      >
         {logo}
-        <span style={{ position: 'relative', left: '-10px' }}>uitarizard</span>
+        <span style={{ position: "relative", left: "-10px" }}>uitarizard</span>
       </Grid>
-      {!isSmallScreen &&
+      {!isSmallScreen && (
         <Grid item container className="center" sm={2} md={5} lg={6}>
-        {auth}
+          {auth}
         </Grid>
-      }
-      <Grid item container className="right" xs={3} sm={7} md={5} lg={4} justifyContent="flex-end" columnSpacing={2}>
+      )}
+      <Grid
+        item
+        container
+        className="right"
+        xs={3}
+        sm={7}
+        md={5}
+        lg={4}
+        justifyContent="flex-end"
+        columnSpacing={2}
+      >
         {/* NOLAN TODO - Bring back once we have more Tools!
         <Grid item xs={6} sm="auto">
           <ToolSelector
@@ -121,19 +138,22 @@ const TopBar = (props: Props) => {
             theme={theme}
           />
         </Grid> */}
-          <div
-            id="settings-button"
-            aria-label="settings-button"
-            onClick={() => setDialogState({
+        <div
+          id="settings-button"
+          aria-label="settings-button"
+          onClick={() =>
+            setDialogState({
               ...dialogState,
               isOpen: true,
               title: "Settings",
-              content: renderSettingsMenu()
-              })}>
-            <IconButton color="secondary">
-              <SettingsIcon />
-            </IconButton>
-          </div>
+              content: renderSettingsMenu(),
+            })
+          }
+        >
+          <IconButton color="secondary">
+            <SettingsIcon />
+          </IconButton>
+        </div>
       </Grid>
     </Grid>
   );

@@ -31,7 +31,7 @@ export class Note {
     note_1.setOctave(octave);
     return note_1;
   }
-  
+
   setOctave(octave: Octave): void {
     this.octave = octave;
   }
@@ -96,12 +96,11 @@ export class Note {
 
   isAccidental(): boolean {
     const flatFound = this.findFlat();
-     if(!!flatFound) {
+    if (flatFound) {
       return !!flatFound;
-     }
-     else {
+    } else {
       return !!this.findSharp();
-     }
+    }
   }
 
   toJSON() {

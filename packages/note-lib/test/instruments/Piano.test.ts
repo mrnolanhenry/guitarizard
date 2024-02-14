@@ -16,9 +16,7 @@ test("class Piano -- init", function (_t) {
 
   assert.deepEqual(
     defaultPiano.getCommonTunings(),
-    [
-      new Tuning("piano", "standard", [C]),
-    ],
+    [new Tuning("piano", "standard", [C])],
     "common tunings found",
   );
 

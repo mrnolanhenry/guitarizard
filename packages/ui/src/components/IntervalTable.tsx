@@ -77,7 +77,9 @@ const IntervalTable = (props: IIntervalTableProps) => {
             interval,
           );
           return (
-            <Grid item xs={1}
+            <Grid
+              item
+              xs={1}
               key={`interval-item-${i}:${interval.aliases[0].name}`}
               className="intervalItem"
               style={intervalTextStyle}
@@ -94,8 +96,24 @@ const IntervalTable = (props: IIntervalTableProps) => {
     const xsColumns: number = scale.intervals.length + 2;
 
     return (
-      <Grid item container id="intervalRow"  xs={xsColumns} sm={xsColumns - 1} lg={xsColumns - 1} columns={isSmallScreen ? xsColumns : xsColumns - 1}>
-        <Grid item className="intervalItem" xs={2} sm={1} md={1} lg={1} style={intervalStyle}>
+      <Grid
+        item
+        container
+        id="intervalRow"
+        xs={xsColumns}
+        sm={xsColumns - 1}
+        lg={xsColumns - 1}
+        columns={isSmallScreen ? xsColumns : xsColumns - 1}
+      >
+        <Grid
+          item
+          className="intervalItem"
+          xs={2}
+          sm={1}
+          md={1}
+          lg={1}
+          style={intervalStyle}
+        >
           {label}
         </Grid>
         {mapIntervals(label)}
@@ -114,31 +132,45 @@ const IntervalTable = (props: IIntervalTableProps) => {
     );
   };
 
-  const renderIntervalData = (isSmallScreen: boolean, label: string): JSX.Element  => isSmallScreen ? renderIntervalColumn(label) : renderIntervalRow(label);
+  const renderIntervalData = (
+    isSmallScreen: boolean,
+    label: string,
+  ): JSX.Element =>
+    isSmallScreen ? renderIntervalColumn(label) : renderIntervalRow(label);
   const renderIntervalDataTable = (isSmallScreen: boolean) => {
-    return isSmallScreen ?
+    return isSmallScreen ? (
       <Grid container item columns={8}>
-        <Grid item xs={2}>{renderIntervalData(isSmallScreen, "Semitones:")}</Grid>
-        <Grid item xs={1}>{renderIntervalData(isSmallScreen, "Short:")}</Grid>
-        <Grid item xs={2}>{renderIntervalData(isSmallScreen, "Long:")}</Grid>
-        <Grid item xs={1}>{renderIntervalData(isSmallScreen, "Short (Alt):")}</Grid>
-        <Grid item xs={2}>{renderIntervalData(isSmallScreen, "Long (Alt):")}</Grid>
-      </Grid> :
+        <Grid item xs={2}>
+          {renderIntervalData(isSmallScreen, "Semitones:")}
+        </Grid>
+        <Grid item xs={1}>
+          {renderIntervalData(isSmallScreen, "Short:")}
+        </Grid>
+        <Grid item xs={2}>
+          {renderIntervalData(isSmallScreen, "Long:")}
+        </Grid>
+        <Grid item xs={1}>
+          {renderIntervalData(isSmallScreen, "Short (Alt):")}
+        </Grid>
+        <Grid item xs={2}>
+          {renderIntervalData(isSmallScreen, "Long (Alt):")}
+        </Grid>
+      </Grid>
+    ) : (
       <>
         {renderIntervalData(isSmallScreen, "Semitones:")}
         {renderIntervalData(isSmallScreen, "Short:")}
         {renderIntervalData(isSmallScreen, "Long:")}
         {renderIntervalData(isSmallScreen, "Short (Alt):")}
         {renderIntervalData(isSmallScreen, "Long (Alt):")}
-      </> 
-      
-  }
-
+      </>
+    );
+  };
 
   return (
     <Grid container id="intervalTable">
       <Grid item xs={12}>
-        <span style={{fontSize: fontSize}}>Intervals included:</span>
+        <span style={{ fontSize: fontSize }}>Intervals included:</span>
       </Grid>
       {renderIntervalDataTable(isSmallScreen)}
     </Grid>

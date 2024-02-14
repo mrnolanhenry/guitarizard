@@ -1,7 +1,7 @@
 import "./TopBar.css";
 import React from "react";
 import { Base16Theme } from "../colors/themes";
-import { ThemeSelector } from './selectors/ThemeSelector';
+import { ThemeSelector } from "./selectors/ThemeSelector";
 import { Grid } from "@mui/material";
 import { RainbowModeSwitch } from "./RainbowModeSwitch";
 import { OctaveUIModeSwitch } from "./OctaveUIModeSwitch";
@@ -42,17 +42,17 @@ const SettingsMenu = (props: Props) => {
           </Grid>
           <Grid item xs="auto" justifyContent="flex-end">
             <ThemeSelector
-                activeTheme={theme}
-                minWidth={"9em"}
-                onThemeSelect={onThemeSelect}
-                size="small"
+              activeTheme={theme}
+              minWidth={"9em"}
+              onThemeSelect={onThemeSelect}
+              size="small"
             />
           </Grid>
         </Grid>
       </Grid>
       <Grid container item padding={1}>
         <Grid container borderBottom={1} marginBottom={2}>
-            <span>Scalebook Settings:</span>
+          <span>Scalebook Settings:</span>
         </Grid>
         <Grid container alignItems="center" paddingLeft={2} paddingRight={2}>
           <Grid item xs={12} sm={6}>

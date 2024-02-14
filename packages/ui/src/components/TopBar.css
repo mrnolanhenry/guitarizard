@@ -13,5 +13,6 @@
 }
 
 .shadowed {
-  filter: brightness(.9) contrast(135%) drop-shadow(0px 0px .025rem black) drop-shadow(0px 0px .025rem black);
+  filter: brightness(0.9) contrast(135%) drop-shadow(0px 0px 0.025rem black)
+    drop-shadow(0px 0px 0.025rem black);
 }

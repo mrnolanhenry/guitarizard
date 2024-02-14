@@ -12,8 +12,12 @@ import { Course } from "note-lib/src/Course";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { FretBoard } from "note-lib/src/FretBoard";
 import { Grid } from "@mui/material";
-import { getContrastRatio, ThemeProvider, useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import {
+  getContrastRatio,
+  ThemeProvider,
+  useTheme,
+} from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { AppDialog, IAppDialogState } from "./components/AppDialog";
 
 type InstrumentMap = Map<string, FrettedInstrument>;
@@ -27,7 +31,7 @@ const initInstruments = (temperament: Temperament) => {
     temperament.getNoteFromID(Constants.D)!.withOctave(3),
     temperament.getNoteFromID(Constants.G)!.withOctave(3),
     temperament.getNoteFromID(Constants.B)!.withOctave(3),
-    temperament.getNoteFromID(Constants.E)!.withOctave(4)
+    temperament.getNoteFromID(Constants.E)!.withOctave(4),
   ]);
 
   // TODO: verify octave
@@ -38,9 +42,8 @@ const initInstruments = (temperament: Temperament) => {
     temperament.getNoteFromID(Constants.D)!.withOctave(3),
     temperament.getNoteFromID(Constants.G)!.withOctave(3),
     temperament.getNoteFromID(Constants.B)!.withOctave(4),
-    temperament.getNoteFromID(Constants.E)!.withOctave(4)
+    temperament.getNoteFromID(Constants.E)!.withOctave(4),
   ]);
-
 
   // TODO: verify octave
   const eightStringGuitar = new instrument.Guitar(21, [
@@ -63,7 +66,7 @@ const initInstruments = (temperament: Temperament) => {
       temperament.getNoteFromID(Constants.D)!.withOctave(3),
       temperament.getNoteFromID(Constants.G)!.withOctave(3),
       temperament.getNoteFromID(Constants.B)!.withOctave(3),
-      temperament.getNoteFromID(Constants.E)!.withOctave(4)
+      temperament.getNoteFromID(Constants.E)!.withOctave(4),
     ],
     true,
   );
@@ -73,14 +76,14 @@ const initInstruments = (temperament: Temperament) => {
     temperament.getNoteFromID(Constants.D)!.withOctave(3),
     temperament.getNoteFromID(Constants.G)!.withOctave(3),
     temperament.getNoteFromID(Constants.B)!.withOctave(3),
-    temperament.getNoteFromID(Constants.D)!.withOctave(4)
+    temperament.getNoteFromID(Constants.D)!.withOctave(4),
   ]);
 
   const fourStringBass = new instrument.Bass(21, [
     temperament.getNoteFromID(Constants.E)!.withOctave(1),
     temperament.getNoteFromID(Constants.A)!.withOctave(1),
     temperament.getNoteFromID(Constants.D)!.withOctave(2),
-    temperament.getNoteFromID(Constants.G)!.withOctave(2)
+    temperament.getNoteFromID(Constants.G)!.withOctave(2),
   ]);
 
   const fiveStringBass = new instrument.Bass(21, [
@@ -88,7 +91,7 @@ const initInstruments = (temperament: Temperament) => {
     temperament.getNoteFromID(Constants.E)!.withOctave(1),
     temperament.getNoteFromID(Constants.A)!.withOctave(1),
     temperament.getNoteFromID(Constants.D)!.withOctave(2),
-    temperament.getNoteFromID(Constants.G)!.withOctave(2)
+    temperament.getNoteFromID(Constants.G)!.withOctave(2),
   ]);
 
   const sixStringBass = new instrument.Bass(21, [
@@ -97,25 +100,25 @@ const initInstruments = (temperament: Temperament) => {
     temperament.getNoteFromID(Constants.A)!.withOctave(1),
     temperament.getNoteFromID(Constants.D)!.withOctave(2),
     temperament.getNoteFromID(Constants.G)!.withOctave(2),
-    temperament.getNoteFromID(Constants.C)!.withOctave(3)
+    temperament.getNoteFromID(Constants.C)!.withOctave(3),
   ]);
 
   const mandolin = new instrument.Mandolin(17, [
     temperament.getNoteFromID(Constants.G)!.withOctave(2),
     temperament.getNoteFromID(Constants.D)!.withOctave(3),
     temperament.getNoteFromID(Constants.A)!.withOctave(3),
-    temperament.getNoteFromID(Constants.E)!.withOctave(4)
+    temperament.getNoteFromID(Constants.E)!.withOctave(4),
   ]);
 
   const piano = new instrument.Piano(40, [
-    temperament.getNoteFromID(Constants.C)!.withOctave(0)
+    temperament.getNoteFromID(Constants.C)!.withOctave(0),
   ]);
 
   const ukulele = new instrument.Ukulele(20, [
     temperament.getNoteFromID(Constants.G)!.withOctave(4),
     temperament.getNoteFromID(Constants.C)!.withOctave(4),
     temperament.getNoteFromID(Constants.E)!.withOctave(4),
-    temperament.getNoteFromID(Constants.A)!.withOctave(4)
+    temperament.getNoteFromID(Constants.A)!.withOctave(4),
   ]);
 
   instrumentMap.set("guitar", guitar);
@@ -145,25 +148,30 @@ const App = () => {
 
   const isDarkColor = (color: string): boolean => {
     const contrastThreshold: number = 4.5;
-    return getContrastRatio(color, '#fff') > contrastThreshold;
-  }
+    return getContrastRatio(color, "#fff") > contrastThreshold;
+  };
 
-  const getContrastText = (color: string) => isDarkColor(color) ? '#fff' : '#111';
+  const getContrastText = (color: string) =>
+    isDarkColor(color) ? "#fff" : "#111";
 
   const muiTheme = useTheme();
   muiTheme.palette.secondary = {
     main: secondaryMain,
     light: theme.swatch.base06,
     dark: theme.swatch.base02,
-    contrastText: getContrastText(secondaryMain)
+    contrastText: getContrastText(secondaryMain),
   };
 
   // - - -
   // todo ($): move `is{Small/Medium/Large}Screen` into Context vs. prop-drilling
   const isSmallScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("sm"));
-  const isMediumScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("md")) && !isSmallScreen;
+  const isMediumScreen: boolean =
+    useMediaQuery(muiTheme.breakpoints.down("md")) && !isSmallScreen;
   // NOLAN TODO - isLarge, not isExtraLarge!! be careful with this mediaQuery, consider renaming
-  const isLargeScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("lg")) && !isSmallScreen && !isMediumScreen;
+  const isLargeScreen: boolean =
+    useMediaQuery(muiTheme.breakpoints.down("lg")) &&
+    !isSmallScreen &&
+    !isMediumScreen;
 
   // NOLAN TODO - for later use
   // const isPortrait: boolean = useMediaQuery(`(orientation: portrait)`);
@@ -185,18 +193,18 @@ const App = () => {
   const [activeTuning, setActiveTuning] = useState(
     initInstrument.getStandardTuning(),
   );
-  
-  
+
   const [activeTemperament, setActiveTemperament] = useState(twelveTET);
   const [activeToolName, setActiveToolName] = useState("scalebook");
-  const initDialogState: IAppDialogState = { isOpen: false }
+  const initDialogState: IAppDialogState = { isOpen: false };
   const [dialogState, setDialogState] = useState(initDialogState);
-
 
   useEffect(() => {
     const ls_theme = localStorage.getItem("theme");
     if (ls_theme) {
-      const themeFound = themes.find((theme: Base16Theme) => theme.id === ls_theme);
+      const themeFound = themes.find(
+        (theme: Base16Theme) => theme.id === ls_theme,
+      );
       if (themeFound) {
         setTheme(themeFound);
       }
@@ -205,11 +213,11 @@ const App = () => {
 
   const toggleRainbowMode = useCallback((): void => {
     setIsRainbowMode(!isRainbowMode);
-  }, [ isRainbowMode, setIsRainbowMode ]);
+  }, [isRainbowMode, setIsRainbowMode]);
 
   const toggleOctaveUIMode = useCallback((): void => {
     setOctaveUIEnabled(!octaveUIEnabled);
-  }, [ octaveUIEnabled, setOctaveUIEnabled ]);
+  }, [octaveUIEnabled, setOctaveUIEnabled]);
 
   const onKeyNoteSelect = (keyNote: Note): void => {
     setActiveKey(new Key(keyNote, activeKey.scale));
@@ -330,7 +338,13 @@ const App = () => {
 
   return (
     <ThemeProvider theme={muiTheme}>
-      <Grid container id="app" justifyContent="center" alignItems="center" style={style}>
+      <Grid
+        container
+        id="app"
+        justifyContent="center"
+        alignItems="center"
+        style={style}
+      >
         <Grid item xs={12}>
           <TopBar
             activeToolName={activeToolName as ToolName}
@@ -346,7 +360,6 @@ const App = () => {
             setDialogState={setDialogState}
             setTheme={setTheme}
             theme={theme}
-
             isRainbowMode={isRainbowMode}
             toggleRainbowMode={toggleRainbowMode}
             octaveUIEnabled={octaveUIEnabled}
@@ -361,7 +374,8 @@ const App = () => {
         dialogState={dialogState}
         setDialogState={setDialogState}
         fullScreen={isSmallScreen}
-        theme={theme} />
+        theme={theme}
+      />
     </ThemeProvider>
   );
 };
