@@ -103,12 +103,13 @@ test("class Key", function (_t) {
   assert.deepEqual(AsLydian.note, As, "sharp note identified");
 
   assert.deepEqual(
-    BbLydianEquivKeys[0],
+    BbLydianEquivKeys[11],
     ANeapolitanMinor,
     "equivalent key 0 identified given flat note",
   );
+
   assert.deepEqual(
-    AsLydianEquivKeys[0],
+    AsLydianEquivKeys[11],
     ANeapolitanMinor,
     "equivalent key 0 identified given sharp note",
   );
@@ -116,9 +117,6 @@ test("class Key", function (_t) {
   assert.deepEqual(
     BbLydian.getEquivKeys(),
     [
-      ANeapolitanMinor,
-      APhrygian,
-      BbLydian,
       CMixolydian,
       DAeolian,
       DEthiopianEzel,
@@ -130,6 +128,9 @@ test("class Key", function (_t) {
       FIonian,
       FMajor,
       GDorian,
+      ANeapolitanMinor,
+      APhrygian,
+      BbLydian,
     ],
     "equivalent keys identified given flat note",
   );
@@ -137,9 +138,6 @@ test("class Key", function (_t) {
   assert.deepEqual(
     AsLydian.getEquivKeys(),
     [
-      ANeapolitanMinor,
-      APhrygian,
-      BbLydian,
       CMixolydian,
       DAeolian,
       DEthiopianEzel,
@@ -151,6 +149,9 @@ test("class Key", function (_t) {
       FIonian,
       FMajor,
       GDorian,
+      ANeapolitanMinor,
+      APhrygian,
+      BbLydian,
     ],
     "equivalent keys identified given sharp note",
   );

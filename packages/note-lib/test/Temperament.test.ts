@@ -49,14 +49,15 @@ test("class Temperament", function (_t) {
 
   assert.deepEqual(twelveTET.getNextNote(A, -1), Ab, "backward steps!");
 
-  assert.deepEqual(twelveTET.getNextNote(A, -12), A, "backward steps!");
+  const A1 = A.withOctave(1);
+  assert.deepEqual(twelveTET.getNextNote(A1, -12), A, "backward steps!");
 
   assert.equal(twelveTET.valueOf(), JSON.stringify(twelveTET));
   assert.equal(twelveTET.toString(), JSON.stringify(twelveTET));
 
   assert.deepEqual(
     twelveTET.getNotesInTemperament(),
-    [A, As, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs, Ab],
+    [C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs, Ab, A, As, Bb, B],
     "should list all key notes",
   );
 

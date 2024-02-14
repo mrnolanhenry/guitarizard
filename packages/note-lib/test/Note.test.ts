@@ -25,6 +25,7 @@ test("class Note", function (_t) {
       id: "FOO-BAR",
       pitch: NotePitch.Neither,
       aliasNotes: [],
+      octave: 0,
     },
     "JSON should be correct -- natural note",
   );
@@ -35,6 +36,7 @@ test("class Note", function (_t) {
       id: "FOO-BAR-FLAT",
       aliasNotes: [{ id: "X#", pitch: NotePitch.Sharp }],
       pitch: NotePitch.Flat,
+      octave: 0,
     },
     "JSON should be correct -- flat note",
   );

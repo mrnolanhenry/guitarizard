@@ -112,6 +112,7 @@ export class Note {
         id: aliasNote.id,
         pitch: aliasNote.pitch,
       })),
+      octave: this.octave,
     };
   }
 

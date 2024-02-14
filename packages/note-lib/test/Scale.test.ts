@@ -21,9 +21,14 @@ test("class Scale", function (_t) {
 
   assert.equal(blues.name, "Blues");
 
-  assert.deepEqual(blues.getNotesInKey(F), [F, Ab, Bb, B, C, Eb]);
+  const C1 = C.withOctave(1);
+  const Cs1 = Cs.withOctave(1);
+  const Eb1 = Eb.withOctave(1);
+  const E1 = E.withOctave(1);
+  
+  assert.deepEqual(blues.getNotesInKey(F), [F, Ab, Bb, B, C1, Eb1]);
 
-  assert.deepEqual(blues.getNotesInKey(Fs), [Fs, A, B, C, Cs, E]);
+  assert.deepEqual(blues.getNotesInKey(Fs), [Fs, A, B, C1, Cs, E1]);
 
   assert.deepEqual(
     ionian.getEquivScales(scales),
