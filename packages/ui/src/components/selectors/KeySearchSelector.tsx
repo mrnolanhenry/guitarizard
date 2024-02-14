@@ -28,6 +28,8 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
     });
   });
 
+  allKeys.sort();
+
   // Speed up search by only searching through a subset of allKeys,
   // then resetting it to allKeys when appropriate.
   // For instance, you've entered "A, B" already in the search and filtered down to 557 keys vs. the existing 2,193.
