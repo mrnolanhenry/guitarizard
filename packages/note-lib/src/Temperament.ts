@@ -169,7 +169,7 @@ export class Temperament {
     
     const newOctave = fromNote.clone().octave + octaveShifts;
     
-    nextNote.setOctave(newOctave);
+    nextNote.setOctave(newOctave as Octave);
 
     return nextNote;
   }
