@@ -178,7 +178,8 @@ const Scalebook = (props: IScalebookProps) => {
             onNoteSelect={onKeyNoteSelect}
             temperament={temperament}
             theme={theme}
-            octaveUIEnabled={octaveUIEnabled}
+            octaveUIEnabled={false}
+            select_strat="all_notes"
           />
         </Grid>
         <Grid item xs={8} sm="auto" md={4} lg="auto">

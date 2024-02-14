@@ -73,6 +73,7 @@ const FretBoard = (props: IFretBoardProps) => {
             onNoteSelect={(n: Note) => onTune(course.id, n)}
             theme={theme}
             octaveUIEnabled={octaveUIEnabled}
+            select_strat="before_and_after"
           />
         );
       })}
