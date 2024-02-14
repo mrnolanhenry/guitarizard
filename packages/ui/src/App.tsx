@@ -19,39 +19,104 @@ import { AppDialog, IAppDialogState } from "./components/AppDialog";
 type InstrumentMap = Map<string, FrettedInstrument>;
 
 const initInstruments = (temperament: Temperament) => {
-  const A: Note = temperament.getNoteFromID(Constants.A) as Note;
-  const B: Note = temperament.getNoteFromID(Constants.B) as Note;
-  const C: Note = temperament.getNoteFromID(Constants.C) as Note;
-  const D: Note = temperament.getNoteFromID(Constants.D) as Note;
-  const E: Note = temperament.getNoteFromID(Constants.E) as Note;
-  const Fs: Note = temperament.getNoteFromID(Constants.F_SHARP) as Note;
-  const G: Note = temperament.getNoteFromID(Constants.G) as Note;
-
   const instrumentMap: InstrumentMap = new Map();
-  const guitar = new instrument.Guitar(21, [E, A, D, G, B, E]);
-  const sevenStringGuitar = new instrument.Guitar(21, [B, E, A, D, G, B, E]);
-  const eightStringGuitar = new instrument.Guitar(21, [
-    Fs,
-    B,
-    E,
-    A,
-    D,
-    G,
-    B,
-    E,
+
+  const guitar = new instrument.Guitar(21, [
+    temperament.getNoteFromID(Constants.E)!.withOctave(2),
+    temperament.getNoteFromID(Constants.A)!.withOctave(2),
+    temperament.getNoteFromID(Constants.D)!.withOctave(3),
+    temperament.getNoteFromID(Constants.G)!.withOctave(3),
+    temperament.getNoteFromID(Constants.B)!.withOctave(3),
+    temperament.getNoteFromID(Constants.E)!.withOctave(4)
   ]);
+
+  // TODO: verify octave
+  const sevenStringGuitar = new instrument.Guitar(21, [
+    temperament.getNoteFromID(Constants.B)!.withOctave(2),
+    temperament.getNoteFromID(Constants.E)!.withOctave(2),
+    temperament.getNoteFromID(Constants.A)!.withOctave(3),
+    temperament.getNoteFromID(Constants.D)!.withOctave(3),
+    temperament.getNoteFromID(Constants.G)!.withOctave(3),
+    temperament.getNoteFromID(Constants.B)!.withOctave(4),
+    temperament.getNoteFromID(Constants.E)!.withOctave(4)
+  ]);
+
+
+  // TODO: verify octave
+  const eightStringGuitar = new instrument.Guitar(21, [
+    temperament.getNoteFromID(Constants.F_SHARP)!.withOctave(2),
+    temperament.getNoteFromID(Constants.B)!.withOctave(2),
+    temperament.getNoteFromID(Constants.E)!.withOctave(2),
+    temperament.getNoteFromID(Constants.A)!.withOctave(3),
+    temperament.getNoteFromID(Constants.D)!.withOctave(3),
+    temperament.getNoteFromID(Constants.G)!.withOctave(3),
+    temperament.getNoteFromID(Constants.B)!.withOctave(4),
+    temperament.getNoteFromID(Constants.E)!.withOctave(4),
+  ]);
+
+  // TODO: verify octave
   const twelveStringGuitar = new instrument.Guitar(
     21,
-    [E, A, D, G, B, E],
+    [
+      temperament.getNoteFromID(Constants.E)!.withOctave(2),
+      temperament.getNoteFromID(Constants.A)!.withOctave(2),
+      temperament.getNoteFromID(Constants.D)!.withOctave(3),
+      temperament.getNoteFromID(Constants.G)!.withOctave(3),
+      temperament.getNoteFromID(Constants.B)!.withOctave(3),
+      temperament.getNoteFromID(Constants.E)!.withOctave(4)
+    ],
     true,
   );
-  const banjo = new instrument.Banjo(21, [G, D, G, B, D]);
-  const fourStringBass = new instrument.Bass(21, [E, A, D, G]);
-  const fiveStringBass = new instrument.Bass(21, [B, E, A, D, G]);
-  const sixStringBass = new instrument.Bass(21, [B, E, A, D, G, C]);
-  const mandolin = new instrument.Mandolin(17, [G, D, A, E]);
-  const piano = new instrument.Piano(40, [C]);
-  const ukulele = new instrument.Ukulele(20, [G, C, E, A]);
+
+  const banjo = new instrument.Banjo(21, [
+    temperament.getNoteFromID(Constants.G)!.withOctave(4),
+    temperament.getNoteFromID(Constants.D)!.withOctave(3),
+    temperament.getNoteFromID(Constants.G)!.withOctave(3),
+    temperament.getNoteFromID(Constants.B)!.withOctave(3),
+    temperament.getNoteFromID(Constants.D)!.withOctave(4)
+  ]);
+
+  const fourStringBass = new instrument.Bass(21, [
+    temperament.getNoteFromID(Constants.E)!.withOctave(1),
+    temperament.getNoteFromID(Constants.A)!.withOctave(1),
+    temperament.getNoteFromID(Constants.D)!.withOctave(2),
+    temperament.getNoteFromID(Constants.G)!.withOctave(2)
+  ]);
+
+  const fiveStringBass = new instrument.Bass(21, [
+    temperament.getNoteFromID(Constants.B)!.withOctave(0),
+    temperament.getNoteFromID(Constants.E)!.withOctave(1),
+    temperament.getNoteFromID(Constants.A)!.withOctave(1),
+    temperament.getNoteFromID(Constants.D)!.withOctave(2),
+    temperament.getNoteFromID(Constants.G)!.withOctave(2)
+  ]);
+
+  const sixStringBass = new instrument.Bass(21, [
+    temperament.getNoteFromID(Constants.B)!.withOctave(0),
+    temperament.getNoteFromID(Constants.E)!.withOctave(1),
+    temperament.getNoteFromID(Constants.A)!.withOctave(1),
+    temperament.getNoteFromID(Constants.D)!.withOctave(2),
+    temperament.getNoteFromID(Constants.G)!.withOctave(2),
+    temperament.getNoteFromID(Constants.C)!.withOctave(3)
+  ]);
+
+  const mandolin = new instrument.Mandolin(17, [
+    temperament.getNoteFromID(Constants.G)!.withOctave(2),
+    temperament.getNoteFromID(Constants.D)!.withOctave(3),
+    temperament.getNoteFromID(Constants.A)!.withOctave(3),
+    temperament.getNoteFromID(Constants.E)!.withOctave(4)
+  ]);
+
+  const piano = new instrument.Piano(40, [
+    temperament.getNoteFromID(Constants.C)!.withOctave(0)
+  ]);
+
+  const ukulele = new instrument.Ukulele(20, [
+    temperament.getNoteFromID(Constants.G)!.withOctave(4),
+    temperament.getNoteFromID(Constants.C)!.withOctave(4),
+    temperament.getNoteFromID(Constants.E)!.withOctave(4),
+    temperament.getNoteFromID(Constants.A)!.withOctave(4)
+  ]);
 
   instrumentMap.set("guitar", guitar);
   instrumentMap.set("guitar (7 string)", sevenStringGuitar);
@@ -76,7 +141,7 @@ const App = () => {
     return getContrastRatio(color, '#fff') > contrastThreshold;
   }
 
-  const getContrastText = (color: string) =>  isDarkColor(color) ? '#fff' : '#111';
+  const getContrastText = (color: string) => isDarkColor(color) ? '#fff' : '#111';
 
   const muiTheme = useTheme();
   muiTheme.palette.secondary = {
@@ -123,7 +188,7 @@ const App = () => {
         setTheme(themeFound);
       }
     }
-  }, [ setTheme ]);
+  }, [setTheme]);
 
   const toggleRainbowMode = (): void => {
     setIsRainbowMode(!isRainbowMode);

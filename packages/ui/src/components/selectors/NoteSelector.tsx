@@ -15,14 +15,26 @@ interface INoteSelectorProps {
 
 const NoteSelector = (props: INoteSelectorProps) => {
   const { id, label, minWidth, note, onNoteSelect, temperament, theme } = props;
+
+  const previousNotes: Note[] = [];
+  for (let i = 0; i < temperament.notes.length; i++) {
+    previousNotes.push(temperament.getNextNote(note, -i));
+  }
+  previousNotes.reverse();
+
+  const nextNotes: Note[] = [];
+  for (let i = 1; i < temperament.notes.length; i++) {
+    previousNotes.push(temperament.getNextNote(note, i))
+  }
+
   return (
     <LabeledSelector<Note>
       id={`note-selector-${id}`}
       label={label}
       minWidth={minWidth}
-      items={temperament.getNotesInTemperament()}
+      items={previousNotes.concat(nextNotes)}
       getValue={(note: Note) => note.id}
-      getDisplay={(note: Note) => note.id}
+      getDisplay={(note: Note) => `${note.id}${note.octave}`}
       activeItem={note}
       onChange={onNoteSelect}
       theme={theme}

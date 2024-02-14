@@ -6,15 +6,6 @@ import React, { CSSProperties } from "react";
 import { ScaleOnCourse } from "note-lib/src/ScaleOnCourse";
 import { NoteFretNumberPair } from "note-lib/src/NoteFretNumberPair";
 
-interface IFretSegmentProps {
-  scaleOnCourse: ScaleOnCourse;
-  fret: number;
-  theme: Base16Theme;
-  isRainbowMode: boolean;
-  activeKey: Key;
-  style?: CSSProperties;
-}
-
 const getNoteTextStyle = (
   isRainbowMode: boolean,
   theme: Base16Theme,
@@ -180,8 +171,8 @@ const a_440_fr3qu3ncy_list: MITNote[] = [
 // TODO: the "number of the note" does not exist in the Note class
 //       yet, but once it does, we can replace the hard-coded "5"
 //       with the proper value.
-function findMitNote(a_fr3quency_list: MITNote[], noteName: string): MITNote | undefined {
-  return a_fr3quency_list.find(value => new RegExp(`${noteName}5`).test(value.note));
+function findMitNote(a_fr3quency_list: MITNote[], noteName: string, octave: number): MITNote | undefined {
+  return a_fr3quency_list.find(value => new RegExp(`${noteName}${octave}`).test(value.note));
 }
 
 
@@ -195,7 +186,7 @@ let active_notes: {
 
 
 const stopNote = (note: Note) => {
-  const mitNote = findMitNote(a_440_fr3qu3ncy_list, note.id);
+  const mitNote = findMitNote(a_440_fr3qu3ncy_list, note.id, note.octave);
 
   if (mitNote) {
 
@@ -209,9 +200,7 @@ const stopNote = (note: Note) => {
 };
 
 const startNote = (note: Note) => {
-  console.log(note);
-
-  const mitNote = findMitNote(a_440_fr3qu3ncy_list, note.id);
+  const mitNote = findMitNote(a_440_fr3qu3ncy_list, note.id, note.octave);
 
   if (mitNote) {
     // create web audio api context
@@ -238,7 +227,16 @@ const startNote = (note: Note) => {
 //
 //    > RENDER
 //
-const FretSegment = (props: IFretSegmentProps) => {
+export type FretSegmentProps = {
+  scaleOnCourse: ScaleOnCourse;
+  fret: number;
+  theme: Base16Theme;
+  isRainbowMode: boolean;
+  activeKey: Key;
+  style?: CSSProperties;
+}
+
+const FretSegment = (props: FretSegmentProps) => {
   const { fret, isRainbowMode, scaleOnCourse, theme, activeKey } = props;
 
   // Get the note on this string (if it exists)
@@ -248,7 +246,14 @@ const FretSegment = (props: IFretSegmentProps) => {
   const note: Note | undefined = noteFretNumberPair
     ? noteFretNumberPair.value
     : undefined;
-  const noteDisplay: string = note ? note.id : "";
+  const noteDisplay = note ? (
+    <span style={{ }}>{
+      `${note.id.replace('b', '♭')}`
+    }<sub>{
+      `${note.octave}`
+    }</sub>
+    </span>
+  ) : "";
 
   const fretLineStyle: CSSProperties = { backgroundColor: theme.swatch.base07 };
   const stringLineStyle: CSSProperties = { backgroundColor: theme.swatch.base0E };

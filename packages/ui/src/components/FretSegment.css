@@ -22,23 +22,39 @@
 }
 
 .fret-segment > .inner > .note-container {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .fret-segment > .inner > .note-container > .note-text {
-  padding: 0.2em;
-  border-radius: 1em;
-  text-align: center;
-  font-size: 0.7em;
-  width: 2em;
+    padding: 0.2em;
+    border-radius: 0.5em;
+    text-align: center;
+    font-size: 0.7em;
+    width: 2em;
+    padding: 0.2em 0.5em;
+
+    cursor: grab;
+    user-select: none;
+    box-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+    text-shadow: 0 0 1px rgba(0,0,0,0.3);
+}
+
+.fret-segment > .inner > .note-container > .note-text:active {
+    cursor: grabbing;
+    box-shadow: 0 0 0 rgba(0,0,0,0.5);
+    filter: brightness(70%) !important;
+}
+
+.fret-segment > .inner > .note-container > .note-text:hover{
+    filter: brightness(130%);
 }
 
 .fret-segment > .inner > .fret-line {

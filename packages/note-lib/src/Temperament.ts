@@ -1,4 +1,4 @@
-import { Note, NoteID } from "./Note";
+import { Note, NoteID, Octave } from "./Note";
 
 /**
  * A temperament is a musical system of defining intervals/notes... it's hard to explain.
@@ -20,6 +20,10 @@ export class Temperament {
 
   // Given an ID, e.g. "A#", return the "Note" instance
   // from this temperament.
+  //
+  // Note: The returned note is mutateable, so change made to it
+  //       will stick. See `Note.clone()` for more information
+  //       if you want to work with a clone instead.
   getNoteFromID(noteID: NoteID): Note | undefined {
     for (let i = 0; i < this.notes.length; i++) {
       const note: Note = this.notes[i];
@@ -63,8 +67,6 @@ export class Temperament {
    * a given note. This function effectivly "shifts" the
    * notes so that the temperament starts at a different
    * note.
-   *
-   * This function
    */
   getShiftedNotes(fromNote: Note): Note[] {
     // Get the representation of this note as it appears in this system.
@@ -153,16 +155,23 @@ export class Temperament {
 
     const offset: number = this._getRelativeNoteOffset(fromNote);
 
-    // NOLAN TODO: CHECK WHAT'S GOING ON HERE WITH THIS stepsAway2 variable - why do we need this
-    // and not just one stepsAway variable?
-    const stepsAway2 = typeof stepsAway === "undefined" ? 0 : stepsAway;
-    let index: number = (offset + stepsAway2) % this.notes.length;
+    let index: number = (offset + stepsAway) % this.notes.length;
 
     if (index < 0) {
       index = this.notes.length + index;
     }
 
-    return this.notes[index];
+    const tillOctiveShift = this.notes.length - offset;
+
+    const nextNote = this.notes[index].clone();
+
+    const octaveShifts = Math.floor((offset + stepsAway) / this.notes.length);
+    
+    const newOctave = fromNote.clone().octave + octaveShifts;
+    
+    nextNote.setOctave(newOctave);
+
+    return nextNote;
   }
 
   toJSON() {

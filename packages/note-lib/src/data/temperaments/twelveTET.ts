@@ -61,9 +61,6 @@ export const twelveTETNotes = {
 };
 
 export const twelveTET = new Temperament(Constants.TWELVE_TET, [
-  A,
-  Bb,
-  B,
   C,
   Db,
   D,
@@ -73,4 +70,7 @@ export const twelveTET = new Temperament(Constants.TWELVE_TET, [
   Gb,
   G,
   Ab,
+  A,
+  Bb,
+  B,
 ]);
