@@ -48,10 +48,7 @@ test("class FretBoard --- init", function (_t) {
       notes: [
         { value: new Note("X", NotePitch.Neither), fretNumber: 0 },
         { value: new Note("Y", NotePitch.Neither), fretNumber: 1 },
-        {
-          value: new Note("X", NotePitch.Neither).withOctave(1),
-          fretNumber: 2,
-        },
+        { value: new Note("X", NotePitch.Neither), fretNumber: 2 },
       ],
     },
     {
@@ -59,10 +56,7 @@ test("class FretBoard --- init", function (_t) {
       config: fretSpan[1],
       notes: [
         { value: new Note("Y", NotePitch.Neither), fretNumber: 1 },
-        {
-          value: new Note("X", NotePitch.Neither).withOctave(1),
-          fretNumber: 2,
-        },
+        { value: new Note("X", NotePitch.Neither), fretNumber: 2 },
       ],
     },
   ]);
@@ -113,9 +107,9 @@ test("class FretBoard --- getNotesInScale", function (_t) {
           { value: A, fretNumber: 0 },
           { value: Bb, fretNumber: 1 },
           { value: B, fretNumber: 2 },
-          { value: C.withOctave(1), fretNumber: 3 },
-          { value: Db.withOctave(1), fretNumber: 4 },
-          { value: D.withOctave(1), fretNumber: 5 },
+          { value: C, fretNumber: 3 },
+          { value: Db, fretNumber: 4 },
+          { value: D, fretNumber: 5 },
         ],
       },
     ],
@@ -164,8 +158,8 @@ test("class FretBoard --- getNotesInScale", function (_t) {
         config: fretSpan[1],
         notes: [
           { value: A, fretNumber: 0 },
-          { value: C.withOctave(1), fretNumber: 3 },
-          { value: D.withOctave(1), fretNumber: 5 },
+          { value: C, fretNumber: 3 },
+          { value: D, fretNumber: 5 },
         ],
       },
     ],
@@ -173,13 +167,11 @@ test("class FretBoard --- getNotesInScale", function (_t) {
   );
 
   assert.deepEqual(
-    JSON.stringify(
-      stubbyBoard.getNotesInScale(
-        blues,
-        new Note(lib.Constants.F_SHARP, NotePitch.Sharp),
-      ),
+    stubbyBoard.getNotesInScale(
+      blues,
+      new Note(lib.Constants.F_SHARP, NotePitch.Sharp),
     ),
-    JSON.stringify([
+    [
       {
         config: fretSpan[0],
         course: courses[0],
@@ -195,12 +187,11 @@ test("class FretBoard --- getNotesInScale", function (_t) {
         notes: [
           { value: A, fretNumber: 0 },
           { value: B, fretNumber: 2 },
-          // todo ($): This `.withOctave` seems quirky. Wish it was not necessary.
-          { value: C.withOctave(1), fretNumber: 3 },
+          { value: C, fretNumber: 3 },
           { value: Cs, fretNumber: 4 },
         ],
       },
-    ]),
+    ],
     "blues scale in F# works ok",
   );
 });

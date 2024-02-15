@@ -10,30 +10,18 @@ interface IInstrumentProps {
   instrument: FrettedInstrument;
   isMediumScreen: boolean;
   isLargeScreen: boolean;
+  isRainbowMode: boolean;
   onTune: (courseId: string, newTuning: Note) => void;
   temperament: Temperament;
-
-  // - - -
   theme: Base16Theme;
-  isRainbowMode: boolean;
-  octaveUIEnabled: boolean;
 }
 
 // NOLAN TODO - This component is currently redundant, but will be useful once other instruments (like Piano) are incorporated.
 const Instrument = (props: IInstrumentProps) => {
-  const {
-    activeKey,
-    instrument,
-    isMediumScreen,
-    isLargeScreen,
-    onTune,
-    temperament,
-    theme,
-    isRainbowMode,
-    octaveUIEnabled,
-  } = props;
+  const { activeKey, instrument, isMediumScreen, isLargeScreen, isRainbowMode, onTune, temperament, theme } = props;
 
-  return instrument.name === Constants.PIANO ? (
+  return instrument.name === Constants.PIANO ?
+   (
     <KeyBoard
       activeKey={activeKey}
       fretBoard={instrument.fretBoard}
@@ -44,19 +32,19 @@ const Instrument = (props: IInstrumentProps) => {
       temperament={temperament}
       theme={theme}
     />
-  ) : (
+  ) :
+  (
     <FretBoard
       activeKey={activeKey}
       fretBoard={instrument.fretBoard}
       isMediumScreen={isMediumScreen}
+      isRainbowMode={isRainbowMode}
       onTune={onTune}
       showFretBar={true}
       temperament={temperament}
       theme={theme}
-      isRainbowMode={isRainbowMode}
-      octaveUIEnabled={octaveUIEnabled}
     />
-  );
+  )
 };
 
 export { Instrument };

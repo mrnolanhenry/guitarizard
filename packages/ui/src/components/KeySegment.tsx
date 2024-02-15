@@ -17,26 +17,16 @@ interface IKeySegmentProps {
 }
 
 const KeySegment = (props: IKeySegmentProps) => {
-  const {
-    allNotesOnCourse,
-    columnsCount,
-    fret,
-    isRainbowMode,
-    scaleOnCourse,
-    theme,
-    activeKey,
-  } = props;
+  const { allNotesOnCourse, columnsCount, fret, isRainbowMode, scaleOnCourse, theme, activeKey } = props;
 
   // Get the note on this string (if it exists)
   const note: Note | undefined = scaleOnCourse.getNoteFromFretNumber(fret);
 
   // Get the note on this "string" (whether it exists in the scale or not)
-  const noteIgnoreScale: Note | undefined =
-    allNotesOnCourse.getNoteFromFretNumber(fret);
+  const noteIgnoreScale: Note| undefined = allNotesOnCourse.getNoteFromFretNumber(fret);
 
   const notesInKey: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
-  const noteIsInKey =
-    note && !!notesInKey.find((noteInKey) => noteInKey.isSimilar(note));
+  const noteIsInKey = note && !!notesInKey.find((noteInKey) => noteInKey.isSimilar(note));
 
   const getRainbowColor = () => {
     if (isRainbowMode && note && noteIsInKey) {
@@ -48,14 +38,13 @@ const KeySegment = (props: IKeySegmentProps) => {
         (semitone) => rainbow[semitone],
       );
 
-      const indexFound = notesInKey.findIndex((noteInKey) =>
-        noteInKey.isSimilar(note),
-      );
+      const indexFound = notesInKey.findIndex((noteInKey) => noteInKey.isSimilar(note));
       return semitoneColors[indexFound];
-    } else {
+    }
+    else {
       return "#BBB";
     }
-  };
+  }
 
   const rainbowColor = getRainbowColor();
 
@@ -63,7 +52,7 @@ const KeySegment = (props: IKeySegmentProps) => {
   const noteDisplay: string = note && isAccidental ? note.id : "";
 
   const noteTextStyle: CSSProperties = {
-    color: isAccidental ? lighten(rainbowColor, 0.4) : rainbowColor,
+    color: isAccidental ? lighten(rainbowColor, .4) : rainbowColor,
     borderRadius: "10px",
     margin: "5px",
     fontWeight: "bold",
@@ -72,14 +61,17 @@ const KeySegment = (props: IKeySegmentProps) => {
   const getBackgroundColor = () => {
     let backgroundColor = isAccidental ? "black" : "white";
     if (noteIsInKey) {
+
+
       if (isAccidental) {
-        backgroundColor = darken(theme.swatch.base0A, 0.4);
-      } else {
+        backgroundColor = darken(theme.swatch.base0A, .4);
+      }
+      else {
         backgroundColor = theme.swatch.base0A;
       }
     }
     return backgroundColor;
-  };
+  }
 
   const keySegmentStyle: CSSProperties = {
     backgroundColor: getBackgroundColor(),
@@ -90,38 +82,11 @@ const KeySegment = (props: IKeySegmentProps) => {
   };
 
   return (
-    <Grid
-      container
-      columns={columnsCount}
-      item
-      xs={2}
-      className="key-segment"
-      alignContent="flex-end"
-      paddingBottom={1}
-      justifyContent="center"
-      style={keySegmentStyle}
-    >
-      <Grid
-        container
-        className="inner"
-        alignContent="center"
-        justifyContent="center"
-      >
+    <Grid container columns={columnsCount} item xs={2} className="key-segment" alignContent="flex-end"  paddingBottom={1} justifyContent="center" style={keySegmentStyle}>
+      <Grid container className="inner" alignContent="center" justifyContent="center">
         {note && (
-          <Grid
-            container
-            className="note-container"
-            alignContent="flex-end"
-            justifyContent="center"
-          >
-            <Grid
-              container
-              item
-              className="note-text"
-              alignContent="center"
-              justifyContent="center"
-              style={noteTextStyle}
-            >
+          <Grid container className="note-container" alignContent="flex-end" justifyContent="center">
+            <Grid container item className="note-text" alignContent="center" justifyContent="center" style={noteTextStyle}>
               {noteDisplay}
             </Grid>
           </Grid>

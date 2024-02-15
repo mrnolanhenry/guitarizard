@@ -1,7 +1,7 @@
 import "./Scalebook.css";
 import React, { CSSProperties, useEffect, useState } from "react";
 // IMPORTANT - must import @mui/icons-material BEFORE @mui/material or app breaks (vite doesn't like)
-import { ScreenRotation as ScreenRotationIcon } from "@mui/icons-material";
+import { ScreenRotation as ScreenRotationIcon } from '@mui/icons-material';
 import { Grid } from "@mui/material";
 import { Constants, Key, Note, Scale, Temperament } from "note-lib";
 import { Base16Theme } from "../../colors/themes";
@@ -25,19 +25,15 @@ interface IScalebookProps {
   isSmallScreen: boolean;
   isMediumScreen: boolean;
   isLargeScreen: boolean;
-
+  isRainbowMode: boolean;
   onInstrumentSelect: (instrument: FrettedInstrument) => void;
   onInstrumentTune: (courseId: string, newTuning: Note) => void;
   onInstrumentTuneToPreset: (tuning: Tuning) => void;
   onKeyNoteSelect: (keyNote: Note) => void;
   onScaleSelect: (scale: Scale) => void;
   temperament: Temperament;
-  updateKey: (key: Key) => void;
-
-  // - - -
   theme: Base16Theme;
-  isRainbowMode: boolean;
-  octaveUIEnabled: boolean;
+  updateKey: (key: Key) => void;
 }
 
 const Scalebook = (props: IScalebookProps) => {
@@ -49,21 +45,19 @@ const Scalebook = (props: IScalebookProps) => {
     isSmallScreen,
     isMediumScreen,
     isLargeScreen,
+    isRainbowMode,
     onInstrumentSelect,
     onInstrumentTune,
     onInstrumentTuneToPreset,
     onKeyNoteSelect,
     onScaleSelect,
     temperament,
-    updateKey,
-    // - - -
     theme,
-    isRainbowMode,
-    octaveUIEnabled,
+    updateKey,
   } = props;
 
   const [showInstrument, setShowInstrument] = useState(!isSmallScreen);
-  useEffect(() => setShowInstrument(!isSmallScreen), [isSmallScreen]);
+  useEffect(() => setShowInstrument(!isSmallScreen), [isSmallScreen])
   const settingsBarStyle: CSSProperties = {
     backgroundColor: theme.swatch.base01,
   };
@@ -78,41 +72,20 @@ const Scalebook = (props: IScalebookProps) => {
       instrument={instrument}
       isMediumScreen={isMediumScreen}
       isLargeScreen={isLargeScreen}
+      isRainbowMode={isRainbowMode}
       onTune={onInstrumentTune}
       temperament={temperament}
       theme={theme}
-      isRainbowMode={isRainbowMode}
-      octaveUIEnabled={octaveUIEnabled}
     />
   ) : (
     <></>
   );
 
   const renderNoteAndIntervalTable = (isSmallScreen: boolean) => {
-    return isSmallScreen ? (
-      <>
-        <Grid container item paddingTop={1} paddingBottom={1}>
-          <Grid item xs={3}>
-            <NoteTable
-              activeKey={activeKey}
-              isSmallScreen={isSmallScreen}
-              isRainbowMode={isRainbowMode}
-              theme={theme}
-            />
-          </Grid>
-          <Grid item xs={9}>
-            <IntervalTable
-              isSmallScreen={isSmallScreen}
-              isRainbowMode={isRainbowMode}
-              scale={activeScale}
-              theme={theme}
-            />
-          </Grid>
-        </Grid>
-      </>
-    ) : (
-      <>
-        <Grid item xs={12} paddingTop={1} paddingBottom={1}>
+    return isSmallScreen ? 
+    <>
+      <Grid container item paddingTop={1} paddingBottom={1}>
+        <Grid item xs={3}>
           <NoteTable
             activeKey={activeKey}
             isSmallScreen={isSmallScreen}
@@ -120,7 +93,7 @@ const Scalebook = (props: IScalebookProps) => {
             theme={theme}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={9}>
           <IntervalTable
             isSmallScreen={isSmallScreen}
             isRainbowMode={isRainbowMode}
@@ -128,22 +101,31 @@ const Scalebook = (props: IScalebookProps) => {
             theme={theme}
           />
         </Grid>
-      </>
-    );
-  };
+      </Grid>
+    </> :
+    <>
+      <Grid item xs={12} paddingTop={1} paddingBottom={1}>
+        <NoteTable
+          activeKey={activeKey}
+          isSmallScreen={isSmallScreen}
+          isRainbowMode={isRainbowMode}
+          theme={theme}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <IntervalTable
+          isSmallScreen={isSmallScreen}
+          isRainbowMode={isRainbowMode}
+          scale={activeScale}
+          theme={theme}
+        />
+      </Grid> 
+    </>
+  }
 
   return (
     <Grid container className="scalebook">
-      <Grid
-        item
-        container
-        xs={12}
-        className="settings-bar"
-        justifyContent="center"
-        paddingTop={1}
-        paddingBottom={1}
-        style={settingsBarStyle}
-      >
+      <Grid item container xs={12} className="settings-bar" justifyContent="center" paddingTop={1} paddingBottom={1} style={settingsBarStyle}>
         {showInstrument && (
           <>
             <Grid item xs={5} sm={5} md="auto" lg="auto">
@@ -178,8 +160,6 @@ const Scalebook = (props: IScalebookProps) => {
             onNoteSelect={onKeyNoteSelect}
             temperament={temperament}
             theme={theme}
-            octaveUIEnabled={false}
-            select_strat="all_notes"
           />
         </Grid>
         <Grid item xs={8} sm="auto" md={4} lg="auto">
@@ -208,26 +188,17 @@ const Scalebook = (props: IScalebookProps) => {
           />
         </Grid>
       </Grid>
-      {isSmallScreen && (
-        <Grid
-          container
-          item
-          xs={12}
-          justifyContent="center"
-          alignContent="center"
-          paddingBottom={2}
-        >
+      {isSmallScreen && 
+        <Grid container item xs={12} justifyContent="center" alignContent="center" paddingBottom={2}>
           <span>Rotate Screen to Show Instrument </span>
-          <ScreenRotationIcon
-            sx={{ paddingLeft: "5px", paddingRight: "5px" }}
-          />
+          <ScreenRotationIcon sx={{ paddingLeft: "5px", paddingRight: "5px" }}/>
         </Grid>
-      )}
-      {showInstrument && (
+      }
+      {showInstrument && 
         <Grid item xs={12} paddingBottom={1}>
           {instrumentComponent}
         </Grid>
-      )}
+      }
       {renderNoteAndIntervalTable(isSmallScreen)}
     </Grid>
   );

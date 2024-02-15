@@ -10,7 +10,6 @@ import { Constants } from "../src";
 
 test("class TunedString", function (t) {
   const { A, Bb, B } = notes;
-  const A1 = A.withOctave(1);
   const smallTwelveTET = new Temperament("small", [A, Bb, B]);
 
   const AString = new TunedString(Constants.A, A, "catgut", 0.2);
@@ -32,7 +31,7 @@ test("class TunedString", function (t) {
   );
   assert.deepEqual(
     AString.getFrettedNotes(smallTwelveTET, 3),
-    [A, Bb, B, A1],
+    [A, Bb, B, A],
     "looping temperament",
   );
 

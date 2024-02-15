@@ -21,15 +21,8 @@ interface IKeyBoardProps {
 }
 
 const KeyBoard = (props: IKeyBoardProps) => {
-  const {
-    activeKey,
-    fretBoard,
-    isMediumScreen,
-    isLargeScreen,
-    isRainbowMode,
-    temperament,
-    theme,
-  } = props;
+  const { activeKey, fretBoard, isMediumScreen, isLargeScreen, isRainbowMode, onTune, temperament, theme } =
+    props;
 
   const getMaxFretCount = () => {
     let maxFretCount = fretBoard.getFretCount();
@@ -38,7 +31,7 @@ const KeyBoard = (props: IKeyBoardProps) => {
       maxFretCount = Math.round((temperament.notes.length + 1) * multiple);
     }
     return maxFretCount;
-  };
+  } 
   const maxFretCount = getMaxFretCount();
   const columnsCount = maxFretCount * 2;
 
@@ -54,22 +47,14 @@ const KeyBoard = (props: IKeyBoardProps) => {
     activeKey.note,
   );
 
-  const getWidthBasedOnNeighboringNotes = (
-    scaleOnCourse: ScaleOnCourse,
-    fretNumber: number,
-  ): number => {
+  const getWidthBasedOnNeighboringNotes = (scaleOnCourse: ScaleOnCourse, fretNumber: number):number => {
     let columnWidth = 3;
     if (fretNumber !== 0) {
       const prevNote = scaleOnCourse.getNoteFromFretNumber(fretNumber - 1);
       const nextNote = scaleOnCourse.getNoteFromFretNumber(fretNumber + 1);
-      if (
-        prevNote &&
-        prevNote.isAccidental() &&
-        nextNote &&
-        nextNote.isAccidental()
-      ) {
+      if (prevNote && prevNote.isAccidental() && nextNote && nextNote.isAccidental()) {
         columnWidth = 4;
-      }
+      };
     }
     return Math.min(columnsRemaining, columnWidth);
   };
@@ -79,7 +64,7 @@ const KeyBoard = (props: IKeyBoardProps) => {
     const allNotesOnCourse: ScaleOnCourse = allNotesOnCourses[courseIndex];
 
     return tunedStrings.map((tunedString, stringIndex) => {
-      const keySegments = [...Array(maxFretCount)].map((_, i) => {
+      const keySegments = [...Array(maxFretCount)].map((_, i) => {      
         return (
           <KeySegment
             activeKey={activeKey}
@@ -96,10 +81,7 @@ const KeyBoard = (props: IKeyBoardProps) => {
       const keySegmentBottoms = [...Array(maxFretCount)].map((_, i) => {
         const note = allNotesOnCourse.getNoteFromFretNumber(i);
         if (note && !note.isAccidental()) {
-          const columnWidth = getWidthBasedOnNeighboringNotes(
-            allNotesOnCourse,
-            i,
-          );
+          const columnWidth = getWidthBasedOnNeighboringNotes(allNotesOnCourse, i);
           columnsRemaining = columnsRemaining - columnWidth;
           return (
             <KeySegmentBottom
@@ -135,7 +117,7 @@ const KeyBoard = (props: IKeyBoardProps) => {
   );
 
   const style: CSSProperties = {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderColor: theme.swatch.base00,
   };
 

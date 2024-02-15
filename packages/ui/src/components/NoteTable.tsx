@@ -81,9 +81,7 @@ const NoteTable = (props: INoteTableProps) => {
           );
 
           return (
-            <Grid
-              item
-              xs={1}
+            <Grid item xs={1}
               key={`note-item-${i}:${(correctNote as Note).id}`}
               className="noteItem"
               style={noteTextStyle}
@@ -100,24 +98,8 @@ const NoteTable = (props: INoteTableProps) => {
     const xsColumns: number = notes.length + 2;
 
     return (
-      <Grid
-        item
-        container
-        id="noteRow"
-        xs={xsColumns}
-        sm={xsColumns - 1}
-        lg={xsColumns - 1}
-        columns={isSmallScreen ? xsColumns : xsColumns - 1}
-      >
-        <Grid
-          item
-          className="noteItem"
-          xs={2}
-          sm={1}
-          md={1}
-          lg={1}
-          style={noteStyle}
-        >
+      <Grid item container id="noteRow" xs={xsColumns} sm={xsColumns - 1} lg={xsColumns - 1} columns={isSmallScreen ? xsColumns : xsColumns - 1}>
+        <Grid item className="noteItem" xs={2} sm={1} md={1} lg={1} style={noteStyle}>
           {findFlats ? "Flats:" : "Sharps:"}
         </Grid>
         {mapNotes(findFlats)}
@@ -128,15 +110,7 @@ const NoteTable = (props: INoteTableProps) => {
   const renderNoteColumn = (findFlats: boolean): JSX.Element => {
     return (
       <Grid item container id="noteColumn" direction="column">
-        <Grid
-          item
-          className="noteItem"
-          xs={2}
-          sm={1}
-          md={1}
-          lg={1}
-          style={noteStyle}
-        >
+        <Grid item className="noteItem" xs={2} sm={1} md={1} lg={1} style={noteStyle}>
           {findFlats ? "Flats:" : "Sharps:"}
         </Grid>
         {mapNotes(findFlats)}
@@ -144,30 +118,23 @@ const NoteTable = (props: INoteTableProps) => {
     );
   };
 
-  const renderNoteData = (isSmallScreen: boolean, findFlats: boolean) =>
-    isSmallScreen ? renderNoteColumn(findFlats) : renderNoteRow(findFlats);
+  const renderNoteData = (isSmallScreen: boolean, findFlats: boolean) => isSmallScreen ? renderNoteColumn(findFlats) : renderNoteRow(findFlats);
   const renderNoteDataTable = () => {
-    return isSmallScreen ? (
-      <Grid container item>
-        <Grid item xs={6}>
-          {renderNoteData(isSmallScreen, true)}
-        </Grid>
-        <Grid item xs={6}>
-          {renderNoteData(isSmallScreen, false)}
-        </Grid>
-      </Grid>
-    ) : (
-      <>
-        {renderNoteData(isSmallScreen, true)}
-        {renderNoteData(isSmallScreen, false)}
-      </>
-    );
-  };
+    return isSmallScreen ?
+    <Grid container item>
+      <Grid item xs={6}>{renderNoteData(isSmallScreen, true)}</Grid>
+      <Grid item xs={6}>{renderNoteData(isSmallScreen, false)}</Grid>
+    </Grid> :
+    <>
+      {renderNoteData(isSmallScreen, true)}
+      {renderNoteData(isSmallScreen, false)}
+    </>
+  }
 
   return (
     <Grid container id="noteTable">
       <Grid item xs={12}>
-        <span style={{ fontSize: fontSize }}>Notes included:</span>
+        <span style={{fontSize: fontSize}}>Notes included:</span>
       </Grid>
       {renderNoteDataTable()}
     </Grid>

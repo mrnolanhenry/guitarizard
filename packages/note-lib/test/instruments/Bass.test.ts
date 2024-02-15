@@ -4,12 +4,14 @@ import assert from "node:assert/strict";
 import { Note } from "../../src";
 import { twelveTET } from "../../src/data/temperaments/twelveTET";
 import { Bass } from "../../src/instruments/Bass";
+import { Tuning } from "../../src/Tuning";
 
 const A: Note = twelveTET.getNoteFromID("A");
 const B: Note = twelveTET.getNoteFromID("B");
 const C: Note = twelveTET.getNoteFromID("C");
 const D: Note = twelveTET.getNoteFromID("D");
 const E: Note = twelveTET.getNoteFromID("E");
+const F: Note = twelveTET.getNoteFromID("F");
 const G: Note = twelveTET.getNoteFromID("G");
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -21,6 +23,51 @@ test("class Bass -- init", function (_t) {
   assert.ok(defaultBass);
   assert.ok(fiveStringBass);
   assert.ok(sixStringBass);
+
+  assert.deepEqual(
+    defaultBass.getCommonTunings(),
+    [
+      new Tuning("bass", "standard", [E, A, D, G]),
+      new Tuning("bass", "drop D", [D, A, D, G]),
+      new Tuning("bass", "D-standard", [D, G, C, F]),
+      new Tuning("bass", "drop C", [C, G, C, F]),
+      new Tuning("bass", "tenor", [A, D, G, C]),
+    ],
+    "common tunings found",
+  );
+
+  assert.deepEqual(
+    fiveStringBass.getCommonTunings(),
+    [
+      new Tuning("bass (5 string)", "standard", [B, E, A, D, G]),
+      new Tuning("bass (5 string)", "tenor", [E, A, D, G, C]),
+    ],
+    "common tunings found - 5 string",
+  );
+
+  assert.deepEqual(
+    sixStringBass.getCommonTunings(),
+    [new Tuning("bass (6 string)", "standard", [B, E, A, D, G, C])],
+    "common tunings found - 6 string",
+  );
+
+  assert.deepEqual(
+    defaultBass.getStandardTuning(),
+    new Tuning("bass", "standard", [E, A, D, G]),
+    "standard tuning found",
+  );
+
+  assert.deepEqual(
+    fiveStringBass.getStandardTuning(),
+    new Tuning("bass (5 string)", "standard", [B, E, A, D, G]),
+    "standard tuning found - 5 string",
+  );
+
+  assert.deepEqual(
+    sixStringBass.getStandardTuning(),
+    new Tuning("bass (6 string)", "standard", [B, E, A, D, G, C]),
+    "standard tuning found - 6 string",
+  );
 
   assert.equal(
     defaultBass.fretBoard.courses.length,

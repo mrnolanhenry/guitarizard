@@ -4,36 +4,16 @@ import { NotePitch } from "./enums/NotePitch";
 
 export type NoteID = string;
 
-export type Octave = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-
 export class Note {
   id: NoteID;
   pitch: NotePitch;
   aliasNotes: Note[];
-  octave: Octave;
 
   // TODO: Don't use array of keys & enforce with type
   constructor(id: NoteID, pitch: NotePitch, aliasNotes?: Note[]) {
     this.id = id;
     this.pitch = pitch;
     this.aliasNotes = aliasNotes ?? [];
-    this.octave = 0;
-  }
-
-  clone(): Note {
-    const clone = new Note(this.id, this.pitch, this.aliasNotes);
-    clone.octave = this.octave;
-    return clone;
-  }
-
-  withOctave(octave: Octave): Note {
-    const note_1 = this.clone();
-    note_1.setOctave(octave);
-    return note_1;
-  }
-
-  setOctave(octave: Octave): void {
-    this.octave = octave;
   }
 
   addAliasNote(note: Note): void {
@@ -96,11 +76,12 @@ export class Note {
 
   isAccidental(): boolean {
     const flatFound = this.findFlat();
-    if (flatFound) {
+     if(!!flatFound) {
       return !!flatFound;
-    } else {
+     }
+     else {
       return !!this.findSharp();
-    }
+     }
   }
 
   toJSON() {
@@ -112,7 +93,6 @@ export class Note {
         id: aliasNote.id,
         pitch: aliasNote.pitch,
       })),
-      octave: this.octave,
     };
   }
 

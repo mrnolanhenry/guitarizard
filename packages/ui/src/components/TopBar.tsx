@@ -1,9 +1,10 @@
 import "./TopBar.css";
 import React, { CSSProperties, useEffect } from "react";
-import { ToolName } from "./selectors/ToolSelector";
+import { ToolSelector, ToolName } from "./selectors/ToolSelector";
 import { Base16Theme } from "../colors/themes";
-import { Settings as SettingsIcon } from "@mui/icons-material";
-import { Grid, IconButton } from "@mui/material";
+import { ThemeSelector } from './selectors/ThemeSelector';
+import { Settings as SettingsIcon } from '@mui/icons-material';
+import { Grid, IconButton, useTheme } from "@mui/material";
 import { IAppDialogState } from "./AppDialog";
 import { SettingsMenu } from "./SettingsMenu";
 
@@ -12,6 +13,7 @@ interface Props {
   dialogState: IAppDialogState;
   isAuthenticated: boolean;
   isDarkTheme: boolean;
+  isRainbowMode: boolean;
   isSmallScreen: boolean;
   onLoginClick: () => void;
   onLogoutClick: () => void;
@@ -19,29 +21,24 @@ interface Props {
   setDialogState: React.Dispatch<React.SetStateAction<IAppDialogState>>;
   setTheme: React.Dispatch<React.SetStateAction<Base16Theme>>;
   theme: Base16Theme;
-  isRainbowMode: boolean;
   toggleRainbowMode: () => void;
-  octaveUIEnabled: boolean;
-  toggleOctaveUIMode: () => void;
 }
 
 const TopBar = (props: Props) => {
   const {
+    activeToolName,
     dialogState,
     isAuthenticated,
     isDarkTheme,
+    isRainbowMode,
     isSmallScreen,
     onLoginClick,
     onLogoutClick,
+    onToolSelect,
     setDialogState,
     setTheme,
     theme,
-    // - - -
-    // Settings
-    isRainbowMode,
-    toggleRainbowMode,
-    octaveUIEnabled,
-    toggleOctaveUIMode,
+    toggleRainbowMode
   } = props;
 
   // NOLAN TODO - This is a poor way of making the dialog dynamic AND reload props,
@@ -49,10 +46,10 @@ const TopBar = (props: Props) => {
   // Would need to give dialog an id prop (like id="settings") to check which inner dialog component to render.
   useEffect(() => {
     setDialogState({
-      ...dialogState,
-      content: renderSettingsMenu(),
-    });
-  }, [isRainbowMode, octaveUIEnabled, theme]);
+      ...dialogState, 
+      content: renderSettingsMenu()
+      });
+  }, [isRainbowMode, theme]);
 
   const auth = isAuthenticated ? (
     <div onClick={onLogoutClick}>logout</div>
@@ -78,56 +75,34 @@ const TopBar = (props: Props) => {
     textShadow: `0 0 1px ${theme.swatch.base00}`,
   };
 
-  const renderSettingsMenu = () => {
-    return (
-      <SettingsMenu
-        setTheme={setTheme}
-        theme={theme}
-        isRainbowMode={isRainbowMode}
-        toggleRainbowMode={toggleRainbowMode}
-        octaveUIEnabled={octaveUIEnabled}
-        toggleOctaveUIMode={toggleOctaveUIMode}
-      />
-    );
+  const onThemeSelect = (theme: Base16Theme): void => {
+    setTheme(theme);
+    localStorage.setItem("theme", theme.id);
   };
 
+  const renderSettingsMenu = () => {
+    return (
+      <SettingsMenu 
+        isRainbowMode={isRainbowMode}
+        setTheme={setTheme}
+        theme={theme}
+        toggleRainbowMode={toggleRainbowMode}
+      />
+    )
+  }
+
   return (
-    <Grid
-      container
-      className="top-bar"
-      alignItems="center"
-      style={style}
-      padding={isSmallScreen ? 2 : 1}
-    >
-      <Grid
-        item
-        container
-        className="left"
-        xs={9}
-        sm={3}
-        md={2}
-        justifyContent={"flex-start"}
-        style={leftStyle}
-      >
+    <Grid container className="top-bar" alignItems="center" style={style} padding={isSmallScreen ? 2 : 1}>
+      <Grid item container className="left" xs={9} sm={3} md={2} justifyContent={"flex-start"} style={leftStyle}>
         {logo}
-        <span style={{ position: "relative", left: "-10px" }}>uitarizard</span>
+        <span style={{ position: 'relative', left: '-10px' }}>uitarizard</span>
       </Grid>
-      {!isSmallScreen && (
+      {!isSmallScreen &&
         <Grid item container className="center" sm={2} md={5} lg={6}>
-          {auth}
+        {auth}
         </Grid>
-      )}
-      <Grid
-        item
-        container
-        className="right"
-        xs={3}
-        sm={7}
-        md={5}
-        lg={4}
-        justifyContent="flex-end"
-        columnSpacing={2}
-      >
+      }
+      <Grid item container className="right" xs={3} sm={7} md={5} lg={4} justifyContent="flex-end" columnSpacing={2}>
         {/* NOLAN TODO - Bring back once we have more Tools!
         <Grid item xs={6} sm="auto">
           <ToolSelector
@@ -138,22 +113,19 @@ const TopBar = (props: Props) => {
             theme={theme}
           />
         </Grid> */}
-        <div
-          id="settings-button"
-          aria-label="settings-button"
-          onClick={() =>
-            setDialogState({
-              ...dialogState,
-              isOpen: true,
-              title: "Settings",
-              content: renderSettingsMenu(),
-            })
-          }
-        >
-          <IconButton color="secondary">
-            <SettingsIcon />
-          </IconButton>
-        </div>
+          <div 
+            id="settings-button" 
+            aria-label="settings-button" 
+            onClick={() => setDialogState({
+              ...dialogState, 
+              isOpen: true, 
+              title: "Settings", 
+              content: renderSettingsMenu()
+              })}>
+            <IconButton color="secondary">
+              <SettingsIcon />
+            </IconButton>
+          </div>
       </Grid>
     </Grid>
   );

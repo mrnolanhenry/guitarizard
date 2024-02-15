@@ -15,11 +15,9 @@ export class ScaleOnCourse {
   }
 
   getNoteFromFretNumber(fretNumber: number): Note | undefined {
-    const noteFretNumberPair: NoteFretNumberPair | undefined = this.notes.find(
-      (note) => note.fretNumber === fretNumber,
-    );
+    const noteFretNumberPair: NoteFretNumberPair| undefined =  this.notes.find((note) => note.fretNumber === fretNumber);
     return noteFretNumberPair ? noteFretNumberPair.value : undefined;
-  }
+  };
 
   toJSON() {
     return {

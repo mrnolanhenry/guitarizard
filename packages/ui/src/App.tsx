@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import "./App.css";
-import React, { CSSProperties, useState, useEffect, useCallback } from "react";
+import React, { CSSProperties, useState, useEffect } from "react";
 import { themes, cloudCity, Base16Theme } from "./colors/themes";
 import { ToolName } from "./components/selectors/ToolSelector";
 import { TopBar } from "./components/TopBar";
@@ -12,114 +12,46 @@ import { Course } from "note-lib/src/Course";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { FretBoard } from "note-lib/src/FretBoard";
 import { Grid } from "@mui/material";
-import {
-  getContrastRatio,
-  ThemeProvider,
-  useTheme,
-} from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import { getContrastRatio, ThemeProvider, useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { AppDialog, IAppDialogState } from "./components/AppDialog";
 
 type InstrumentMap = Map<string, FrettedInstrument>;
 
 const initInstruments = (temperament: Temperament) => {
+  const A: Note = temperament.getNoteFromID(Constants.A) as Note;
+  const B: Note = temperament.getNoteFromID(Constants.B) as Note;
+  const C: Note = temperament.getNoteFromID(Constants.C) as Note;
+  const D: Note = temperament.getNoteFromID(Constants.D) as Note;
+  const E: Note = temperament.getNoteFromID(Constants.E) as Note;
+  const Fs: Note = temperament.getNoteFromID(Constants.F_SHARP) as Note;
+  const G: Note = temperament.getNoteFromID(Constants.G) as Note;
+
   const instrumentMap: InstrumentMap = new Map();
-
-  const guitar = new instrument.Guitar(21, [
-    temperament.getNoteFromID(Constants.E)!.withOctave(2),
-    temperament.getNoteFromID(Constants.A)!.withOctave(2),
-    temperament.getNoteFromID(Constants.D)!.withOctave(3),
-    temperament.getNoteFromID(Constants.G)!.withOctave(3),
-    temperament.getNoteFromID(Constants.B)!.withOctave(3),
-    temperament.getNoteFromID(Constants.E)!.withOctave(4),
-  ]);
-
-  // TODO: verify octave
-  const sevenStringGuitar = new instrument.Guitar(21, [
-    temperament.getNoteFromID(Constants.B)!.withOctave(2),
-    temperament.getNoteFromID(Constants.E)!.withOctave(2),
-    temperament.getNoteFromID(Constants.A)!.withOctave(3),
-    temperament.getNoteFromID(Constants.D)!.withOctave(3),
-    temperament.getNoteFromID(Constants.G)!.withOctave(3),
-    temperament.getNoteFromID(Constants.B)!.withOctave(4),
-    temperament.getNoteFromID(Constants.E)!.withOctave(4),
-  ]);
-
-  // TODO: verify octave
+  const guitar = new instrument.Guitar(21, [E, A, D, G, B, E]);
+  const sevenStringGuitar = new instrument.Guitar(21, [B, E, A, D, G, B, E]);
   const eightStringGuitar = new instrument.Guitar(21, [
-    temperament.getNoteFromID(Constants.F_SHARP)!.withOctave(2),
-    temperament.getNoteFromID(Constants.B)!.withOctave(2),
-    temperament.getNoteFromID(Constants.E)!.withOctave(2),
-    temperament.getNoteFromID(Constants.A)!.withOctave(3),
-    temperament.getNoteFromID(Constants.D)!.withOctave(3),
-    temperament.getNoteFromID(Constants.G)!.withOctave(3),
-    temperament.getNoteFromID(Constants.B)!.withOctave(4),
-    temperament.getNoteFromID(Constants.E)!.withOctave(4),
+    Fs,
+    B,
+    E,
+    A,
+    D,
+    G,
+    B,
+    E,
   ]);
-
-  // TODO: verify octave
   const twelveStringGuitar = new instrument.Guitar(
     21,
-    [
-      temperament.getNoteFromID(Constants.E)!.withOctave(2),
-      temperament.getNoteFromID(Constants.A)!.withOctave(2),
-      temperament.getNoteFromID(Constants.D)!.withOctave(3),
-      temperament.getNoteFromID(Constants.G)!.withOctave(3),
-      temperament.getNoteFromID(Constants.B)!.withOctave(3),
-      temperament.getNoteFromID(Constants.E)!.withOctave(4),
-    ],
+    [E, A, D, G, B, E],
     true,
   );
-
-  const banjo = new instrument.Banjo(21, [
-    temperament.getNoteFromID(Constants.G)!.withOctave(4),
-    temperament.getNoteFromID(Constants.D)!.withOctave(3),
-    temperament.getNoteFromID(Constants.G)!.withOctave(3),
-    temperament.getNoteFromID(Constants.B)!.withOctave(3),
-    temperament.getNoteFromID(Constants.D)!.withOctave(4),
-  ]);
-
-  const fourStringBass = new instrument.Bass(21, [
-    temperament.getNoteFromID(Constants.E)!.withOctave(1),
-    temperament.getNoteFromID(Constants.A)!.withOctave(1),
-    temperament.getNoteFromID(Constants.D)!.withOctave(2),
-    temperament.getNoteFromID(Constants.G)!.withOctave(2),
-  ]);
-
-  const fiveStringBass = new instrument.Bass(21, [
-    temperament.getNoteFromID(Constants.B)!.withOctave(0),
-    temperament.getNoteFromID(Constants.E)!.withOctave(1),
-    temperament.getNoteFromID(Constants.A)!.withOctave(1),
-    temperament.getNoteFromID(Constants.D)!.withOctave(2),
-    temperament.getNoteFromID(Constants.G)!.withOctave(2),
-  ]);
-
-  const sixStringBass = new instrument.Bass(21, [
-    temperament.getNoteFromID(Constants.B)!.withOctave(0),
-    temperament.getNoteFromID(Constants.E)!.withOctave(1),
-    temperament.getNoteFromID(Constants.A)!.withOctave(1),
-    temperament.getNoteFromID(Constants.D)!.withOctave(2),
-    temperament.getNoteFromID(Constants.G)!.withOctave(2),
-    temperament.getNoteFromID(Constants.C)!.withOctave(3),
-  ]);
-
-  const mandolin = new instrument.Mandolin(17, [
-    temperament.getNoteFromID(Constants.G)!.withOctave(2),
-    temperament.getNoteFromID(Constants.D)!.withOctave(3),
-    temperament.getNoteFromID(Constants.A)!.withOctave(3),
-    temperament.getNoteFromID(Constants.E)!.withOctave(4),
-  ]);
-
-  const piano = new instrument.Piano(40, [
-    temperament.getNoteFromID(Constants.C)!.withOctave(0),
-  ]);
-
-  const ukulele = new instrument.Ukulele(20, [
-    temperament.getNoteFromID(Constants.G)!.withOctave(4),
-    temperament.getNoteFromID(Constants.C)!.withOctave(4),
-    temperament.getNoteFromID(Constants.E)!.withOctave(4),
-    temperament.getNoteFromID(Constants.A)!.withOctave(4),
-  ]);
+  const banjo = new instrument.Banjo(21, [G, D, G, B, D]);
+  const fourStringBass = new instrument.Bass(21, [E, A, D, G]);
+  const fiveStringBass = new instrument.Bass(21, [B, E, A, D, G]);
+  const sixStringBass = new instrument.Bass(21, [B, E, A, D, G, C]);
+  const mandolin = new instrument.Mandolin(17, [G, D, A, E]);
+  const piano = new instrument.Piano(40, [C]);
+  const ukulele = new instrument.Ukulele(20, [G, C, E, A]);
 
   instrumentMap.set("guitar", guitar);
   instrumentMap.set("guitar (7 string)", sevenStringGuitar);
@@ -136,46 +68,30 @@ const initInstruments = (temperament: Temperament) => {
 };
 
 const App = () => {
-  // todo($): move to Context vs. prop drilling these:
-  //   - theme
-  //   - isRainbowMode
-  //   - octaveUIEnabled
   const [theme, setTheme] = useState(cloudCity);
-  const [isRainbowMode, setIsRainbowMode] = useState(true);
-  const [octaveUIEnabled, setOctaveUIEnabled] = useState(false);
-
   const secondaryMain = theme.swatch.base05;
 
   const isDarkColor = (color: string): boolean => {
     const contrastThreshold: number = 4.5;
-    return getContrastRatio(color, "#fff") > contrastThreshold;
-  };
+    return getContrastRatio(color, '#fff') > contrastThreshold;
+  }
 
-  const getContrastText = (color: string) =>
-    isDarkColor(color) ? "#fff" : "#111";
+  const getContrastText = (color: string) =>  isDarkColor(color) ? '#fff' : '#111';
 
   const muiTheme = useTheme();
   muiTheme.palette.secondary = {
     main: secondaryMain,
     light: theme.swatch.base06,
     dark: theme.swatch.base02,
-    contrastText: getContrastText(secondaryMain),
+    contrastText: getContrastText(secondaryMain)
   };
 
-  // - - -
-  // todo ($): move `is{Small/Medium/Large}Screen` into Context vs. prop-drilling
   const isSmallScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("sm"));
-  const isMediumScreen: boolean =
-    useMediaQuery(muiTheme.breakpoints.down("md")) && !isSmallScreen;
+  const isMediumScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("md")) && !isSmallScreen;
   // NOLAN TODO - isLarge, not isExtraLarge!! be careful with this mediaQuery, consider renaming
-  const isLargeScreen: boolean =
-    useMediaQuery(muiTheme.breakpoints.down("lg")) &&
-    !isSmallScreen &&
-    !isMediumScreen;
-
+  const isLargeScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("lg")) && !isSmallScreen && !isMediumScreen;
   // NOLAN TODO - for later use
   // const isPortrait: boolean = useMediaQuery(`(orientation: portrait)`);
-  // - - -
 
   const twelveTET: Temperament = data.temperaments.find(
     (temperament) => temperament.name === Constants.TWELVE_TET,
@@ -193,31 +109,25 @@ const App = () => {
   const [activeTuning, setActiveTuning] = useState(
     initInstrument.getStandardTuning(),
   );
-
+  const [isRainbowMode, setIsRainbowMode] = useState(true);
   const [activeTemperament, setActiveTemperament] = useState(twelveTET);
   const [activeToolName, setActiveToolName] = useState("scalebook");
-  const initDialogState: IAppDialogState = { isOpen: false };
+  const initDialogState: IAppDialogState = { isOpen: false }
   const [dialogState, setDialogState] = useState(initDialogState);
 
   useEffect(() => {
     const ls_theme = localStorage.getItem("theme");
     if (ls_theme) {
-      const themeFound = themes.find(
-        (theme: Base16Theme) => theme.id === ls_theme,
-      );
+      const themeFound = themes.find((theme: Base16Theme) => theme.id === ls_theme);
       if (themeFound) {
         setTheme(themeFound);
       }
     }
-  }, [setTheme]);
+  }, [ setTheme ]);
 
-  const toggleRainbowMode = useCallback((): void => {
+  const toggleRainbowMode = (): void => {
     setIsRainbowMode(!isRainbowMode);
-  }, [isRainbowMode, setIsRainbowMode]);
-
-  const toggleOctaveUIMode = useCallback((): void => {
-    setOctaveUIEnabled(!octaveUIEnabled);
-  }, [octaveUIEnabled, setOctaveUIEnabled]);
+  };
 
   const onKeyNoteSelect = (keyNote: Note): void => {
     setActiveKey(new Key(keyNote, activeKey.scale));
@@ -320,7 +230,6 @@ const App = () => {
           onScaleSelect={onScaleSelect}
           theme={theme}
           updateKey={updateKey}
-          octaveUIEnabled={octaveUIEnabled}
         />
       );
       break;
@@ -338,19 +247,14 @@ const App = () => {
 
   return (
     <ThemeProvider theme={muiTheme}>
-      <Grid
-        container
-        id="app"
-        justifyContent="center"
-        alignItems="center"
-        style={style}
-      >
+      <Grid container id="app" justifyContent="center" alignItems="center" style={style}>
         <Grid item xs={12}>
           <TopBar
             activeToolName={activeToolName as ToolName}
             dialogState={dialogState}
             isAuthenticated={false}
             isDarkTheme={isDarkColor(theme.swatch.base01)}
+            isRainbowMode={isRainbowMode}
             isSmallScreen={isSmallScreen}
             onLoginClick={() => false}
             onLogoutClick={() => false}
@@ -360,22 +264,14 @@ const App = () => {
             setDialogState={setDialogState}
             setTheme={setTheme}
             theme={theme}
-            isRainbowMode={isRainbowMode}
             toggleRainbowMode={toggleRainbowMode}
-            octaveUIEnabled={octaveUIEnabled}
-            toggleOctaveUIMode={toggleOctaveUIMode}
           />
         </Grid>
         <Grid item xs={12}>
           {tool}
         </Grid>
       </Grid>
-      <AppDialog
-        dialogState={dialogState}
-        setDialogState={setDialogState}
-        fullScreen={isSmallScreen}
-        theme={theme}
-      />
+      <AppDialog dialogState={dialogState} setDialogState={setDialogState} fullScreen={isSmallScreen} theme={theme} />
     </ThemeProvider>
   );
 };

@@ -11,59 +11,18 @@ interface INoteSelectorProps {
   onNoteSelect: (note: Note) => void;
   temperament: Temperament;
   theme: Base16Theme;
-  octaveUIEnabled: boolean;
-  select_strat: SelectStrategy;
 }
 
-type SelectStrategy = "before_and_after" | "all_notes";
-
 const NoteSelector = (props: INoteSelectorProps) => {
-  const {
-    id,
-    label,
-    minWidth,
-    note,
-    onNoteSelect,
-    temperament,
-    theme,
-    octaveUIEnabled,
-    select_strat,
-  } = props;
-
-  let noteItems: Note[] = [];
-
-  switch (select_strat) {
-    case "all_notes": {
-      noteItems = temperament.notes.map((n) => n.clone());
-      break;
-    }
-    case "before_and_after": {
-      const previousNotes: Note[] = [];
-      for (let i = 0; i < temperament.notes.length; i++) {
-        previousNotes.push(temperament.getNextNote(note, -i));
-      }
-      previousNotes.reverse();
-
-      const nextNotes: Note[] = [];
-      for (let i = 1; i < temperament.notes.length; i++) {
-        previousNotes.push(temperament.getNextNote(note, i));
-      }
-
-      noteItems = previousNotes.concat(nextNotes);
-      break;
-    }
-  }
-
+  const { id, label, minWidth, note, onNoteSelect, temperament, theme } = props;
   return (
     <LabeledSelector<Note>
       id={`note-selector-${id}`}
       label={label}
       minWidth={minWidth}
-      items={noteItems}
+      items={temperament.getNotesInTemperament()}
       getValue={(note: Note) => note.id}
-      getDisplay={(note: Note) =>
-        `${note.id}${octaveUIEnabled ? note.octave : ""}`
-      }
+      getDisplay={(note: Note) => note.id}
       activeItem={note}
       onChange={onNoteSelect}
       theme={theme}

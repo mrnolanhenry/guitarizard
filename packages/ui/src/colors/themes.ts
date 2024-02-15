@@ -22,8 +22,8 @@ export interface Base16Theme {
 }
 
 export const bespin: Base16Theme = {
-  id: "bespin",
-  name: "Bespin",
+  id: 'bespin',
+  name: 'Bespin',
   swatch: {
     base00: "#28211c",
     base01: "#36312e",
@@ -41,12 +41,12 @@ export const bespin: Base16Theme = {
     base0D: "#5ea6ea",
     base0E: "#9b859d",
     base0F: "#937121",
-  },
+  }
 };
 
 export const cloudCity: Base16Theme = {
-  id: "cloudCity",
-  name: "Cloud City",
+  id: 'cloudCity',
+  name: 'Cloud City',
   swatch: {
     base00: "#1E1712",
     base01: "#2C2724",
@@ -64,12 +64,12 @@ export const cloudCity: Base16Theme = {
     base0D: "#5ea6ea",
     base0E: "#3B3633",
     base0F: "#7D4626",
-  },
+  }
 };
 
 export const tomorrow: Base16Theme = {
-  id: "tomorrow",
-  name: "Tomorrow",
+  id: 'tomorrow',
+  name: 'Tomorrow',
   swatch: {
     base00: "#ffffff",
     base01: "#e0e0e0",
@@ -87,10 +87,14 @@ export const tomorrow: Base16Theme = {
     base0D: "#4271ae",
     base0E: "#8959a8",
     base0F: "#a3685a",
-  },
+  }
 };
 
-export const themes = [bespin, cloudCity, tomorrow];
+export const themes = [
+  bespin,
+  cloudCity,
+  tomorrow
+];
 
 export const rainbow = [
   "#FA3C3C",
