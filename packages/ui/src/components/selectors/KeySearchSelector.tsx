@@ -70,20 +70,23 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
         .split(",")
         .map((val) => val.trim())
         .filter((val) => !!val);
-      let filterOptions = potentialKeys.filter((key) =>
+      console.log("inputValues", inputValues);
+      // NOLAN TODO: Investigate bug
+      // Search for Keys "A, C, E, -G" returns no options at first. Then backspace twice and retype "-G" and it works.
+      let filteredOptions = potentialKeys.filter((key) =>
         isKeyDisplayNameMatch(key, trimVal),
       );
 
-      if (filterOptions.length === 0) {
-        filterOptions = potentialKeys.filter((key) =>
+      if (filteredOptions.length === 0) {
+        filteredOptions = potentialKeys.filter((key) =>
           isNoteMatch(key, inputValues),
         );
       }
 
       if (isInsertingText) {
-        setPotentialKeys(filterOptions);
+        setPotentialKeys(filteredOptions);
       }
-      return filterOptions;
+      return filteredOptions;
     }
   };
 
@@ -94,16 +97,23 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
     _state: FilterOptionsState<Key>,
   ): Key[] => filterOptions;
 
+  // check a key by key name
+  // e.g. "alg", "algerian", "Gb alg", "Gb algerian", etc.
   const isKeyDisplayNameMatch = (key: Key, inputValue: string) => {
     return key.getDisplayName().toLowerCase().includes(inputValue);
   };
-
+  // check a key by notes in the key
+  // e.g. "A", "A, B", "A, B, C#", "A, B, C#, D", "A, B, C#, D, Eb", etc.
+  // OR even "A, B, C#, D, Eb, -F, -Gb" which would look for a key with A, B, C#, D, Eb, but not F or Gb
   const isNoteMatch = (key: Key, inputValues: string[]) => {
     let allNotesMatch: boolean = true;
 
     inputValues.forEach((value) => {
       const trimVal = value.trim();
-      const noteToFind = temperament.getNoteFromID(trimVal);
+      // if the value starts with a "-", it means we want to avoid finding that note from the key
+      const isNoteToAvoid: boolean = trimVal.startsWith("-");
+      const noteVal = isNoteToAvoid ? trimVal.substring(1) : trimVal;
+      const noteToFind = temperament.getNoteFromID(noteVal);
       if (!noteToFind) {
         allNotesMatch = false;
       } else {
@@ -111,7 +121,11 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
         const noteFound: boolean = !!notesInKey.find((note) =>
           note.isSimilar(noteToFind),
         );
-        if (!noteFound) {
+        if ((!noteFound && !isNoteToAvoid) || (noteFound && isNoteToAvoid)) {
+          console.log("noteToFind", noteToFind);
+          console.log("noteFound", noteFound);
+          console.log("isNoteToAvoid", isNoteToAvoid);
+          // if we didn't find the note in the key, and it's not a note to avoid, or we found the note in the key and it is a note to avoid
           allNotesMatch = false;
         }
       }
