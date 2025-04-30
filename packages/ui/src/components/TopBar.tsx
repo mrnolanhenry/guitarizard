@@ -60,7 +60,7 @@ const TopBar = (props: Props) => {
   const logo = (
     <img
       className={`logo ${!isDarkTheme ? "shadowed" : ""}`}
-      src="/favicon_v5.png"
+      src="/favicon_v6.png"
     />
   );
 
@@ -95,7 +95,7 @@ const TopBar = (props: Props) => {
     <Grid container className="top-bar" alignItems="center" style={style} padding={isSmallScreen ? 2 : 1}>
       <Grid item container className="left" xs={9} sm={3} md={2} justifyContent={"flex-start"} style={leftStyle}>
         {logo}
-        <span style={{ position: 'relative', left: '-10px' }}>uitarizard</span>
+        <span style={{ position: 'relative', left: '-10px', color: '#d8c0a9' }}>uitarizard</span>
       </Grid>
       {!isSmallScreen &&
         <Grid item container className="center" sm={2} md={5} lg={6}>
