@@ -41,24 +41,38 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
     clearTimeout(searchTimeout as ReturnType<typeof setTimeout>);
 
     // Reset potentialKeys to allKeys if not inserting text
+    const inputEvent = event.nativeEvent as InputEvent;
+    const inputType = inputEvent.inputType;
     const isInsertingText: boolean =
-      !!(event.nativeEvent as InputEvent).inputType &&
-      (event.nativeEvent as InputEvent).inputType === "insertText";
+      !!inputType &&
+      (inputType === "insertText" || inputType === "insertFromPaste" || inputType === "insertReplacementText");
 
-    if (!isInsertingText) {
+    // NOLAN TODO - not in use YET but may be useful later
+    // const isDeletingText: boolean =
+    //   !!inputType &&
+    //   (inputType === "deleteContentBackward" || inputType === "deleteContentForward" || inputType === "deleteByCut" || inputType === "deleteContent");
+
+    const isInsertingSearchModifier: boolean = inputEvent.data === "-";
+    const shouldResetPotentialKeys: boolean = !isInsertingText;
+
+    if (shouldResetPotentialKeys) {
       setPotentialKeys(allKeys);
     }
 
+    const shouldFilterFromAllKeys: boolean = shouldResetPotentialKeys;
+    const availableKeys: Key[] = shouldFilterFromAllKeys ? allKeys : potentialKeys;
+
     setSearchTimeout(
       setTimeout(() => {
-        setFilterOptions(handleFilterOptions(inputValue, isInsertingText));
+        setFilterOptions(handleFilterOptions(inputValue, isInsertingText && !isInsertingSearchModifier, availableKeys));
       }, 200),
     );
   };
 
   const handleFilterOptions = (
     inputValue: string,
-    isInsertingText: boolean,
+    shouldSetPotentialKeys: boolean,
+    availableKeys: Key[],
   ): Key[] => {
     if (!inputValue) {
       setPotentialKeys(allKeys);
@@ -70,23 +84,26 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
         .split(",")
         .map((val) => val.trim())
         .filter((val) => !!val);
-      console.log("inputValues", inputValues);
-      // NOLAN TODO: Investigate bug
-      // Search for Keys "A, C, E, -G" returns no options at first. Then backspace twice and retype "-G" and it works.
-      let filteredOptions = potentialKeys.filter((key) =>
-        isKeyDisplayNameMatch(key, trimVal),
+      let filteredOptions: Key[] = [];
+      let filteredOptionsByDisplayName = availableKeys.filter((key) =>
+        isKeyDisplayNameMatch(key, trimVal)
       );
+      filteredOptions.push(...filteredOptionsByDisplayName);
 
-      if (filteredOptions.length === 0) {
-        filteredOptions = potentialKeys.filter((key) =>
-          isNoteMatch(key, inputValues),
+      // If we didn't find any keys by display name OR our search term is less than 3 characters, 
+      // search by the notes in the key
+      if (filteredOptionsByDisplayName.length === 0 || trimVal.length < 3) {
+        let filteredOptionsByNotes = availableKeys.filter((key) =>
+          isNoteMatch(key, inputValues)
         );
+        filteredOptions.push(...filteredOptionsByNotes);
       }
+      const uniqueFilteredOptions = [...new Set(filteredOptions)];
 
-      if (isInsertingText) {
-        setPotentialKeys(filteredOptions);
+      if (shouldSetPotentialKeys) {
+        setPotentialKeys(uniqueFilteredOptions);
       }
-      return filteredOptions;
+      return uniqueFilteredOptions;
     }
   };
 
@@ -110,7 +127,7 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
 
     inputValues.forEach((value) => {
       const trimVal = value.trim();
-      // if the value starts with a "-", it means we want to avoid finding that note from the key
+      // if the value starts with a "-", it means we want to avoid finding that note in the key
       const isNoteToAvoid: boolean = trimVal.startsWith("-");
       const noteVal = isNoteToAvoid ? trimVal.substring(1) : trimVal;
       const noteToFind = temperament.getNoteFromID(noteVal);
@@ -121,11 +138,8 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
         const noteFound: boolean = !!notesInKey.find((note) =>
           note.isSimilar(noteToFind),
         );
+        // if we didn't find the note in the key, and it's not a note to avoid, or we found the note in the key and it is a note to avoid
         if ((!noteFound && !isNoteToAvoid) || (noteFound && isNoteToAvoid)) {
-          console.log("noteToFind", noteToFind);
-          console.log("noteFound", noteFound);
-          console.log("isNoteToAvoid", isNoteToAvoid);
-          // if we didn't find the note in the key, and it's not a note to avoid, or we found the note in the key and it is a note to avoid
           allNotesMatch = false;
         }
       }
