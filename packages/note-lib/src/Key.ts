@@ -49,16 +49,36 @@ export class Key {
           // Remove last semitone, which should be some offset of the duplicate '12' note in a twelveTET system, for example.
           newScaleArray.pop();
           util.sortNumericArray(newScaleArray);
-
+          
           // Check if arrays are equal after having sorted the newScale
           if (isEqual(scaleArray, newScaleArray)) {
             const key = new Key(this.scale.temperament.notes[j], Scales[k]);
             equivKeys.push(key);
+
+            const aliasNotes = this.scale.temperament.notes[j].aliasNotes;
+            aliasNotes.forEach((aliasNote) => {
+                const aliasKey = new Key(aliasNote, Scales[k]);
+                equivKeys.push(aliasKey);
+            });
           }
         }
       }
     }
-    return equivKeys;
+
+    const sortKeysByNote = (keyArray: Key[]) => {
+      keyArray.sort(function (a: Key, b: Key): number {
+        if (a.note.id < b.note.id) {
+          return -1;
+        }
+        if (a.note.id > b.note.id) {
+          return 1;
+        }
+        return 0;
+      });
+      return keyArray;
+    }
+    const sortedEquivKeys = sortKeysByNote(equivKeys);
+    return sortedEquivKeys;
   }
 
   getDisplayName(): string {
