@@ -65,19 +65,7 @@ export class Key {
       }
     }
 
-    const sortKeysByNote = (keyArray: Key[]) => {
-      keyArray.sort(function (a: Key, b: Key): number {
-        if (a.note.id < b.note.id) {
-          return -1;
-        }
-        if (a.note.id > b.note.id) {
-          return 1;
-        }
-        return 0;
-      });
-      return keyArray;
-    }
-    const sortedEquivKeys = sortKeysByNote(equivKeys);
+    const sortedEquivKeys = util.sortKeysByNoteAndScale(equivKeys, this);
     return sortedEquivKeys;
   }
 

@@ -58,6 +58,13 @@ export class Temperament {
     }, []);
   }
 
+    /**
+   * Gets sort order from all availables notes and their aliases.
+   */
+    getSortOrderByNotes(): string[] {
+      return this.getNotesInTemperament().map((note) => note.id);
+    }
+
   /**
    * Our temperament defines an "order" that starts at
    * a given note. This function effectivly "shifts" the

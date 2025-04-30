@@ -1,6 +1,6 @@
 // import { AutocompleteRenderOptionState } from "@mui/material";
 import { FilterOptionsState } from "@mui/material/useAutocomplete";
-import { data, Key, Note, Temperament } from "note-lib";
+import { data, Key, Note, Temperament, util } from "note-lib";
 // import React, { ReactNode, useState } from "react";
 import React, { useState } from "react";
 import { Base16Theme } from "../../colors/themes";
@@ -98,7 +98,7 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
         );
         filteredOptions.push(...filteredOptionsByNotes);
       }
-      const uniqueFilteredOptions = [...new Set(filteredOptions)];
+      const uniqueFilteredOptions = util.sortKeysByNoteAndScale([...new Set(filteredOptions)]);
 
       if (shouldSetPotentialKeys) {
         setPotentialKeys(uniqueFilteredOptions);
