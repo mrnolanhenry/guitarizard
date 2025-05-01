@@ -1,7 +1,7 @@
 import "./FretSegment.css";
 import { Key, Note } from "note-lib";
 import { CSSProperties } from "react";
-import { darken, Grid } from "@mui/material";
+import { darken, Grid, lighten } from "@mui/material";
 import { Base16Theme, rainbow } from "../colors/themes";
 
 interface IKeySegmentBottomProps {
@@ -38,7 +38,7 @@ const KeySegmentBottom = (props: IKeySegmentBottomProps) => {
   }
 
   const noteTextStyle: CSSProperties = {
-      color: shouldHighlightPiano ? getRainbowColor(theme.swatch.base0A) : getRainbowColor(),
+      color: shouldHighlightPiano ? lighten(getRainbowColor(theme.swatch.base0A),.2) : getRainbowColor(lighten("#000",.2)),
       fontWeight: "bold",
       margin: "5px"
     };
