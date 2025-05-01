@@ -17,7 +17,6 @@ interface IInstrumentProps {
   theme: Base16Theme;
 }
 
-// NOLAN TODO - This component is currently redundant, but will be useful once other instruments (like Piano) are incorporated.
 const Instrument = (props: IInstrumentProps) => {
   const { activeKey, instrument, isMediumScreen, isLargeScreen, isRainbowMode, onTune, shouldHighlightPiano, temperament, theme } = props;
 

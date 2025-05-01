@@ -153,22 +153,12 @@ export class Temperament {
    *  > Given Note('Ab'), this will return Note('A')
    *
    */
-  getNextNote(fromNote: Note, stepsAway?: number): Note {
-    if (typeof stepsAway === "undefined") {
-      stepsAway = 1;
-    }
-
+  getNextNote(fromNote: Note, stepsAway: number = 1): Note {
     const offset: number = this._getRelativeNoteOffset(fromNote);
-
-    // NOLAN TODO: CHECK WHAT'S GOING ON HERE WITH THIS stepsAway2 variable - why do we need this
-    // and not just one stepsAway variable?
-    const stepsAway2 = typeof stepsAway === "undefined" ? 0 : stepsAway;
-    let index: number = (offset + stepsAway2) % this.notes.length;
-
+    let index: number = (offset + stepsAway) % this.notes.length;
     if (index < 0) {
       index = this.notes.length + index;
     }
-
     return this.notes[index];
   }
 
