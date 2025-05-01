@@ -1,6 +1,6 @@
 import "./FretSegment.css";
 import { Key, Note } from "note-lib";
-import React, { CSSProperties } from "react";
+import { CSSProperties } from "react";
 import { Grid } from "@mui/material";
 import { Base16Theme, rainbow } from "../colors/themes";
 
@@ -9,12 +9,13 @@ interface IKeySegmentBottomProps {
   columnWidth: number;
   isRainbowMode: boolean;
   note: Note;
+  shouldHighlightPiano: boolean;
   style?: CSSProperties;
   theme: Base16Theme;
 }
 
 const KeySegmentBottom = (props: IKeySegmentBottomProps) => {
-  const { activeKey, columnWidth, isRainbowMode, note, theme } = props;
+  const { activeKey, columnWidth, isRainbowMode, note, shouldHighlightPiano, theme } = props;
   const notesInKey: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
   const noteIsInKey = !!notesInKey.find((noteInKey) => noteInKey.isSimilar(note));
 
@@ -45,7 +46,7 @@ const KeySegmentBottom = (props: IKeySegmentBottomProps) => {
     };
 
   const keySegmentStyle: CSSProperties = {
-    backgroundColor: noteIsInKey ? theme.swatch.base0A : "white",
+    backgroundColor: shouldHighlightPiano && noteIsInKey ? theme.swatch.base0A : "white",
     borderWidth: "0px 1px 0px 1px",
     borderStyle: "solid",
     borderColor: "black",

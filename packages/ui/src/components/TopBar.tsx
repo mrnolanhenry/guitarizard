@@ -20,7 +20,9 @@ interface Props {
   onToolSelect: (toolName: ToolName) => void;
   setDialogState: React.Dispatch<React.SetStateAction<IAppDialogState>>;
   setTheme: React.Dispatch<React.SetStateAction<Base16Theme>>;
+  shouldHighlightPiano: boolean;
   theme: Base16Theme;
+  togglePianoHighlight: () => void;
   toggleRainbowMode: () => void;
 }
 
@@ -37,19 +39,23 @@ const TopBar = (props: Props) => {
     onToolSelect,
     setDialogState,
     setTheme,
+    shouldHighlightPiano,
     theme,
-    toggleRainbowMode
+    togglePianoHighlight,
+    toggleRainbowMode,
   } = props;
 
   // NOLAN TODO - This is a poor way of making the dialog dynamic AND reload props,
   // especially if more than just Settings Menu dialog content were placed in this component.
   // Would need to give dialog an id prop (like id="settings") to check which inner dialog component to render.
+  // renderSettingsMenu() is called in useEffect to ensure that the dialog content is updated when any settings are changed.
+  // Try refactoring to not use useEffect and just render the SettingsMenu directly instead of using the renderSettingsMenu function.
   useEffect(() => {
     setDialogState({
       ...dialogState, 
       content: renderSettingsMenu()
       });
-  }, [isRainbowMode, theme]);
+  }, [isRainbowMode, shouldHighlightPiano, theme]);
 
   const auth = isAuthenticated ? (
     <div onClick={onLogoutClick}>logout</div>
@@ -63,6 +69,10 @@ const TopBar = (props: Props) => {
       src="/favicon_v8.png"
     />
   );
+
+  const logoSpan = (
+    <span className={`logo-span ${!isDarkTheme ? "shadowed" : ""}`}>uitarizard</span>
+    );
 
   const style: CSSProperties = {
     backgroundColor: theme.swatch.base00,
@@ -85,7 +95,9 @@ const TopBar = (props: Props) => {
       <SettingsMenu 
         isRainbowMode={isRainbowMode}
         setTheme={setTheme}
+        shouldHighlightPiano={shouldHighlightPiano}
         theme={theme}
+        togglePianoHighlight={togglePianoHighlight}
         toggleRainbowMode={toggleRainbowMode}
       />
     )
@@ -95,7 +107,7 @@ const TopBar = (props: Props) => {
     <Grid container className="top-bar" alignItems="center" style={style} padding={isSmallScreen ? 2 : 1}>
       <Grid item container className="left" xs={9} sm={3} md={2} justifyContent={"flex-start"} style={leftStyle}>
         {logo}
-        <span style={{ position: 'relative', left: '-10px', color: '#d8c0a9' }}>uitarizard</span>
+        {logoSpan}
       </Grid>
       {!isSmallScreen &&
         <Grid item container className="center" sm={2} md={5} lg={6}>

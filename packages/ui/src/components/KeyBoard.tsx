@@ -16,12 +16,13 @@ interface IKeyBoardProps {
   isLargeScreen: boolean;
   isRainbowMode: boolean;
   onTune: (courseId: string, newTuning: Note) => void;
+  shouldHighlightPiano: boolean;
   temperament: Temperament;
   theme: Base16Theme;
 }
 
 const KeyBoard = (props: IKeyBoardProps) => {
-  const { activeKey, fretBoard, isMediumScreen, isLargeScreen, isRainbowMode, onTune, temperament, theme } =
+  const { activeKey, fretBoard, isMediumScreen, isLargeScreen, isRainbowMode, onTune, shouldHighlightPiano, temperament, theme } =
     props;
 
   const getMaxFretCount = () => {
@@ -74,6 +75,7 @@ const KeyBoard = (props: IKeyBoardProps) => {
             key={`fret-segment-${courseIndex}-${stringIndex}-${i}`}
             isRainbowMode={isRainbowMode}
             scaleOnCourse={scaleOnCourse}
+            shouldHighlightPiano={shouldHighlightPiano}
             theme={theme}
           />
         );
@@ -90,6 +92,7 @@ const KeyBoard = (props: IKeyBoardProps) => {
               note={note}
               key={`fret-segment-${courseIndex}-${stringIndex}-${i}`}
               isRainbowMode={isRainbowMode}
+              shouldHighlightPiano={shouldHighlightPiano}
               theme={theme}
             />
           );

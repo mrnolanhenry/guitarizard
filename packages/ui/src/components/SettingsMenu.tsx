@@ -1,14 +1,17 @@
 import "./TopBar.css";
 import React from "react";
+import { Grid } from "@mui/material";
 import { Base16Theme } from "../colors/themes";
 import { ThemeSelector } from './selectors/ThemeSelector';
-import { Grid } from "@mui/material";
+import { PianoHighlightSwitch } from "./PianoHighlightSwitch";
 import { RainbowModeSwitch } from "./RainbowModeSwitch";
 
 interface Props {
   isRainbowMode: boolean;
   setTheme: React.Dispatch<React.SetStateAction<Base16Theme>>;
+  shouldHighlightPiano: boolean;
   theme: Base16Theme;
+  togglePianoHighlight: () => void;
   toggleRainbowMode: () => void;
 }
 
@@ -16,7 +19,9 @@ const SettingsMenu = (props: Props) => {
   const {
     isRainbowMode,
     setTheme,
+    shouldHighlightPiano,
     theme,
+    togglePianoHighlight,
     toggleRainbowMode,
   } = props;
 
@@ -57,6 +62,18 @@ const SettingsMenu = (props: Props) => {
             <RainbowModeSwitch
               isRainbowMode={isRainbowMode}
               toggleRainbowMode={toggleRainbowMode}
+            />
+          </Grid>
+        </Grid>
+        <Grid container alignItems="center" paddingLeft={2} paddingRight={2}>
+          <Grid item xs={12} sm={6}>
+          <span>Highlight Notes in Key on Piano: </span>
+          </Grid>
+          <Grid item xs="auto" justifyContent="flex-end">
+          <PianoHighlightSwitch
+              activeTheme={theme}
+              shouldHighlightPiano={shouldHighlightPiano}
+              togglePianoHighlight={togglePianoHighlight}
             />
           </Grid>
         </Grid>
