@@ -22,7 +22,7 @@ interface IKeyBoardProps {
 }
 
 const KeyBoard = (props: IKeyBoardProps) => {
-  const { activeKey, fretBoard, isMediumScreen, isLargeScreen, isRainbowMode, onTune, shouldHighlightPiano, temperament, theme } =
+  const { activeKey, fretBoard, isMediumScreen, isLargeScreen, isRainbowMode, shouldHighlightPiano, temperament, theme } =
     props;
 
   const getMaxFretCount = () => {
@@ -55,7 +55,7 @@ const KeyBoard = (props: IKeyBoardProps) => {
       const nextNote = scaleOnCourse.getNoteFromFretNumber(fretNumber + 1);
       if (prevNote && prevNote.isAccidental() && nextNote && nextNote.isAccidental()) {
         columnWidth = 4;
-      };
+      }
     }
     return Math.min(columnsRemaining, columnWidth);
   };

@@ -1,3 +1,4 @@
+import React from "react";
 import "./FretSegment.css";
 import { Key, Note } from "note-lib";
 import { CSSProperties } from "react";

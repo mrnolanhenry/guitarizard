@@ -115,6 +115,25 @@ const App = () => {
   const [activeToolName, setActiveToolName] = useState("scalebook");
   const initDialogState: IAppDialogState = { isOpen: false }
   const [dialogState, setDialogState] = useState(initDialogState);
+  const [isFullscreen, setIsFullscreen] = useState(!!document.fullscreenElement);
+
+  const toggleFullscreen = (): void => {
+    setIsFullscreen(!isFullscreen);
+  }
+
+  useEffect(() => {
+    const body = document.querySelector("body");
+    if (body) {
+        if (isFullscreen) {
+          body.requestFullscreen()
+            .then(() => {
+              body.style.overflow = "auto";
+            });
+        } else if (document.fullscreenElement) {
+          document.exitFullscreen();
+        }
+    }
+  }, [isFullscreen]);
 
   useEffect(() => {
     const ls_theme = localStorage.getItem("theme");
@@ -260,6 +279,8 @@ const App = () => {
             dialogState={dialogState}
             isAuthenticated={false}
             isDarkTheme={isDarkColor(theme.swatch.base01)}
+            isFullscreen={isFullscreen}
+            isMediumScreen={isMediumScreen}
             isRainbowMode={isRainbowMode}
             isSmallScreen={isSmallScreen}
             onLoginClick={() => false}
@@ -271,6 +292,7 @@ const App = () => {
             setTheme={setTheme}
             shouldHighlightPiano={shouldHighlightPiano}
             theme={theme}
+            toggleFullscreen={toggleFullscreen}
             togglePianoHighlight={togglePianoHighlight}
             toggleRainbowMode={toggleRainbowMode}
           />
