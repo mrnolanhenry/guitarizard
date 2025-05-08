@@ -41,7 +41,7 @@ const Gs = new Note(Constants.G_SHARP, NotePitch.Sharp);
 const Ab = new Note(Constants.A_FLAT, NotePitch.Flat, [Gs]);
 Gs.addAliasNote(Ab);
 
-export const twelveTETNotesAll = {
+export const twelveTETNotes = {
   Ab,
   A,
   As,
@@ -61,198 +61,253 @@ export const twelveTETNotesAll = {
   Gs,
 };
 
-export const twelveTETIntervals: Interval[] = [ 
-  new Interval(0, [
-      {
-        name: Constants.PERFECT,
-        long: Constants.PERFECT_UNISON,
-        short: Constants.PERFECT_UNISON_SHORT,
-      },
-      {
-        name: Constants.DIMINISHED,
-        long: Constants.DIMINISHED_SECOND,
-        short: Constants.DIMINISHED_SECOND_SHORT,
-      },
-      { name: Constants.ROOT, short: Constants.ROOT_SHORT },
-    ],
-  ),
-  new Interval(1, [
-      {
-        name: Constants.MINOR,
-        long: Constants.MINOR_SECOND,
-        short: Constants.MINOR_SECOND_SHORT,
-      },
-      {
-        name: Constants.AUGMENTED,
-        long: Constants.AUGMENTED_UNISON,
-        short: Constants.AUGMENTED_UNISON_SHORT,
-      },
-      { name: Constants.SEMITONE, short: Constants.SEMITONE_SHORT },
-      { name: Constants.HALF_STEP },
-      { name: Constants.HALF_TONE },
-    ],
-  ),
-  new Interval(2, [
-      {
-        name: Constants.MAJOR,
-        long: Constants.MAJOR_SECOND,
-        short: Constants.MAJOR_SECOND_SHORT,
-      },
-      {
-        name: Constants.DIMINISHED,
-        long: Constants.DIMINISHED_THIRD,
-        short: Constants.DIMINISHED_THIRD_SHORT,
-      },
-      { name: Constants.TONE, short: Constants.TONE_SHORT },
-      { name: Constants.WHOLE_STEP },
-      { name: Constants.WHOLE_TONE },
-    ],
-  ),
-  new Interval(3, [
-      {
-        name: Constants.MINOR,
-        long: Constants.MINOR_THIRD,
-        short: Constants.MINOR_THIRD_SHORT,
-      },
-      {
-        name: Constants.AUGMENTED,
-        long: Constants.AUGMENTED_SECOND,
-        short: Constants.AUGMENTED_SECOND_SHORT,
-      },
-    ],
-  ),
-  new Interval(4, [
-      {
-        name: Constants.MAJOR,
-        long: Constants.MAJOR_THIRD,
-        short: Constants.MAJOR_THIRD_SHORT,
-      },
-      {
-        name: Constants.DIMINISHED,
-        long: Constants.DIMINISHED_FOURTH,
-        short: Constants.DIMINISHED_FOURTH_SHORT,
-      },
-    ],
-  ),
-  new Interval(5, [
-      {
-        name: Constants.PERFECT,
-        long: Constants.PERFECT_FOURTH,
-        short: Constants.PERFECT_FOURTH_SHORT,
-      },
-      {
-        name: Constants.AUGMENTED,
-        long: Constants.AUGMENTED_THIRD,
-        short: Constants.AUGMENTED_THIRD_SHORT,
-      },
-    ],
-  ),
-  new Interval(6, [
-      {
-        name: Constants.DIMINISHED,
-        long: Constants.DIMINISHED_FIFTH,
-        short: Constants.DIMINISHED_FIFTH_SHORT,
-      },
-      {
-        name: Constants.AUGMENTED,
-        long: Constants.AUGMENTED_FOURTH,
-        short: Constants.AUGMENTED_FOURTH_SHORT,
-      },
-      { name: Constants.TRITONE, short: Constants.TRITONE_SHORT },
-    ],
-  ),
-  new Interval(7, [
-      {
-        name: Constants.PERFECT,
-        long: Constants.PERFECT_FIFTH,
-        short: Constants.PERFECT_FIFTH_SHORT,
-      },
-      {
-        name: Constants.DIMINISHED,
-        long: Constants.DIMINISHED_SIXTH,
-        short: Constants.DIMINISHED_SIXTH_SHORT,
-      },
-    ],
-  ),
-  new Interval(8, [
-      {
-        name: Constants.MINOR,
-        long: Constants.MINOR_SIXTH,
-        short: Constants.MINOR_SIXTH_SHORT,
-      },
-      {
-        name: Constants.AUGMENTED,
-        long: Constants.AUGMENTED_FIFTH,
-        short: Constants.AUGMENTED_FIFTH_SHORT,
-      },
-    ],
-  ),
-  new Interval(9, [
-      {
-        name: Constants.MAJOR,
-        long: Constants.MAJOR_SIXTH,
-        short: Constants.MAJOR_SIXTH_SHORT,
-      },
-      {
-        name: Constants.DIMINISHED,
-        long: Constants.DIMINISHED_SEVENTH,
-        short: Constants.DIMINISHED_SEVENTH_SHORT,
-      },
-    ],
-  ),
-  new Interval(10, [
-      {
-        name: Constants.MINOR,
-        long: Constants.MINOR_SEVENTH,
-        short: Constants.MINOR_SEVENTH_SHORT,
-      },
-      {
-        name: Constants.AUGMENTED,
-        long: Constants.AUGMENTED_SIXTH,
-        short: Constants.AUGMENTED_SIXTH_SHORT,
-      },
-    ],
-  ),
-  new Interval(11, [
-      {
-        name: Constants.MAJOR,
-        long: Constants.MAJOR_SEVENTH,
-        short: Constants.MAJOR_SEVENTH_SHORT,
-      },
-      {
-        name: Constants.DIMINISHED,
-        long: Constants.DIMINISHED_OCTAVE,
-        short: Constants.DIMINISHED_OCTAVE_SHORT,
-      },
-    ],
-  ),
-  new Interval(12, [
-      {
-        name: Constants.PERFECT,
-        long: Constants.PERFECT_OCTAVE,
-        short: Constants.PERFECT_OCTAVE_SHORT,
-      },
-      {
-        name: Constants.AUGMENTED,
-        long: Constants.AUGMENTED_SEVENTH,
-        short: Constants.AUGMENTED_SEVENTH_SHORT,
-      },
-    ],
-  ),
-];
+const twelveTET0 = new Interval(0,
+  [
+    {
+      name: Constants.PERFECT,
+      long: Constants.PERFECT_UNISON,
+      short: Constants.PERFECT_UNISON_SHORT,
+    },
+    {
+      name: Constants.DIMINISHED,
+      long: Constants.DIMINISHED_SECOND,
+      short: Constants.DIMINISHED_SECOND_SHORT,
+    },
+    { name: Constants.ROOT, short: Constants.ROOT_SHORT },
+  ],
+);
 
+const twelveTET1 = new Interval(1,
+  [
+    {
+      name: Constants.MINOR,
+      long: Constants.MINOR_SECOND,
+      short: Constants.MINOR_SECOND_SHORT,
+    },
+    {
+      name: Constants.AUGMENTED,
+      long: Constants.AUGMENTED_UNISON,
+      short: Constants.AUGMENTED_UNISON_SHORT,
+    },
+    { name: Constants.SEMITONE, short: Constants.SEMITONE_SHORT },
+    { name: Constants.HALF_STEP },
+    { name: Constants.HALF_TONE },
+  ],
+);
 
-export const twelveTET = new Temperament(Constants.TWELVE_TET, twelveTETIntervals, [
-  A,
-  Bb,
-  B,
-  C,
-  Db,
-  D,
-  Eb,
-  E,
-  F,
-  Gb,
-  G,
-  Ab,
-]);
+const twelveTET2 = new Interval(2,
+  [
+    {
+      name: Constants.MAJOR,
+      long: Constants.MAJOR_SECOND,
+      short: Constants.MAJOR_SECOND_SHORT,
+    },
+    {
+      name: Constants.DIMINISHED,
+      long: Constants.DIMINISHED_THIRD,
+      short: Constants.DIMINISHED_THIRD_SHORT,
+    },
+    { name: Constants.TONE, short: Constants.TONE_SHORT },
+    { name: Constants.WHOLE_STEP },
+    { name: Constants.WHOLE_TONE },
+  ],
+);
+
+const twelveTET3 = new Interval(3,
+  [
+    {
+      name: Constants.MINOR,
+      long: Constants.MINOR_THIRD,
+      short: Constants.MINOR_THIRD_SHORT,
+    },
+    {
+      name: Constants.AUGMENTED,
+      long: Constants.AUGMENTED_SECOND,
+      short: Constants.AUGMENTED_SECOND_SHORT,
+    },
+  ],
+);
+
+const twelveTET4 = new Interval(4,
+  [
+    {
+      name: Constants.MAJOR,
+      long: Constants.MAJOR_THIRD,
+      short: Constants.MAJOR_THIRD_SHORT,
+    },
+    {
+      name: Constants.DIMINISHED,
+      long: Constants.DIMINISHED_FOURTH,
+      short: Constants.DIMINISHED_FOURTH_SHORT,
+    },
+  ],
+);
+
+const twelveTET5 = new Interval(5,
+  [
+    {
+      name: Constants.PERFECT,
+      long: Constants.PERFECT_FOURTH,
+      short: Constants.PERFECT_FOURTH_SHORT,
+    },
+    {
+      name: Constants.AUGMENTED,
+      long: Constants.AUGMENTED_THIRD,
+      short: Constants.AUGMENTED_THIRD_SHORT,
+    },
+  ],
+);
+
+const twelveTET6 = new Interval(6,
+  [
+    {
+      name: Constants.DIMINISHED,
+      long: Constants.DIMINISHED_FIFTH,
+      short: Constants.DIMINISHED_FIFTH_SHORT,
+    },
+    {
+      name: Constants.AUGMENTED,
+      long: Constants.AUGMENTED_FOURTH,
+      short: Constants.AUGMENTED_FOURTH_SHORT,
+    },
+    { name: Constants.TRITONE, short: Constants.TRITONE_SHORT },
+  ],
+);
+
+const twelveTET7 = new Interval(7,
+  [
+    {
+      name: Constants.PERFECT,
+      long: Constants.PERFECT_FIFTH,
+      short: Constants.PERFECT_FIFTH_SHORT,
+    },
+    {
+      name: Constants.DIMINISHED,
+      long: Constants.DIMINISHED_SIXTH,
+      short: Constants.DIMINISHED_SIXTH_SHORT,
+    },
+  ],
+);
+
+const twelveTET8 = new Interval(8,
+  [
+    {
+      name: Constants.MINOR,
+      long: Constants.MINOR_SIXTH,
+      short: Constants.MINOR_SIXTH_SHORT,
+    },
+    {
+      name: Constants.AUGMENTED,
+      long: Constants.AUGMENTED_FIFTH,
+      short: Constants.AUGMENTED_FIFTH_SHORT,
+    },
+  ],
+);
+
+const twelveTET9 = new Interval(9,
+  [
+    {
+      name: Constants.MAJOR,
+      long: Constants.MAJOR_SIXTH,
+      short: Constants.MAJOR_SIXTH_SHORT,
+    },
+    {
+      name: Constants.DIMINISHED,
+      long: Constants.DIMINISHED_SEVENTH,
+      short: Constants.DIMINISHED_SEVENTH_SHORT,
+    },
+  ],
+);
+
+const twelveTET10 = new Interval(10,
+  [
+    {
+      name: Constants.MINOR,
+      long: Constants.MINOR_SEVENTH,
+      short: Constants.MINOR_SEVENTH_SHORT,
+    },
+    {
+      name: Constants.AUGMENTED,
+      long: Constants.AUGMENTED_SIXTH,
+      short: Constants.AUGMENTED_SIXTH_SHORT,
+    },
+  ],
+);
+
+const twelveTET11 = new Interval(11,
+  [
+    {
+      name: Constants.MAJOR,
+      long: Constants.MAJOR_SEVENTH,
+      short: Constants.MAJOR_SEVENTH_SHORT,
+    },
+    {
+      name: Constants.DIMINISHED,
+      long: Constants.DIMINISHED_OCTAVE,
+      short: Constants.DIMINISHED_OCTAVE_SHORT,
+    },
+  ],
+);
+
+const twelveTET12 = new Interval(12,
+  [
+    {
+      name: Constants.PERFECT,
+      long: Constants.PERFECT_OCTAVE,
+      short: Constants.PERFECT_OCTAVE_SHORT,
+    },
+    {
+      name: Constants.AUGMENTED,
+      long: Constants.AUGMENTED_SEVENTH,
+      short: Constants.AUGMENTED_SEVENTH_SHORT,
+    },
+  ],
+);
+
+export const twelveTETIntervals = {
+  twelveTET0,
+  twelveTET1,
+  twelveTET2,
+  twelveTET3,
+  twelveTET4,
+  twelveTET5,
+  twelveTET6,
+  twelveTET7,
+  twelveTET8,
+  twelveTET9,
+  twelveTET10,
+  twelveTET11,
+  twelveTET12,
+};
+
+export const twelveTET = new Temperament(Constants.TWELVE_TET, 
+  [ 
+    twelveTET0,
+    twelveTET1,
+    twelveTET2,
+    twelveTET3,
+    twelveTET4,
+    twelveTET5,
+    twelveTET6,
+    twelveTET7,
+    twelveTET8,
+    twelveTET9,
+    twelveTET10,
+    twelveTET11,
+    twelveTET12,
+  ], 
+  [
+    A,
+    Bb,
+    B,
+    C,
+    Db,
+    D,
+    Eb,
+    E,
+    F,
+    Gb,
+    G,
+    Ab,
+  ]
+);

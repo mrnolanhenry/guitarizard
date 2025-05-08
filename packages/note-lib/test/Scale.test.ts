@@ -4,12 +4,12 @@ import assert from "node:assert/strict";
 import { Scale } from "../src/Scale";
 import { twelveTET } from "../src/data/temperaments/twelveTET";
 import scales from "../src/data/scales";
-import { twelveTETNotesAll } from "../src/data/temperaments";
+import { twelveTETNotes } from "../src/data/temperaments";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class Scale", function (_t) {
   const blues = new Scale("Blues", twelveTET, [0, 3, 5, 6, 7, 10]);
-  const { Ab, A, Bb, B, C, Cs, Eb, E, F, Fs } = twelveTETNotesAll;
+  const { Ab, A, Bb, B, C, Cs, Eb, E, F, Fs } = twelveTETNotes;
 
   const ethiopianAraray = new Scale(
     "ethiopian (a raray)",

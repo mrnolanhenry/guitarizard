@@ -8,7 +8,7 @@ import { IntervalInChord } from "./IntervalInChord";
  *
  * e.g. "7th chord" or "major chord"
  *
- * Technically this is would be called a chord.
+ * Technically this would be called a chord.
  * NOT to be confused with specifying the key note and its chord type, like "C7" or "Em."
  * For simplicity, THAT level of specificity (i.e. key note and chord type together) will be referred to as a chord. 
  * A chord's "type" will not tell you which notes to play, like A# or Eb, but instead about the intervals within the chord.
@@ -62,6 +62,10 @@ export class ChordType {
   // unless they go by different names in western vs. eastern theory
   // but these would have to still be under the same temperament anyways...
   // so, unlikely.
+  // Update: 9#5 and aug9 are the same intervals, but different names, for example.
+  // So this function is useful unless we do a very thorough job of compiling 
+  // the alternate names into one ChordType instance.
+  // Unclear if this functions correctly yet though - needs testing and the scales variable needs renaming
   getEquivChordTypes(scales: ChordType[]): ChordType[] {
     const equivChordTypes: ChordType[] = [];
     const scaleLength: number = this.intervals.length;

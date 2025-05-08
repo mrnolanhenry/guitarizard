@@ -5,12 +5,12 @@ import { Note } from "../src/Note";
 import { Temperament } from "../src/Temperament";
 import { TunedString } from "../src/TunedString";
 import { NotePitch } from "../src/enums/NotePitch";
-import { twelveTETNotesAll } from "../src/data/temperaments";
+import { twelveTETNotes } from "../src/data/temperaments";
 import { twelveTET } from "../src/data/temperaments/twelveTET";
 import { Constants } from "../src";
 
 test("class TunedString", function (t) {
-  const { A, Bb, B } = twelveTETNotesAll;
+  const { A, Bb, B } = twelveTETNotes;
   const smallTwelveTET = new Temperament("small", [twelveTET.intervals[0], twelveTET.intervals[1], twelveTET.intervals[2]], [A, Bb, B]);
 
   const AString = new TunedString(Constants.A, A, "catgut", 0.2);

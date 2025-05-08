@@ -2,13 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { Constants } from "../src";
-import { twelveTET, twelveTETNotesAll } from "../src/data/temperaments";
+import { twelveTET, twelveTETNotes } from "../src/data/temperaments";
 import { NotePitch } from "../src/enums/NotePitch";
 import { Note } from "../src/Note";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class Temperament", function (_t) {
-  const { Ab, A, As, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs } = twelveTETNotesAll;
+  const { Ab, A, As, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs } = twelveTETNotes;
 
   assert.equal(twelveTET.notes.length, 12, "should have 12 notes");
 

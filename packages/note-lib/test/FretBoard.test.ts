@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { twelveTET, twelveTETNotesAll } from "../src/data/temperaments";
+import { twelveTET, twelveTETNotes } from "../src/data/temperaments";
 import { Note } from "../src/Note";
 import { Temperament } from "../src/Temperament";
 import { Scale } from "../src/Scale";
@@ -11,7 +11,7 @@ import { Course } from "../src/Course";
 import { IFretSpan } from "../src/interfaces/IFretSpan";
 import * as lib from "../src";
 
-const { Ab, A, Bb, B, C, Cs, Db, D, E, F, Fs, Gb, G } = twelveTETNotesAll;
+const { Ab, A, Bb, B, C, Cs, Db, D, E, F, Fs, Gb, G } = twelveTETNotes;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class FretBoard --- init", function (_t) {

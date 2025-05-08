@@ -7,11 +7,11 @@ import { IFretSpan } from "../src/interfaces/IFretSpan";
 import { TunedString } from "../src/TunedString";
 import { twelveTET } from "../src/data/temperaments/twelveTET";
 import { ScaleOnCourse } from "../src/ScaleOnCourse";
-import { twelveTETNotesAll } from "../src/data/temperaments";
+import { twelveTETNotes } from "../src/data/temperaments";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class ScaleOnCourse", function (_t) {
-  const { A, E } = twelveTETNotesAll;
+  const { A, E } = twelveTETNotes;
 
   const courses = [
     new Course("x", [
