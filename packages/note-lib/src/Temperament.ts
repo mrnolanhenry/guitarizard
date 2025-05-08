@@ -125,7 +125,7 @@ export class Temperament {
     return offset;
   }
 
-  getNoteInterval(fromNote: Note, toNote: Note): number {
+  getSemitonesBetweenNotes(fromNote: Note, toNote: Note): number {
     const fromNoteOffset = this._getRelativeNoteOffset(fromNote);
     const toNoteOffset = this._getRelativeNoteOffset(toNote);
 

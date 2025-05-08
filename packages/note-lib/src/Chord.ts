@@ -30,7 +30,7 @@ export class Chord {
 
     // Loop through each note in the temperament to check for equivalent chordTypes given that note
     for (let j = 0; j < this.chordType.temperament.notes.length; j++) {
-      const noteInterval = this.chordType.temperament.getNoteInterval(
+      const noteInterval = this.chordType.temperament.getSemitonesBetweenNotes(
         this.note,
         this.chordType.temperament.notes[j],
       );

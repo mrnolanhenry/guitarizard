@@ -18,18 +18,18 @@ test("class Temperament", function (_t) {
     "pluck note given an id",
   );
 
-  assert.equal(twelveTET.getNoteInterval(A, C), 3, "correct offset (basic)");
+  assert.equal(twelveTET.getSemitonesBetweenNotes(A, C), 3, "correct offset (basic)");
 
-  assert.equal(twelveTET.getNoteInterval(G, A), 2, 'correct offset ("loop")');
+  assert.equal(twelveTET.getSemitonesBetweenNotes(G, A), 2, 'correct offset ("loop")');
 
   assert.equal(
-    twelveTET.getNoteInterval(As, A),
+    twelveTET.getSemitonesBetweenNotes(As, A),
     11,
     'correct offset ("loop starting from sharp note")',
   );
 
   assert.equal(
-    twelveTET.getNoteInterval(Bb, A),
+    twelveTET.getSemitonesBetweenNotes(Bb, A),
     11,
     'correct offset ("loop starting from flat note")',
   );

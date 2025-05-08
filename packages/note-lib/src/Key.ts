@@ -30,7 +30,7 @@ export class Key {
 
     // Loop through each note in the temperament to check for equivalent scales given that note
     for (let j = 0; j < this.scale.temperament.notes.length; j++) {
-      const noteInterval = this.scale.temperament.getNoteInterval(
+      const noteInterval = this.scale.temperament.getSemitonesBetweenNotes(
         this.note,
         this.scale.temperament.notes[j],
       );
