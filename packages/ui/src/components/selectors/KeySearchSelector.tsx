@@ -1,6 +1,6 @@
 // import { AutocompleteRenderOptionState } from "@mui/material";
 import { FilterOptionsState } from "@mui/material/useAutocomplete";
-import { data, Key, Note, Temperament } from "note-lib";
+import { data, Key, Note, Temperament, util } from "note-lib";
 // import React, { ReactNode, useState } from "react";
 import React, { useState } from "react";
 import { Base16Theme } from "../../colors/themes";
@@ -41,24 +41,38 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
     clearTimeout(searchTimeout as ReturnType<typeof setTimeout>);
 
     // Reset potentialKeys to allKeys if not inserting text
+    const inputEvent = event.nativeEvent as InputEvent;
+    const inputType = inputEvent.inputType;
     const isInsertingText: boolean =
-      !!(event.nativeEvent as InputEvent).inputType &&
-      (event.nativeEvent as InputEvent).inputType === "insertText";
+      !!inputType &&
+      (inputType === "insertText" || inputType === "insertFromPaste" || inputType === "insertReplacementText");
 
-    if (!isInsertingText) {
+    // NOLAN TODO - not in use YET but may be useful later
+    // const isDeletingText: boolean =
+    //   !!inputType &&
+    //   (inputType === "deleteContentBackward" || inputType === "deleteContentForward" || inputType === "deleteByCut" || inputType === "deleteContent");
+
+    const isInsertingSearchModifier: boolean = inputEvent.data === "-";
+    const shouldResetPotentialKeys: boolean = !isInsertingText;
+
+    if (shouldResetPotentialKeys) {
       setPotentialKeys(allKeys);
     }
 
+    const shouldFilterFromAllKeys: boolean = shouldResetPotentialKeys;
+    const availableKeys: Key[] = shouldFilterFromAllKeys ? allKeys : potentialKeys;
+
     setSearchTimeout(
       setTimeout(() => {
-        setFilterOptions(handleFilterOptions(inputValue, isInsertingText));
+        setFilterOptions(handleFilterOptions(inputValue, isInsertingText && !isInsertingSearchModifier, availableKeys));
       }, 200),
     );
   };
 
   const handleFilterOptions = (
     inputValue: string,
-    isInsertingText: boolean,
+    shouldSetPotentialKeys: boolean,
+    availableKeys: Key[],
   ): Key[] => {
     if (!inputValue) {
       setPotentialKeys(allKeys);
@@ -70,20 +84,26 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
         .split(",")
         .map((val) => val.trim())
         .filter((val) => !!val);
-      let filterOptions = potentialKeys.filter((key) =>
-        isKeyDisplayNameMatch(key, trimVal),
+      let filteredOptions: Key[] = [];
+      let filteredOptionsByDisplayName = availableKeys.filter((key) =>
+        isKeyDisplayNameMatch(key, trimVal)
       );
+      filteredOptions.push(...filteredOptionsByDisplayName);
 
-      if (filterOptions.length === 0) {
-        filterOptions = potentialKeys.filter((key) =>
-          isNoteMatch(key, inputValues),
+      // If we didn't find any keys by display name OR our search term is less than 3 characters, 
+      // search by the notes in the key
+      if (filteredOptionsByDisplayName.length === 0 || trimVal.length < 3) {
+        let filteredOptionsByNotes = availableKeys.filter((key) =>
+          isNoteMatch(key, inputValues)
         );
+        filteredOptions.push(...filteredOptionsByNotes);
       }
+      const uniqueFilteredOptions = util.sortKeysByNoteAndScale([...new Set(filteredOptions)]);
 
-      if (isInsertingText) {
-        setPotentialKeys(filterOptions);
+      if (shouldSetPotentialKeys) {
+        setPotentialKeys(uniqueFilteredOptions);
       }
-      return filterOptions;
+      return uniqueFilteredOptions;
     }
   };
 
@@ -94,16 +114,23 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
     _state: FilterOptionsState<Key>,
   ): Key[] => filterOptions;
 
+  // check a key by key name
+  // e.g. "alg", "algerian", "Gb alg", "Gb algerian", etc.
   const isKeyDisplayNameMatch = (key: Key, inputValue: string) => {
     return key.getDisplayName().toLowerCase().includes(inputValue);
   };
-
+  // check a key by notes in the key
+  // e.g. "A", "A, B", "A, B, C#", "A, B, C#, D", "A, B, C#, D, Eb", etc.
+  // OR even "A, B, C#, D, Eb, -F, -Gb" which would look for a key with A, B, C#, D, Eb, but not F or Gb
   const isNoteMatch = (key: Key, inputValues: string[]) => {
     let allNotesMatch: boolean = true;
 
     inputValues.forEach((value) => {
       const trimVal = value.trim();
-      const noteToFind = temperament.getNoteFromID(trimVal);
+      // if the value starts with a "-", it means we want to avoid finding that note in the key
+      const isNoteToAvoid: boolean = trimVal.startsWith("-");
+      const noteVal = isNoteToAvoid ? trimVal.substring(1) : trimVal;
+      const noteToFind = temperament.getNoteFromID(noteVal);
       if (!noteToFind) {
         allNotesMatch = false;
       } else {
@@ -111,7 +138,8 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
         const noteFound: boolean = !!notesInKey.find((note) =>
           note.isSimilar(noteToFind),
         );
-        if (!noteFound) {
+        // if we didn't find the note in the key, and it's not a note to avoid, or we found the note in the key and it is a note to avoid
+        if ((!noteFound && !isNoteToAvoid) || (noteFound && isNoteToAvoid)) {
           allNotesMatch = false;
         }
       }

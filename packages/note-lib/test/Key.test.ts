@@ -118,6 +118,7 @@ test("class Key", function (_t) {
     [
       ANeapolitanMinor,
       APhrygian,
+      AsLydian,
       BbLydian,
       CMixolydian,
       DAeolian,
@@ -139,6 +140,7 @@ test("class Key", function (_t) {
     [
       ANeapolitanMinor,
       APhrygian,
+      AsLydian,
       BbLydian,
       CMixolydian,
       DAeolian,

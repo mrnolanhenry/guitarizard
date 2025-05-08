@@ -2,6 +2,7 @@ import chordTypes from "./data/chordTypes";
 import * as intervals from "./data/intervals";
 import scales from "./data/scales";
 import { temperaments } from "./data/temperaments/index";
+import * as utilFunctions from "./util";
 
 import { TunedString } from "./TunedString";
 import { Tuning } from "./Tuning";
@@ -41,4 +42,8 @@ export const instrument = {
   Mandolin,
   Piano,
   Ukulele,
+};
+
+export const util = {
+  ...utilFunctions,
 };

@@ -13,11 +13,12 @@ interface IKeySegmentProps {
   theme: Base16Theme;
   isRainbowMode: boolean;
   activeKey: Key;
+  shouldHighlightPiano: boolean;
   style?: CSSProperties;
 }
 
 const KeySegment = (props: IKeySegmentProps) => {
-  const { allNotesOnCourse, columnsCount, fret, isRainbowMode, scaleOnCourse, theme, activeKey } = props;
+  const { allNotesOnCourse, columnsCount, fret, isRainbowMode, scaleOnCourse, shouldHighlightPiano, theme, activeKey } = props;
 
   // Get the note on this string (if it exists)
   const note: Note | undefined = scaleOnCourse.getNoteFromFretNumber(fret);
@@ -28,7 +29,7 @@ const KeySegment = (props: IKeySegmentProps) => {
   const notesInKey: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
   const noteIsInKey = note && !!notesInKey.find((noteInKey) => noteInKey.isSimilar(note));
 
-  const getRainbowColor = () => {
+  const getRainbowColor = (defaultColor: string = "#BBB") => {
     if (isRainbowMode && note && noteIsInKey) {
       const semitones: number[] = activeKey.scale.intervals.map(
         (interval) => interval.semitones,
@@ -42,17 +43,17 @@ const KeySegment = (props: IKeySegmentProps) => {
       return semitoneColors[indexFound];
     }
     else {
-      return "#BBB";
+      return defaultColor;
     }
   }
 
-  const rainbowColor = getRainbowColor();
+  const rainbowColor = shouldHighlightPiano ? getRainbowColor(theme.swatch.base0A) : getRainbowColor();
 
   const isAccidental = noteIgnoreScale && !!noteIgnoreScale.isAccidental();
   const noteDisplay: string = note && isAccidental ? note.id : "";
 
   const noteTextStyle: CSSProperties = {
-    color: isAccidental ? lighten(rainbowColor, .4) : rainbowColor,
+    color: isAccidental ? lighten(rainbowColor, .5) : rainbowColor,
     borderRadius: "10px",
     margin: "5px",
     fontWeight: "bold",
@@ -60,14 +61,12 @@ const KeySegment = (props: IKeySegmentProps) => {
 
   const getBackgroundColor = () => {
     let backgroundColor = isAccidental ? "black" : "white";
-    if (noteIsInKey) {
-
-
+    if (shouldHighlightPiano && noteIsInKey) {
       if (isAccidental) {
-        backgroundColor = darken(theme.swatch.base0A, .4);
+        backgroundColor = darken(rainbowColor, .5);
       }
       else {
-        backgroundColor = theme.swatch.base0A;
+        backgroundColor = darken(rainbowColor, .3);
       }
     }
     return backgroundColor;

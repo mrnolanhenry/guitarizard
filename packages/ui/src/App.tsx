@@ -110,6 +110,7 @@ const App = () => {
     initInstrument.getStandardTuning(),
   );
   const [isRainbowMode, setIsRainbowMode] = useState(true);
+  const [shouldHighlightPiano, setShouldHighlightPiano] = useState(true);
   const [activeTemperament, setActiveTemperament] = useState(twelveTET);
   const [activeToolName, setActiveToolName] = useState("scalebook");
   const initDialogState: IAppDialogState = { isOpen: false }
@@ -127,6 +128,10 @@ const App = () => {
 
   const toggleRainbowMode = (): void => {
     setIsRainbowMode(!isRainbowMode);
+  };
+
+  const togglePianoHighlight = (): void => {
+    setShouldHighlightPiano(!shouldHighlightPiano);
   };
 
   const onKeyNoteSelect = (keyNote: Note): void => {
@@ -228,6 +233,7 @@ const App = () => {
           onInstrumentTuneToPreset={onInstrumentTuneToPreset}
           onKeyNoteSelect={onKeyNoteSelect}
           onScaleSelect={onScaleSelect}
+          shouldHighlightPiano={shouldHighlightPiano}
           theme={theme}
           updateKey={updateKey}
         />
@@ -263,7 +269,9 @@ const App = () => {
             }}
             setDialogState={setDialogState}
             setTheme={setTheme}
+            shouldHighlightPiano={shouldHighlightPiano}
             theme={theme}
+            togglePianoHighlight={togglePianoHighlight}
             toggleRainbowMode={toggleRainbowMode}
           />
         </Grid>

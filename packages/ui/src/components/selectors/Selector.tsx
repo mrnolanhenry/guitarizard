@@ -197,8 +197,7 @@ const Selector = <T,>(props: ISelectorProps<T>) => {
       // disablePortal
       clearOnBlur
       clearOnEscape
-      // NOLAN TODO - Check on this undefined statement - don't like it, should be null
-      defaultValue={activeItem ?? undefined}
+      defaultValue={activeItem as NonNullable<T>}
       disableClearable
       filterOptions={
         filterOptions ??

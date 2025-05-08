@@ -10,7 +10,7 @@
 
       overlays = [
         (final: prev: {
-          nodejs = prev.nodejs_21;
+          nodejs = prev.nodejs_22;
         })
       ];
 
@@ -76,7 +76,7 @@
       ui = pkgs.buildNpmPackage rec {
         pname = "ui";
         version = "0.1.0";
-        npmDepsHash = "sha256-Txx8tbI9zU56/UFDxb3o6BRywAfs9SPeqj2/7tfHTVU=";
+        npmDepsHash = "sha256-qN7tmEWcmKI5hugqkiovg70wMqd8BfF4+Rk/TwmV8Xg=";
         # npmDepsHash = pkgs.lib.fakeHash;
 
         src = ./.;

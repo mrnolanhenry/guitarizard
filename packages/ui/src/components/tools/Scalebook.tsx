@@ -31,6 +31,7 @@ interface IScalebookProps {
   onInstrumentTuneToPreset: (tuning: Tuning) => void;
   onKeyNoteSelect: (keyNote: Note) => void;
   onScaleSelect: (scale: Scale) => void;
+  shouldHighlightPiano: boolean;
   temperament: Temperament;
   theme: Base16Theme;
   updateKey: (key: Key) => void;
@@ -51,6 +52,7 @@ const Scalebook = (props: IScalebookProps) => {
     onInstrumentTuneToPreset,
     onKeyNoteSelect,
     onScaleSelect,
+    shouldHighlightPiano,
     temperament,
     theme,
     updateKey,
@@ -74,6 +76,7 @@ const Scalebook = (props: IScalebookProps) => {
       isLargeScreen={isLargeScreen}
       isRainbowMode={isRainbowMode}
       onTune={onInstrumentTune}
+      shouldHighlightPiano={shouldHighlightPiano}
       temperament={temperament}
       theme={theme}
     />
