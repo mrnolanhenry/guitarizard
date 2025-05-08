@@ -10,7 +10,7 @@ interface RawInterval {
   }>;
 }
 
-export const mainIntervalsList: RawInterval[] = [
+export const twelveTETIntervalsList: RawInterval[] = [
   {
     semitones: 0,
     aliases: [
@@ -216,17 +216,17 @@ export const mainIntervalsList: RawInterval[] = [
   },
 ];
 
-export const mainIntervals = mainIntervalsList.map(
+export const twelveTETIntervals = twelveTETIntervalsList.map(
   (interval) => new Interval(interval.semitones, interval.aliases),
 );
 
-// for easy direct access, e.g. "mainIntervalsMap.P1"
-export const mainIntervalsMap: Record<string, RawInterval> = {};
-mainIntervals.forEach((interval) => {
+// for easy direct access, e.g. "twelveTETIntervalsMap.P1"
+export const twelveTETIntervalsMap: Record<string, RawInterval> = {};
+twelveTETIntervals.forEach((interval) => {
   const aliases = interval.aliases;
   aliases.forEach((alias) => {
     if (alias.short) {
-      mainIntervalsMap[alias.short] = interval;
+      twelveTETIntervalsMap[alias.short] = interval;
     }
   });
 });

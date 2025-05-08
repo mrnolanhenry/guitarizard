@@ -1,6 +1,6 @@
 import { Interval } from "./Interval";
 import { Temperament } from "./Temperament";
-import { mainIntervals } from "./data/intervals";
+import { twelveTETIntervals } from "./data/intervals";
 import { Note } from "./Note";
 import { NotePitch } from "./enums/NotePitch";
 
@@ -33,7 +33,7 @@ export class ChordType {
     this.names = names ? [...names, shortHand] : [shortHand];
     this.temperament = temperament;
     this.intervals = intervalsBySemitones.map(
-      (semitone) => mainIntervals[semitone],
+      (semitone) => twelveTETIntervals[semitone],
     );
   }
 
