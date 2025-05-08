@@ -1,5 +1,4 @@
 import chordTypes from "./data/chordTypes";
-import * as intervals from "./data/intervals";
 import scales from "./data/scales";
 import { temperaments } from "./data/temperaments/index";
 import * as utilFunctions from "./util";
@@ -26,7 +25,6 @@ export * as Constants from "./constants/Constants";
 
 export const data = {
   chordTypes,
-  intervals,
   scales,
   temperaments,
 };

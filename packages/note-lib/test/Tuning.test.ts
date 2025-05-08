@@ -2,11 +2,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { Tuning } from "../src/Tuning";
-import { notes } from "../src/data/temperaments";
+import { twelveTETNotesAll } from "../src/data/temperaments";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class Tuning", function (_t) {
-  const { A, B, D, G, E } = notes;
+  const { A, B, D, G, E } = twelveTETNotesAll;
 
   const standardGuitarTuning = new Tuning("guitar", "standard", [
     E,

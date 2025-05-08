@@ -57,7 +57,7 @@ export class Key {
 
             const aliasNotes = this.scale.temperament.notes[j].aliasNotes;
             aliasNotes.forEach((aliasNote) => {
-                const aliasKey = new Key(aliasNote, Scales[k]);
+                const aliasKey = new Key(aliasNote, scales[k]);
                 equivKeys.push(aliasKey);
             });
           }

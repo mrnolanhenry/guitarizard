@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { twelveTET } from "../src/data/temperaments/twelveTET";
+import { twelveTET, twelveTETNotesAll } from "../src/data/temperaments";
 import { Note } from "../src/Note";
 import { Temperament } from "../src/Temperament";
 import { Scale } from "../src/Scale";
@@ -10,13 +10,12 @@ import { NotePitch } from "../src/enums/NotePitch";
 import { Course } from "../src/Course";
 import { IFretSpan } from "../src/interfaces/IFretSpan";
 import * as lib from "../src";
-import { notes } from "../src/data/temperaments";
 
-const { Ab, A, Bb, B, C, Cs, Db, D, E, F, Fs, Gb, G } = notes;
+const { Ab, A, Bb, B, C, Cs, Db, D, E, F, Fs, Gb, G } = twelveTETNotesAll;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class FretBoard --- init", function (_t) {
-  const system = new Temperament("test", [
+  const system = new Temperament("test", [twelveTET.intervals[0], twelveTET.intervals[1]], [
     new Note("X", NotePitch.Neither),
     new Note("Y", NotePitch.Neither),
   ]);

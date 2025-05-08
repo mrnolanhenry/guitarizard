@@ -1,6 +1,5 @@
 import { Interval } from "./Interval";
 import { Temperament } from "./Temperament";
-import { twelveTETIntervals } from "./data/intervals";
 import { Note } from "./Note";
 import { NotePitch } from "./enums/NotePitch";
 
@@ -24,7 +23,7 @@ export class Scale {
     this.name = name;
     this.temperament = temperament;
     this.intervals = intervalsBySemitones.map(
-      (semitone) => twelveTETIntervals[semitone],
+      (semitone) => temperament.intervals[semitone],
     );
   }
 

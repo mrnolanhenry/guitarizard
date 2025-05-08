@@ -1,3 +1,4 @@
+import { Interval } from "./Interval";
 import { Note, NoteID } from "./Note";
 
 /**
@@ -5,16 +6,23 @@ import { Note, NoteID } from "./Note";
  * https://en.wikipedia.org/wiki/Musical_temperament
  * https://en.wikipedia.org/wiki/Equal_temperament
  *
- * e.g. twelve-tone equal temperament, the most common in western music, divides an octave into 12 intervals.
+ * e.g. twelve-tone equal temperament (twelveTET or 12TET), the most common in western music, divides an octave into 12 intervals.
+ * It also defines notes - you might think the number of notes needs to be equal to the number of intervals
+ * but in twelveTET MORE than 12 are defined (A# AND Bb, for instance).
+ * When constructing the temperament though, you would first create each note and add either the sharps or flats as aliases
+ * and THEN only pass 12 notes so that the length of intervals and notes are equal.
  *
- * If you were a formal person, you'd call this a "scale".
+ * If you were a formal person, you'd call this a "scale," but that could be confused with the other use of scale
+ * as in "major" or "minor" scale.
  */
 export class Temperament {
   name: string;
+  intervals: Interval[];
   notes: Note[];
 
-  constructor(name: string, notes: Note[]) {
+  constructor(name: string, intervals: Interval[], notes: Note[]) {
     this.name = name;
+    this.intervals = intervals;
     this.notes = notes;
   }
 

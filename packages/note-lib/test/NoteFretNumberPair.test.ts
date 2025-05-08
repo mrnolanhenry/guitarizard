@@ -2,11 +2,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { NoteFretNumberPair } from "../src/NoteFretNumberPair";
-import { notes } from "../src/data/temperaments";
+import { twelveTETNotesAll } from "../src/data/temperaments";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class NoteFretNumberPair", function (_t) {
-  const { A } = notes;
+  const { A } = twelveTETNotesAll;
   const noteFretNumberPair = new NoteFretNumberPair(A, 1);
 
   assert.equal(

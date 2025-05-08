@@ -29,13 +29,11 @@ test("exposed API", function (_t) {
   assert.equal(API.data.scales.length, 129, "expect correct scale length");
 
   assert.equal(
-    API.data.intervals.twelveTETIntervals.length,
+    API.data.temperaments.find(
+      (temperament) => temperament.name === API.Constants.TWELVE_TET,
+      "expect twelveTET temperament",
+    ).intervals.length,
     13,
     "correct twelveTET intervals",
-  );
-
-  assert.ok(
-    API.data.intervals.twelveTETIntervalsMap.P1,
-    "expect twelveTET intervals to be exposed",
   );
 });
