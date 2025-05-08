@@ -13,7 +13,7 @@ import { NotePitch } from "./enums/NotePitch";
  * NOT to be confused with specifying the key note and its chord type, like "C7" or "Em."
  * For simplicity, THAT level of specificity (i.e. key note and chord type together) will be referred to as a chord. 
  * A chord's "type" will not tell you which notes to play, like A# or Eb, but instead about the intervals within the chord.
- * So, a "ChordType" is to a "Chord," what a "ChordType" is to a "Key"
+ * So, a "ChordType" is to a "Chord," what a "Scale" is to a "Key"
  */
 export class ChordType {
   // shortHand e.g. "m7" or "maj13"
