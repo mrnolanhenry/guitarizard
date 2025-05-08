@@ -1,7 +1,7 @@
-import { Interval } from "./Interval";
 import { Temperament } from "./Temperament";
 import { Note } from "./Note";
 import { NotePitch } from "./enums/NotePitch";
+import { IntervalInChord } from "./IntervalInChord";
 
 /**
  * A single chord "type."
@@ -18,22 +18,20 @@ export class ChordType {
   // shortHand e.g. "m7" or "maj13"
   shortHand: string;
   temperament: Temperament;
-  intervals: Interval[];
+  intervals: IntervalInChord[];
   // array of names e.g. ["minor 7", "minor 7th"]
   names: string[];
 
   constructor(
     shortHand: string,
     temperament: Temperament,
-    intervalsBySemitones: number[],
+    intervals: IntervalInChord[],
     names?: string[],
   ) {
     this.shortHand = shortHand;
     this.names = names ? [...names, shortHand] : [shortHand];
     this.temperament = temperament;
-    this.intervals = intervalsBySemitones.map(
-      (semitone) => temperament.intervals[semitone],
-    );
+    this.intervals = intervals;
   }
 
   getNotesFromKeyNote(keyNote: Note): Note[] {

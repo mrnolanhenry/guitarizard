@@ -173,6 +173,17 @@ export class Temperament {
     return this.notes[index];
   }
 
+  /**
+   * Given a semitone, return the interval object.
+   * e.g. 0 = unison, 1 = minor second, 2 = major second, etc.
+   */
+  getIntervalFromSemitone(semitone: number): Interval {
+    return this.intervals[semitone];
+    // The following is technically more correct, but as long as the temperament's intervals 
+    // are constructed in the correct ascending order, above approach is fine.
+    // return this.intervals.find((interval) => interval.semitones === semitone);
+  }
+
   toJSON() {
     return {
       name: this.name,
