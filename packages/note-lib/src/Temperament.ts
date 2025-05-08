@@ -125,6 +125,9 @@ export class Temperament {
     return offset;
   }
 
+  /** 
+   * Given two notes, return the number of semitones between them.
+  */
   getSemitonesBetweenNotes(fromNote: Note, toNote: Note): number {
     const fromNoteOffset = this._getRelativeNoteOffset(fromNote);
     const toNoteOffset = this._getRelativeNoteOffset(toNote);
@@ -142,8 +145,8 @@ export class Temperament {
    * Returns the next note in the temperament
    * given a starting note `fromNote`.
    *
-   * An optional parameter `stepsAway` allows you
-   * specify how steps to travel (default=1)
+   * An optional parameter `semitonesAway` allows you
+   * specify how many semitones (steps) to travel (default=1)
    *
    * e.g.
    *
@@ -161,9 +164,9 @@ export class Temperament {
    *  > Given Note('Ab'), this will return Note('A')
    *
    */
-  getNextNote(fromNote: Note, stepsAway: number = 1): Note {
+  getNextNote(fromNote: Note, semitonesAway: number = 1): Note {
     const offset: number = this._getRelativeNoteOffset(fromNote);
-    let index: number = (offset + stepsAway) % this.notes.length;
+    let index: number = (offset + semitonesAway) % this.notes.length;
     if (index < 0) {
       index = this.notes.length + index;
     }

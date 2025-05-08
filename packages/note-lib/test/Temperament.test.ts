@@ -44,11 +44,11 @@ test("class Temperament", function (_t) {
     "next note loop (different note, matching alias)",
   );
 
-  assert.deepEqual(twelveTET.getNextNote(A, 2), B, "two steps away");
+  assert.deepEqual(twelveTET.getNextNote(A, 2), B, "two semitones away");
 
   assert.deepEqual(twelveTET.getNextNote(A, -1), Ab, "backward steps!");
 
-  assert.deepEqual(twelveTET.getNextNote(A, -12), A, "backward steps!");
+  assert.deepEqual(twelveTET.getNextNote(A, -12), A, "backward steps to get to same note!");
 
   assert.equal(twelveTET.valueOf(), JSON.stringify(twelveTET));
   assert.equal(twelveTET.toString(), JSON.stringify(twelveTET));
