@@ -65,27 +65,27 @@ export class ChordType {
   // Update: 9#5 and aug9 are the same intervals, but different names, for example.
   // So this function is useful unless we do a very thorough job of compiling 
   // the alternate names into one ChordType instance.
-  // Unclear if this functions correctly yet though - needs testing and the scales variable needs renaming
-  getEquivChordTypes(scales: ChordType[]): ChordType[] {
+  // Unclear if this functions correctly yet though
+  getEquivChordTypes(chordTypes: ChordType[]): ChordType[] {
     const equivChordTypes: ChordType[] = [];
     const scaleLength: number = this.intervals.length;
 
     // Loop through each scale
-    for (let i = 0; i < scales.length; i++) {
+    for (let i = 0; i < chordTypes.length; i++) {
       // Loop through each scale's intervals
       // eslint-disable-next-line no-labels
       loopThruIntervals: {
         // This if check is only here to speed up function
-        if (scaleLength === scales[i].intervals.length) {
-          for (let j = 0; j < scales[i].intervals.length; j++) {
+        if (scaleLength === chordTypes[i].intervals.length) {
+          for (let j = 0; j < chordTypes[i].intervals.length; j++) {
             if (
-              this.intervals[j].semitones !== scales[i].intervals[j].semitones
+              this.intervals[j].semitones !== chordTypes[i].intervals[j].semitones
             ) {
               // eslint-disable-next-line no-labels
               break loopThruIntervals;
             }
           }
-          equivChordTypes.push(scales[i]);
+          equivChordTypes.push(chordTypes[i]);
         }
       }
     }

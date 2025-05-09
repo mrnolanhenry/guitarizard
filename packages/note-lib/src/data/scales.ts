@@ -2,6 +2,14 @@ import * as Constants from "../constants/Constants";
 import { Scale } from "../Scale";
 import { twelveTET } from "./temperaments/twelveTET";
 
+
+// NOLAN TODO:
+// As long as it doesn't slow down the app, the number[] of intervalsBySemitones should eventually be replaced by Interval[]
+// This is especially true if we refactor the Interval class and refactor twelveTET to include Intervals like an 11th or 13th
+// However, without knowing more about each scale, it would be difficult to know which intervals to include 
+// (whether an Interval was a 6th or actually a 13th in a particular scale, for instance).
+// This nuance is more applicable/important for ChordTypes, but it would be nice to have it for Scales as well.
+// Melodic minor (ascending) vs. melodic minor (descending) is a good example of where this nuance MIGHT apply though.
 const scales = [
   new Scale(Constants.AEOLIAN, twelveTET, [0, 2, 3, 5, 7, 8, 10, 12]),
   // aeolian AKA natural minor AKA ethiopian Geez AKA ethiopian Ezel AKA melodic minor descending AKA natural (pure) minor

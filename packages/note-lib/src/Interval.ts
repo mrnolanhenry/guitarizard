@@ -5,6 +5,11 @@
 import * as Constants from "./constants/Constants";
 import { IIntervalAlias } from "./interfaces/IIntervalAlias";
 
+// NOLAN TODO: 
+// Consider adding a "quality" property to the Interval class, which could be an enum or string that indicates the quality of the interval (e.g., "perfect", "major", "minor", "diminished", "augmented").
+// Consider adding "role" to the Interval class, which would be a string that describes the interval's function in a scale or chord (e.g., "root", "third", "fifth").
+// This may require significant refactor, and actually may be better suited to the IIntervalAlias interface instead of the Interval class itself.
+// That, or this Interval class should correspond to only one IIntervalAlias, and the Temperament class should be constructed with "duplicate" Intervals that share the same number of semitones.
 export class Interval {
   semitones: number;
   aliases: IIntervalAlias[];
