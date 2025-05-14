@@ -20,6 +20,20 @@ test("class Interval", function (_t) {
     { name: lib.Constants.ROOT, short: lib.Constants.ROOT_SHORT },
   ]);
 
+  const intervalPriority2 = new Interval(0, [
+    {
+      name: lib.Constants.PERFECT,
+      long: lib.Constants.PERFECT_UNISON,
+      short: lib.Constants.PERFECT_UNISON_SHORT,
+    },
+    {
+      name: lib.Constants.DIMINISHED,
+      long: lib.Constants.DIMINISHED_SECOND,
+      short: lib.Constants.DIMINISHED_SECOND_SHORT,
+    },
+    { name: lib.Constants.ROOT, short: lib.Constants.ROOT_SHORT },
+  ], 2);
+
   assert.deepEqual(
     interval.toJSON(),
     {
@@ -43,6 +57,7 @@ test("class Interval", function (_t) {
       isMajor: false,
       isMinor: false,
       isRoot: true,
+      priority: 1
     },
     "JSON should be correct",
   );
@@ -55,4 +70,7 @@ test("class Interval", function (_t) {
   assert.equal(interval.isAugmented, false);
   assert.equal(interval.isMajor, false);
   assert.equal(interval.isMinor, false);
+
+  assert.equal(interval.priority, 1);
+  assert.equal(intervalPriority2.priority, 2);
 });

@@ -34,7 +34,7 @@ const FretBoard = (props: IFretBoardProps) => {
       {[...Array(maxFretCount)].map((_, i) => {
         return (
           <div key={`fret-${i}`} style={fretBarStyle}>
-            {i === 0 ? "*" : i}
+            {i}
           </div>
         );
       })}

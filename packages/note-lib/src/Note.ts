@@ -36,7 +36,7 @@ export class Note {
 
   /**
    * Find a note by pitch. It can be the current note,
-   * or one of it's aliases
+   * or one of its aliases
    */
   findByPitch(pitch: NotePitch): Note | null {
     // check the current note
