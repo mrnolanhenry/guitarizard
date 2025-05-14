@@ -84,7 +84,7 @@ const chordTypes = [
   new ChordType("13addb9", twelveTET, [intervals[0], intervals[1], intervalsPriority2[2], intervals[4], intervalsPriority2[5], intervalsPriority2[7], intervals[9], intervals[10]], ["dominant 13th, added flat 9th"]),
   new ChordType("7b9add13", twelveTET, [intervals[0], intervals[1], intervals[4], intervalsPriority2[7], intervals[9], intervals[10]], ["dominant 7th, flat 9th, added 13th"]),
   new ChordType("7b9addb13", twelveTET, [intervals[0], intervals[1], intervals[4], intervalsPriority2[7], intervals[8], intervals[10]], ["dominant 7th, flat 9th, added flat 13th"]),
-  new ChordType("11b9", twelveTET, [intervals[0], intervals[1], intervals[5], intervals[7], intervals[10]], ["dominant 11th, flat 9th", "7sus4(b9)"]),
+  new ChordType("11b9", twelveTET, [intervals[0], intervals[1], intervalsPriority2[2], intervals[4], intervals[5], intervalsPriority2[7], intervals[10]], ["dominant 11th, flat 9th"]),
   new ChordType("sus2sus4", twelveTET, [intervals[0], intervals[2], intervals[5], intervals[7]], ["suspended 2nd, suspended 4th"]),
   new ChordType("-5", twelveTET, [intervals[0], intervals[4], intervals[6]], ["major, diminished 5th"]),
   new ChordType("7sus2", twelveTET, [intervals[0], intervals[2], intervalsPriority2[7], intervals[10]], ["dominant 7th, suspended 2nd"]),
