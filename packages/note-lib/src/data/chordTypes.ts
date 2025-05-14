@@ -1,11 +1,19 @@
 import * as Constants from "../constants/Constants";
 import { ChordType } from "../ChordType";
-import { twelveTET } from "./temperaments/twelveTET";
-import { IntervalInChord } from "../IntervalInChord";
+import { Interval } from "../Interval";
 import { Temperament } from "../Temperament";
+import { twelveTET } from "./temperaments/twelveTET";
 
-const getIntervalsInChord = (temperament: Temperament, priority?: number): IntervalInChord[] => {
-  return temperament.intervals.map((interval) => { return IntervalInChord.fromInterval(interval, priority)});
+const getIntervalsInChord = (temperament: Temperament, priority?: number): Interval[] => {
+  if (!priority){
+    return temperament.intervals;
+  }
+  else {
+    return temperament.intervals.map((interval) => { 
+      interval.priority = priority;
+      return interval;
+    });
+  }
 }
 
 const intervals = getIntervalsInChord(twelveTET);

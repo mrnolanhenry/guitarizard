@@ -19,10 +19,12 @@ export class Interval {
   isDiminished: boolean;
   isPerfect: boolean;
   isRoot: boolean;
+  priority: number; // Priority is used to determine the importance of the interval in a chord, with higher numbers indicating less important intervals - could also apply to scales
 
-  constructor(semitones: number, aliases: IIntervalAlias[]) {
+  constructor(semitones: number, aliases: IIntervalAlias[], priority: number = 1) {
     this.semitones = semitones;
     this.aliases = aliases;
+    this.priority = priority;
 
     this.isMajor = this.hasAliasName(Constants.MAJOR);
     this.isMinor = this.hasAliasName(Constants.MINOR);
@@ -41,6 +43,7 @@ export class Interval {
     return {
       semitones: this.semitones,
       aliases: this.aliases,
+      priority: this.priority,
       isMajor: this.isMajor,
       isMinor: this.isMinor,
       isAugmented: this.isAugmented,
