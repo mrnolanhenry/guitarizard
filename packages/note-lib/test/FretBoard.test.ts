@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert";
-import { twelveTET } from "../src/data/temperaments/twelveTET";
+import { twelveTET, twelveTETIntervals, twelveTETNotes } from "../src/data/temperaments";
 import { Note } from "../src/Note";
+import { Key } from "../src/Key";
 import { Temperament } from "../src/Temperament";
 import { Scale } from "../src/Scale";
 import { TunedString } from "../src/TunedString";
@@ -10,23 +11,37 @@ import { NotePitch } from "../src/enums/NotePitch";
 import { Course } from "../src/Course";
 import { IFretSpan } from "../src/interfaces/IFretSpan";
 import * as lib from "../src";
-import { notes } from "../src/data/temperaments";
 
-const { Ab, A, Bb, B, C, Cs, Db, D, E, F, Fs, Gb, G } = notes;
+const { Ab, A, Bb, B, C, Cs, Db, D, E, F, Fs, Gb, G } = twelveTETNotes;
+const {   
+  twelveTETP1,
+  twelveTETm2,
+  twelveTETM2,
+  twelveTETm3,
+  twelveTETM3,
+  twelveTETP4,
+  twelveTETd5,
+  twelveTETP5,
+  twelveTETm6,
+  twelveTETM6,
+  twelveTETm7,
+  twelveTETM7,
+  twelveTETP8,  
+} = twelveTETIntervals;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class FretBoard --- init", function (_t) {
-  const system = new Temperament("test", [
-    new Note("X", NotePitch.Neither),
-    new Note("Y", NotePitch.Neither),
+  const system = new Temperament("test", [twelveTET.intervals[0], twelveTET.intervals[1]], [
+    new Note("X", NotePitch.Natural),
+    new Note("Y", NotePitch.Natural),
   ]);
 
   const courses = [
     new Course("X", [
-      new TunedString("X", new Note("X", NotePitch.Neither), "metal", 0.25),
+      new TunedString("X", new Note("X", NotePitch.Natural), "metal", 0.25),
     ]),
     new Course("Y", [
-      new TunedString("Y", new Note("Y", NotePitch.Neither), "metal", 0.33),
+      new TunedString("Y", new Note("Y", NotePitch.Natural), "metal", 0.33),
     ]),
   ];
 
@@ -46,24 +61,24 @@ test("class FretBoard --- init", function (_t) {
       course: courses[0],
       config: fretSpan[0],
       notes: [
-        { value: new Note("X", NotePitch.Neither), fretNumber: 0 },
-        { value: new Note("Y", NotePitch.Neither), fretNumber: 1 },
-        { value: new Note("X", NotePitch.Neither), fretNumber: 2 },
+        { value: new Note("X", NotePitch.Natural), fretNumber: 0 },
+        { value: new Note("Y", NotePitch.Natural), fretNumber: 1 },
+        { value: new Note("X", NotePitch.Natural), fretNumber: 2 },
       ],
     },
     {
       course: courses[1],
       config: fretSpan[1],
       notes: [
-        { value: new Note("Y", NotePitch.Neither), fretNumber: 1 },
-        { value: new Note("X", NotePitch.Neither), fretNumber: 2 },
+        { value: new Note("Y", NotePitch.Natural), fretNumber: 1 },
+        { value: new Note("X", NotePitch.Natural), fretNumber: 2 },
       ],
     },
   ]);
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-test("class FretBoard --- getNotesInScale", function (_t) {
+test("class FretBoard --- getNotesInKey", function (_t) {
   const courses = [
     new Course("0", [new TunedString("0", E, "metal", 0.254)]),
     new Course("1", [new TunedString("1", A, "metal", 0.3302)]),
@@ -79,14 +94,15 @@ test("class FretBoard --- getNotesInScale", function (_t) {
   const chromatic = new Scale(
     "chromatic",
     twelveTET,
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    [twelveTETP1, twelveTETm2, twelveTETM2, twelveTETm3, twelveTETM3, twelveTETP4, twelveTETd5, twelveTETP5, twelveTETm6, twelveTETM6, twelveTETm7, twelveTETM7, twelveTETP8],
   );
 
+  const noteA = new Note(lib.Constants.A, NotePitch.Natural);
+  const noteB = new Note(lib.Constants.B, NotePitch.Natural);
+  const noteFs = new Note(lib.Constants.F_SHARP, NotePitch.Sharp)
+
   assert.deepEqual(
-    stubbyBoard.getNotesInScale(
-      chromatic,
-      new Note(lib.Constants.A, NotePitch.Neither),
-    ),
+    stubbyBoard.getNotesInKey(new Key(noteA, chromatic)),
     [
       {
         course: courses[0],
@@ -116,33 +132,21 @@ test("class FretBoard --- getNotesInScale", function (_t) {
   );
 
   assert.deepEqual(
-    stubbyBoard.getNotesInScale(
-      chromatic,
-      new Note(lib.Constants.A, NotePitch.Neither),
-    ),
-    stubbyBoard.getNotesInScale(
-      chromatic,
-      new Note(lib.Constants.B, NotePitch.Neither),
-    ),
+    stubbyBoard.getNotesInKey(new Key(noteA, chromatic)),
+    stubbyBoard.getNotesInKey(new Key(noteB,chromatic)),
     "chromatic scale does not change based on key",
   );
 
   assert.deepEqual(
-    stubbyBoard.getNotesInScale(
-      chromatic,
-      new Note(lib.Constants.A, NotePitch.Neither),
-    ),
+    stubbyBoard.getNotesInKey(new Key(noteA, chromatic)),
     stubbyBoard.getNotes(),
     "chromatic scale is the same as `getNotes()`",
   );
 
-  const blues = new Scale("blues", twelveTET, [0, 3, 5, 6, 7, 10, 12]);
+  const blues = new Scale("blues", twelveTET, [twelveTETP1, twelveTETm3, twelveTETP4, twelveTETd5, twelveTETP5, twelveTETm7, twelveTETP8]);
 
   assert.deepEqual(
-    stubbyBoard.getNotesInScale(
-      blues,
-      new Note(lib.Constants.A, NotePitch.Neither),
-    ),
+    stubbyBoard.getNotesInKey(new Key(noteA, blues)),
     [
       {
         course: courses[0],
@@ -167,10 +171,7 @@ test("class FretBoard --- getNotesInScale", function (_t) {
   );
 
   assert.deepEqual(
-    stubbyBoard.getNotesInScale(
-      blues,
-      new Note(lib.Constants.F_SHARP, NotePitch.Sharp),
-    ),
+    stubbyBoard.getNotesInKey(new Key(noteFs, blues)),
     [
       {
         config: fretSpan[0],

@@ -3,8 +3,8 @@ import React, { CSSProperties, useEffect } from "react";
 import { ToolSelector, ToolName } from "./selectors/ToolSelector";
 import { Base16Theme } from "../colors/themes";
 import { ThemeSelector } from './selectors/ThemeSelector';
-import { Settings as SettingsIcon } from '@mui/icons-material';
-import { Grid, IconButton, useTheme } from "@mui/material";
+import { FullscreenExitRounded as FullscreenExitRoundedIcon, FullscreenRounded as FullscreenRoundedIcon, Settings as SettingsIcon } from '@mui/icons-material';
+import { Button, Grid, IconButton, useTheme } from "@mui/material";
 import { IAppDialogState } from "./AppDialog";
 import { SettingsMenu } from "./SettingsMenu";
 
@@ -13,6 +13,8 @@ interface Props {
   dialogState: IAppDialogState;
   isAuthenticated: boolean;
   isDarkTheme: boolean;
+  isFullscreen: boolean;
+  isMediumScreen: boolean;
   isRainbowMode: boolean;
   isSmallScreen: boolean;
   onLoginClick: () => void;
@@ -22,6 +24,7 @@ interface Props {
   setTheme: React.Dispatch<React.SetStateAction<Base16Theme>>;
   shouldHighlightPiano: boolean;
   theme: Base16Theme;
+  toggleFullscreen: () => void;
   togglePianoHighlight: () => void;
   toggleRainbowMode: () => void;
 }
@@ -32,6 +35,7 @@ const TopBar = (props: Props) => {
     dialogState,
     isAuthenticated,
     isDarkTheme,
+    isMediumScreen,
     isRainbowMode,
     isSmallScreen,
     onLoginClick,
@@ -40,7 +44,9 @@ const TopBar = (props: Props) => {
     setDialogState,
     setTheme,
     shouldHighlightPiano,
+    isFullscreen,
     theme,
+    toggleFullscreen,
     togglePianoHighlight,
     toggleRainbowMode,
   } = props;
@@ -103,6 +109,20 @@ const TopBar = (props: Props) => {
     )
   }
 
+  const renderFullscreenButtonDetails = () => {
+    const enterOrExitText: string = isFullscreen ? "Exit" : "Enter";
+    return (
+        <>
+        <span>{enterOrExitText} Full Screen</span>
+        { isFullscreen ? 
+          <FullscreenExitRoundedIcon sx={{ paddingLeft: "5px", paddingRight: "5px" }}/> 
+          :
+          <FullscreenRoundedIcon sx={{ paddingLeft: "5px", paddingRight: "5px" }}/>
+         }
+        </>
+    )
+  }
+
   return (
     <Grid container className="top-bar" alignItems="center" style={style} padding={isSmallScreen ? 2 : 1}>
       <Grid item container className="left" xs={9} sm={3} md={2} justifyContent={"flex-start"} style={leftStyle}>
@@ -125,19 +145,27 @@ const TopBar = (props: Props) => {
             theme={theme}
           />
         </Grid> */}
-          <div 
-            id="settings-button" 
-            aria-label="settings-button" 
-            onClick={() => setDialogState({
-              ...dialogState, 
-              isOpen: true, 
-              title: "Settings", 
-              content: renderSettingsMenu()
-              })}>
-            <IconButton color="secondary">
-              <SettingsIcon />
-            </IconButton>
-          </div>
+        {isMediumScreen && 
+          <Button
+            color="secondary"
+            onClick={toggleFullscreen}
+            sx={{paddingLeft: "0px", paddingRight:"8px", fontSize: ".8rem"}}>
+            {renderFullscreenButtonDetails()}
+          </Button>
+        }
+        <div 
+          id="settings-button" 
+          aria-label="settings-button" 
+          onClick={() => setDialogState({
+            ...dialogState, 
+            isOpen: true, 
+            title: "Settings", 
+            content: renderSettingsMenu()
+            })}>
+          <IconButton color="secondary">
+            <SettingsIcon />
+          </IconButton>
+        </div>
       </Grid>
     </Grid>
   );

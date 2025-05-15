@@ -99,7 +99,7 @@ const App = () => {
   const scales: Scale[] = data.scales;
   const initKeyNote: Note = twelveTET.getNoteFromID(Constants.E) as Note;
   const initScale: Scale = scales.find(
-    (scale) => scale.name === Constants.MAJOR,
+    (scale) => scale.name === Constants.MAJOR.toLocaleLowerCase(),
   ) as Scale;
   const instrumentMap = initInstruments(twelveTET);
   const [instruments, setInstruments] = useState(instrumentMap);
@@ -115,6 +115,25 @@ const App = () => {
   const [activeToolName, setActiveToolName] = useState("scalebook");
   const initDialogState: IAppDialogState = { isOpen: false }
   const [dialogState, setDialogState] = useState(initDialogState);
+  const [isFullscreen, setIsFullscreen] = useState(!!document.fullscreenElement);
+
+  const toggleFullscreen = (): void => {
+    setIsFullscreen(!isFullscreen);
+  }
+
+  useEffect(() => {
+    const body = document.querySelector("body");
+    if (body) {
+        if (isFullscreen) {
+          body.requestFullscreen()
+            .then(() => {
+              body.style.overflow = "auto";
+            });
+        } else if (document.fullscreenElement) {
+          document.exitFullscreen();
+        }
+    }
+  }, [isFullscreen]);
 
   useEffect(() => {
     const ls_theme = localStorage.getItem("theme");
@@ -134,8 +153,8 @@ const App = () => {
     setShouldHighlightPiano(!shouldHighlightPiano);
   };
 
-  const onKeyNoteSelect = (keyNote: Note): void => {
-    setActiveKey(new Key(keyNote, activeKey.scale));
+  const onKeyTonicSelect = (tonic: Note): void => {
+    setActiveKey(new Key(tonic, activeKey.scale));
   };
 
   const onInstrumentSelect = (instrument: FrettedInstrument): void => {
@@ -146,11 +165,11 @@ const App = () => {
   };
 
   const onScaleSelect = (scale: Scale): void => {
-    setActiveKey(new Key(activeKey.note, scale));
+    setActiveKey(new Key(activeKey.tonic, scale));
   };
 
   const updateKey = (key: Key): void => {
-    setActiveKey(new Key(key.note, key.scale));
+    setActiveKey(new Key(key.tonic, key.scale));
   };
 
   const setInstrumentTuning = (courseId: string, newTuning: Note): void => {
@@ -231,7 +250,7 @@ const App = () => {
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}
           onInstrumentTuneToPreset={onInstrumentTuneToPreset}
-          onKeyNoteSelect={onKeyNoteSelect}
+          onKeyTonicSelect={onKeyTonicSelect}
           onScaleSelect={onScaleSelect}
           shouldHighlightPiano={shouldHighlightPiano}
           theme={theme}
@@ -260,6 +279,8 @@ const App = () => {
             dialogState={dialogState}
             isAuthenticated={false}
             isDarkTheme={isDarkColor(theme.swatch.base01)}
+            isFullscreen={isFullscreen}
+            isMediumScreen={isMediumScreen}
             isRainbowMode={isRainbowMode}
             isSmallScreen={isSmallScreen}
             onLoginClick={() => false}
@@ -271,6 +292,7 @@ const App = () => {
             setTheme={setTheme}
             shouldHighlightPiano={shouldHighlightPiano}
             theme={theme}
+            toggleFullscreen={toggleFullscreen}
             togglePianoHighlight={togglePianoHighlight}
             toggleRainbowMode={toggleRainbowMode}
           />

@@ -5,12 +5,13 @@ import { Note } from "../src/Note";
 import { Temperament } from "../src/Temperament";
 import { TunedString } from "../src/TunedString";
 import { NotePitch } from "../src/enums/NotePitch";
-import { notes } from "../src/data/temperaments";
+import { twelveTETNotes } from "../src/data/temperaments";
+import { twelveTET } from "../src/data/temperaments/twelveTET";
 import { Constants } from "../src";
 
 test("class TunedString", function (t) {
-  const { A, Bb, B } = notes;
-  const smallTwelveTET = new Temperament("small", [A, Bb, B]);
+  const { A, Bb, B } = twelveTETNotes;
+  const smallTwelveTET = new Temperament("small", [twelveTET.intervals[0], twelveTET.intervals[1], twelveTET.intervals[2]], [A, Bb, B]);
 
   const AString = new TunedString(Constants.A, A, "catgut", 0.2);
 
@@ -50,14 +51,14 @@ test("class TunedString", function (t) {
   void t.test("setTuningNote", (_t) => {
     const testString = new TunedString(
       "x",
-      new Note("x", NotePitch.Neither),
+      new Note("x", NotePitch.Natural),
       "catgut",
       0.2,
     );
 
     assert.equal(testString.tuningNote.id, "x");
 
-    testString.setTuningNote(new Note("y", NotePitch.Neither));
+    testString.setTuningNote(new Note("y", NotePitch.Natural));
 
     assert.equal(testString.tuningNote.id, "y");
   });

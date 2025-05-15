@@ -26,7 +26,7 @@ const KeySegment = (props: IKeySegmentProps) => {
   // Get the note on this "string" (whether it exists in the scale or not)
   const noteIgnoreScale: Note| undefined = allNotesOnCourse.getNoteFromFretNumber(fret);
 
-  const notesInKey: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
+  const notesInKey: Note[] = activeKey.notesInKey;
   const noteIsInKey = note && !!notesInKey.find((noteInKey) => noteInKey.isSimilar(note));
 
   const getRainbowColor = (defaultColor: string = "#BBB") => {

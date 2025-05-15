@@ -2,14 +2,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { Constants } from "../src";
-import { notes } from "../src/data/temperaments";
-import { twelveTET } from "../src/data/temperaments/twelveTET";
+import { twelveTET, twelveTETNotes } from "../src/data/temperaments";
 import { NotePitch } from "../src/enums/NotePitch";
 import { Note } from "../src/Note";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class Temperament", function (_t) {
-  const { Ab, A, As, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs } = notes;
+  const { Ab, A, As, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs } = twelveTETNotes;
 
   assert.equal(twelveTET.notes.length, 12, "should have 12 notes");
 
@@ -19,18 +18,18 @@ test("class Temperament", function (_t) {
     "pluck note given an id",
   );
 
-  assert.equal(twelveTET.getNoteInterval(A, C), 3, "correct offset (basic)");
+  assert.equal(twelveTET.getSemitonesBetweenNotes(A, C), 3, "correct offset (basic)");
 
-  assert.equal(twelveTET.getNoteInterval(G, A), 2, 'correct offset ("loop")');
+  assert.equal(twelveTET.getSemitonesBetweenNotes(G, A), 2, 'correct offset ("loop")');
 
   assert.equal(
-    twelveTET.getNoteInterval(As, A),
+    twelveTET.getSemitonesBetweenNotes(As, A),
     11,
     'correct offset ("loop starting from sharp note")',
   );
 
   assert.equal(
-    twelveTET.getNoteInterval(Bb, A),
+    twelveTET.getSemitonesBetweenNotes(Bb, A),
     11,
     'correct offset ("loop starting from flat note")',
   );
@@ -45,11 +44,11 @@ test("class Temperament", function (_t) {
     "next note loop (different note, matching alias)",
   );
 
-  assert.deepEqual(twelveTET.getNextNote(A, 2), B, "two steps away");
+  assert.deepEqual(twelveTET.getNextNote(A, 2), B, "two semitones away");
 
   assert.deepEqual(twelveTET.getNextNote(A, -1), Ab, "backward steps!");
 
-  assert.deepEqual(twelveTET.getNextNote(A, -12), A, "backward steps!");
+  assert.deepEqual(twelveTET.getNextNote(A, -12), A, "backward steps to get to same note!");
 
   assert.equal(twelveTET.valueOf(), JSON.stringify(twelveTET));
   assert.equal(twelveTET.toString(), JSON.stringify(twelveTET));

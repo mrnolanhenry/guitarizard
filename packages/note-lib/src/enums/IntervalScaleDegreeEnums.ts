@@ -1,0 +1,47 @@
+export enum IntervalScaleDegreeSpelledOut {
+    Unison = "Unison",
+    Second = "Second",
+    Third = "Third",
+    Fourth = "Fourth",
+    Fifth = "Fifth",
+    Sixth = "Sixth",
+    Seventh = "Seventh",
+    Octave = "Octave",
+    Ninth = "Ninth",
+    Tenth = "Tenth",
+    Eleventh = "Eleventh",
+    Twelfth = "Twelfth",
+    Thirteenth = "Thirteenth",
+}
+
+export enum IntervalScaleDegreeOrdinal {
+    Unison = "Unison",
+    Second = "2nd",
+    Third = "3rd",
+    Fourth = "4th",
+    Fifth = "5th",
+    Sixth = "6th",
+    Seventh = "7th",
+    Octave = "Octave",
+    Ninth = "9th",
+    Tenth = "10th",
+    Eleventh = "11th",
+    Twelfth = "12th",
+    Thirteenth = "13th",
+}
+
+export enum IntervalScaleDegreeNumeric {
+    Unison = 1,
+    Second = 2,
+    Third = 3,
+    Fourth = 4,
+    Fifth = 5,
+    Sixth = 6,
+    Seventh = 7,
+    Octave = 8,
+    Ninth = 9,
+    Tenth = 10,
+    Eleventh = 11,
+    Twelfth = 12,
+    Thirteenth = 13,
+}

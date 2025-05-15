@@ -27,7 +27,7 @@ const getNoteTextStyle = (
   };
 
   if (isRainbowMode && note) {
-    const notes: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
+    const notes: Note[] = activeKey.notesInKey;
 
     const semitones: number[] = activeKey.scale.intervals.map(
       (interval) => interval.semitones,
@@ -209,8 +209,6 @@ const stopNote = (note: Note) => {
 };
 
 const startNote = (note: Note) => {
-  console.log(note);
-
   const mitNote = findMitNote(a_440_fr3qu3ncy_list, note.id);
 
   if (mitNote) {
