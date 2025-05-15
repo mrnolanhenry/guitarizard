@@ -209,8 +209,6 @@ const stopNote = (note: Note) => {
 };
 
 const startNote = (note: Note) => {
-  console.log(note);
-
   const mitNote = findMitNote(a_440_fr3qu3ncy_list, note.id);
 
   if (mitNote) {
