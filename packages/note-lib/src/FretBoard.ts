@@ -6,6 +6,7 @@ import { ScaleOnCourse } from "./ScaleOnCourse";
 import { IFretSpan } from "./interfaces/IFretSpan";
 import { NotePitch } from "./enums/NotePitch";
 import { NoteFretNumberPair } from "./NoteFretNumberPair";
+import { Key } from "./Key";
 
 export class FretBoard {
   temperament: Temperament;
@@ -66,7 +67,8 @@ export class FretBoard {
   }
 
   /**
-   *
+   * NOLAN TODO: Do some renaming of either this method or "ScaleOnCourse"
+   * gets all notes available on each course of the Fretboard
    */
   getNotes(): ScaleOnCourse[] {
     return this.courses.map((course, i) => {
@@ -87,23 +89,24 @@ export class FretBoard {
     });
   }
 
+  // NOLAN TODO: Do some renaming of either this method or "ScaleOnCourse"
   // same result as `getNotes`, but the notes are filtered
   // out according to the scale given. EG. A chromatic
   // scale will always equal the output of `getNotes`
-  getNotesInScale(scale: Scale, keyNote: Note): ScaleOnCourse[] {
-    const keyNotes = scale.getNotesInKey(keyNote);
+  getNotesInKey(key: Key): ScaleOnCourse[] {
+    const notesInKey = key.getNotesInKey();
     return this.getNotes().map((string) => {
       // filter out any notes that don't exist
-      // in the `keyNotes` array
+      // in the `notesInKey` array
       const fretNotes = string.notes.filter((fretNote) => {
-        return !!keyNotes.find((keyNote) => fretNote.value.isSimilar(keyNote));
+        return !!notesInKey.find((noteInKey) => fretNote.value.isSimilar(noteInKey));
       });
 
-      // "tune" the notes to the given keyNote. currently
+      // "tune" the notes to the given key.note. currently
       // super dumb... makes the notes "sharp" if the
       // key note is sharp lol.
       const tunedFretNotes = fretNotes.map((fretNote) => {
-        if (keyNote.pitch === NotePitch.Sharp) {
+        if (key.tonic.pitch === NotePitch.Sharp) {
           const sharpNote = fretNote.value.findSharp();
 
           if (sharpNote) {

@@ -19,7 +19,7 @@ const sortKeysByNoteAndScale = (keyArray: Key[], primaryKey?: Key): Key[] => {
   }  
 
   keyArray.sort( function(a: Key, b: Key): number {
-    return (ordering[a.note.id] - ordering[b.note.id]) || a.scale.name.localeCompare(b.scale.name);
+    return (ordering[a.tonic.id] - ordering[b.tonic.id]) || a.scale.name.localeCompare(b.scale.name);
   });
 
   return keyArray;

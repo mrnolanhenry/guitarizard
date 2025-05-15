@@ -2,15 +2,41 @@ import { Note } from "./Note";
 import { Scale } from "./Scale";
 
 import scales from "./data/scales";
+import { NotePitch } from "./enums/NotePitch";
 import * as util from "./util";
 import isEqual from "lodash/isEqual";
 
 export class Key {
-  note: Note;
+  tonic: Note; // the tonic note AKA the root note or first scale degree
   scale: Scale;
-  constructor(note: Note, scale: Scale) {
-    this.note = note;
+  notesInKey: Note[];
+  constructor(tonic: Note, scale: Scale) {
+    this.tonic = tonic;
     this.scale = scale;
+    this.notesInKey = this.getNotesInKey();
+  }
+
+  // Get all notes that are in the key
+  getNotesInKey(): Note[] {
+    // start the temperament at the correct note
+    const shiftedNotes: Note[] = this.scale.temperament.getShiftedNotes(this.tonic);
+
+    // pull correct note aliases
+    const notes: Note[] = shiftedNotes.map((note) => {
+      if (this.tonic.pitch === NotePitch.Sharp) {
+        const sharpNote = note.findSharp();
+        if (sharpNote) {
+          return sharpNote;
+        }
+      }
+
+      return note;
+    });
+
+    // map notes to given intervals
+    return this.scale.intervals.map((interval) => {
+      return notes[interval.semitones % this.scale.temperament.notes.length];
+    });
   }
 
   // Given a key's note and scale, return equivalent keys if you were to transpose into other notes & scales
@@ -31,7 +57,7 @@ export class Key {
     // Loop through each note in the temperament to check for equivalent scales given that note
     for (let j = 0; j < this.scale.temperament.notes.length; j++) {
       const noteInterval = this.scale.temperament.getSemitonesBetweenNotes(
-        this.note,
+        this.tonic,
         this.scale.temperament.notes[j],
       );
       // Loop through each scale and create an array of intervalsBySemitones that we adjust by the interval between the key notes
@@ -70,13 +96,14 @@ export class Key {
   }
 
   getDisplayName(): string {
-    return this.note.id + " " + this.scale.name;
+    return this.tonic.id + " " + this.scale.name;
   }
 
   toJSON() {
     return {
-      note: this.note,
+      tonic: this.tonic,
       scale: this.scale,
+      notesInKey: this.notesInKey,
     };
   }
 

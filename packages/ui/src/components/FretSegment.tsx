@@ -27,7 +27,7 @@ const getNoteTextStyle = (
   };
 
   if (isRainbowMode && note) {
-    const notes: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
+    const notes: Note[] = activeKey.notesInKey;
 
     const semitones: number[] = activeKey.scale.intervals.map(
       (interval) => interval.semitones,

@@ -21,39 +21,10 @@ export class Scale {
     intervalsBySemitones: number[],
   ) {
     this.name = name;
-    console.log("this.name",this.name);
     this.temperament = temperament;
-    console.log("this.temperament",this.temperament);
-    console.log("intervalsBySemitones",intervalsBySemitones);
     this.intervals = intervalsBySemitones.map(
       (semitone) => temperament.findInterval(semitone),
     );
-    console.log("this.intervals",this.intervals);
-  }
-
-  // NOLAN TODO: 
-  // This feels like it no longer belongs on Scale.ts, but rather Key.ts? 
-  // Double-check later
-  getNotesInKey(keyNote: Note): Note[] {
-    // start the temperament at the correct note
-    const shiftedNotes: Note[] = this.temperament.getShiftedNotes(keyNote);
-
-    // pull correct note aliases
-    const notes: Note[] = shiftedNotes.map((note) => {
-      if (keyNote.pitch === NotePitch.Sharp) {
-        const sharpNote = note.findSharp();
-        if (sharpNote) {
-          return sharpNote;
-        }
-      }
-
-      return note;
-    });
-
-    // map notes to given intervals
-    return this.intervals.map((interval) => {
-      return notes[interval.semitones % this.temperament.notes.length];
-    });
   }
 
   // Given a scale, return equivalent scales that have enharmonically equivalent intervals

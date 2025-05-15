@@ -29,7 +29,7 @@ interface IScalebookProps {
   onInstrumentSelect: (instrument: FrettedInstrument) => void;
   onInstrumentTune: (courseId: string, newTuning: Note) => void;
   onInstrumentTuneToPreset: (tuning: Tuning) => void;
-  onKeyNoteSelect: (keyNote: Note) => void;
+  onKeyTonicSelect: (tonic: Note) => void;
   onScaleSelect: (scale: Scale) => void;
   shouldHighlightPiano: boolean;
   temperament: Temperament;
@@ -50,7 +50,7 @@ const Scalebook = (props: IScalebookProps) => {
     onInstrumentSelect,
     onInstrumentTune,
     onInstrumentTuneToPreset,
-    onKeyNoteSelect,
+    onKeyTonicSelect,
     onScaleSelect,
     shouldHighlightPiano,
     temperament,
@@ -65,7 +65,7 @@ const Scalebook = (props: IScalebookProps) => {
   };
 
   const instrument: FrettedInstrument = activeInstrument;
-  const activeKeyNote: Note = activeKey.note;
+  const activeKeyTonic: Note = activeKey.tonic;
   const activeScale: Scale = activeKey.scale;
 
   const instrumentComponent = instrument ? (
@@ -161,8 +161,8 @@ const Scalebook = (props: IScalebookProps) => {
           <NoteSelector
             id="active key"
             label="Key:"
-            note={activeKeyNote}
-            onNoteSelect={onKeyNoteSelect}
+            note={activeKeyTonic}
+            onNoteSelect={onKeyTonicSelect}
             temperament={temperament}
             theme={theme}
           />

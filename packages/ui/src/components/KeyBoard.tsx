@@ -43,10 +43,7 @@ const KeyBoard = (props: IKeyBoardProps) => {
 
   const allNotesOnCourses: ScaleOnCourse[] = fretBoard.getNotes();
 
-  const scalesOnCourses: ScaleOnCourse[] = fretBoard.getNotesInScale(
-    activeKey.scale,
-    activeKey.note,
-  );
+  const scalesOnCourses: ScaleOnCourse[] = fretBoard.getNotesInKey(activeKey);
 
   const getWidthBasedOnNeighboringNotes = (scaleOnCourse: ScaleOnCourse, fretNumber: number):number => {
     let columnWidth = 3;

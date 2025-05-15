@@ -21,10 +21,6 @@ test("class Scale", function (_t) {
 
   assert.equal(blues.name, "Blues");
 
-  assert.deepEqual(blues.getNotesInKey(F), [F, Ab, Bb, B, C, Eb]);
-
-  assert.deepEqual(blues.getNotesInKey(Fs), [Fs, A, B, C, Cs, E]);
-
   assert.deepEqual(
     ionian.getEquivScales(scales),
     [ethiopianAraray, ionian, major],

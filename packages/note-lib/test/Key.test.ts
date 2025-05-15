@@ -9,7 +9,7 @@ import { twelveTETNotes } from "../src/data/temperaments";
 // WIP - will finish test file once Key.ts is finalized
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class Key", function (_t) {
-  const { A, As, Bb, C, D, E, F, G } = twelveTETNotes;
+  const { Ab, A, As, Bb, B, C, Cs, D, Eb, E, F, Fs, G } = twelveTETNotes;
 
   const lydianScale = new Scale(
     "lydian",
@@ -78,6 +78,8 @@ test("class Key", function (_t) {
     [0, 2, 3, 5, 7, 9, 10, 12],
   );
 
+  const bluesScale = new Scale("Blues", twelveTET, [0, 3, 5, 6, 7, 10]);
+
   const BbLydian = new Key(Bb, lydianScale);
   const AsLydian = new Key(As, lydianScale);
   const ANeapolitanMinor = new Key(A, neapolitanMinorScale);
@@ -94,13 +96,16 @@ test("class Key", function (_t) {
   const FMajor = new Key(F, majorScale);
   const GDorian = new Key(G, dorianScale);
 
+  const FBlues = new Key(F, bluesScale);
+  const FsBlues = new Key(Fs, bluesScale);
+
   const BbLydianEquivKeys: Key[] = BbLydian.getEquivKeys();
   const AsLydianEquivKeys: Key[] = AsLydian.getEquivKeys();
 
   assert.deepEqual(BbLydian.scale, lydianScale, "scale identified");
 
-  assert.deepEqual(BbLydian.note, Bb, "flat note identified");
-  assert.deepEqual(AsLydian.note, As, "sharp note identified");
+  assert.deepEqual(BbLydian.tonic, Bb, "flat note identified");
+  assert.deepEqual(AsLydian.tonic, As, "sharp note identified");
 
   assert.deepEqual(
     BbLydianEquivKeys[0],
@@ -156,6 +161,10 @@ test("class Key", function (_t) {
     ],
     "equivalent keys identified given sharp note",
   );
+
+  assert.deepEqual(FBlues.notesInKey, [F, Ab, Bb, B, C, Eb]);
+
+  assert.deepEqual(FsBlues.notesInKey, [Fs, A, B, C, Cs, E]);
 
   assert.equal(BbLydian.valueOf(), JSON.stringify(BbLydian), "valueOf works");
   assert.equal(BbLydian.toString(), JSON.stringify(BbLydian), "toString works");

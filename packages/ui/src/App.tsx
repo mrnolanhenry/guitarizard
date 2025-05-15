@@ -153,8 +153,8 @@ const App = () => {
     setShouldHighlightPiano(!shouldHighlightPiano);
   };
 
-  const onKeyNoteSelect = (keyNote: Note): void => {
-    setActiveKey(new Key(keyNote, activeKey.scale));
+  const onKeyTonicSelect = (tonic: Note): void => {
+    setActiveKey(new Key(tonic, activeKey.scale));
   };
 
   const onInstrumentSelect = (instrument: FrettedInstrument): void => {
@@ -165,11 +165,11 @@ const App = () => {
   };
 
   const onScaleSelect = (scale: Scale): void => {
-    setActiveKey(new Key(activeKey.note, scale));
+    setActiveKey(new Key(activeKey.tonic, scale));
   };
 
   const updateKey = (key: Key): void => {
-    setActiveKey(new Key(key.note, key.scale));
+    setActiveKey(new Key(key.tonic, key.scale));
   };
 
   const setInstrumentTuning = (courseId: string, newTuning: Note): void => {
@@ -250,7 +250,7 @@ const App = () => {
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}
           onInstrumentTuneToPreset={onInstrumentTuneToPreset}
-          onKeyNoteSelect={onKeyNoteSelect}
+          onKeyTonicSelect={onKeyTonicSelect}
           onScaleSelect={onScaleSelect}
           shouldHighlightPiano={shouldHighlightPiano}
           theme={theme}

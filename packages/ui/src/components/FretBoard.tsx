@@ -68,10 +68,7 @@ const FretBoard = (props: IFretBoardProps) => {
   const stringStyle: CSSProperties = { borderColor: theme.swatch.base09 };
   const boardStyle: CSSProperties = { backgroundColor: theme.swatch.base0F };
 
-  const scalesOnCourses: ScaleOnCourse[] = fretBoard.getNotesInScale(
-    activeKey.scale,
-    activeKey.note,
-  );
+  const scalesOnCourses: ScaleOnCourse[] = fretBoard.getNotesInKey(activeKey);
 
   const courses = scalesOnCourses.map((scaleOnCourse, courseIndex) => {
     const tunedStrings: TunedString[] = scaleOnCourse.course.tunedStrings;

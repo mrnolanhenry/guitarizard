@@ -134,7 +134,7 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
       if (!noteToFind) {
         allNotesMatch = false;
       } else {
-        const notesInKey: Note[] = key.scale.getNotesInKey(key.note);
+        const notesInKey: Note[] = key.notesInKey;
         const noteFound: boolean = !!notesInKey.find((note) =>
           note.isSimilar(noteToFind),
         );

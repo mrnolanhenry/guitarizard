@@ -195,28 +195,33 @@ export class Temperament {
    * you can pass in the scale degree's number as a second parameter.
    * e.g. for 12TET pass (2, 3) to get a diminished 3rd instead of the default major 2nd.
    */
-    findIntervals(semitones: number): Interval[] {
-      return this.intervals.filter((interval) => interval.semitones % this.notes.length === semitones);
+    findIntervals(semitones: number, allowEquivalents: boolean = true): Interval[] {
+      return this.intervals.filter((interval) => {
+        const isExactMatch = interval.semitones === semitones;
+        const isEquivalentMatch = interval.semitones % this.notes.length === semitones % this.notes.length
+        return allowEquivalents ?  isEquivalentMatch : isExactMatch;
+      });
     };
 
   /**
    * Given a semitone, return an Interval object.
-   * By default, it will return the first interval that matches the number of semitones.
-   * In most cases, this should suffice as long as the intervals' aliases have been set up correctly.
+   * By default, it will return the first interval that matches the number of semitones or enharmonic equivalent.
+   * You can force this to look for an exact match (e.g. ignore a 6th when you're looking for a 13th)
    * However, if you want to find an interval with a specific scale degree,
    * you can pass in the scale degree's number as a second parameter.
-   * e.g. for 12TET pass (2, 3) to get a diminished 3rd instead of the default major 2nd.
+   * e.g. for 12TET pass (2, false, 3) to get a diminished 3rd instead of the default major 2nd.
    */
-  findInterval(semitones: number, scaleDegreeNumeric?: IntervalScaleDegreeNumeric): Interval {
-    const numberOfNotes: number = this.notes.length;
-    if (!scaleDegreeNumeric) {
-    return this.intervals.find((interval) => interval.semitones % numberOfNotes === semitones % numberOfNotes);
-    }
-    return this.intervals.find(
-      (interval) =>
-        interval.semitones % numberOfNotes === semitones % numberOfNotes &&
-        interval.scaleDegree.numeric === scaleDegreeNumeric,
-    );
+  findInterval(semitones: number, allowEquivalents: boolean = true, scaleDegreeNumeric?: IntervalScaleDegreeNumeric): Interval {  
+    return this.intervals.find((interval) => {
+      const isExactMatch = interval.semitones === semitones;
+      const isEquivalentMatch = interval.semitones % this.notes.length === semitones % this.notes.length;
+      let isMatch = allowEquivalents ? isEquivalentMatch : isExactMatch;
+      if (scaleDegreeNumeric) {
+        const isScaleDegreeMatch = interval.scaleDegree.numeric === scaleDegreeNumeric;
+        isMatch = isMatch && isScaleDegreeMatch;
+      }
+      return isMatch;
+    });
   };
 
   toJSON() {

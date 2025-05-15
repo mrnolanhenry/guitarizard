@@ -60,10 +60,10 @@ const IntervalTable = (props: IIntervalTableProps) => {
       case "Long:":
         return interval.nameOrdinal;
       case "Short (Alt):":
-        var aliasFound: Interval = temperament.findIntervals(interval.semitones)[0];
+        var aliasFound: Interval = temperament.findIntervals(interval.semitones, false)[1];
         return (aliasFound && aliasFound.shortHand) ? aliasFound.shortHand : "";
       case "Long (Alt):":
-        var aliasFound: Interval = temperament.findIntervals(interval.semitones)[0];
+        var aliasFound: Interval = temperament.findIntervals(interval.semitones, false)[1];
         return (aliasFound && aliasFound.nameOrdinal) ? aliasFound.nameOrdinal : "";
       default:
         return interval.semitones.toString();
