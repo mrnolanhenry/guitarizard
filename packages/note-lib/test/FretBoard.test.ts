@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert";
-import { twelveTET, twelveTETNotes } from "../src/data/temperaments";
+import { twelveTET, twelveTETIntervals, twelveTETNotes } from "../src/data/temperaments";
 import { Note } from "../src/Note";
 import { Key } from "../src/Key";
 import { Temperament } from "../src/Temperament";
@@ -13,6 +13,21 @@ import { IFretSpan } from "../src/interfaces/IFretSpan";
 import * as lib from "../src";
 
 const { Ab, A, Bb, B, C, Cs, Db, D, E, F, Fs, Gb, G } = twelveTETNotes;
+const {   
+  twelveTETP1,
+  twelveTETm2,
+  twelveTETM2,
+  twelveTETm3,
+  twelveTETM3,
+  twelveTETP4,
+  twelveTETd5,
+  twelveTETP5,
+  twelveTETm6,
+  twelveTETM6,
+  twelveTETm7,
+  twelveTETM7,
+  twelveTETP8,  
+} = twelveTETIntervals;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class FretBoard --- init", function (_t) {
@@ -79,7 +94,7 @@ test("class FretBoard --- getNotesInKey", function (_t) {
   const chromatic = new Scale(
     "chromatic",
     twelveTET,
-    [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    [twelveTETP1, twelveTETm2, twelveTETM2, twelveTETm3, twelveTETM3, twelveTETP4, twelveTETd5, twelveTETP5, twelveTETm6, twelveTETM6, twelveTETm7, twelveTETM7, twelveTETP8],
   );
 
   const noteA = new Note(lib.Constants.A, NotePitch.Natural);
@@ -128,7 +143,7 @@ test("class FretBoard --- getNotesInKey", function (_t) {
     "chromatic scale is the same as `getNotes()`",
   );
 
-  const blues = new Scale("blues", twelveTET, [0, 3, 5, 6, 7, 10, 12]);
+  const blues = new Scale("blues", twelveTET, [twelveTETP1, twelveTETm3, twelveTETP4, twelveTETd5, twelveTETP5, twelveTETm7, twelveTETP8]);
 
   assert.deepEqual(
     stubbyBoard.getNotesInKey(new Key(noteA, blues)),

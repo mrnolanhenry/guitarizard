@@ -18,13 +18,11 @@ export class Scale {
   constructor(
     name: string,
     temperament: Temperament,
-    intervalsBySemitones: number[],
+    intervals: Interval[],
   ) {
     this.name = name;
     this.temperament = temperament;
-    this.intervals = intervalsBySemitones.map(
-      (semitone) => temperament.findInterval(semitone),
-    );
+    this.intervals = intervals;
   }
 
   // Given a scale, return equivalent scales that have enharmonically equivalent intervals
