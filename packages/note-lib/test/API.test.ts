@@ -6,6 +6,9 @@ import * as API from "../src/index";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("exposed API", function (_t) {
   assert.ok(API.Note, "expect Note");
+  assert.ok(API.IntervalQuality, "expect IntervalQuality");
+  assert.ok(API.IntervalScaleDegree, "expect IntervalScaleDegree");
+  assert.ok(API.Interval, "expect Interval");
   assert.ok(API.Temperament, "expect Temperament");
   assert.ok(API.Scale, "expect Scale");
   assert.ok(API.Key, "expect Key");
@@ -32,8 +35,8 @@ test("exposed API", function (_t) {
     API.data.temperaments.find(
       (temperament) => temperament.name === API.Constants.TWELVE_TET,
       "expect twelveTET temperament",
-    ).intervals.length,
-    13,
-    "correct twelveTET intervals",
+    ).notes.length,
+    12,
+    "correct amount of twelveTET notes",
   );
 });

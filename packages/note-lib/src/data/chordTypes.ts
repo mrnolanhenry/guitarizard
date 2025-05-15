@@ -21,8 +21,8 @@ const intervalsPriority2 = getIntervalsInChord(twelveTET, 2);
 const intervalsPriority3 = getIntervalsInChord(twelveTET, 3);
 
 const chordTypes = [
-  new ChordType("maj", twelveTET, [intervals[0], intervals[4], intervals[7]], [Constants.MAJOR]),
-  new ChordType("m", twelveTET, [intervals[0], intervals[3], intervals[7]], [Constants.MINOR]),
+  new ChordType("maj", twelveTET, [intervals[0], intervals[4], intervals[7]], [Constants.MAJOR.toLocaleLowerCase()]),
+  new ChordType("m", twelveTET, [intervals[0], intervals[3], intervals[7]], [Constants.MINOR.toLocaleLowerCase()]),
   new ChordType("5", twelveTET, [intervals[0], intervals[7]], ["5th", "power chord"]),
   new ChordType("6", twelveTET, [intervals[0], intervals[4], intervalsPriority2[7], intervals[9]], ["major 6th"]),
   new ChordType("7", twelveTET, [intervals[0], intervals[4], intervalsPriority2[7], intervals[10]], ["dominant 7th"]),

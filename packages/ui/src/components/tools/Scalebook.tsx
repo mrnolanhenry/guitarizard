@@ -101,6 +101,7 @@ const Scalebook = (props: IScalebookProps) => {
             isSmallScreen={isSmallScreen}
             isRainbowMode={isRainbowMode}
             scale={activeScale}
+            temperament={temperament}
             theme={theme}
           />
         </Grid>
@@ -120,6 +121,7 @@ const Scalebook = (props: IScalebookProps) => {
           isSmallScreen={isSmallScreen}
           isRainbowMode={isRainbowMode}
           scale={activeScale}
+          temperament={temperament}
           theme={theme}
         />
       </Grid> 

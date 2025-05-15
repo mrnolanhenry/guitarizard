@@ -63,13 +63,13 @@ export class Note {
   }
 
   findSharpOrNatural(): Note | null {
-    if (this.findByPitch(NotePitch.Neither)) {
+    if (this.findByPitch(NotePitch.Natural)) {
       return this as Note;
     } else return this.findByPitch(NotePitch.Sharp);
   }
 
   findFlatOrNatural(): Note | null {
-    if (this.findByPitch(NotePitch.Neither)) {
+    if (this.findByPitch(NotePitch.Natural)) {
       return this as Note;
     } else return this.findByPitch(NotePitch.Flat);
   }

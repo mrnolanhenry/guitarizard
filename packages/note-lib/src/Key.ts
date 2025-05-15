@@ -18,6 +18,9 @@ export class Key {
   getEquivKeys(): Key[] {
     const equivKeys: Key[] = [];
     const scaleArray: number[] = [];
+    console.log("this.note",this.note);
+    console.log("this.scale", this.scale);
+    console.log("this.getDisplayName()", this.getDisplayName());
     const scaleLength: number = this.scale.intervals.length;
 
     // Fill array of intervalsBySemitones for the given scale

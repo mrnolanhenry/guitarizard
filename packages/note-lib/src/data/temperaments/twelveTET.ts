@@ -3,39 +3,43 @@ import { NotePitch } from "../../enums/NotePitch";
 import { Note } from "../../Note";
 import { Temperament } from "../../Temperament";
 import { Interval } from "../../Interval";
+import { IntervalQuality } from "../../IntervalQuality";
+import { IntervalQualityName, IntervalQualityShortHand } from "../../enums/IntervalQualityEnums";
+import { IntervalScaleDegree } from "../../IntervalScaleDegree";
+import { IntervalScaleDegreeNumeric, IntervalScaleDegreeOrdinal, IntervalScaleDegreeSpelledOut } from "../../enums/IntervalScaleDegreeEnums";
 
 // Represents the twelve-tone equal temperament (12TET, or twelveTET, in our codebase)
 // https://en.wikipedia.org/wiki/12_equal_temperament
 
-const A = new Note(Constants.A, NotePitch.Neither);
+const A = new Note(Constants.A, NotePitch.Natural);
 
 const As = new Note(Constants.A_SHARP, NotePitch.Sharp);
 const Bb = new Note(Constants.B_FLAT, NotePitch.Flat, [As]);
 As.addAliasNote(Bb);
 
-const B = new Note(Constants.B, NotePitch.Neither);
+const B = new Note(Constants.B, NotePitch.Natural);
 
-const C = new Note(Constants.C, NotePitch.Neither);
+const C = new Note(Constants.C, NotePitch.Natural);
 
 const Cs = new Note(Constants.C_SHARP, NotePitch.Sharp);
 const Db = new Note(Constants.D_FLAT, NotePitch.Flat, [Cs]);
 Cs.addAliasNote(Db);
 
-const D = new Note(Constants.D, NotePitch.Neither);
+const D = new Note(Constants.D, NotePitch.Natural);
 
 const Ds = new Note(Constants.D_SHARP, NotePitch.Sharp);
 const Eb = new Note(Constants.E_FLAT, NotePitch.Flat, [Ds]);
 Ds.addAliasNote(Eb);
 
-const E = new Note(Constants.E, NotePitch.Neither);
+const E = new Note(Constants.E, NotePitch.Natural);
 
-const F = new Note(Constants.F, NotePitch.Neither);
+const F = new Note(Constants.F, NotePitch.Natural);
 
 const Fs = new Note(Constants.F_SHARP, NotePitch.Sharp);
 const Gb = new Note(Constants.G_FLAT, NotePitch.Flat, [Fs]);
 Fs.addAliasNote(Gb);
 
-const G = new Note(Constants.G, NotePitch.Neither);
+const G = new Note(Constants.G, NotePitch.Natural);
 
 const Gs = new Note(Constants.G_SHARP, NotePitch.Sharp);
 const Ab = new Note(Constants.A_FLAT, NotePitch.Flat, [Gs]);
@@ -61,241 +65,182 @@ export const twelveTETNotes = {
   Gs,
 };
 
-const twelveTET0 = new Interval(0,
-  [
-    {
-      name: Constants.PERFECT,
-      long: Constants.PERFECT_UNISON,
-      short: Constants.PERFECT_UNISON_SHORT,
-    },
-    {
-      name: Constants.DIMINISHED,
-      long: Constants.DIMINISHED_SECOND,
-      short: Constants.DIMINISHED_SECOND_SHORT,
-    },
-    { name: Constants.ROOT, short: Constants.ROOT_SHORT },
-  ],
-);
+const perfectQuality = new IntervalQuality(IntervalQualityName.Perfect, [IntervalQualityShortHand.Perfect]);
+const diminishedQuality = new IntervalQuality(IntervalQualityName.Diminished, [IntervalQualityShortHand.Diminished]);
+const augmentedQuality = new IntervalQuality(IntervalQualityName.Augmented, [IntervalQualityShortHand.Augmented]);
+const majorQuality = new IntervalQuality(IntervalQualityName.Major, [IntervalQualityShortHand.Major]);
+const minorQuality = new IntervalQuality(IntervalQualityName.Minor, [IntervalQualityShortHand.Minor]);
 
-const twelveTET1 = new Interval(1,
-  [
-    {
-      name: Constants.MINOR,
-      long: Constants.MINOR_SECOND,
-      short: Constants.MINOR_SECOND_SHORT,
-    },
-    {
-      name: Constants.AUGMENTED,
-      long: Constants.AUGMENTED_UNISON,
-      short: Constants.AUGMENTED_UNISON_SHORT,
-    },
-    { name: Constants.SEMITONE, short: Constants.SEMITONE_SHORT },
-    { name: Constants.HALF_STEP },
-    { name: Constants.HALF_TONE },
-  ],
-);
+export const twelveTETIntervalQualities = {
+  perfectQuality,
+  diminishedQuality,
+  augmentedQuality,
+  majorQuality,
+  minorQuality,
+};
 
-const twelveTET2 = new Interval(2,
-  [
-    {
-      name: Constants.MAJOR,
-      long: Constants.MAJOR_SECOND,
-      short: Constants.MAJOR_SECOND_SHORT,
-    },
-    {
-      name: Constants.DIMINISHED,
-      long: Constants.DIMINISHED_THIRD,
-      short: Constants.DIMINISHED_THIRD_SHORT,
-    },
-    { name: Constants.TONE, short: Constants.TONE_SHORT },
-    { name: Constants.WHOLE_STEP },
-    { name: Constants.WHOLE_TONE },
-  ],
-);
+const unisonScaleDegree = new IntervalScaleDegree(IntervalScaleDegreeSpelledOut.Unison,IntervalScaleDegreeOrdinal.Unison, IntervalScaleDegreeNumeric.Unison);
+const secondScaleDegree = new IntervalScaleDegree(IntervalScaleDegreeSpelledOut.Second, IntervalScaleDegreeOrdinal.Second, IntervalScaleDegreeNumeric.Second);
+const thirdScaleDegree = new IntervalScaleDegree(IntervalScaleDegreeSpelledOut.Third, IntervalScaleDegreeOrdinal.Third, IntervalScaleDegreeNumeric.Third);
+const fourthScaleDegree = new IntervalScaleDegree(IntervalScaleDegreeSpelledOut.Fourth, IntervalScaleDegreeOrdinal.Fourth, IntervalScaleDegreeNumeric.Fourth);
+const fifthScaleDegree = new IntervalScaleDegree(IntervalScaleDegreeSpelledOut.Fifth, IntervalScaleDegreeOrdinal.Fifth, IntervalScaleDegreeNumeric.Fifth);
+const sixthScaleDegree = new IntervalScaleDegree(IntervalScaleDegreeSpelledOut.Sixth, IntervalScaleDegreeOrdinal.Sixth, IntervalScaleDegreeNumeric.Sixth);
+const seventhScaleDegree = new IntervalScaleDegree(IntervalScaleDegreeSpelledOut.Seventh, IntervalScaleDegreeOrdinal.Seventh, IntervalScaleDegreeNumeric.Seventh);
+const octaveScaleDegree = new IntervalScaleDegree(IntervalScaleDegreeSpelledOut.Octave, IntervalScaleDegreeOrdinal.Octave, IntervalScaleDegreeNumeric.Octave);
+const ninthScaleDegree = new IntervalScaleDegree(IntervalScaleDegreeSpelledOut.Ninth, IntervalScaleDegreeOrdinal.Ninth, IntervalScaleDegreeNumeric.Ninth);
+// const tenthScaleDegree = new IntervalScaleDegree(IntervalScaleDegreeSpelledOut.Tenth, IntervalScaleDegreeOrdinal.Tenth, IntervalScaleDegreeNumeric.Tenth);
+const eleventhScaleDegree = new IntervalScaleDegree(IntervalScaleDegreeSpelledOut.Eleventh, IntervalScaleDegreeOrdinal.Eleventh, IntervalScaleDegreeNumeric.Eleventh);
+// const twelfthScaleDegree = new IntervalScaleDegree(IntervalScaleDegreeSpelledOut.Twelfth, IntervalScaleDegreeOrdinal.Twelfth, IntervalScaleDegreeNumeric.Twelfth);
+const thirteenthScaleDegree = new IntervalScaleDegree(IntervalScaleDegreeSpelledOut.Thirteenth, IntervalScaleDegreeOrdinal.Thirteenth, IntervalScaleDegreeNumeric.Thirteenth);
 
-const twelveTET3 = new Interval(3,
-  [
-    {
-      name: Constants.MINOR,
-      long: Constants.MINOR_THIRD,
-      short: Constants.MINOR_THIRD_SHORT,
-    },
-    {
-      name: Constants.AUGMENTED,
-      long: Constants.AUGMENTED_SECOND,
-      short: Constants.AUGMENTED_SECOND_SHORT,
-    },
-  ],
-);
+export const twelveTETScaleDegrees = {
+  unisonScaleDegree,
+  secondScaleDegree,
+  thirdScaleDegree,
+  fourthScaleDegree,
+  fifthScaleDegree,
+  sixthScaleDegree,
+  seventhScaleDegree,
+  octaveScaleDegree,
+  ninthScaleDegree,
+  eleventhScaleDegree,
+  thirteenthScaleDegree,
+};
 
-const twelveTET4 = new Interval(4,
-  [
-    {
-      name: Constants.MAJOR,
-      long: Constants.MAJOR_THIRD,
-      short: Constants.MAJOR_THIRD_SHORT,
-    },
-    {
-      name: Constants.DIMINISHED,
-      long: Constants.DIMINISHED_FOURTH,
-      short: Constants.DIMINISHED_FOURTH_SHORT,
-    },
-  ],
-);
+const twelveTETP1 = new Interval(0, perfectQuality, unisonScaleDegree);
+const twelveTETd2 = new Interval(0, diminishedQuality, secondScaleDegree);
 
-const twelveTET5 = new Interval(5,
-  [
-    {
-      name: Constants.PERFECT,
-      long: Constants.PERFECT_FOURTH,
-      short: Constants.PERFECT_FOURTH_SHORT,
-    },
-    {
-      name: Constants.AUGMENTED,
-      long: Constants.AUGMENTED_THIRD,
-      short: Constants.AUGMENTED_THIRD_SHORT,
-    },
-  ],
-);
+const twelveTETm2 = new Interval(1, minorQuality, secondScaleDegree);
+const twelveTETA1 = new Interval(1, augmentedQuality, unisonScaleDegree);
 
-const twelveTET6 = new Interval(6,
-  [
-    {
-      name: Constants.DIMINISHED,
-      long: Constants.DIMINISHED_FIFTH,
-      short: Constants.DIMINISHED_FIFTH_SHORT,
-    },
-    {
-      name: Constants.AUGMENTED,
-      long: Constants.AUGMENTED_FOURTH,
-      short: Constants.AUGMENTED_FOURTH_SHORT,
-    },
-    { name: Constants.TRITONE, short: Constants.TRITONE_SHORT },
-  ],
-);
+const twelveTETM2 = new Interval(2, majorQuality, secondScaleDegree);
+const twelveTETd3 = new Interval(2, diminishedQuality, thirdScaleDegree);
 
-const twelveTET7 = new Interval(7,
-  [
-    {
-      name: Constants.PERFECT,
-      long: Constants.PERFECT_FIFTH,
-      short: Constants.PERFECT_FIFTH_SHORT,
-    },
-    {
-      name: Constants.DIMINISHED,
-      long: Constants.DIMINISHED_SIXTH,
-      short: Constants.DIMINISHED_SIXTH_SHORT,
-    },
-  ],
-);
+const twelveTETm3 = new Interval(3, minorQuality, thirdScaleDegree);
+const twelveTETA2 = new Interval(3, augmentedQuality, secondScaleDegree);
 
-const twelveTET8 = new Interval(8,
-  [
-    {
-      name: Constants.MINOR,
-      long: Constants.MINOR_SIXTH,
-      short: Constants.MINOR_SIXTH_SHORT,
-    },
-    {
-      name: Constants.AUGMENTED,
-      long: Constants.AUGMENTED_FIFTH,
-      short: Constants.AUGMENTED_FIFTH_SHORT,
-    },
-  ],
-);
+const twelveTETM3 = new Interval(4, majorQuality, thirdScaleDegree);
+const twelveTETd4 = new Interval(4, diminishedQuality, fourthScaleDegree);
 
-const twelveTET9 = new Interval(9,
-  [
-    {
-      name: Constants.MAJOR,
-      long: Constants.MAJOR_SIXTH,
-      short: Constants.MAJOR_SIXTH_SHORT,
-    },
-    {
-      name: Constants.DIMINISHED,
-      long: Constants.DIMINISHED_SEVENTH,
-      short: Constants.DIMINISHED_SEVENTH_SHORT,
-    },
-  ],
-);
+const twelveTETP4 = new Interval(5, perfectQuality, fourthScaleDegree);
+const twelveTETA3 = new Interval(5, augmentedQuality, thirdScaleDegree);
 
-const twelveTET10 = new Interval(10,
-  [
-    {
-      name: Constants.MINOR,
-      long: Constants.MINOR_SEVENTH,
-      short: Constants.MINOR_SEVENTH_SHORT,
-    },
-    {
-      name: Constants.AUGMENTED,
-      long: Constants.AUGMENTED_SIXTH,
-      short: Constants.AUGMENTED_SIXTH_SHORT,
-    },
-  ],
-);
+const twelveTETd5 = new Interval(6, diminishedQuality, fifthScaleDegree);
+const twelveTETA4 = new Interval(6, augmentedQuality, fourthScaleDegree);
 
-const twelveTET11 = new Interval(11,
-  [
-    {
-      name: Constants.MAJOR,
-      long: Constants.MAJOR_SEVENTH,
-      short: Constants.MAJOR_SEVENTH_SHORT,
-    },
-    {
-      name: Constants.DIMINISHED,
-      long: Constants.DIMINISHED_OCTAVE,
-      short: Constants.DIMINISHED_OCTAVE_SHORT,
-    },
-  ],
-);
+const twelveTETP5 = new Interval(7, perfectQuality, fifthScaleDegree);
+const twelveTETd6 = new Interval(7, diminishedQuality, sixthScaleDegree);
 
-const twelveTET12 = new Interval(12,
-  [
-    {
-      name: Constants.PERFECT,
-      long: Constants.PERFECT_OCTAVE,
-      short: Constants.PERFECT_OCTAVE_SHORT,
-    },
-    {
-      name: Constants.AUGMENTED,
-      long: Constants.AUGMENTED_SEVENTH,
-      short: Constants.AUGMENTED_SEVENTH_SHORT,
-    },
-  ],
-);
+const twelveTETm6 = new Interval(8, minorQuality, sixthScaleDegree);
+const twelveTETA5 = new Interval(8, augmentedQuality, fifthScaleDegree);
+
+const twelveTETM6 = new Interval(9, majorQuality, sixthScaleDegree);
+const twelveTETd7 = new Interval(9, diminishedQuality, seventhScaleDegree);
+
+const twelveTETm7 = new Interval(10, minorQuality, seventhScaleDegree);
+const twelveTETA6 = new Interval(10, augmentedQuality, sixthScaleDegree);
+
+const twelveTETM7 = new Interval(11, majorQuality, seventhScaleDegree);
+const twelveTETd8 = new Interval(11, diminishedQuality, octaveScaleDegree);
+
+const twelveTETP8 = new Interval(12, perfectQuality, octaveScaleDegree);
+const twelveTETA7 = new Interval(12, augmentedQuality, seventhScaleDegree);
+
+// Compound intervals (intervals greater than an octave)
+// For simplicity and speed, we will not create aliases for these intervals, 
+// as these compound intervals are commonly only used in chords, 
+// which tend to only make use of the 9th, 11th, and 13th.
+const twelveTETm9 = new Interval(13, minorQuality, ninthScaleDegree);
+const twelveTETM9 = new Interval(14, majorQuality, ninthScaleDegree);
+const twelveTETA9 = new Interval(15, augmentedQuality, ninthScaleDegree);
+const twelveTETd11 = new Interval(16, diminishedQuality, eleventhScaleDegree);
+const twelveTETP11 = new Interval(17, perfectQuality, eleventhScaleDegree);
+const twelveTETA11 = new Interval(18, augmentedQuality, eleventhScaleDegree);
+const twelveTETd13 = new Interval(19, diminishedQuality, thirteenthScaleDegree);
+const twelveTETm13 = new Interval(20, minorQuality, thirteenthScaleDegree);
+const twelveTETM13 = new Interval(21, majorQuality, thirteenthScaleDegree);
+const twelveTETA13 = new Interval(22, augmentedQuality, thirteenthScaleDegree);
+
+const twelveTETIntervalsArray = [
+  twelveTETP1,
+  twelveTETd2,
+  twelveTETm2,
+  twelveTETA1,
+  twelveTETM2,
+  twelveTETd3,
+  twelveTETm3,
+  twelveTETA2,
+  twelveTETM3,
+  twelveTETd4,
+  twelveTETP4,
+  twelveTETA3,
+  twelveTETd5,
+  twelveTETA4,
+  twelveTETP5,
+  twelveTETd6,
+  twelveTETm6,
+  twelveTETA5,
+  twelveTETM6,
+  twelveTETd7,
+  twelveTETm7,
+  twelveTETA6,
+  twelveTETM7,
+  twelveTETd8,
+  twelveTETP8,
+  twelveTETA7,
+  twelveTETm9,
+  twelveTETM9,
+  twelveTETA9,
+  twelveTETd11,
+  twelveTETP11,
+  twelveTETA11,
+  twelveTETd13,
+  twelveTETm13,
+  twelveTETM13,
+  twelveTETA13,
+];
 
 export const twelveTETIntervals = {
-  twelveTET0,
-  twelveTET1,
-  twelveTET2,
-  twelveTET3,
-  twelveTET4,
-  twelveTET5,
-  twelveTET6,
-  twelveTET7,
-  twelveTET8,
-  twelveTET9,
-  twelveTET10,
-  twelveTET11,
-  twelveTET12,
+  twelveTETP1,
+  twelveTETd2,
+  twelveTETm2,
+  twelveTETA1,
+  twelveTETM2,
+  twelveTETd3,
+  twelveTETm3,
+  twelveTETA2,
+  twelveTETM3,
+  twelveTETd4,
+  twelveTETP4,
+  twelveTETA3,
+  twelveTETd5,
+  twelveTETA4,
+  twelveTETP5,
+  twelveTETd6,
+  twelveTETm6,
+  twelveTETA5,
+  twelveTETM6,
+  twelveTETd7,
+  twelveTETm7,
+  twelveTETA6,
+  twelveTETM7,
+  twelveTETd8,
+  twelveTETP8,
+  twelveTETA7,
+  twelveTETm9,
+  twelveTETM9,
+  twelveTETA9,
+  twelveTETd11,
+  twelveTETP11,
+  twelveTETA11,
+  twelveTETd13,
+  twelveTETm13,
+  twelveTETM13,
+  twelveTETA13,
 };
 
 export const twelveTET = new Temperament(Constants.TWELVE_TET, 
-  [ 
-    twelveTET0,
-    twelveTET1,
-    twelveTET2,
-    twelveTET3,
-    twelveTET4,
-    twelveTET5,
-    twelveTET6,
-    twelveTET7,
-    twelveTET8,
-    twelveTET9,
-    twelveTET10,
-    twelveTET11,
-    twelveTET12,
-  ], 
+  twelveTETIntervalsArray, 
   [
     A,
     Bb,

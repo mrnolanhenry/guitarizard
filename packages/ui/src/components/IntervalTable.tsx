@@ -1,4 +1,4 @@
-import { Scale, Interval } from "note-lib";
+import { Scale, Interval, Temperament } from "note-lib";
 import { Base16Theme, rainbow } from "../colors/themes";
 import React, { CSSProperties } from "react";
 import { Grid } from "@mui/material";
@@ -7,11 +7,12 @@ interface IIntervalTableProps {
   scale: Scale;
   isSmallScreen: boolean;
   isRainbowMode: boolean;
+  temperament: Temperament;
   theme: Base16Theme;
 }
 
 const IntervalTable = (props: IIntervalTableProps) => {
-  const { scale, isSmallScreen, isRainbowMode, theme } = props;
+  const { scale, isSmallScreen, isRainbowMode, temperament, theme } = props;
   const fontSize: string = isSmallScreen ? "12px" : "inherit";
 
   const intervalStyle: CSSProperties = {
@@ -55,13 +56,15 @@ const IntervalTable = (props: IIntervalTableProps) => {
       case "Semitones:":
         return interval.semitones.toString();
       case "Short:":
-        return interval.aliases[0].short ? interval.aliases[0].short : "";
+        return interval.shortHand;
       case "Long:":
-        return interval.aliases[0].long ? interval.aliases[0].long : "";
+        return interval.nameOrdinal;
       case "Short (Alt):":
-        return interval.aliases[1].short ? interval.aliases[1].short : "";
+        var aliasFound: Interval = temperament.findIntervals(interval.semitones)[0];
+        return (aliasFound && aliasFound.shortHand) ? aliasFound.shortHand : "";
       case "Long (Alt):":
-        return interval.aliases[1].long ? interval.aliases[1].long : "";
+        var aliasFound: Interval = temperament.findIntervals(interval.semitones)[0];
+        return (aliasFound && aliasFound.nameOrdinal) ? aliasFound.nameOrdinal : "";
       default:
         return interval.semitones.toString();
     }
@@ -78,7 +81,7 @@ const IntervalTable = (props: IIntervalTableProps) => {
           );
           return (
             <Grid item xs={1}
-              key={`interval-item-${i}:${interval.aliases[0].name}`}
+              key={`interval-item-${i}:${interval.shortHand}`}
               className="intervalItem"
               style={intervalTextStyle}
             >

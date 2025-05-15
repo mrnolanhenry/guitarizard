@@ -51,14 +51,14 @@ test("class TunedString", function (t) {
   void t.test("setTuningNote", (_t) => {
     const testString = new TunedString(
       "x",
-      new Note("x", NotePitch.Neither),
+      new Note("x", NotePitch.Natural),
       "catgut",
       0.2,
     );
 
     assert.equal(testString.tuningNote.id, "x");
 
-    testString.setTuningNote(new Note("y", NotePitch.Neither));
+    testString.setTuningNote(new Note("y", NotePitch.Natural));
 
     assert.equal(testString.tuningNote.id, "y");
   });

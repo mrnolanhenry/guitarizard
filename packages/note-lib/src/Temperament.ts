@@ -1,3 +1,4 @@
+import { IntervalScaleDegreeNumeric } from "./enums/IntervalScaleDegreeEnums";
 import { Interval } from "./Interval";
 import { Note, NoteID } from "./Note";
 
@@ -8,9 +9,12 @@ import { Note, NoteID } from "./Note";
  *
  * e.g. twelve-tone equal temperament (twelveTET or 12TET), the most common in western music, divides an octave into 12 intervals.
  * It also defines notes - you might think the number of notes needs to be equal to the number of intervals
- * but in twelveTET MORE than 12 are defined (A# AND Bb, for instance).
+ * but in twelveTET MORE than 12 Notes are defined (e.g. A# AND Bb).
+ * and MORE than 12 Intervals are defined (e.g. major 6th AND diminished 7th, despite the same number of semitones).
+ * INCLUDING intervals with more than 12 semitones for the purpose of chords (e.g. a 9th, 11th, and 13th).
  * When constructing the temperament though, you would first create each note and add either the sharps or flats as aliases
- * and THEN only pass 12 notes so that the length of intervals and notes are equal.
+ * and THEN only pass 12 notes.
+ * 
  *
  * If you were a formal person, you'd call this a "scale," but that could be confused with the other use of scale
  * as in "major" or "minor" scale.
@@ -174,15 +178,46 @@ export class Temperament {
   }
 
   /**
-   * Given a semitone, return the interval object.
-   * e.g. 0 = unison, 1 = minor second, 2 = major second, etc.
+   * Given 2 Intervals, return true if they are enharmonically equivalent.
+   * e.g. a 6th and a 13th have the same number of semitones in 12TET,
    */
-  getIntervalFromSemitone(semitone: number): Interval {
-    return this.intervals[semitone];
-    // The following is technically more correct, but as long as the temperament's intervals 
-    // are constructed in the correct ascending order, above approach is fine.
-    // return this.intervals.find((interval) => interval.semitones === semitone);
+  areIntervalsEquivalent(interval1: Interval, interval2: Interval): boolean {
+    const interval1Mod = interval1.semitones % this.notes.length;
+    const interval2Mod = interval2.semitones % this.notes.length;
+    return interval1Mod === interval2Mod;
   }
+
+    /**
+   * Given a semitone, return an Interval[].
+   * By default, it will return the first interval that matches the number of semitones.
+   * In most cases, this should suffice as long as the intervals' aliases have been set up correctly.
+   * However, if you want to find an interval with a specific scale degree,
+   * you can pass in the scale degree's number as a second parameter.
+   * e.g. for 12TET pass (2, 3) to get a diminished 3rd instead of the default major 2nd.
+   */
+    findIntervals(semitones: number): Interval[] {
+      return this.intervals.filter((interval) => interval.semitones % this.notes.length === semitones);
+    };
+
+  /**
+   * Given a semitone, return an Interval object.
+   * By default, it will return the first interval that matches the number of semitones.
+   * In most cases, this should suffice as long as the intervals' aliases have been set up correctly.
+   * However, if you want to find an interval with a specific scale degree,
+   * you can pass in the scale degree's number as a second parameter.
+   * e.g. for 12TET pass (2, 3) to get a diminished 3rd instead of the default major 2nd.
+   */
+  findInterval(semitones: number, scaleDegreeNumeric?: IntervalScaleDegreeNumeric): Interval {
+    const numberOfNotes: number = this.notes.length;
+    if (!scaleDegreeNumeric) {
+    return this.intervals.find((interval) => interval.semitones % numberOfNotes === semitones % numberOfNotes);
+    }
+    return this.intervals.find(
+      (interval) =>
+        interval.semitones % numberOfNotes === semitones % numberOfNotes &&
+        interval.scaleDegree.numeric === scaleDegreeNumeric,
+    );
+  };
 
   toJSON() {
     return {

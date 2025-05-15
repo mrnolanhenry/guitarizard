@@ -21,6 +21,8 @@ export { ChordType } from "./ChordType";
 export { Scale } from "./Scale";
 export { Key } from "./Key";
 export { Interval } from "./Interval";
+export { IntervalQuality } from "./IntervalQuality";
+export { IntervalScaleDegree } from "./IntervalScaleDegree";
 export * as Constants from "./constants/Constants";
 
 export const data = {

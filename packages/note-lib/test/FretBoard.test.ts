@@ -16,16 +16,16 @@ const { Ab, A, Bb, B, C, Cs, Db, D, E, F, Fs, Gb, G } = twelveTETNotes;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("class FretBoard --- init", function (_t) {
   const system = new Temperament("test", [twelveTET.intervals[0], twelveTET.intervals[1]], [
-    new Note("X", NotePitch.Neither),
-    new Note("Y", NotePitch.Neither),
+    new Note("X", NotePitch.Natural),
+    new Note("Y", NotePitch.Natural),
   ]);
 
   const courses = [
     new Course("X", [
-      new TunedString("X", new Note("X", NotePitch.Neither), "metal", 0.25),
+      new TunedString("X", new Note("X", NotePitch.Natural), "metal", 0.25),
     ]),
     new Course("Y", [
-      new TunedString("Y", new Note("Y", NotePitch.Neither), "metal", 0.33),
+      new TunedString("Y", new Note("Y", NotePitch.Natural), "metal", 0.33),
     ]),
   ];
 
@@ -45,17 +45,17 @@ test("class FretBoard --- init", function (_t) {
       course: courses[0],
       config: fretSpan[0],
       notes: [
-        { value: new Note("X", NotePitch.Neither), fretNumber: 0 },
-        { value: new Note("Y", NotePitch.Neither), fretNumber: 1 },
-        { value: new Note("X", NotePitch.Neither), fretNumber: 2 },
+        { value: new Note("X", NotePitch.Natural), fretNumber: 0 },
+        { value: new Note("Y", NotePitch.Natural), fretNumber: 1 },
+        { value: new Note("X", NotePitch.Natural), fretNumber: 2 },
       ],
     },
     {
       course: courses[1],
       config: fretSpan[1],
       notes: [
-        { value: new Note("Y", NotePitch.Neither), fretNumber: 1 },
-        { value: new Note("X", NotePitch.Neither), fretNumber: 2 },
+        { value: new Note("Y", NotePitch.Natural), fretNumber: 1 },
+        { value: new Note("X", NotePitch.Natural), fretNumber: 2 },
       ],
     },
   ]);
@@ -84,7 +84,7 @@ test("class FretBoard --- getNotesInScale", function (_t) {
   assert.deepEqual(
     stubbyBoard.getNotesInScale(
       chromatic,
-      new Note(lib.Constants.A, NotePitch.Neither),
+      new Note(lib.Constants.A, NotePitch.Natural),
     ),
     [
       {
@@ -117,11 +117,11 @@ test("class FretBoard --- getNotesInScale", function (_t) {
   assert.deepEqual(
     stubbyBoard.getNotesInScale(
       chromatic,
-      new Note(lib.Constants.A, NotePitch.Neither),
+      new Note(lib.Constants.A, NotePitch.Natural),
     ),
     stubbyBoard.getNotesInScale(
       chromatic,
-      new Note(lib.Constants.B, NotePitch.Neither),
+      new Note(lib.Constants.B, NotePitch.Natural),
     ),
     "chromatic scale does not change based on key",
   );
@@ -129,7 +129,7 @@ test("class FretBoard --- getNotesInScale", function (_t) {
   assert.deepEqual(
     stubbyBoard.getNotesInScale(
       chromatic,
-      new Note(lib.Constants.A, NotePitch.Neither),
+      new Note(lib.Constants.A, NotePitch.Natural),
     ),
     stubbyBoard.getNotes(),
     "chromatic scale is the same as `getNotes()`",
@@ -140,7 +140,7 @@ test("class FretBoard --- getNotesInScale", function (_t) {
   assert.deepEqual(
     stubbyBoard.getNotesInScale(
       blues,
-      new Note(lib.Constants.A, NotePitch.Neither),
+      new Note(lib.Constants.A, NotePitch.Natural),
     ),
     [
       {

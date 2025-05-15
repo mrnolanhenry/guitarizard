@@ -47,7 +47,7 @@ const scales = [
   new Scale(Constants.ARABIAN, twelveTET, [0, 2, 4, 5, 6, 8, 10, 12]),
   // arabian AKA arabian (b) AKA major locrian
 
-  new Scale(Constants.AUGMENTED, twelveTET, [0, 3, 4, 7, 8, 11, 12]),
+  new Scale(Constants.AUGMENTED.toLocaleLowerCase(), twelveTET, [0, 3, 4, 7, 8, 11, 12]),
 
   new Scale(Constants.AUXILIARY_AUGMENTED, twelveTET, [0, 2, 4, 6, 8, 10, 12]),
   // auxiliary augmented AKA Lydian auxiliary augmented AKA whole tone
@@ -149,7 +149,7 @@ const scales = [
   ),
   // phrygian dominant AKA phrygian major AKA jewish (ahava rabba) AKA Freygish AKA altered Phrygian AKA dominant b2 b6 AKA Spanish Phrygian AKA Spanish Gypsy AKA Hijaz-Nahawand AKA Bayati maqam AKA Dastgāh-e Homāyoun
 
-  new Scale(Constants.DIMINISHED, twelveTET, [0, 2, 3, 5, 6, 8, 9, 11, 12]),
+  new Scale(Constants.DIMINISHED.toLocaleLowerCase(), twelveTET, [0, 2, 3, 5, 6, 8, 9, 11, 12]),
   // auxiliary diminished AKA diminished AKA diminished minor AKA diminished (whole/half) AKA octatonic (whole/half)
 
   new Scale(
@@ -360,7 +360,7 @@ const scales = [
 
   new Scale(Constants.LYDIAN_MINOR, twelveTET, [0, 2, 4, 6, 7, 8, 10, 12]),
 
-  new Scale(Constants.MAJOR, twelveTET, [0, 2, 4, 5, 7, 9, 11, 12]),
+  new Scale(Constants.MAJOR.toLocaleLowerCase(), twelveTET, [0, 2, 4, 5, 7, 9, 11, 12]),
   // ethiopian (a raray) AKA ethiopian araray AKA major scale AKA ionian
 
   new Scale(Constants.MAJOR_ARPEGGIO, twelveTET, [0, 4, 7, 12]),

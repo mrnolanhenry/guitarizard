@@ -1,7 +1,7 @@
 import { Temperament } from "./Temperament";
 import { Note } from "./Note";
 import { NotePitch } from "./enums/NotePitch";
-import { IntervalInChord } from "./IntervalInChord";
+import { Interval } from "./Interval";
 
 /**
  * A single chord "type."
@@ -11,21 +11,21 @@ import { IntervalInChord } from "./IntervalInChord";
  * Technically this would be called a chord.
  * NOT to be confused with specifying the key note and its chord type, like "C7" or "Em."
  * For simplicity, THAT level of specificity (i.e. key note and chord type together) will be referred to as a chord. 
- * A chord's "type" will not tell you which notes to play, like A# or Eb, but instead about the intervals within the chord.
+ * A chord's "type" or "family" will not tell you which notes to play, like A# or Eb, but instead about the intervals within the chord.
  * So, a "ChordType" is to a "Chord," what a "Scale" is to a "Key"
  */
 export class ChordType {
   // shortHand e.g. "m7" or "maj13"
   shortHand: string;
   temperament: Temperament;
-  intervals: IntervalInChord[];
+  intervals: Interval[];
   // array of names e.g. ["minor 7", "minor 7th"]
   names: string[];
 
   constructor(
     shortHand: string,
     temperament: Temperament,
-    intervals: IntervalInChord[],
+    intervals: Interval[],
     names?: string[],
   ) {
     this.shortHand = shortHand;

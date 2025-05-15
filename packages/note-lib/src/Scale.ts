@@ -21,12 +21,19 @@ export class Scale {
     intervalsBySemitones: number[],
   ) {
     this.name = name;
+    console.log("this.name",this.name);
     this.temperament = temperament;
+    console.log("this.temperament",this.temperament);
+    console.log("intervalsBySemitones",intervalsBySemitones);
     this.intervals = intervalsBySemitones.map(
-      (semitone) => temperament.intervals[semitone],
+      (semitone) => temperament.findInterval(semitone),
     );
+    console.log("this.intervals",this.intervals);
   }
 
+  // NOLAN TODO: 
+  // This feels like it no longer belongs on Scale.ts, but rather Key.ts? 
+  // Double-check later
   getNotesInKey(keyNote: Note): Note[] {
     // start the temperament at the correct note
     const shiftedNotes: Note[] = this.temperament.getShiftedNotes(keyNote);
@@ -49,7 +56,7 @@ export class Scale {
     });
   }
 
-  // Given a scale, return equivalent scales that have the same intervals
+  // Given a scale, return equivalent scales that have enharmonically equivalent intervals
   // e.g. the Ionian scale is exactly the same series of notes as the Major scale and Ethiopian (a raray) scale.
   getEquivScales(scales: Scale[]): Scale[] {
     const equivScales: Scale[] = [];

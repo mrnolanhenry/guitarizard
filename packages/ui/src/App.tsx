@@ -99,7 +99,7 @@ const App = () => {
   const scales: Scale[] = data.scales;
   const initKeyNote: Note = twelveTET.getNoteFromID(Constants.E) as Note;
   const initScale: Scale = scales.find(
-    (scale) => scale.name === Constants.MAJOR,
+    (scale) => scale.name === Constants.MAJOR.toLocaleLowerCase(),
   ) as Scale;
   const instrumentMap = initInstruments(twelveTET);
   const [instruments, setInstruments] = useState(instrumentMap);

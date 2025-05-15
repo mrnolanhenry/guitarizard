@@ -9,11 +9,11 @@ test("class Note", function (_t) {
   const Xs = new Note("X#", NotePitch.Sharp);
   const Yb = new Note("Yb", NotePitch.Flat);
 
-  const naturalNote = new Note("FOO-BAR", NotePitch.Neither);
+  const naturalNote = new Note("FOO-BAR", NotePitch.Natural);
   const flatNote = new Note("FOO-BAR-FLAT", NotePitch.Flat, [Xs]);
   const sharpNote = new Note("FOO-BAR-SHARP", NotePitch.Sharp, [Yb]);
 
-  const X = new Note("X", NotePitch.Neither);
+  const X = new Note("X", NotePitch.Natural);
 
   assert.equal(naturalNote.id, "FOO-BAR", "note id should match");
 
@@ -23,7 +23,7 @@ test("class Note", function (_t) {
     naturalNote.toJSON(),
     {
       id: "FOO-BAR",
-      pitch: NotePitch.Neither,
+      pitch: NotePitch.Natural,
       aliasNotes: [],
     },
     "JSON should be correct -- natural note",
@@ -56,7 +56,7 @@ test("class Note", function (_t) {
     "detect similar (self) - natural",
   );
   assert.equal(
-    naturalNote.isSimilar(new Note("Z", NotePitch.Neither)),
+    naturalNote.isSimilar(new Note("Z", NotePitch.Natural)),
     false,
     "dismiss non-similar notes",
   );
