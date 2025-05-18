@@ -9,6 +9,7 @@ interface IInstrumentSelectorProps {
   label: string | undefined;
   minWidth?: string;
   onInstrumentSelect: (instrument: FrettedInstrument) => void;
+  shouldAutocomplete: boolean;
   theme: Base16Theme;
 }
 
@@ -19,6 +20,7 @@ const InstrumentSelector = (props: IInstrumentSelectorProps) => {
     label,
     minWidth,
     onInstrumentSelect,
+    shouldAutocomplete,
     theme,
   } = props;
   let activeItem: FrettedInstrument = activeInstrument;
@@ -44,6 +46,7 @@ const InstrumentSelector = (props: IInstrumentSelectorProps) => {
       getDisplay={(inst: FrettedInstrument) => inst.name}
       activeItem={activeItem}
       onChange={onInstrumentSelect}
+      shouldAutocomplete={shouldAutocomplete}
       theme={theme}
     />
   );

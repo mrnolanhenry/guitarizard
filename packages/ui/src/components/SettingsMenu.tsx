@@ -3,8 +3,8 @@ import React from "react";
 import { Grid } from "@mui/material";
 import { Base16Theme } from "../colors/themes";
 import { ThemeSelector } from './selectors/ThemeSelector';
-import { PianoHighlightSwitch } from "./PianoHighlightSwitch";
-import { RainbowModeSwitch } from "./RainbowModeSwitch";
+import { PianoHighlightSwitch } from "./switches/PianoHighlightSwitch";
+import { RainbowModeSwitch } from "./switches/RainbowModeSwitch";
 
 interface Props {
   isRainbowMode: boolean;

@@ -117,7 +117,7 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
   // check a key by key name
   // e.g. "alg", "algerian", "Gb alg", "Gb algerian", etc.
   const isKeyDisplayNameMatch = (key: Key, inputValue: string) => {
-    return key.getDisplayName().toLowerCase().includes(inputValue);
+    return key.name.toLowerCase().includes(inputValue);
   };
   // check a key by notes in the key
   // e.g. "A", "A, B", "A, B, C#", "A, B, C#, D", "A, B, C#, D, Eb", etc.
@@ -170,11 +170,12 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
       label="Search for Keys"
       minWidth={minWidth}
       items={allKeys}
-      getValue={(k: Key) => k.getDisplayName()}
-      getDisplay={(k: Key) => k.getDisplayName()}
+      getValue={(k: Key) => k.name}
+      getDisplay={(k: Key) => k.name}
       onChange={updateKey}
       onInputChange={handleInputChange}
       // renderOption={renderOption}
+      shouldAutocomplete={true}
       theme={theme}
     />
   );

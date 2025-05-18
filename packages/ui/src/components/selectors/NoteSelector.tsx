@@ -9,12 +9,13 @@ interface INoteSelectorProps {
   minWidth?: string;
   note: Note;
   onNoteSelect: (note: Note) => void;
+  shouldAutocomplete: boolean;
   temperament: Temperament;
   theme: Base16Theme;
 }
 
 const NoteSelector = (props: INoteSelectorProps) => {
-  const { id, label, minWidth, note, onNoteSelect, temperament, theme } = props;
+  const { id, label, minWidth, note, onNoteSelect, shouldAutocomplete, temperament, theme } = props;
   return (
     <LabeledSelector<Note>
       id={`note-selector-${id}`}
@@ -25,6 +26,7 @@ const NoteSelector = (props: INoteSelectorProps) => {
       getDisplay={(note: Note) => note.id}
       activeItem={note}
       onChange={onNoteSelect}
+      shouldAutocomplete={shouldAutocomplete}
       theme={theme}
     />
   );

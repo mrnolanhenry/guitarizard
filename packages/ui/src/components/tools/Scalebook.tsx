@@ -140,6 +140,7 @@ const Scalebook = (props: IScalebookProps) => {
                 label="Instrument:"
                 minWidth={isSmallScreen ? "8em" : "12em"}
                 onInstrumentSelect={onInstrumentSelect}
+                shouldAutocomplete={isLargeScreen}
                 theme={theme}
               />
             </Grid>
@@ -151,6 +152,7 @@ const Scalebook = (props: IScalebookProps) => {
                   label="Common Tunings:"
                   minWidth={isSmallScreen ? "8em" : "10em"}
                   onCommonTuningSelect={onInstrumentTuneToPreset}
+                  shouldAutocomplete={isLargeScreen}
                   theme={theme}
                 />
               </Grid>
@@ -163,6 +165,7 @@ const Scalebook = (props: IScalebookProps) => {
             label="Key:"
             note={activeKeyTonic}
             onNoteSelect={onKeyTonicSelect}
+            shouldAutocomplete={isLargeScreen}
             temperament={temperament}
             theme={theme}
           />
@@ -173,6 +176,7 @@ const Scalebook = (props: IScalebookProps) => {
             label="Scale:"
             minWidth={isSmallScreen ? "14em" : "16em"}
             onScaleSelect={onScaleSelect}
+            shouldAutocomplete={isLargeScreen}
             theme={theme}
           />
         </Grid>
@@ -180,6 +184,7 @@ const Scalebook = (props: IScalebookProps) => {
           <EquivKeySelector
             activeKey={activeKey}
             minWidth="18em"
+            shouldAutocomplete={isLargeScreen}
             theme={theme}
             updateKey={updateKey}
           />

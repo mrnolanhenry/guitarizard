@@ -24,6 +24,7 @@ interface ILabeledSelectorProps<T> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ownerState: any,
   ) => ReactNode;
+  shouldAutocomplete: boolean;
   size?: string; // "small" will set styling to smaller sizes
   theme: Base16Theme;
 }
@@ -41,6 +42,7 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
     onChange,
     onInputChange,
     renderOption,
+    shouldAutocomplete,
     size,
     theme,
   } = props;
@@ -63,6 +65,7 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
         onChange={onChange}
         onInputChange={onInputChange}
         renderOption={renderOption}
+        shouldAutocomplete={shouldAutocomplete}
         size={size}
         theme={theme}
       />

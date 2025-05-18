@@ -12,6 +12,7 @@ interface IFretBoardProps {
   activeKey: Key;
   fretBoard: Fretboard;
   isMediumScreen: boolean;
+  isLargeScreen: boolean;
   isRainbowMode: boolean;
   onTune: (courseId: string, newTuning: Note) => void;
   showFretBar: boolean;
@@ -20,7 +21,7 @@ interface IFretBoardProps {
 }
 
 const FretBoard = (props: IFretBoardProps) => {
-  const { activeKey, fretBoard, isMediumScreen, isRainbowMode, onTune, showFretBar, temperament, theme } =
+  const { activeKey, fretBoard, isMediumScreen, isLargeScreen, isRainbowMode, onTune, showFretBar, temperament, theme } =
     props;
   const fretBarStyle: CSSProperties = {
     backgroundColor: theme.swatch.base00,
@@ -58,6 +59,7 @@ const FretBoard = (props: IFretBoardProps) => {
             temperament={fretBoard.temperament}
             note={course.tunedStrings[0].tuningNote}
             onNoteSelect={(n: Note) => onTune(course.id, n)}
+            shouldAutocomplete={isLargeScreen}
             theme={theme}
           />
         );

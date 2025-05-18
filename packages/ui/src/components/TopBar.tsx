@@ -113,11 +113,11 @@ const TopBar = (props: Props) => {
     const enterOrExitText: string = isFullscreen ? "Exit" : "Enter";
     return (
         <>
-        <span>{enterOrExitText} Full Screen</span>
+        <span style={{paddingLeft: "8px"}}>{enterOrExitText} Full Screen</span>
         { isFullscreen ? 
-          <FullscreenExitRoundedIcon sx={{ paddingLeft: "5px", paddingRight: "5px" }}/> 
+          <FullscreenExitRoundedIcon sx={{ paddingLeft: "5px", paddingRight: "0px" }}/> 
           :
-          <FullscreenRoundedIcon sx={{ paddingLeft: "5px", paddingRight: "5px" }}/>
+          <FullscreenRoundedIcon sx={{ paddingLeft: "5px", paddingRight: "0px" }}/>
          }
         </>
     )

@@ -88,8 +88,8 @@ const App = () => {
 
   const isSmallScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("sm"));
   const isMediumScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("md")) && !isSmallScreen;
-  // NOLAN TODO - isLarge, not isExtraLarge!! be careful with this mediaQuery, consider renaming
-  const isLargeScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("lg")) && !isSmallScreen && !isMediumScreen;
+  // Note: isLarge returns true for both large and extra-large screens currently.
+  const isLargeScreen: boolean = (useMediaQuery(muiTheme.breakpoints.down("lg")) || useMediaQuery(muiTheme.breakpoints.down("xl"))) && !isSmallScreen && !isMediumScreen;
   // NOLAN TODO - for later use
   // const isPortrait: boolean = useMediaQuery(`(orientation: portrait)`);
 

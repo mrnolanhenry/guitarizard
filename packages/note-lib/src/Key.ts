@@ -7,12 +7,14 @@ import * as util from "./util";
 import isEqual from "lodash/isEqual";
 
 export class Key {
+  name: string;
   tonic: Note; // the tonic note AKA the root note or first scale degree
   scale: Scale;
   notesInKey: Note[];
   constructor(tonic: Note, scale: Scale) {
     this.tonic = tonic;
     this.scale = scale;
+    this.name = this.getDisplayName();
     this.notesInKey = this.getNotesInKey();
   }
 
@@ -101,6 +103,7 @@ export class Key {
 
   toJSON() {
     return {
+      name: this.name,
       tonic: this.tonic,
       scale: this.scale,
       notesInKey: this.notesInKey,

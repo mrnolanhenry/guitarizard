@@ -9,11 +9,12 @@ interface IScalesSelectorProps {
   label: string;
   minWidth?: string;
   onScaleSelect: (scale: Scale) => void;
+  shouldAutocomplete: boolean;
   theme: Base16Theme;
 }
 
 const ScaleSelector = (props: IScalesSelectorProps) => {
-  const { activeScale, label, minWidth, onScaleSelect, theme } = props;
+  const { activeScale, label, minWidth, onScaleSelect, shouldAutocomplete, theme } = props;
 
   const getSpecialFilterOptions = (
     options: Scale[],
@@ -69,6 +70,7 @@ const ScaleSelector = (props: IScalesSelectorProps) => {
       getDisplay={(s: Scale) => s.name}
       activeItem={activeScale}
       onChange={onScaleSelect}
+      shouldAutocomplete={shouldAutocomplete}
       theme={theme}
     />
   );

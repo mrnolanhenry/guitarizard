@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, styled, Switch, SwitchProps } from "@mui/material";
-import { Base16Theme } from "../colors/themes";
+import { Base16Theme } from "../../colors/themes";
 import { lighten, darken } from "@mui/material";
 
 interface IPianoHighlightSwitchProps {

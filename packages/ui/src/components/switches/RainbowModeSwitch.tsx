@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, styled, Switch, SwitchProps } from "@mui/material";
-import { rainbow } from "../colors/themes";
+import { rainbow } from "../../colors/themes";
 
 interface IRainbowModeSwitchProps {
   isRainbowMode: boolean;
