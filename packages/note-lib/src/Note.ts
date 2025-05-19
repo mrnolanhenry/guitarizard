@@ -1,9 +1,13 @@
-// A single note --- nothing more. ;)
-
 import { NotePitch } from "./enums/NotePitch";
 
 export type NoteID = string;
 
+
+// NOLAN TODO:
+// At some point, should include a (possibly optional) property related to the note's "octave" or "Scientific Pitch Notation"
+// with the latter probably being a better/more universal name, though it's still based on 12TET/the Western chromatic scale
+// https://en.wikipedia.org/wiki/C_(musical_note)
+// https://en.wikipedia.org/wiki/Scientific_pitch_notation
 export class Note {
   id: NoteID;
   pitch: NotePitch;

@@ -53,14 +53,14 @@ const initInstruments = (temperament: Temperament) => {
   const piano = new instrument.Piano(40, [C]);
   const ukulele = new instrument.Ukulele(20, [G, C, E, A]);
 
-  instrumentMap.set("guitar", guitar);
-  instrumentMap.set("guitar (7 string)", sevenStringGuitar);
-  instrumentMap.set("guitar (8 string)", eightStringGuitar);
-  instrumentMap.set("guitar (12 string)", twelveStringGuitar);
   instrumentMap.set("banjo", banjo);
   instrumentMap.set("bass", fourStringBass);
   instrumentMap.set("bass (5 string)", fiveStringBass);
   instrumentMap.set("bass (6 string)", sixStringBass);
+  instrumentMap.set("guitar", guitar);
+  instrumentMap.set("guitar (7 string)", sevenStringGuitar);
+  instrumentMap.set("guitar (8 string)", eightStringGuitar);
+  instrumentMap.set("guitar (12 string)", twelveStringGuitar);
   instrumentMap.set("mandolin", mandolin);
   instrumentMap.set("piano", piano);
   instrumentMap.set("ukulele", ukulele);
