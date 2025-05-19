@@ -88,8 +88,8 @@ const App = () => {
 
   const isSmallScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("sm"));
   const isMediumScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("md")) && !isSmallScreen;
-  // Note: isLarge returns true for both large and extra-large screens currently.
-  const isLargeScreen: boolean = (useMediaQuery(muiTheme.breakpoints.down("lg")) || useMediaQuery(muiTheme.breakpoints.down("xl"))) && !isSmallScreen && !isMediumScreen;
+  const isLargeScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("lg")) && !isSmallScreen && !isMediumScreen;
+  const isExtraLargeScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("xl")) && !isSmallScreen && !isMediumScreen && !isLargeScreen;
   // NOLAN TODO - for later use
   // const isPortrait: boolean = useMediaQuery(`(orientation: portrait)`);
 
@@ -245,7 +245,7 @@ const App = () => {
           instruments={instruments}
           isSmallScreen={isSmallScreen}
           isMediumScreen={isMediumScreen}
-          isLargeScreen={isLargeScreen}
+          isLargeScreen={isLargeScreen || isExtraLargeScreen}
           isRainbowMode={isRainbowMode}
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}

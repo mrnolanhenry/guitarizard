@@ -53,10 +53,6 @@ const Selector = <T,>(props: ISelectorProps<T>) => {
     theme,
   } = props;
 
-  const [inputVal, setInputVal] = useState(
-    !!activeItem && !!getDisplay ? getDisplay(activeItem as T) : "",
-  );
-
   // Rather annoying workaround due to issue with Material UI rendering Select before all options (derived from items var) are ready 
   // and then comparing reference equality to activeItem.
   // This forces Select to not be rendered until all options/items are ready
