@@ -12,7 +12,6 @@ import {
   AutocompleteRenderOptionState,
   FilterOptionsState,
   InputLabelProps,
-  MenuItem,
   TextField,
 } from "@mui/material";
 import { render } from "react-dom";
@@ -102,6 +101,28 @@ const AutocompleteSelector = <T,>(props: IAutocompleteSelectorProps<T>) => {
 
   const listBoxProps = {
     sx: {
+      "& .MuiAutocomplete-option.Mui-selected": {
+        backgroundColor: theme.swatch.base01,
+      },
+      "& .MuiAutocomplete-option[aria-selected='true']": {
+        backgroundColor: theme.swatch.base01,
+      },
+      "& .MuiAutocomplete-option.Mui-selected:hover": {
+        backgroundColor: theme.swatch.base05,
+        color: theme.swatch.base00,
+      },
+      "& .MuiAutocomplete-option[aria-selected='true']:hover": {
+        backgroundColor: theme.swatch.base05,
+        color: theme.swatch.base00,
+      },
+      "& .MuiAutocomplete-option.Mui-focused": {
+        backgroundColor: theme.swatch.base05,
+        color: theme.swatch.base00,
+      },
+      "& .MuiAutocomplete-option[aria-selected='true'].Mui-focused": {
+        backgroundColor: theme.swatch.base05,
+        color: theme.swatch.base00,
+      },
       backgroundColor: theme.swatch.base00,
       color: theme.swatch.base05,
       ...fontSizeStyling,
@@ -161,16 +182,9 @@ const AutocompleteSelector = <T,>(props: IAutocompleteSelectorProps<T>) => {
   ): ReactNode => {
     // Below is Material UI's default renderOption, which we are overriding here to be more consistent with the BasicSelector component and its styling
     // return <li {...props}>{ownerState.getOptionLabel(option)}</li>;
-    return (
-      <MenuItem 
-      {...menuItemProps}
-        className={_state.selected ? "menu-item-selected" : ""}
-        key={`menu-item-${getDisplay(option)}`}
-        value={option as string}
-      >
-        {getDisplay(option)}
-      </MenuItem>
-      )
+    const additionalClassName = _state.selected ? `${props.className} Mui-selected autocomplete-option-selected` : `${props.className} autocomplete-option`;
+    const additionalProps = {...props, className: additionalClassName};
+    return <li {...additionalProps}>{ownerState.getOptionLabel(option)}</li>;
   };
 
   const renderTextField = (params: AutocompleteRenderInputParams) => {

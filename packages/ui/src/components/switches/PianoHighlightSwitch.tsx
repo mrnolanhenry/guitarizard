@@ -9,11 +9,11 @@ interface IPianoHighlightSwitchProps {
   togglePianoHighlight: () => void;
 }
 
-interface IHighlightSwitchProps extends SwitchProps {
+interface IStyledSwitchProps extends SwitchProps {
   activetheme: Base16Theme;
 }
 
-const HighlightSwitch = styled(({  ...props }: IHighlightSwitchProps) => (
+const StyledSwitch = styled(({  ...props }: IStyledSwitchProps) => (
   <Switch {...props} />
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 ))(({ theme, activetheme }) => ({
@@ -36,7 +36,7 @@ const PianoHighlightSwitch = (props: IPianoHighlightSwitchProps) => {
 
     return (
       <Box paddingTop={1}>
-        <HighlightSwitch 
+        <StyledSwitch 
           id="piano-highlight-switch"
           activetheme={activeTheme}
           checked={shouldHighlightPiano}

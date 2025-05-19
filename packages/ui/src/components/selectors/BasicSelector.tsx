@@ -84,14 +84,21 @@ const BasicSelector = <T,>(props: IBasicSelectorProps<T>) => {
 
   const listBoxProps = {
     sx: {
-      "&.Mui-selected": {
-        backgroundColor: theme.swatch.base01,
-      },
-      "&.Mui-selected:hover": {
+      "&:hover": {
         backgroundColor: theme.swatch.base05,
         color: theme.swatch.base00,
       },
-      "&:hover": {
+      "&.MuiButtonBase-root.MuiMenuItem-root.Mui-focusVisible.Mui-selected": {
+        backgroundColor: theme.swatch.base01,
+      },
+      "&.MuiButtonBase-root.MuiMenuItem-root.Mui-focusVisible[aria-selected='true']": {
+        backgroundColor: theme.swatch.base01,
+      },
+      "&.MuiButtonBase-root.MuiMenuItem-root.Mui-focusVisible.Mui-selected:hover": {
+        backgroundColor: theme.swatch.base05,
+        color: theme.swatch.base00,
+      },
+      "&.MuiButtonBase-root.MuiMenuItem-root.Mui-focusVisible[aria-selected='true']:hover": {
         backgroundColor: theme.swatch.base05,
         color: theme.swatch.base00,
       },
