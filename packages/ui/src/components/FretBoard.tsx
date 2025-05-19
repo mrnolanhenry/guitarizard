@@ -56,6 +56,7 @@ const FretBoard = (props: IFretBoardProps) => {
           <NoteSelector
             id={course.id}
             key={course.id}
+            containerClass={"tuning-peg"}
             temperament={fretBoard.temperament}
             note={course.tunedStrings[0].tuningNote}
             onNoteSelect={(n: Note) => onTune(course.id, n)}

@@ -8,6 +8,7 @@ import React, { ReactNode } from "react";
 
 interface ILabeledSelectorProps<T> {
   activeItem?: T;
+  containerClass?: string;
   filterOptions?: (options: T[], state: FilterOptionsState<T>) => T[]; // special handling to filter options
   getValue?: (item: T) => string;
   getDisplay?: (item: T) => string;
@@ -32,6 +33,7 @@ interface ILabeledSelectorProps<T> {
 const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
   const {
     activeItem,
+    containerClass,
     filterOptions,
     getDisplay,
     getValue,
@@ -48,6 +50,7 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
   } = props;
   return (
     <div
+      className={containerClass ?? ""}
       style={{
         display: "flex",
         flexDirection: "column",

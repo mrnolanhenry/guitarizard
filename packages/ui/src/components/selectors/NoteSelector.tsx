@@ -5,6 +5,7 @@ import { LabeledSelector } from "./LabeledSelector";
 
 interface INoteSelectorProps {
   id: string;
+  containerClass?: string;
   label?: string;
   minWidth?: string;
   note: Note;
@@ -15,10 +16,11 @@ interface INoteSelectorProps {
 }
 
 const NoteSelector = (props: INoteSelectorProps) => {
-  const { id, label, minWidth, note, onNoteSelect, shouldAutocomplete, temperament, theme } = props;
+  const { id, containerClass, label, minWidth, note, onNoteSelect, shouldAutocomplete, temperament, theme } = props;
   return (
     <LabeledSelector<Note>
       id={`note-selector-${id}`}
+      containerClass={containerClass}
       label={label}
       minWidth={minWidth}
       items={temperament.getNotesInTemperament()}
