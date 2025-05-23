@@ -1,15 +1,11 @@
-import test from "node:test";
+import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-
 import { Scale } from "../src/Scale";
 import { twelveTET } from "../src/data/temperaments/twelveTET";
 import scales from "../src/data/scales";
-import { twelveTETIntervals, twelveTETNotes } from "../src/data/temperaments";
+import { twelveTETIntervals } from "../src/data/temperaments";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-test("class Scale", function (_t) {
-  const { Ab, A, Bb, B, C, Cs, Eb, E, F, Fs } = twelveTETNotes;
-
+describe("class Scale", () => {
   const {   
     twelveTETP1,
     twelveTETm2,
@@ -36,14 +32,23 @@ test("class Scale", function (_t) {
   const ionian = new Scale("ionian", twelveTET, [twelveTETP1, twelveTETM2, twelveTETM3, twelveTETP4, twelveTETP5, twelveTETM6, twelveTETM7, twelveTETP8]);
   const major = new Scale("major", twelveTET, [twelveTETP1, twelveTETM2, twelveTETM3, twelveTETP4, twelveTETP5, twelveTETM6, twelveTETM7, twelveTETP8]);
 
-  assert.equal(blues.name, "Blues");
+  it('toJSON, valueOf, toString', () => {
+    assert.deepEqual(blues.toJSON(),
+      {
+        name: "Blues",
+        temperament: twelveTET,
+        intervals: [twelveTETP1, twelveTETm3, twelveTETP4, twelveTETd5, twelveTETP5, twelveTETm7],
+      }
+    );
+    assert.equal(blues.valueOf(), JSON.stringify(blues));
+    assert.equal(blues.toString(), JSON.stringify(blues));
+  });
 
-  assert.deepEqual(
-    ionian.getEquivScales(scales),
-    [ethiopianAraray, ionian, major],
-    "equivalent Scales found",
-  );
-
-  assert.equal(blues.valueOf(), JSON.stringify(blues));
-  assert.equal(blues.toString(), JSON.stringify(blues));
+  it('getEquivScales', () => {
+    assert.deepEqual(
+      ionian.getEquivScales(scales),
+      [ethiopianAraray, ionian, major],
+      "equivalent Scales found",
+    );
+  });
 });

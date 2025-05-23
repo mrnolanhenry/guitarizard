@@ -98,7 +98,7 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
         );
         filteredOptions.push(...filteredOptionsByNotes);
       }
-      const uniqueFilteredOptions = util.sortKeysByNoteAndScale([...new Set(filteredOptions)]);
+      const uniqueFilteredOptions = util.sortKeysByTonicAndScale([...new Set(filteredOptions)]);
 
       if (shouldSetPotentialKeys) {
         setPotentialKeys(uniqueFilteredOptions);

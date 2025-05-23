@@ -90,7 +90,7 @@ export class Temperament {
     const internalNote: Note = this.getNoteFromID(fromNote.id) as Note;
 
     if (!internalNote) {
-      throw Error(`fromNote '${fromNote.id}' does not exist in temperament`);
+      throw Error(`Note '${fromNote.id}' does not exist in Temperament '${this.name}'`);
     }
 
     const notes: Note[] = [];

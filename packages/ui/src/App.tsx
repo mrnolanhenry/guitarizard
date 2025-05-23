@@ -5,7 +5,7 @@ import { themes, cloudCity, Base16Theme } from "./colors/themes";
 import { ToolName } from "./components/selectors/ToolSelector";
 import { TopBar } from "./components/TopBar";
 import { Scalebook } from "./components/tools/Scalebook";
-import { Key, Note, Scale, Temperament, instrument, data } from "note-lib";
+import { Key, Note, Scale, ChordType, Temperament, instrument, data } from "note-lib";
 import { Tuning } from "note-lib/src/Tuning";
 import * as Constants from "note-lib/src/constants/Constants";
 import { Course } from "note-lib/src/Course";

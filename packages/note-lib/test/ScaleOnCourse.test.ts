@@ -1,6 +1,5 @@
-import test from "node:test";
+import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-
 import { Course } from "../src/Course";
 import { NoteFretNumberPair } from "../src/NoteFretNumberPair";
 import { IFretSpan } from "../src/interfaces/IFretSpan";
@@ -9,9 +8,8 @@ import { twelveTET } from "../src/data/temperaments/twelveTET";
 import { ScaleOnCourse } from "../src/ScaleOnCourse";
 import { twelveTETNotes } from "../src/data/temperaments";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-test("class ScaleOnCourse", function (_t) {
-  const { A, E } = twelveTETNotes;
+describe("class ScaleOnCourse", () => {
+  const { A, C, D, E, G } = twelveTETNotes;
 
   const courses = [
     new Course("x", [
@@ -67,30 +65,54 @@ test("class ScaleOnCourse", function (_t) {
   const scaleOnCourse1String1 = new ScaleOnCourse(courses[0], config1, notes1);
   const scaleOnCourse1String2 = new ScaleOnCourse(courses[0], config1, notes2);
   const scaleOnCourse2String1 = new ScaleOnCourse(courses[0], config2, notes3);
-  const scaleOnCourse4String2 = new ScaleOnCourse(courses[0], config2, notes4);
+  const scaleOnCourse2String2 = new ScaleOnCourse(courses[0], config2, notes4);
 
-  assert.deepEqual(
-    scaleOnCourse1String1,
-    scaleOnCourse1String2,
-    "scale is same based on either string in course1",
-  );
-  assert.deepEqual(
-    scaleOnCourse2String1,
-    scaleOnCourse4String2,
-    "scale is same based on either string in course2",
-  );
-  assert.notDeepEqual(
-    scaleOnCourse1String1,
-    scaleOnCourse2String1,
-    "scale is NOT same from course to course",
-  );
+  it('toJSON, valueOf, toString', () => {
+    assert.deepEqual(
+      scaleOnCourse1String1.toJSON(),
+      {
+        config: config1,
+        course: courses[0],
+        notes: notes1,
+      },
+    );
+    assert.equal(
+      scaleOnCourse1String1.valueOf(),
+      JSON.stringify(scaleOnCourse1String1),
+    );
+    assert.equal(
+      scaleOnCourse1String1.toString(),
+      JSON.stringify(scaleOnCourse1String1),
+    );
+  });
 
-  assert.equal(
-    scaleOnCourse1String1.valueOf(),
-    JSON.stringify(scaleOnCourse1String1),
-  );
-  assert.equal(
-    scaleOnCourse1String1.toString(),
-    JSON.stringify(scaleOnCourse1String1),
-  );
+  it('should be same based on either String per Course', () => {
+    assert.deepEqual(
+      scaleOnCourse1String1,
+      scaleOnCourse1String2,
+      "scale is same based on either string in course1",
+    );
+    assert.deepEqual(
+      scaleOnCourse2String1,
+      scaleOnCourse2String2,
+      "scale is same based on either string in course2",
+    );
+  });
+
+  it('should NOT be same from Course to Course', () => {
+    assert.notDeepEqual(
+      scaleOnCourse1String1,
+      scaleOnCourse2String1,
+      "scale is NOT same from course to course",
+    );
+  });
+
+  it('getNoteFromFretNumber', () => {
+    assert.deepEqual(scaleOnCourse1String1.getNoteFromFretNumber(0), E);
+    assert.deepEqual(scaleOnCourse1String1.getNoteFromFretNumber(3), G);
+    assert.deepEqual(scaleOnCourse1String1.getNoteFromFretNumber(5), A);
+    assert.deepEqual(scaleOnCourse2String2.getNoteFromFretNumber(0), A);
+    assert.deepEqual(scaleOnCourse2String2.getNoteFromFretNumber(3), C);
+    assert.deepEqual(scaleOnCourse2String2.getNoteFromFretNumber(5), D);
+  });
 });

@@ -12,8 +12,9 @@ test("exposed API", function (_t) {
   assert.ok(API.Temperament, "expect Temperament");
   assert.ok(API.Scale, "expect Scale");
   assert.ok(API.Key, "expect Key");
+  assert.ok(API.ChordType, "expect ChordType");
+  
   assert.ok(API.instrument.Tuning, "expect instrument.Tuning");
-
   assert.ok(API.instrument.TunedString, "expect instrument.TunedString");
   assert.ok(API.instrument.FretBoard, "expect instrument.FretBoard");
   assert.ok(API.instrument.Guitar, "expect instrument.Guitar");
@@ -29,8 +30,6 @@ test("exposed API", function (_t) {
     ),
   );
 
-  assert.equal(API.data.scales.length, 129, "expect correct scale length");
-
   assert.equal(
     API.data.temperaments.find(
       (temperament) => temperament.name === API.Constants.TWELVE_TET,
@@ -39,4 +38,7 @@ test("exposed API", function (_t) {
     12,
     "correct amount of twelveTET notes",
   );
+
+  assert.equal(API.data.scales.length, 129, "expect correct scales length");
+
 });

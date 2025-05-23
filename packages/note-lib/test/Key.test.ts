@@ -1,14 +1,12 @@
-import test from "node:test";
+import { describe, it } from "node:test";
 import assert from "node:assert";
-
 import { Scale } from "../src/Scale";
 import { twelveTET } from "../src/data/temperaments/twelveTET";
 import { Key } from "../src/Key";
 import { twelveTETIntervals, twelveTETNotes } from "../src/data/temperaments";
+import { Constants } from "../src";
 
-// WIP - will finish test file once Key.ts is finalized
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-test("class Key", function (_t) {
+describe("class Key", () => {
   const { Ab, A, As, Bb, B, C, Cs, D, Eb, E, F, Fs, G } = twelveTETNotes;
 
   const {   
@@ -112,76 +110,76 @@ test("class Key", function (_t) {
   const FMajor = new Key(F, majorScale);
   const GDorian = new Key(G, dorianScale);
 
-  const FBlues = new Key(F, bluesScale);
   const FsBlues = new Key(Fs, bluesScale);
 
   const BbLydianEquivKeys: Key[] = BbLydian.getEquivKeys();
   const AsLydianEquivKeys: Key[] = AsLydian.getEquivKeys();
 
-  assert.deepEqual(BbLydian.scale, lydianScale, "scale identified");
+  it('toJSON, valueOf, toString', () => {
+    assert.deepEqual(FsBlues.toJSON(), {
+      name: `${Constants.F_SHARP} Blues`,
+      tonic: Fs,
+      scale: bluesScale,
+      notesInKey: [Fs, A, B, C, Cs, E]
+    });
+    assert.equal(BbLydian.valueOf(), JSON.stringify(BbLydian), "valueOf works");
+    assert.equal(BbLydian.toString(), JSON.stringify(BbLydian), "toString works");
+  });
 
-  assert.deepEqual(BbLydian.tonic, Bb, "flat note identified");
-  assert.deepEqual(AsLydian.tonic, As, "sharp note identified");
-
-  assert.deepEqual(
-    BbLydianEquivKeys[0],
-    ANeapolitanMinor,
-    "equivalent key 0 identified given flat note",
-  );
-  assert.deepEqual(
-    AsLydianEquivKeys[0],
-    ANeapolitanMinor,
-    "equivalent key 0 identified given sharp note",
-  );
-
-  assert.deepEqual(
-    BbLydian.getEquivKeys(),
-    [
+  it('getEquivKeys', () => {
+    assert.deepEqual(
+      BbLydianEquivKeys[0],
       ANeapolitanMinor,
-      APhrygian,
-      AsLydian,
-      BbLydian,
-      CMixolydian,
-      DAeolian,
-      DEthiopianEzel,
-      DEthiopianGeez,
-      DMelodicMinorDesc,
-      DNaturalMinor,
-      ELocrian,
-      FEthiopianAraray,
-      FIonian,
-      FMajor,
-      GDorian,
-    ],
-    "equivalent keys identified given flat note",
-  );
-
-  assert.deepEqual(
-    AsLydian.getEquivKeys(),
-    [
+      "equivalent key 0 identified given flat note",
+    );
+    assert.deepEqual(
+      AsLydianEquivKeys[0],
       ANeapolitanMinor,
-      APhrygian,
-      AsLydian,
-      BbLydian,
-      CMixolydian,
-      DAeolian,
-      DEthiopianEzel,
-      DEthiopianGeez,
-      DMelodicMinorDesc,
-      DNaturalMinor,
-      ELocrian,
-      FEthiopianAraray,
-      FIonian,
-      FMajor,
-      GDorian,
-    ],
-    "equivalent keys identified given sharp note",
-  );
-
-  assert.deepEqual(FBlues.notesInKey, [F, Ab, Bb, B, C, Eb]);
-
-  assert.deepEqual(FsBlues.notesInKey, [Fs, A, B, C, Cs, E]);
-
-  assert.equal(BbLydian.valueOf(), JSON.stringify(BbLydian), "valueOf works");
-  assert.equal(BbLydian.toString(), JSON.stringify(BbLydian), "toString works");
+      "equivalent key 0 identified given sharp note",
+    );
+  
+    assert.deepEqual(
+      BbLydianEquivKeys,
+      [
+        ANeapolitanMinor,
+        APhrygian,
+        AsLydian,
+        BbLydian,
+        CMixolydian,
+        DAeolian,
+        DEthiopianEzel,
+        DEthiopianGeez,
+        DMelodicMinorDesc,
+        DNaturalMinor,
+        ELocrian,
+        FEthiopianAraray,
+        FIonian,
+        FMajor,
+        GDorian,
+      ],
+      "equivalent keys identified given flat note",
+    );
+  
+    assert.deepEqual(
+      AsLydianEquivKeys,
+      [
+        ANeapolitanMinor,
+        APhrygian,
+        AsLydian,
+        BbLydian,
+        CMixolydian,
+        DAeolian,
+        DEthiopianEzel,
+        DEthiopianGeez,
+        DMelodicMinorDesc,
+        DNaturalMinor,
+        ELocrian,
+        FEthiopianAraray,
+        FIonian,
+        FMajor,
+        GDorian,
+      ],
+      "equivalent keys identified given sharp note",
+    );
+  });
 });

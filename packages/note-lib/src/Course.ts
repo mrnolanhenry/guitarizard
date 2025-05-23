@@ -24,6 +24,7 @@ export class Course {
 
   toJSON() {
     return {
+      id: this.id,
       tunedStrings: this.tunedStrings,
     };
   }

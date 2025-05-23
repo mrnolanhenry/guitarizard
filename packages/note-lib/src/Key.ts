@@ -18,29 +18,6 @@ export class Key {
     this.notesInKey = this.getNotesInKey();
   }
 
-  // Get all notes that are in the key
-  getNotesInKey(): Note[] {
-    // start the temperament at the correct note
-    const shiftedNotes: Note[] = this.scale.temperament.getShiftedNotes(this.tonic);
-
-    // pull correct note aliases
-    const notes: Note[] = shiftedNotes.map((note) => {
-      if (this.tonic.pitch === NotePitch.Sharp) {
-        const sharpNote = note.findSharp();
-        if (sharpNote) {
-          return sharpNote;
-        }
-      }
-
-      return note;
-    });
-
-    // map notes to given intervals
-    return this.scale.intervals.map((interval) => {
-      return notes[interval.semitones % this.scale.temperament.notes.length];
-    });
-  }
-
   // Given a key's note and scale, return equivalent keys if you were to transpose into other notes & scales
   // e.g. the B Lydian scale is exactly the same series of notes as the Bb neapolitan minor or Db mixolydian, just with a different note designated as the 'key' or root.
   getEquivKeys(): Key[] {
@@ -93,12 +70,8 @@ export class Key {
       }
     }
 
-    const sortedEquivKeys = util.sortKeysByNoteAndScale(equivKeys, this);
+    const sortedEquivKeys = util.sortKeysByTonicAndScale(equivKeys, this);
     return sortedEquivKeys;
-  }
-
-  getDisplayName(): string {
-    return this.tonic.id + " " + this.scale.name;
   }
 
   toJSON() {
@@ -116,5 +89,32 @@ export class Key {
 
   toString() {
     return JSON.stringify(this);
+  }
+
+  private getDisplayName(): string {
+    return this.tonic.id + " " + this.scale.name;
+  }
+
+  // Get all notes that are in the key
+  private getNotesInKey(): Note[] {
+    // start the temperament at the correct note
+    const shiftedNotes: Note[] = this.scale.temperament.getShiftedNotes(this.tonic);
+
+    // pull correct note aliases
+    const notes: Note[] = shiftedNotes.map((note) => {
+      if (this.tonic.pitch === NotePitch.Sharp) {
+        const sharpNote = note.findSharp();
+        if (sharpNote) {
+          return sharpNote;
+        }
+      }
+
+      return note;
+    });
+
+    // map notes to given intervals
+    return this.scale.intervals.map((interval) => {
+      return notes[interval.semitones % this.scale.temperament.notes.length];
+    });
   }
 }

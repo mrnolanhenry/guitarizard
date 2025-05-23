@@ -4,7 +4,7 @@ import { Key } from "./Key";
 // e.g. 'A, A#, Bb, B, C, C#, Db, D#, Eb, E, F, F#, Gb, G, G#, Ab'.
 // and then by scale name in ascending order
 // e.g. 'Aeolian, Algerian, Arabic, Armenian, Augmented, Bebop, Blues, Chromatic, Diminished, etc.
-const sortKeysByNoteAndScale = (keyArray: Key[], primaryKey?: Key): Key[] => {
+const sortKeysByTonicAndScale = (keyArray: Key[], primaryKey?: Key): Key[] => {
   if (keyArray.length <= 1) {
     return keyArray;
   }
@@ -33,4 +33,5 @@ const sortNumericArray = (array: number[]): number[] => {
   return array;
 };
 
-export { sortKeysByNoteAndScale, sortNumericArray };
+
+export { sortKeysByTonicAndScale, sortNumericArray };

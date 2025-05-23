@@ -34,64 +34,99 @@ export class ChordType {
     this.intervals = intervals;
   }
 
-  getNotesFromKeyNote(keyNote: Note): Note[] {
-    // start the temperament at the correct note
-    const shiftedNotes: Note[] = this.temperament.getShiftedNotes(keyNote);
-
-    // pull correct note aliases
-    const notes: Note[] = shiftedNotes.map((note) => {
-      if (keyNote.pitch === NotePitch.Sharp) {
-        const sharpNote = note.findSharp();
-        if (sharpNote) {
-          return sharpNote;
-        }
-      }
-
-      return note;
-    });
-
-    // map notes to given intervals
-    return this.intervals.map((interval) => {
-      return notes[interval.semitones % this.temperament.notes.length];
+  // Return chord types that have the exact same intervals (checks by comparing interval names)
+  // E.g. 9#5 and aug9 have the same intervals (including order of Intervals and 
+  // each Interval's quality and scaleDegree), but different names.
+  getIdenticalChordTypes(chordTypes: ChordType[]): ChordType[] {
+    return chordTypes.filter((chordType: ChordType) => {
+      return this.sharesIdenticalIntervalNames(chordType);
     });
   }
 
-  // Given a chord type, return equivalent chord types that have the same intervals
-  // NOLAN TODO - determine if this function is necessary or useful. 
-  // There may not be cases of chord types overlapping in terms of intervals,
-  // unless they go by different names in western vs. eastern theory
-  // but these would have to still be under the same temperament anyways...
-  // so, unlikely.
-  // Update: 9#5 and aug9 are the same intervals, but different names, for example.
-  // So this function is useful unless we do a very thorough job of compiling 
-  // the alternate names into one ChordType instance.
-  // Unclear if this functions correctly yet though
+  // Return chord types that have equivalent Intervals as this ChordType's in terms of semitones
+  // E.g. maj7add13 and maj7add6 have different names and a different order of Intervals,
+  // with different Interval qualities and scaleDegrees, but based on their semitones, 
+  // a Cmaj7add13 and a Cmaj7add6 would ultimately comprise the same notes in each chord.
   getEquivChordTypes(chordTypes: ChordType[]): ChordType[] {
-    const equivChordTypes: ChordType[] = [];
-    const scaleLength: number = this.intervals.length;
-
-    // Loop through each scale
-    for (let i = 0; i < chordTypes.length; i++) {
-      // Loop through each scale's intervals
-      // eslint-disable-next-line no-labels
-      loopThruIntervals: {
-        // This if check is only here to speed up function
-        if (scaleLength === chordTypes[i].intervals.length) {
-          for (let j = 0; j < chordTypes[i].intervals.length; j++) {
-            if (
-              this.intervals[j].semitones !== chordTypes[i].intervals[j].semitones
-            ) {
-              // eslint-disable-next-line no-labels
-              break loopThruIntervals;
-            }
-          }
-          equivChordTypes.push(chordTypes[i]);
-        }
-      }
-    }
-    return equivChordTypes;
+    return chordTypes.filter((chordType: ChordType) => {
+      return this.sharesEquivalentSemitones(chordType);
+    });
   }
 
+  // Return chord types that have the exact same intervals (checks by comparing interval names) 
+  // and possibly more intervals, i.e. what other ChordTypes does this ChordType fit into?
+  // E.g. if "this" ChordType is "major", it would return "major 6th", among many others
+  getChordTypesWithSameOrMoreIntervalNames(chordTypes: ChordType[]): ChordType[] {
+    return chordTypes.filter((chordType: ChordType) => {
+      return chordType.includesIdenticalIntervalNames(this);
+    });
+  }
+
+  // Return chord types that have identical Intervals as this ChordType's in terms of semitones
+  // and possibly more intervals, i.e. what other ChordTypes does this ChordType fit into?
+  // E.g. if "this" ChordType is "major", it would return "major 6th", among many others
+  getChordTypesWithSameOrMoreSemitones(chordTypes: ChordType[]): ChordType[] {
+    return chordTypes.filter((chordType: ChordType) => {
+      return chordType.includesIdenticalSemitones(this);
+    });
+  }
+
+  // Return chord types that have equivalent Intervals as this ChordType's in terms of semitones
+  // and possibly more intervals, i.e. what other ChordTypes does this ChordType fit into?
+  // E.g. if "this" ChordType is "major", it would return "major 6th", among many others
+  getChordTypesWithEquivOrMoreSemitones(chordTypes: ChordType[]): ChordType[] {
+    return chordTypes.filter((chordType: ChordType) => {
+      return chordType.includesEquivalentSemitones(this);
+    });
+  }
+
+  // Given another ChordType,
+  // return true if the amount of Intervals in the other ChordType are the same as the amount in this ChordType
+  // AND all the Interval names in the other ChordType match the Interval names in this ChordType
+  // In other words, this ChordType "shares" all the same intervals as otherChordType
+  sharesIdenticalIntervalNames(otherChordType: ChordType): boolean {
+    return this.intervals.length === otherChordType.intervals.length && this.includesIdenticalIntervalNames(otherChordType);
+  };
+
+  // Given another ChordType,
+  // return true if the amount of Intervals in the other ChordType are the same as the amount in this ChordType
+  // AND all the Interval semitones in the other ChordType match the Interval semitones in this ChordType
+  // In other words, this ChordType "shares" all the same intervals as otherChordType
+  sharesIdenticalSemitones(otherChordType: ChordType): boolean {
+    return this.intervals.length === otherChordType.intervals.length && this.includesIdenticalSemitones(otherChordType);
+  };
+
+  // Given another ChordType,
+  // return true if the amount of Intervals in the other ChordType are the same as the amount in this ChordType
+  // AND all the Interval semitones in the other ChordType match the Interval semitones in this ChordType
+  // OR their enharmonic equivalent Intervals (e.g. a minor 13rd and a minor 6th are equivalent in 12TET)
+  // In other words, this ChordType "shares" all the same intervals as otherChordType, or equivalent intervals
+  sharesEquivalentSemitones(otherChordType: ChordType): boolean {
+    return this.intervals.length === otherChordType.intervals.length && this.includesEquivalentSemitones(otherChordType);
+  };
+
+  // Given another ChordType,
+  // return true if all the Interval names in the other ChordType match the Interval names in this ChordType
+  // In other words, this ChordType "includes" the intervals of otherChordType
+  includesIdenticalIntervalNames(otherChordType: ChordType): boolean {
+    return this.compareChordTypesByName(otherChordType);
+  };
+
+  // Given another ChordType,
+  // return true if all the Interval semitones in the other ChordType match the Interval semitones in this ChordType
+  // In other words, this ChordType "includes" the intervals of otherChordType
+  includesIdenticalSemitones(otherChordType: ChordType): boolean {
+    return this.compareChordTypesBySemitones(otherChordType, false);
+  };
+
+  // Given another ChordType,
+  // return true if all the Interval semitones in the other ChordType match the Interval semitones in this ChordType
+  // OR their enharmonic equivalent Intervals (e.g. a minor 13rd and a minor 6th are equivalent in 12TET)
+  // In other words, this ChordType "includes" the intervals of otherChordType, or equivalent intervals
+  includesEquivalentSemitones(otherChordType: ChordType): boolean {
+    return this.compareChordTypesBySemitones(otherChordType);
+  };
+  
   toJSON() {
     return {
       shortHand: this.shortHand,
@@ -108,4 +143,27 @@ export class ChordType {
   toString() {
     return JSON.stringify(this);
   }
+
+  // Given another ChordType,
+  // return true if every interval in the other ChordType is found by name in this ChordType
+  private compareChordTypesByName(otherChordType: ChordType): boolean {
+    const namesInThisChordType: string[] = this.intervals.map((interval: Interval) => interval.name);
+    return otherChordType.intervals.every((currentInterval: Interval) => {
+      return namesInThisChordType.includes(currentInterval.name);
+    });
+  }
+
+  // Given another ChordType,
+  // return true if every interval in the other ChordType is found by the number of semitones in this ChordType
+  // Optionally pass false to specifically look for the exact number of semitones instead of the equivalent
+  // e.g. by default, a minor 13th and a minor 6th will be treated as having the equivalent number of semitones,
+  // since in practice they lead to the same note
+  private compareChordTypesBySemitones(otherChordType: ChordType, allowEquivalentSemitones: boolean = true): boolean {
+    const numberOfNotesInThisTemperament = this.temperament.notes.length;
+    const numberOfNotesInOtherTemperament = otherChordType.temperament.notes.length;
+    const semitonesInThisChordType : number[] = this.intervals.map((interval: Interval) => allowEquivalentSemitones ? interval.semitones % numberOfNotesInThisTemperament : interval.semitones);
+    return otherChordType.intervals.every((currentInterval: Interval) => {
+      return semitonesInThisChordType.includes(allowEquivalentSemitones ? currentInterval.semitones % numberOfNotesInOtherTemperament : currentInterval.semitones);
+    });
+  };
 }

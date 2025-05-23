@@ -5,9 +5,9 @@
 import { IntervalScaleDegreeSpelledOut, IntervalScaleDegreeOrdinal, IntervalScaleDegreeNumeric } from "./enums/IntervalScaleDegreeEnums";
 
 export class IntervalScaleDegree {
-  name: IntervalScaleDegreeSpelledOut; // The name of the interval quality (e.g., "Perfect", "Major", "Diminished").
-  ordinal: IntervalScaleDegreeOrdinal; // A short representation of the interval (e.g., "P", "M","d").
-  numeric: IntervalScaleDegreeNumeric; // Symbols that represent the interval quality (e.g., "P", "M", "m", "A", "d").
+  name: IntervalScaleDegreeSpelledOut; // The name of the interval quality fully spelled out (e.g., "Unison", "Fifth", "Seventh", "Octave").
+  ordinal: IntervalScaleDegreeOrdinal; // A shorter representation of the interval as an ordinal (e.g., "5th", "7th").
+  numeric: IntervalScaleDegreeNumeric; //Represent the interval quality by its IntervalNumber (e.g., 5, 7).
 
   constructor(name: IntervalScaleDegreeSpelledOut, ordinal: IntervalScaleDegreeOrdinal, numeric: IntervalScaleDegreeNumeric) {
     this.name = name;
@@ -19,19 +19,19 @@ export class IntervalScaleDegree {
     return this.numeric === IntervalScaleDegreeNumeric.Unison;
   }
 
-    toJSON() {
-        return {
-        name: this.name,
-        ordinal: this.ordinal,
-        numeric: this.numeric,
-        };
-    }
+  toJSON() {
+      return {
+      name: this.name,
+      ordinal: this.ordinal,
+      numeric: this.numeric,
+      };
+  }
 
-    valueOf() {
-        return JSON.stringify(this);
-    }
+  valueOf() {
+      return JSON.stringify(this);
+  }
 
-    toString() {
-        return JSON.stringify(this);
-    }
+  toString() {
+      return JSON.stringify(this);
+  }
 }

@@ -4,14 +4,42 @@ import { ChordType } from "./ChordType";
 import chordTypes from "./data/chordTypes";
 import * as util from "./util";
 import isEqual from "lodash/isEqual";
+import { NotePitch } from "./enums/NotePitch";
 
 export class Chord {
-  note: Note;
+  name: string;
+  root: Note;
   chordType: ChordType;
-  constructor(note: Note, chordType: ChordType) {
-    this.note = note;
+  notesInChord: Note[];
+  constructor(root: Note, chordType: ChordType) {
+    this.root = root;
     this.chordType = chordType;
+    this.name = this.getDisplayName();
+    this.notesInChord = this.getNotesInChord();
   }
+
+    // Get all notes that are in the key
+    getNotesInChord(): Note[] {
+      // start the temperament at the correct note
+      const shiftedNotes: Note[] = this.chordType.temperament.getShiftedNotes(this.root);
+  
+      // pull correct note aliases
+      const notes: Note[] = shiftedNotes.map((note) => {
+        if (this.root.pitch === NotePitch.Sharp) {
+          const sharpNote = note.findSharp();
+          if (sharpNote) {
+            return sharpNote;
+          }
+        }
+  
+        return note;
+      });
+  
+      // map notes to given intervals
+      return this.chordType.intervals.map((interval) => {
+        return notes[interval.semitones % this.chordType.temperament.notes.length];
+      });
+    }
 
   // Given a key's note and chordType, return equivalent keys if you were to transpose into other notes & chordTypes
   // e.g. the B Lydian chordType is exactly the same series of notes as the Bb neapolitan minor or Db mixolydian, just with a different note designated as the 'key' or root.
@@ -31,7 +59,7 @@ export class Chord {
     // Loop through each note in the temperament to check for equivalent chordTypes given that note
     for (let j = 0; j < this.chordType.temperament.notes.length; j++) {
       const noteInterval = this.chordType.temperament.getSemitonesBetweenNotes(
-        this.note,
+        this.root,
         this.chordType.temperament.notes[j],
       );
       // Loop through each chordType and create an array of intervalsBySemitones that we adjust by the interval between the key notes
@@ -62,17 +90,19 @@ export class Chord {
   }
 
   getDisplayName(): string {
-    return this.note.id + " " + this.chordType.shortHand;
+    return this.root.id + " " + this.chordType.shortHand;
   }
 
   getFullNames(): string[] {
-    return this.chordType.names.map((name) => this.note.id + " " + name);
+    return this.chordType.names.map((name) => this.root.id + " " + name);
   }
 
   toJSON() {
     return {
-      note: this.note,
+      name: this.name,
+      root: this.root,
       chordType: this.chordType,
+      notesInChord: this.notesInChord,
     };
   }
 
