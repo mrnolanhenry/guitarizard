@@ -18,31 +18,8 @@ export class Chord {
     this.notesInChord = this.getNotesInChord();
   }
 
-    // Get all notes that are in the key
-    getNotesInChord(): Note[] {
-      // start the temperament at the correct note
-      const shiftedNotes: Note[] = this.chordType.temperament.getShiftedNotes(this.root);
-  
-      // pull correct note aliases
-      const notes: Note[] = shiftedNotes.map((note) => {
-        if (this.root.pitch === NotePitch.Sharp) {
-          const sharpNote = note.findSharp();
-          if (sharpNote) {
-            return sharpNote;
-          }
-        }
-  
-        return note;
-      });
-  
-      // map notes to given intervals
-      return this.chordType.intervals.map((interval) => {
-        return notes[interval.semitones % this.chordType.temperament.notes.length];
-      });
-    }
-
-  // Given a key's note and chordType, return equivalent keys if you were to transpose into other notes & chordTypes
-  // e.g. the B Lydian chordType is exactly the same series of notes as the Bb neapolitan minor or Db mixolydian, just with a different note designated as the 'key' or root.
+  // Given a chord's note and chordType, return equivalent chords if you were to transpose into other notes & chordTypes
+  // e.g. the B Lydian chordType is exactly the same series of notes as the Bb neapolitan minor or Db mixolydian, just with a different note designated as the root.
   getEquivChords(): Chord[] {
     const equivChords: Chord[] = [];
     const chordTypeArray: number[] = [];
@@ -54,7 +31,8 @@ export class Chord {
     }
 
     // Remove last semitone, which should be the duplicate '12' note in a twelveTET system, for example.
-    chordTypeArray.pop();
+    // NOLAN TODO: check if this should be un-commented out
+    // chordTypeArray.pop();
 
     // Loop through each note in the temperament to check for equivalent chordTypes given that note
     for (let j = 0; j < this.chordType.temperament.notes.length; j++) {
@@ -112,5 +90,28 @@ export class Chord {
 
   toString() {
     return JSON.stringify(this);
+  }
+
+  // Get all notes that are in the key
+  private getNotesInChord(): Note[] {
+    // start the temperament at the correct note
+    const shiftedNotes: Note[] = this.chordType.temperament.getShiftedNotes(this.root);
+
+    // pull correct note aliases
+    const notes: Note[] = shiftedNotes.map((note) => {
+      if (this.root.pitch === NotePitch.Sharp) {
+        const sharpNote = note.findSharp();
+        if (sharpNote) {
+          return sharpNote;
+        }
+      }
+
+      return note;
+    });
+
+    // map notes to given intervals
+    return this.chordType.intervals.map((interval) => {
+      return notes[interval.semitones % this.chordType.temperament.notes.length];
+    });
   }
 }

@@ -72,7 +72,7 @@ const TopBar = (props: Props) => {
   const logo = (
     <img
       className={`logo ${!isDarkTheme ? "shadowed" : ""}`}
-      src="/favicon_v8.png"
+      src="/favicon_v10.png"
     />
   );
 

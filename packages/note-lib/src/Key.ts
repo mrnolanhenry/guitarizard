@@ -19,7 +19,7 @@ export class Key {
   }
 
   // Given a key's note and scale, return equivalent keys if you were to transpose into other notes & scales
-  // e.g. the B Lydian scale is exactly the same series of notes as the Bb neapolitan minor or Db mixolydian, just with a different note designated as the 'key' or root.
+  // e.g. the B Lydian scale is exactly the same series of notes as the Bb neapolitan minor or Db mixolydian, just with a different note designated as the 'tonic' or root.
   getEquivKeys(): Key[] {
     const equivKeys: Key[] = [];
     const scaleArray: number[] = [];
