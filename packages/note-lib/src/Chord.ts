@@ -30,15 +30,13 @@ export class Chord {
       chordTypeArray.push(this.chordType.intervals[i].semitones as number);
     }
 
-    // Remove last semitone, which should be the duplicate '12' note in a twelveTET system, for example.
-
     // Loop through each note in the temperament to check for equivalent chordTypes given that note
     for (let j = 0; j < this.chordType.temperament.notes.length; j++) {
       const noteInterval = this.chordType.temperament.getSemitonesBetweenNotes(
         this.root,
         this.chordType.temperament.notes[j],
       );
-      // Loop through each chordType and create an array of intervalsBySemitones that we adjust by the interval between the key notes
+      // Loop through each chordType and create an array of intervalsBySemitones that we adjust by the interval between the respective root notes
       for (let k = 0; k < chordTypes.length; k++) {
         // This if check is only here to speed up function - testing dropped from ~71ms to ~47ms
         if (chordTypeLength === chordTypes[k].intervals.length) {
@@ -50,7 +48,6 @@ export class Chord {
             );
           }
 
-          // Remove last semitone, which should be some offset of the duplicate '12' note in a twelveTET system, for example.
           util.sortNumericArray(newChordTypeArray);
 
           // Check if arrays are equal after having sorted the newChordType
