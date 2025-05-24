@@ -7,7 +7,7 @@ import { twelveTETIntervals, twelveTETNotes } from "../src/data/temperaments";
 import { Constants } from "../src";
 
 describe("class Key", () => {
-  const { Ab, A, As, Bb, B, C, Cs, D, Eb, E, F, Fs, G } = twelveTETNotes;
+  const { Ab, A, As, Bb, B, C, Cs, Db, D, Eb, E, F, Fs, Gb, G } = twelveTETNotes;
 
   const {   
     twelveTETP1,
@@ -111,6 +111,7 @@ describe("class Key", () => {
   const GDorian = new Key(G, dorianScale);
 
   const FsBlues = new Key(Fs, bluesScale);
+  const GbBlues = new Key(Gb, bluesScale);
 
   const BbLydianEquivKeys: Key[] = BbLydian.getEquivKeys();
   const AsLydianEquivKeys: Key[] = AsLydian.getEquivKeys();
@@ -121,6 +122,12 @@ describe("class Key", () => {
       tonic: Fs,
       scale: bluesScale,
       notesInKey: [Fs, A, B, C, Cs, E]
+    });
+    assert.deepEqual(GbBlues.toJSON(), {
+      name: `${Constants.G_FLAT} Blues`,
+      tonic: Gb,
+      scale: bluesScale,
+      notesInKey: [Gb, A, B, C, Db, E]
     });
     assert.equal(BbLydian.valueOf(), JSON.stringify(BbLydian), "valueOf works");
     assert.equal(BbLydian.toString(), JSON.stringify(BbLydian), "toString works");

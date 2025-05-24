@@ -19,7 +19,7 @@ export class Chord {
   }
 
   // Given a chord's note and chordType, return equivalent chords if you were to transpose into other notes & chordTypes
-  // e.g. the B Lydian chordType is exactly the same series of notes as the Bb neapolitan minor or Db mixolydian, just with a different note designated as the root.
+  // e.g. the E m7b5 chord is exactly the same series of notes as the G m6 chord (and E dim7 chord), just with a different note designated as the root.
   getEquivChords(): Chord[] {
     const equivChords: Chord[] = [];
     const chordTypeArray: number[] = [];
@@ -31,8 +31,6 @@ export class Chord {
     }
 
     // Remove last semitone, which should be the duplicate '12' note in a twelveTET system, for example.
-    // NOLAN TODO: check if this should be un-commented out
-    // chordTypeArray.pop();
 
     // Loop through each note in the temperament to check for equivalent chordTypes given that note
     for (let j = 0; j < this.chordType.temperament.notes.length; j++) {
@@ -53,7 +51,6 @@ export class Chord {
           }
 
           // Remove last semitone, which should be some offset of the duplicate '12' note in a twelveTET system, for example.
-          newChordTypeArray.pop();
           util.sortNumericArray(newChordTypeArray);
 
           // Check if arrays are equal after having sorted the newChordType
