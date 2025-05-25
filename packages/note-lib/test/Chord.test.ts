@@ -95,12 +95,26 @@ describe("class Chord", () => {
   it('getEquivChords', () => {
     assert.deepEqual(
       Ebm7b5EquivChords,
-      [EbhalfDim7Chord, Ebm7b5Chord, GbMinor6Chord],
+      [
+        DshalfDim7Chord, 
+        Dsm7b5Chord, 
+        EbhalfDim7Chord, 
+        Ebm7b5Chord, 
+        FsMinor6Chord,
+        GbMinor6Chord
+      ],
       "equivalent chords identified given flat note",
     );
     assert.deepEqual(
       Dsm7b5EquivChords,
-      [DshalfDim7Chord, Dsm7b5Chord, FsMinor6Chord],
+      [
+        DshalfDim7Chord, 
+        Dsm7b5Chord, 
+        EbhalfDim7Chord, 
+        Ebm7b5Chord, 
+        FsMinor6Chord,
+        GbMinor6Chord
+      ],
       "equivalent chords identified given sharp note",
     );
   });

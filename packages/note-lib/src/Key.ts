@@ -20,6 +20,7 @@ export class Key {
 
   // Given a key's note and scale, return equivalent keys if you were to transpose into other notes & scales
   // e.g. the B Lydian scale is exactly the same series of notes as the Bb neapolitan minor or Db mixolydian, just with a different note designated as the 'tonic' or root.
+  // NOLAN TODO - See if you can simplify/speed up this function
   getEquivKeys(): Key[] {
     const equivKeys: Key[] = [];
     const scaleArray: number[] = [];
@@ -43,7 +44,7 @@ export class Key {
       for (let k = 0; k < scales.length; k++) {
         // This if check is only here to speed up function - testing dropped from ~71ms to ~47ms
         if (scaleLength === scales[k].intervals.length) {
-          const newScaleArray = [];
+          const newScaleArray: number[] = [];
           for (let l = 0; l < scales[k].intervals.length; l++) {
             newScaleArray.push(
               (scales[k].intervals[l].semitones + noteInterval) %
@@ -69,9 +70,7 @@ export class Key {
         }
       }
     }
-
-    const sortedEquivKeys = util.sortKeysByTonicAndScale(equivKeys, this);
-    return sortedEquivKeys;
+    return util.sortKeysByTonicAndScale(equivKeys, this);
   }
 
   toJSON() {

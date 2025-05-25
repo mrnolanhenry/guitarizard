@@ -20,6 +20,7 @@ export class Chord {
 
   // Given a chord's note and chordType, return equivalent chords if you were to transpose into other notes & chordTypes
   // e.g. the E m7b5 chord is exactly the same series of notes as the G m6 chord (and E dim7 chord), just with a different note designated as the root.
+  // NOLAN TODO - See if you can simplify/speed up this function
   getEquivChords(): Chord[] {
     const equivChords: Chord[] = [];
     const chordTypeArray: number[] = [];
@@ -40,7 +41,7 @@ export class Chord {
       for (let k = 0; k < chordTypes.length; k++) {
         // This if check is only here to speed up function - testing dropped from ~71ms to ~47ms
         if (chordTypeLength === chordTypes[k].intervals.length) {
-          const newChordTypeArray = [];
+          const newChordTypeArray: number[] = [];
           for (let l = 0; l < chordTypes[k].intervals.length; l++) {
             newChordTypeArray.push(
               (chordTypes[k].intervals[l].semitones + noteInterval) %
@@ -52,13 +53,19 @@ export class Chord {
 
           // Check if arrays are equal after having sorted the newChordType
           if (isEqual(chordTypeArray, newChordTypeArray)) {
-            const key = new Chord(this.chordType.temperament.notes[j], chordTypes[k]);
-            equivChords.push(key);
+            const chord = new Chord(this.chordType.temperament.notes[j], chordTypes[k]);
+            equivChords.push(chord);
+
+            const aliasNotes = this.chordType.temperament.notes[j].aliasNotes;
+            aliasNotes.forEach((aliasNote) => {
+                const aliasChord = new Chord(aliasNote, chordTypes[k]);
+                equivChords.push(aliasChord);
+            });
           }
         }
       }
     }
-    return equivChords;
+    return util.sortChordsByRoot(equivChords, this);;
   }
 
   getDisplayName(): string {
