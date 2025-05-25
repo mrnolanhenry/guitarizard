@@ -39,6 +39,7 @@ const Instrument = (props: IInstrumentProps) => {
       activeKey={activeKey}
       fretBoard={instrument.fretBoard}
       isMediumScreen={isMediumScreen}
+      isLargeScreen={isLargeScreen}
       isRainbowMode={isRainbowMode}
       onTune={onTune}
       showFretBar={true}

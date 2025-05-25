@@ -11,6 +11,7 @@ interface ICommonTuningSelectorProps {
   label: string | undefined;
   minWidth?: string;
   onCommonTuningSelect: (tuning: Tuning) => void;
+  shouldAutocomplete: boolean;
   theme: Base16Theme;
 }
 
@@ -21,6 +22,7 @@ const CommonTuningSelector = (props: ICommonTuningSelectorProps) => {
     label,
     minWidth,
     onCommonTuningSelect,
+    shouldAutocomplete,
     theme,
   } = props;
   const getItems = (): Tuning[] => {
@@ -40,6 +42,7 @@ const CommonTuningSelector = (props: ICommonTuningSelectorProps) => {
       minWidth={minWidth}
       activeItem={activeTuning}
       onChange={onCommonTuningSelect}
+      shouldAutocomplete={shouldAutocomplete}
       theme={theme}
     />
   );

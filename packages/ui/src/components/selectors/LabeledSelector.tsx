@@ -8,6 +8,7 @@ import React, { ReactNode } from "react";
 
 interface ILabeledSelectorProps<T> {
   activeItem?: T;
+  containerClass?: string;
   filterOptions?: (options: T[], state: FilterOptionsState<T>) => T[]; // special handling to filter options
   getValue?: (item: T) => string;
   getDisplay?: (item: T) => string;
@@ -24,6 +25,7 @@ interface ILabeledSelectorProps<T> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ownerState: any,
   ) => ReactNode;
+  shouldAutocomplete: boolean;
   size?: string; // "small" will set styling to smaller sizes
   theme: Base16Theme;
 }
@@ -31,6 +33,7 @@ interface ILabeledSelectorProps<T> {
 const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
   const {
     activeItem,
+    containerClass,
     filterOptions,
     getDisplay,
     getValue,
@@ -41,11 +44,13 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
     onChange,
     onInputChange,
     renderOption,
+    shouldAutocomplete,
     size,
     theme,
   } = props;
   return (
     <div
+      className={containerClass ?? ""}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -63,6 +68,7 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
         onChange={onChange}
         onInputChange={onInputChange}
         renderOption={renderOption}
+        shouldAutocomplete={shouldAutocomplete}
         size={size}
         theme={theme}
       />

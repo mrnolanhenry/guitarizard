@@ -98,7 +98,7 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
         );
         filteredOptions.push(...filteredOptionsByNotes);
       }
-      const uniqueFilteredOptions = util.sortKeysByNoteAndScale([...new Set(filteredOptions)]);
+      const uniqueFilteredOptions = util.sortKeysByTonicAndScale([...new Set(filteredOptions)]);
 
       if (shouldSetPotentialKeys) {
         setPotentialKeys(uniqueFilteredOptions);
@@ -117,7 +117,7 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
   // check a key by key name
   // e.g. "alg", "algerian", "Gb alg", "Gb algerian", etc.
   const isKeyDisplayNameMatch = (key: Key, inputValue: string) => {
-    return key.getDisplayName().toLowerCase().includes(inputValue);
+    return key.name.toLowerCase().includes(inputValue);
   };
   // check a key by notes in the key
   // e.g. "A", "A, B", "A, B, C#", "A, B, C#, D", "A, B, C#, D, Eb", etc.
@@ -134,7 +134,7 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
       if (!noteToFind) {
         allNotesMatch = false;
       } else {
-        const notesInKey: Note[] = key.scale.getNotesInKey(key.note);
+        const notesInKey: Note[] = key.notesInKey;
         const noteFound: boolean = !!notesInKey.find((note) =>
           note.isSimilar(noteToFind),
         );
@@ -170,11 +170,12 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
       label="Search for Keys"
       minWidth={minWidth}
       items={allKeys}
-      getValue={(k: Key) => k.getDisplayName()}
-      getDisplay={(k: Key) => k.getDisplayName()}
+      getValue={(k: Key) => k.name}
+      getDisplay={(k: Key) => k.name}
       onChange={updateKey}
       onInputChange={handleInputChange}
       // renderOption={renderOption}
+      shouldAutocomplete={true}
       theme={theme}
     />
   );

@@ -19,10 +19,11 @@ const ToolSelector = (props: IToolSelectorProps) => {
       id="tool-selector"
       items={["scalebook"]}
       // NOLAN TODO: Return to songbook
-      // items={["scalebook", "songbook"]}
+      // items={["scalebook", "chordbook", "songbook"]}
       minWidth={minWidth}
       activeItem={activeToolName}
       onChange={(v: ToolName) => onToolSelect(v)}
+      shouldAutocomplete= {false}
       size={size}
       theme={theme}
     />

@@ -6,23 +6,26 @@ import { LabeledSelector } from "./LabeledSelector";
 interface IEquivKeySelectorProps {
   activeKey: Key;
   minWidth?: string;
+  shouldAutocomplete: boolean;
   updateKey: (key: Key) => void;
   theme: Base16Theme;
 }
 
 const EquivKeySelector = (props: IEquivKeySelectorProps) => {
-  const { activeKey, minWidth, updateKey, theme } = props;
+  const { activeKey, minWidth, shouldAutocomplete, updateKey, theme } = props;
+  const equivKeyItems = activeKey.getEquivKeys();
 
   return (
     <LabeledSelector<Key>
       id="equiv-key-selector"
       label="Equivalent Keys:"
       minWidth={minWidth}
-      items={activeKey.getEquivKeys()}
-      getValue={(k: Key) => k.getDisplayName()}
-      getDisplay={(k: Key) => k.getDisplayName()}
+      items={equivKeyItems}
+      getValue={(k: Key) => k.name}
+      getDisplay={(k: Key) => k.name}
       activeItem={activeKey}
       onChange={updateKey}
+      shouldAutocomplete={shouldAutocomplete}
       theme={theme}
     />
   );

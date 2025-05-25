@@ -35,12 +35,12 @@
   z-index: 2;
 }
 
-.fret-board > .tuning-pegs > div {
+.fret-board > .tuning-pegs .tuning-peg {
   flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.5em;
+  padding: 0.25em;
 }
 
 .fret-board > .board {

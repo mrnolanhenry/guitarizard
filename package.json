@@ -2,6 +2,8 @@
   "name": "guitarizard",
   "homepage": "https://enfenry.github.io/guitarizard",
   "scripts": {
+    "start": "npm -w ui run dev",
+    "test": "npm -w note-lib run test",
     "predeploy": "npm run build -w ui",
     "deploy": "gh-pages -d ./packages/ui/dist",
     "lint": "eslint .",

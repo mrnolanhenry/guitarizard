@@ -1,15 +1,19 @@
-// A single note --- nothing more. ;)
-
 import { NotePitch } from "./enums/NotePitch";
 
 export type NoteID = string;
 
+
+// NOLAN TODO:
+// At some point, should include a (possibly optional) property related to the note's "octave" or "Scientific Pitch Notation"
+// with the latter probably being a better/more universal name, though it's still based on 12TET/the Western chromatic scale
+// https://en.wikipedia.org/wiki/C_(musical_note)
+// https://en.wikipedia.org/wiki/Scientific_pitch_notation
 export class Note {
   id: NoteID;
   pitch: NotePitch;
   aliasNotes: Note[];
 
-  // TODO: Don't use array of keys & enforce with type
+  // NOLAN TODO - Don't use array of keys & enforce with type
   constructor(id: NoteID, pitch: NotePitch, aliasNotes?: Note[]) {
     this.id = id;
     this.pitch = pitch;
@@ -36,7 +40,7 @@ export class Note {
 
   /**
    * Find a note by pitch. It can be the current note,
-   * or one of it's aliases
+   * or one of its aliases
    */
   findByPitch(pitch: NotePitch): Note | null {
     // check the current note
@@ -63,13 +67,13 @@ export class Note {
   }
 
   findSharpOrNatural(): Note | null {
-    if (this.findByPitch(NotePitch.Neither)) {
+    if (this.findByPitch(NotePitch.Natural)) {
       return this as Note;
     } else return this.findByPitch(NotePitch.Sharp);
   }
 
   findFlatOrNatural(): Note | null {
-    if (this.findByPitch(NotePitch.Neither)) {
+    if (this.findByPitch(NotePitch.Natural)) {
       return this as Note;
     } else return this.findByPitch(NotePitch.Flat);
   }

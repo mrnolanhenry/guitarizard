@@ -1,82 +1,98 @@
-import test from "node:test";
+import { describe, it } from "node:test";
 import assert from "node:assert";
-
 import { Scale } from "../src/Scale";
 import { twelveTET } from "../src/data/temperaments/twelveTET";
 import { Key } from "../src/Key";
-import { notes } from "../src/data/temperaments";
+import { twelveTETIntervals, twelveTETNotes } from "../src/data/temperaments";
+import { Constants } from "../src";
 
-// WIP - will finish test file once Key.ts is finalized
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-test("class Key", function (_t) {
-  const { A, As, Bb, C, D, E, F, G } = notes;
+describe("class Key", () => {
+  const { Ab, A, As, Bb, B, C, Cs, Db, D, Eb, E, F, Fs, Gb, G } = twelveTETNotes;
+
+  const {   
+    twelveTETP1,
+    twelveTETm2,
+    twelveTETM2,
+    twelveTETm3,
+    twelveTETM3,
+    twelveTETP4,
+    twelveTETd5,
+    twelveTETP5,
+    twelveTETm6,
+    twelveTETM6,
+    twelveTETm7,
+    twelveTETM7,
+    twelveTETP8,  
+  } = twelveTETIntervals;
 
   const lydianScale = new Scale(
     "lydian",
     twelveTET,
-    [0, 2, 4, 6, 7, 9, 11, 12],
+    [twelveTETP1, twelveTETM2, twelveTETM3, twelveTETd5, twelveTETP5, twelveTETM6, twelveTETM7, twelveTETP8],
   );
   const neapolitanMinorScale = new Scale(
     "neapolitan minor",
     twelveTET,
-    [0, 1, 3, 5, 7, 8, 10, 12],
+    [twelveTETP1, twelveTETm2, twelveTETm3, twelveTETP4, twelveTETP5, twelveTETm6, twelveTETm7, twelveTETP8],
   );
   const phrygianScale = new Scale(
     "phrygian",
     twelveTET,
-    [0, 1, 3, 5, 7, 8, 10, 12],
+    [twelveTETP1, twelveTETm2, twelveTETm3, twelveTETP4, twelveTETP5, twelveTETm6, twelveTETm7, twelveTETP8],
   );
   const mixolydianScale = new Scale(
     "mixolydian",
     twelveTET,
-    [0, 2, 4, 5, 7, 9, 10, 12],
+    [twelveTETP1, twelveTETM2, twelveTETM3, twelveTETP4, twelveTETP5, twelveTETM6, twelveTETm7, twelveTETP8],
   );
   const aeolianScale = new Scale(
     "aeolian",
     twelveTET,
-    [0, 2, 3, 5, 7, 8, 10, 12],
+    [twelveTETP1, twelveTETM2, twelveTETm3, twelveTETP4, twelveTETP5, twelveTETm6, twelveTETm7, twelveTETP8],
   );
   const ethiopianEzelScale = new Scale(
     "ethiopian (ezel)",
     twelveTET,
-    [0, 2, 3, 5, 7, 8, 10, 12],
+    [twelveTETP1, twelveTETM2, twelveTETm3, twelveTETP4, twelveTETP5, twelveTETm6, twelveTETm7, twelveTETP8],
   );
   const ethiopianGeezScale = new Scale(
     "ethiopian (geez)",
     twelveTET,
-    [0, 2, 3, 5, 7, 8, 10, 12],
+    [twelveTETP1, twelveTETM2, twelveTETm3, twelveTETP4, twelveTETP5, twelveTETm6, twelveTETm7, twelveTETP8],
   );
   const melodicMinorDescScale = new Scale(
     "melodic minor (descending)",
     twelveTET,
-    [0, 2, 3, 5, 7, 8, 10, 12],
+    [twelveTETP1, twelveTETM2, twelveTETm3, twelveTETP4, twelveTETP5, twelveTETm6, twelveTETm7, twelveTETP8],
   );
   const naturalMinorScale = new Scale(
     "natural minor",
     twelveTET,
-    [0, 2, 3, 5, 7, 8, 10, 12],
+    [twelveTETP1, twelveTETM2, twelveTETm3, twelveTETP4, twelveTETP5, twelveTETm6, twelveTETm7, twelveTETP8],
   );
   const locrianScale = new Scale(
     "locrian",
     twelveTET,
-    [0, 1, 3, 5, 6, 8, 10, 12],
+    [twelveTETP1, twelveTETm2, twelveTETm3, twelveTETP4, twelveTETd5, twelveTETm6, twelveTETm7, twelveTETP8],
   );
   const ethiopianArarayScale = new Scale(
     "ethiopian (a raray)",
     twelveTET,
-    [0, 2, 4, 5, 7, 9, 11, 12],
+    [twelveTETP1, twelveTETM2, twelveTETM3, twelveTETP4, twelveTETP5, twelveTETM6, twelveTETM7, twelveTETP8],
   );
   const ionianScale = new Scale(
     "ionian",
     twelveTET,
-    [0, 2, 4, 5, 7, 9, 11, 12],
+    [twelveTETP1, twelveTETM2, twelveTETM3, twelveTETP4, twelveTETP5, twelveTETM6, twelveTETM7, twelveTETP8],
   );
-  const majorScale = new Scale("major", twelveTET, [0, 2, 4, 5, 7, 9, 11, 12]);
+  const majorScale = new Scale("major", twelveTET, [twelveTETP1, twelveTETM2, twelveTETM3, twelveTETP4, twelveTETP5, twelveTETM6, twelveTETM7, twelveTETP8]);
   const dorianScale = new Scale(
     "dorian",
     twelveTET,
-    [0, 2, 3, 5, 7, 9, 10, 12],
+    [twelveTETP1, twelveTETM2, twelveTETm3, twelveTETP4, twelveTETP5, twelveTETM6, twelveTETm7, twelveTETP8],
   );
+
+  const bluesScale = new Scale("Blues", twelveTET, [twelveTETP1, twelveTETm3, twelveTETP4, twelveTETd5, twelveTETP5, twelveTETm7]);
 
   const BbLydian = new Key(Bb, lydianScale);
   const AsLydian = new Key(As, lydianScale);
@@ -94,69 +110,83 @@ test("class Key", function (_t) {
   const FMajor = new Key(F, majorScale);
   const GDorian = new Key(G, dorianScale);
 
+  const FsBlues = new Key(Fs, bluesScale);
+  const GbBlues = new Key(Gb, bluesScale);
+
   const BbLydianEquivKeys: Key[] = BbLydian.getEquivKeys();
   const AsLydianEquivKeys: Key[] = AsLydian.getEquivKeys();
 
-  assert.deepEqual(BbLydian.scale, lydianScale, "scale identified");
+  it('toJSON, valueOf, toString', () => {
+    assert.deepEqual(FsBlues.toJSON(), {
+      name: `${Constants.F_SHARP} Blues`,
+      tonic: Fs,
+      scale: bluesScale,
+      notesInKey: [Fs, A, B, C, Cs, E]
+    });
+    assert.deepEqual(GbBlues.toJSON(), {
+      name: `${Constants.G_FLAT} Blues`,
+      tonic: Gb,
+      scale: bluesScale,
+      notesInKey: [Gb, A, B, C, Db, E]
+    });
+    assert.equal(BbLydian.valueOf(), JSON.stringify(BbLydian), "valueOf works");
+    assert.equal(BbLydian.toString(), JSON.stringify(BbLydian), "toString works");
+  });
 
-  assert.deepEqual(BbLydian.note, Bb, "flat note identified");
-  assert.deepEqual(AsLydian.note, As, "sharp note identified");
-
-  assert.deepEqual(
-    BbLydianEquivKeys[0],
-    ANeapolitanMinor,
-    "equivalent key 0 identified given flat note",
-  );
-  assert.deepEqual(
-    AsLydianEquivKeys[0],
-    ANeapolitanMinor,
-    "equivalent key 0 identified given sharp note",
-  );
-
-  assert.deepEqual(
-    BbLydian.getEquivKeys(),
-    [
+  it('getEquivKeys', () => {
+    assert.deepEqual(
+      BbLydianEquivKeys[0],
       ANeapolitanMinor,
-      APhrygian,
-      AsLydian,
-      BbLydian,
-      CMixolydian,
-      DAeolian,
-      DEthiopianEzel,
-      DEthiopianGeez,
-      DMelodicMinorDesc,
-      DNaturalMinor,
-      ELocrian,
-      FEthiopianAraray,
-      FIonian,
-      FMajor,
-      GDorian,
-    ],
-    "equivalent keys identified given flat note",
-  );
-
-  assert.deepEqual(
-    AsLydian.getEquivKeys(),
-    [
+      "equivalent key 0 identified given flat note",
+    );
+    assert.deepEqual(
+      AsLydianEquivKeys[0],
       ANeapolitanMinor,
-      APhrygian,
-      AsLydian,
-      BbLydian,
-      CMixolydian,
-      DAeolian,
-      DEthiopianEzel,
-      DEthiopianGeez,
-      DMelodicMinorDesc,
-      DNaturalMinor,
-      ELocrian,
-      FEthiopianAraray,
-      FIonian,
-      FMajor,
-      GDorian,
-    ],
-    "equivalent keys identified given sharp note",
-  );
-
-  assert.equal(BbLydian.valueOf(), JSON.stringify(BbLydian), "valueOf works");
-  assert.equal(BbLydian.toString(), JSON.stringify(BbLydian), "toString works");
+      "equivalent key 0 identified given sharp note",
+    );
+  
+    assert.deepEqual(
+      BbLydianEquivKeys,
+      [
+        ANeapolitanMinor,
+        APhrygian,
+        AsLydian,
+        BbLydian,
+        CMixolydian,
+        DAeolian,
+        DEthiopianEzel,
+        DEthiopianGeez,
+        DMelodicMinorDesc,
+        DNaturalMinor,
+        ELocrian,
+        FEthiopianAraray,
+        FIonian,
+        FMajor,
+        GDorian,
+      ],
+      "equivalent keys identified given flat note",
+    );
+  
+    assert.deepEqual(
+      AsLydianEquivKeys,
+      [
+        ANeapolitanMinor,
+        APhrygian,
+        AsLydian,
+        BbLydian,
+        CMixolydian,
+        DAeolian,
+        DEthiopianEzel,
+        DEthiopianGeez,
+        DMelodicMinorDesc,
+        DNaturalMinor,
+        ELocrian,
+        FEthiopianAraray,
+        FIonian,
+        FMajor,
+        GDorian,
+      ],
+      "equivalent keys identified given sharp note",
+    );
+  });
 });

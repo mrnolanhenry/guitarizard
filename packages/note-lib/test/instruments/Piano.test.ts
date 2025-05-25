@@ -1,43 +1,46 @@
-import test from "node:test";
+import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-
 import { Note } from "../../src";
 import { twelveTET } from "../../src/data/temperaments/twelveTET";
 import { Piano } from "../../src/instruments/Piano";
 import { Tuning } from "../../src/Tuning";
 
-const C: Note = twelveTET.getNoteFromID("C");
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-test("class Piano -- init", function (_t) {
+describe("class Piano", () => {
+  const C: Note = twelveTET.getNoteFromID("C");
   const defaultPiano = new Piano(20, [C]);
 
-  assert.ok(defaultPiano);
+  it('init', () => {
+    assert.ok(defaultPiano);
 
-  assert.deepEqual(
-    defaultPiano.getCommonTunings(),
-    [
+    assert.equal(
+      defaultPiano.fretBoard.courses.length,
+      1,
+      "Piano only has 1 'course'",
+    );
+    assert.equal(
+      defaultPiano.fretBoard.courses.every(
+        (course) => course.tunedStrings.length === 1,
+      ),
+      true,
+      "piano has a single string",
+    );
+  });
+
+  it('getCommonTunings', () => {
+    assert.deepEqual(
+      defaultPiano.getCommonTunings(),
+      [
+        new Tuning("piano", "standard", [C]),
+      ],
+      "common tunings found",
+    );
+  });
+
+  it('getStandardTuning', () => {
+    assert.deepEqual(
+      defaultPiano.getStandardTuning(),
       new Tuning("piano", "standard", [C]),
-    ],
-    "common tunings found",
-  );
-
-  assert.deepEqual(
-    defaultPiano.getStandardTuning(),
-    new Tuning("piano", "standard", [C]),
-    "standard tuning found",
-  );
-
-  assert.equal(
-    defaultPiano.fretBoard.courses.length,
-    1,
-    "Piano only has 1 'course'",
-  );
-  assert.equal(
-    defaultPiano.fretBoard.courses.every(
-      (course) => course.tunedStrings.length === 1,
-    ),
-    true,
-    "piano has a single string",
-  );
+      "standard tuning found",
+    );
+  });
 });

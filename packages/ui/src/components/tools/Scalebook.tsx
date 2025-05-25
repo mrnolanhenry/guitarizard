@@ -29,7 +29,7 @@ interface IScalebookProps {
   onInstrumentSelect: (instrument: FrettedInstrument) => void;
   onInstrumentTune: (courseId: string, newTuning: Note) => void;
   onInstrumentTuneToPreset: (tuning: Tuning) => void;
-  onKeyNoteSelect: (keyNote: Note) => void;
+  onKeyTonicSelect: (tonic: Note) => void;
   onScaleSelect: (scale: Scale) => void;
   shouldHighlightPiano: boolean;
   temperament: Temperament;
@@ -50,7 +50,7 @@ const Scalebook = (props: IScalebookProps) => {
     onInstrumentSelect,
     onInstrumentTune,
     onInstrumentTuneToPreset,
-    onKeyNoteSelect,
+    onKeyTonicSelect,
     onScaleSelect,
     shouldHighlightPiano,
     temperament,
@@ -65,7 +65,7 @@ const Scalebook = (props: IScalebookProps) => {
   };
 
   const instrument: FrettedInstrument = activeInstrument;
-  const activeKeyNote: Note = activeKey.note;
+  const activeKeyTonic: Note = activeKey.tonic;
   const activeScale: Scale = activeKey.scale;
 
   const instrumentComponent = instrument ? (
@@ -101,6 +101,7 @@ const Scalebook = (props: IScalebookProps) => {
             isSmallScreen={isSmallScreen}
             isRainbowMode={isRainbowMode}
             scale={activeScale}
+            temperament={temperament}
             theme={theme}
           />
         </Grid>
@@ -120,6 +121,7 @@ const Scalebook = (props: IScalebookProps) => {
           isSmallScreen={isSmallScreen}
           isRainbowMode={isRainbowMode}
           scale={activeScale}
+          temperament={temperament}
           theme={theme}
         />
       </Grid> 
@@ -138,6 +140,7 @@ const Scalebook = (props: IScalebookProps) => {
                 label="Instrument:"
                 minWidth={isSmallScreen ? "8em" : "12em"}
                 onInstrumentSelect={onInstrumentSelect}
+                shouldAutocomplete={isLargeScreen}
                 theme={theme}
               />
             </Grid>
@@ -149,6 +152,7 @@ const Scalebook = (props: IScalebookProps) => {
                   label="Common Tunings:"
                   minWidth={isSmallScreen ? "8em" : "10em"}
                   onCommonTuningSelect={onInstrumentTuneToPreset}
+                  shouldAutocomplete={isLargeScreen}
                   theme={theme}
                 />
               </Grid>
@@ -159,8 +163,9 @@ const Scalebook = (props: IScalebookProps) => {
           <NoteSelector
             id="active key"
             label="Key:"
-            note={activeKeyNote}
-            onNoteSelect={onKeyNoteSelect}
+            note={activeKeyTonic}
+            onNoteSelect={onKeyTonicSelect}
+            shouldAutocomplete={isLargeScreen}
             temperament={temperament}
             theme={theme}
           />
@@ -171,6 +176,7 @@ const Scalebook = (props: IScalebookProps) => {
             label="Scale:"
             minWidth={isSmallScreen ? "14em" : "16em"}
             onScaleSelect={onScaleSelect}
+            shouldAutocomplete={isLargeScreen}
             theme={theme}
           />
         </Grid>
@@ -178,6 +184,7 @@ const Scalebook = (props: IScalebookProps) => {
           <EquivKeySelector
             activeKey={activeKey}
             minWidth="18em"
+            shouldAutocomplete={isLargeScreen}
             theme={theme}
             updateKey={updateKey}
           />

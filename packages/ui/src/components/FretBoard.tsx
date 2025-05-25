@@ -12,6 +12,7 @@ interface IFretBoardProps {
   activeKey: Key;
   fretBoard: Fretboard;
   isMediumScreen: boolean;
+  isLargeScreen: boolean;
   isRainbowMode: boolean;
   onTune: (courseId: string, newTuning: Note) => void;
   showFretBar: boolean;
@@ -20,7 +21,7 @@ interface IFretBoardProps {
 }
 
 const FretBoard = (props: IFretBoardProps) => {
-  const { activeKey, fretBoard, isMediumScreen, isRainbowMode, onTune, showFretBar, temperament, theme } =
+  const { activeKey, fretBoard, isMediumScreen, isLargeScreen, isRainbowMode, onTune, showFretBar, temperament, theme } =
     props;
   const fretBarStyle: CSSProperties = {
     backgroundColor: theme.swatch.base00,
@@ -34,7 +35,7 @@ const FretBoard = (props: IFretBoardProps) => {
       {[...Array(maxFretCount)].map((_, i) => {
         return (
           <div key={`fret-${i}`} style={fretBarStyle}>
-            {i === 0 ? "*" : i}
+            {i}
           </div>
         );
       })}
@@ -55,9 +56,11 @@ const FretBoard = (props: IFretBoardProps) => {
           <NoteSelector
             id={course.id}
             key={course.id}
+            containerClass={"tuning-peg"}
             temperament={fretBoard.temperament}
             note={course.tunedStrings[0].tuningNote}
             onNoteSelect={(n: Note) => onTune(course.id, n)}
+            shouldAutocomplete={isLargeScreen}
             theme={theme}
           />
         );
@@ -68,10 +71,7 @@ const FretBoard = (props: IFretBoardProps) => {
   const stringStyle: CSSProperties = { borderColor: theme.swatch.base09 };
   const boardStyle: CSSProperties = { backgroundColor: theme.swatch.base0F };
 
-  const scalesOnCourses: ScaleOnCourse[] = fretBoard.getNotesInScale(
-    activeKey.scale,
-    activeKey.note,
-  );
+  const scalesOnCourses: ScaleOnCourse[] = fretBoard.getNotesInKey(activeKey);
 
   const courses = scalesOnCourses.map((scaleOnCourse, courseIndex) => {
     const tunedStrings: TunedString[] = scaleOnCourse.course.tunedStrings;

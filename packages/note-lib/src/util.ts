@@ -4,7 +4,7 @@ import { Key } from "./Key";
 // e.g. 'A, A#, Bb, B, C, C#, Db, D#, Eb, E, F, F#, Gb, G, G#, Ab'.
 // and then by scale name in ascending order
 // e.g. 'Aeolian, Algerian, Arabic, Armenian, Augmented, Bebop, Blues, Chromatic, Diminished, etc.
-const sortKeysByNoteAndScale = (keyArray: Key[], primaryKey?: Key): Key[] => {
+const sortKeysByTonicAndScale = (keyArray: Key[], primaryKey?: Key): Key[] => {
   if (keyArray.length <= 1) {
     return keyArray;
   }
@@ -19,7 +19,7 @@ const sortKeysByNoteAndScale = (keyArray: Key[], primaryKey?: Key): Key[] => {
   }  
 
   keyArray.sort( function(a: Key, b: Key): number {
-    return (ordering[a.note.id] - ordering[b.note.id]) || a.scale.name.localeCompare(b.scale.name);
+    return (ordering[a.tonic.id] - ordering[b.tonic.id]) || a.scale.name.localeCompare(b.scale.name);
   });
 
   return keyArray;
@@ -33,4 +33,5 @@ const sortNumericArray = (array: number[]): number[] => {
   return array;
 };
 
-export { sortKeysByNoteAndScale, sortNumericArray };
+
+export { sortKeysByTonicAndScale, sortNumericArray };

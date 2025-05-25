@@ -1,6 +1,5 @@
 import { Interval } from "./Interval";
 import { Temperament } from "./Temperament";
-import { mainIntervals } from "./data/intervals";
 import { Note } from "./Note";
 import { NotePitch } from "./enums/NotePitch";
 
@@ -19,38 +18,14 @@ export class Scale {
   constructor(
     name: string,
     temperament: Temperament,
-    intervalsBySemitones: number[],
+    intervals: Interval[],
   ) {
     this.name = name;
     this.temperament = temperament;
-    this.intervals = intervalsBySemitones.map(
-      (semitone) => mainIntervals[semitone],
-    );
+    this.intervals = intervals;
   }
 
-  getNotesInKey(keyNote: Note): Note[] {
-    // start the temperament at the correct note
-    const shiftedNotes: Note[] = this.temperament.getShiftedNotes(keyNote);
-
-    // pull correct note aliases
-    const notes: Note[] = shiftedNotes.map((note) => {
-      if (keyNote.pitch === NotePitch.Sharp) {
-        const sharpNote = note.findSharp();
-        if (sharpNote) {
-          return sharpNote;
-        }
-      }
-
-      return note;
-    });
-
-    // map notes to given intervals
-    return this.intervals.map((interval) => {
-      return notes[interval.semitones % this.temperament.notes.length];
-    });
-  }
-
-  // Given a scale, return equivalent scales that have the same notes
+  // Given a scale, return equivalent scales that have enharmonically equivalent intervals
   // e.g. the Ionian scale is exactly the same series of notes as the Major scale and Ethiopian (a raray) scale.
   getEquivScales(scales: Scale[]): Scale[] {
     const equivScales: Scale[] = [];

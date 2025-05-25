@@ -21,6 +21,7 @@ const ThemeSelector = (props: IThemeSelectorProps) => {
       getDisplay={(theme: Base16Theme) => theme.name}
       activeItem={activeTheme}
       onChange={onThemeSelect}
+      shouldAutocomplete={false}
       size={size}
       theme={activeTheme}
     />
