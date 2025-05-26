@@ -94,10 +94,10 @@ describe("class Key", () => {
 
   const bluesScale = new Scale("Blues", twelveTET, [twelveTETP1, twelveTETm3, twelveTETP4, twelveTETd5, twelveTETP5, twelveTETm7]);
 
-  const BbLydian = new Key(Bb, lydianScale);
-  const AsLydian = new Key(As, lydianScale);
   const ANeapolitanMinor = new Key(A, neapolitanMinorScale);
   const APhrygian = new Key(A, phrygianScale);
+  const AsLydian = new Key(As, lydianScale);
+  const BbLydian = new Key(Bb, lydianScale);
   const CMixolydian = new Key(C, mixolydianScale);
   const DAeolian = new Key(D, aeolianScale);
   const DEthiopianEzel = new Key(D, ethiopianEzelScale);
@@ -108,10 +108,9 @@ describe("class Key", () => {
   const FEthiopianAraray = new Key(F, ethiopianArarayScale);
   const FIonian = new Key(F, ionianScale);
   const FMajor = new Key(F, majorScale);
-  const GDorian = new Key(G, dorianScale);
-
   const FsBlues = new Key(Fs, bluesScale);
   const GbBlues = new Key(Gb, bluesScale);
+  const GDorian = new Key(G, dorianScale);
 
   const BbLydianEquivKeys: Key[] = BbLydian.getEquivKeys();
   const AsLydianEquivKeys: Key[] = AsLydian.getEquivKeys();
@@ -121,13 +120,13 @@ describe("class Key", () => {
       name: `${Constants.F_SHARP} Blues`,
       tonic: Fs,
       scale: bluesScale,
-      notesInKey: [Fs, A, B, C, Cs, E]
+      notes: [Fs, A, B, C, Cs, E]
     });
     assert.deepEqual(GbBlues.toJSON(), {
       name: `${Constants.G_FLAT} Blues`,
       tonic: Gb,
       scale: bluesScale,
-      notesInKey: [Gb, A, B, C, Db, E]
+      notes: [Gb, A, B, C, Db, E]
     });
     assert.equal(BbLydian.valueOf(), JSON.stringify(BbLydian), "valueOf works");
     assert.equal(BbLydian.toString(), JSON.stringify(BbLydian), "toString works");
@@ -169,6 +168,88 @@ describe("class Key", () => {
   
     assert.deepEqual(
       AsLydianEquivKeys,
+      [
+        ANeapolitanMinor,
+        APhrygian,
+        AsLydian,
+        BbLydian,
+        CMixolydian,
+        DAeolian,
+        DEthiopianEzel,
+        DEthiopianGeez,
+        DMelodicMinorDesc,
+        DNaturalMinor,
+        ELocrian,
+        FEthiopianAraray,
+        FIonian,
+        FMajor,
+        GDorian,
+      ],
+      "equivalent keys identified given sharp note",
+    );
+  });
+
+  it('getEquivKeysFromArray', () => {
+    assert.deepEqual(
+      BbLydian.getEquivKeysFromArray([
+        ANeapolitanMinor,
+        APhrygian,
+        AsLydian,
+        BbLydian,
+        CMixolydian,
+        DAeolian,
+        DEthiopianEzel,
+        DEthiopianGeez,
+        DMelodicMinorDesc,
+        DNaturalMinor,
+        ELocrian,
+        FEthiopianAraray,
+        FIonian,
+        FMajor,
+        FsBlues,
+        GbBlues,
+        GDorian,
+      ]),
+      [
+        ANeapolitanMinor,
+        APhrygian,
+        AsLydian,
+        BbLydian,
+        CMixolydian,
+        DAeolian,
+        DEthiopianEzel,
+        DEthiopianGeez,
+        DMelodicMinorDesc,
+        DNaturalMinor,
+        ELocrian,
+        FEthiopianAraray,
+        FIonian,
+        FMajor,
+        GDorian,
+      ],
+      "equivalent keys identified given flat note",
+    );
+  
+    assert.deepEqual(
+      AsLydian.getEquivKeysFromArray([
+        ANeapolitanMinor,
+        APhrygian,
+        AsLydian,
+        BbLydian,
+        CMixolydian,
+        DAeolian,
+        DEthiopianEzel,
+        DEthiopianGeez,
+        DMelodicMinorDesc,
+        DNaturalMinor,
+        ELocrian,
+        FEthiopianAraray,
+        FIonian,
+        FMajor,
+        FsBlues,
+        GbBlues,
+        GDorian,
+      ]),
       [
         ANeapolitanMinor,
         APhrygian,

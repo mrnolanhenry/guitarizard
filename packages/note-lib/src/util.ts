@@ -59,7 +59,7 @@ const sortChordsByRootAndOrChordType = (chordArray: Chord[], shouldSortByChordTy
   }  
 
   chordArray.sort( function(a: Chord, b: Chord): number {
-    return (ordering[a.root.id] - ordering[b.root.id]) || (shouldSortByChordType && a.chordType.shortHand.localeCompare(b.chordType.shortHand));
+    return shouldSortByChordType ? a.chordType.shortHand.localeCompare(b.chordType.shortHand) : ordering[a.root.id] - ordering[b.root.id];
   });
 
   return chordArray;

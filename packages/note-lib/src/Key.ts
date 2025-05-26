@@ -1,4 +1,5 @@
 import { Note } from "./Note";
+import { NoteCollection } from "./NoteCollection";
 import { Scale } from "./Scale";
 
 import scales from "./data/scales";
@@ -6,21 +7,29 @@ import { NotePitch } from "./enums/NotePitch";
 import * as util from "./util";
 import isEqual from "lodash/isEqual";
 
-export class Key {
+export class Key extends NoteCollection {
   name: string;
   tonic: Note; // the tonic note AKA the root note or first scale degree
   scale: Scale;
-  notesInKey: Note[];
+  notes: Note[];
   constructor(tonic: Note, scale: Scale) {
+    super();
     this.tonic = tonic;
     this.scale = scale;
     this.name = this.getDisplayName();
-    this.notesInKey = this.getNotesInKey();
+    this.notes = this.getNotesInKey();
   }
 
-  // Given a key's note and scale, return equivalent keys if you were to transpose into other notes & scales
+  // Return equivalent keys if you were to transpose into other notes & scales (given array of keys to filter)
+  // e.g. the E m7b5 chord is exactly the same series of notes as the G m6 chord (and E dim7 chord), just with a different note designated as the root.
+  getEquivKeysFromArray(keys: Key[]): Key[] {
+    return keys.filter((key: Key) => {
+      return this.sharesEquivalentNotes(key);
+    });
+  }
+
+  // Return equivalent keys if you were to transpose into other notes & scales
   // e.g. the B Lydian scale is exactly the same series of notes as the Bb neapolitan minor or Db mixolydian, just with a different note designated as the 'tonic' or root.
-  // NOLAN TODO - See if you can simplify/speed up this function
   getEquivKeys(): Key[] {
     const equivKeys: Key[] = [];
     const scaleArray: number[] = [];
@@ -78,7 +87,7 @@ export class Key {
       name: this.name,
       tonic: this.tonic,
       scale: this.scale,
-      notesInKey: this.notesInKey,
+      notes: this.notes,
     };
   }
 

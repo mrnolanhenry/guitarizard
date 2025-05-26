@@ -17,8 +17,8 @@ interface IKeySegmentBottomProps {
 
 const KeySegmentBottom = (props: IKeySegmentBottomProps) => {
   const { activeKey, columnWidth, isRainbowMode, note, shouldHighlightPiano, theme } = props;
-  const notesInKey: Note[] = activeKey.notesInKey;
-  const noteIsInKey = !!notesInKey.find((noteInKey) => noteInKey.isSimilar(note));
+  const notesInKey: Note[] = activeKey.notes;
+  const noteIsInKey = !!notesInKey.find((noteInKey) => noteInKey.isEquivalent(note));
 
   const getRainbowColor = (defaultColor: string = "#BBB") => {
     if (isRainbowMode && note && noteIsInKey) {
@@ -30,7 +30,7 @@ const KeySegmentBottom = (props: IKeySegmentBottomProps) => {
         (semitone) => rainbow[semitone],
       );
 
-      const indexFound = notesInKey.findIndex((noteInKey) => noteInKey.isSimilar(note));
+      const indexFound = notesInKey.findIndex((noteInKey) => noteInKey.isEquivalent(note));
       return semitoneColors[indexFound];
     }
     else {

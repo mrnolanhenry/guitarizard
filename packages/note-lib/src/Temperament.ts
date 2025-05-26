@@ -211,7 +211,7 @@ export class Temperament {
    * you can pass in the scale degree's number as a second parameter.
    * e.g. for 12TET pass (2, false, 3) to get a diminished 3rd instead of the default major 2nd.
    */
-  findInterval(semitones: number, allowEquivalents: boolean = true, scaleDegreeNumeric?: IntervalScaleDegreeNumeric): Interval {  
+  findInterval(semitones: number, allowEquivalents: boolean = false, scaleDegreeNumeric?: IntervalScaleDegreeNumeric): Interval | undefined {  
     return this.intervals.find((interval) => {
       const isExactMatch = interval.semitones === semitones;
       const isEquivalentMatch = interval.semitones % this.notes.length === semitones % this.notes.length;

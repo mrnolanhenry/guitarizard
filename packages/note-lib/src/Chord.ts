@@ -5,22 +5,31 @@ import chordTypes from "./data/chordTypes";
 import * as util from "./util";
 import isEqual from "lodash/isEqual";
 import { NotePitch } from "./enums/NotePitch";
+import { NoteCollection } from "./NoteCollection";
 
-export class Chord {
+export class Chord extends NoteCollection{
   name: string;
   root: Note;
   chordType: ChordType;
-  notesInChord: Note[];
+  notes: Note[];
   constructor(root: Note, chordType: ChordType) {
+    super();
     this.root = root;
     this.chordType = chordType;
     this.name = this.getDisplayName();
-    this.notesInChord = this.getNotesInChord();
+    this.notes = this.getNotesInChord();
   }
 
-  // Given a chord's note and chordType, return equivalent chords if you were to transpose into other notes & chordTypes
+  // Return equivalent chords if you were to transpose into other notes & chordTypes (given array of chords to filter)
   // e.g. the E m7b5 chord is exactly the same series of notes as the G m6 chord (and E dim7 chord), just with a different note designated as the root.
-  // NOLAN TODO - See if you can simplify/speed up this function
+  getEquivChordsFromArray(chords: Chord[]): Chord[] {
+    return chords.filter((chord: Chord) => {
+      return this.sharesEquivalentNotes(chord);
+    });
+  }
+
+  // Return equivalent chords if you were to transpose into other notes & chordTypes
+  // e.g. the E m7b5 chord is exactly the same series of notes as the G m6 chord (and E dim7 chord), just with a different note designated as the root.
   getEquivChords(): Chord[] {
     const equivChords: Chord[] = [];
     const chordTypeArray: number[] = [];
@@ -81,7 +90,7 @@ export class Chord {
       name: this.name,
       root: this.root,
       chordType: this.chordType,
-      notesInChord: this.notesInChord,
+      notes: this.notes,
     };
   }
 

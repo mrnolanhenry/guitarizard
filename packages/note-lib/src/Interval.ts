@@ -47,22 +47,6 @@ export class Interval {
     this.aliases.push(interval);
   }
 
-  // check if an Interval is similar to this one
-  // e.g. M3 and d4 are enharmonically equivalent because they share the same number of semitones
-  isSimilar(interval: Interval): boolean {
-    // check the basics
-    if (interval.semitones === this.semitones) {
-      return true;
-    }
-
-    // check aliases for a match
-    const aliasInterval: Interval | undefined = this.aliases.find(
-      (alias) => alias.semitones === interval.semitones,
-    );
-
-    return !!aliasInterval; // force into a bool type (undefined ==> false);
-  }
-
   isRoot(): boolean {
     return this.semitones === 0;
   }
@@ -87,9 +71,21 @@ export class Interval {
     return this.semitones === 6;
   }
 
+  isIdenticalInName(otherInterval: Interval): boolean {
+    return otherInterval.name.toLocaleLowerCase() === this.name.toLocaleLowerCase();
+  }
+
+  isIdenticalInSemitones(otherInterval: Interval): boolean {
+    return otherInterval.semitones === this.semitones;
+  }
+
+  isEquivalentInSemitones(otherInterval: Interval, numberOfIntervalsInThisTemperament: number): boolean {
+    return this.isIdenticalInSemitones(otherInterval) || otherInterval.semitones % numberOfIntervalsInThisTemperament === this.semitones % numberOfIntervalsInThisTemperament;
+  }
+
   //NOLAN TODO:
   // Remove if not needed
-  // hasAliasQuality(quality: number) {
+  // hasAliasWithQuality(quality: number) {
   //   const alias = this.aliases.find((a) => a.quality === quality);
   //   return typeof alias !== "undefined";
   // }

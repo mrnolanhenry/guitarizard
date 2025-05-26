@@ -2,6 +2,7 @@ import { Interval } from "./Interval";
 import { Temperament } from "./Temperament";
 import { Note } from "./Note";
 import { NotePitch } from "./enums/NotePitch";
+import { IntervalCollection } from "./IntervalCollection";
 
 /**
  * A single scale.
@@ -10,7 +11,7 @@ import { NotePitch } from "./enums/NotePitch";
  *
  * If you were a formal person, you'd call this a "mode".
  */
-export class Scale {
+export class Scale extends IntervalCollection {
   name: string;
   temperament: Temperament;
   intervals: Interval[];
@@ -20,12 +21,13 @@ export class Scale {
     temperament: Temperament,
     intervals: Interval[],
   ) {
+    super();
     this.name = name;
     this.temperament = temperament;
     this.intervals = intervals;
   }
 
-  // Given a scale, return equivalent scales that have enharmonically equivalent intervals
+  // Return Scales that have equivalent Intervals as this Scale's in terms of semitones
   // e.g. the Ionian scale is exactly the same series of notes as the Major scale and Ethiopian (a raray) scale.
   getEquivScales(scales: Scale[]): Scale[] {
     const equivScales: Scale[] = [];
@@ -51,6 +53,25 @@ export class Scale {
       }
     }
     return equivScales;
+  }
+
+  // NOLAN TODO:
+  // This method is slightly less performant, but cleaner and doesn't depend on intervals being in a particular order. 
+  // Consider using in the future if performance isn't a concern.
+  // Return Scales that have equivalent Intervals as this Scale's in terms of semitones
+  // e.g. the Ionian scale is exactly the same series of notes as the Major scale and Ethiopian (a raray) scale.
+  // getEquivScales(scales: Scale[]): Scale[] {
+  //   return scales.filter((scale: Scale) => {
+  //     return this.sharesEquivalentSemitones(scale, this.temperament.notes.length);
+  //   });
+  // }
+
+  // Return Scales that have identical Intervals as this Scale's in terms of semitones
+  // and possibly more intervals, i.e. what other Scales does this Scale fit into?
+  getScalesWithSameOrMoreSemitones(scales: Scale[]): Scale[] {
+    return scales.filter((scale: Scale) => {
+      return scale.includesIdenticalSemitones(this);
+    });
   }
 
   toJSON() {

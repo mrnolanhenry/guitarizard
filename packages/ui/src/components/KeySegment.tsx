@@ -26,8 +26,8 @@ const KeySegment = (props: IKeySegmentProps) => {
   // Get the note on this "string" (whether it exists in the scale or not)
   const noteIgnoreScale: Note| undefined = allNotesOnCourse.getNoteFromFretNumber(fret);
 
-  const notesInKey: Note[] = activeKey.notesInKey;
-  const noteIsInKey = note && !!notesInKey.find((noteInKey) => noteInKey.isSimilar(note));
+  const notesInKey: Note[] = activeKey.notes;
+  const noteIsInKey = note && !!notesInKey.find((noteInKey) => noteInKey.isEquivalent(note));
 
   const getRainbowColor = (defaultColor: string = "#BBB") => {
     if (isRainbowMode && note && noteIsInKey) {
@@ -39,7 +39,7 @@ const KeySegment = (props: IKeySegmentProps) => {
         (semitone) => rainbow[semitone],
       );
 
-      const indexFound = notesInKey.findIndex((noteInKey) => noteInKey.isSimilar(note));
+      const indexFound = notesInKey.findIndex((noteInKey) => noteInKey.isEquivalent(note));
       return semitoneColors[indexFound];
     }
     else {

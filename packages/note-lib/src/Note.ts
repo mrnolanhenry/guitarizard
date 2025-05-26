@@ -24,15 +24,19 @@ export class Note {
     this.aliasNotes.push(note);
   }
 
-  isSimilar(note: Note): boolean {
+  isIdentical(note: Note): boolean {
+    return note.id.toLocaleLowerCase() === this.id.toLocaleLowerCase();
+  }
+
+  isEquivalent(note: Note): boolean {
     // check the basics
-    if (note.id.toLowerCase() === this.id.toLowerCase()) {
+    if (this.isIdentical(note)) {
       return true;
     }
 
     // check aliases for a match
     const aliasNote: Note | undefined = this.aliasNotes.find(
-      (an) => an.id.toLowerCase() === note.id.toLowerCase(),
+      (an) => an.id.toLocaleLowerCase() === note.id.toLocaleLowerCase(),
     );
 
     return !!aliasNote; // force into a bool type (undefined ==> false);

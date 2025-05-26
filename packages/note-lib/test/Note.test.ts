@@ -40,22 +40,35 @@ describe("class Note", () => {
     assert.equal(flatNote.toString(), JSON.stringify(flatNote));
   });
 
-  it('isSimilar', () => {
-    assert.equal(flatNote.isSimilar(Xs), true, "detect similar notes");
+  it('isIdentical', () => {
     assert.equal(
-      flatNote.isSimilar(flatNote),
-      true,
-      "detect similar (self) - flat",
+      flatNote.isIdentical(new Note("FOO-BAR-FLAT", NotePitch.Flat, [Xs])),
+      true
     );
     assert.equal(
-      naturalNote.isSimilar(naturalNote),
-      true,
-      "detect similar (self) - natural",
-    );
-    assert.equal(
-      naturalNote.isSimilar(new Note("Z", NotePitch.Natural)),
+      naturalNote.isEquivalent(new Note("Z", NotePitch.Natural)),
       false,
-      "dismiss non-similar notes",
+      "dismiss non-equivalent notes",
+    );
+    assert.equal(flatNote.isIdentical(Xs), false);
+  });
+
+  it('isEquivalent', () => {
+    assert.equal(flatNote.isEquivalent(Xs), true, "detect equivalent notes");
+    assert.equal(
+      flatNote.isEquivalent(flatNote),
+      true,
+      "detect equivalent (self) - flat",
+    );
+    assert.equal(
+      naturalNote.isEquivalent(naturalNote),
+      true,
+      "detect equivalent (self) - natural",
+    );
+    assert.equal(
+      naturalNote.isEquivalent(new Note("Z", NotePitch.Natural)),
+      false,
+      "dismiss non-equivalent notes",
     );
   });
 

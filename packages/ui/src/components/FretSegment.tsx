@@ -27,8 +27,6 @@ const getNoteTextStyle = (
   };
 
   if (isRainbowMode && note) {
-    const notes: Note[] = activeKey.notesInKey;
-
     const semitones: number[] = activeKey.scale.intervals.map(
       (interval) => interval.semitones,
     );
@@ -37,14 +35,14 @@ const getNoteTextStyle = (
       (semitone) => rainbow[semitone],
     );
 
-    const noteIntervalColorCombos = notes.map((n, i) => ({
+    const noteIntervalColorCombos = activeKey.notes.map((n, i) => ({
       note: n,
       semitone: semitones[i],
       semitoneColor: semitoneColors[i],
     }));
 
     const thisNoteIntervalColorCombo = noteIntervalColorCombos.find(
-      (noteIntervalColorCombo) => noteIntervalColorCombo.note.isSimilar(note),
+      (noteIntervalColorCombo) => noteIntervalColorCombo.note.isEquivalent(note),
     );
 
     if (thisNoteIntervalColorCombo) {

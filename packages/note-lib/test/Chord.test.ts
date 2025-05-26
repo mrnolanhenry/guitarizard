@@ -31,24 +31,24 @@ describe("class Chord", () => {
   const major6ChordType= new ChordType("6", twelveTET, [twelveTETP1, twelveTETM3, twelveTETP5Priority2, twelveTETM6], ["major 6th"]);
   const minor6ChordType = new ChordType("m6", twelveTET, [twelveTETP1, twelveTETm3, twelveTETP5Priority2, twelveTETM6], ["minor 6th"]);
   const _7b5ChordType = new ChordType("7b5", twelveTET, [twelveTETP1, twelveTETM3, twelveTETd5, twelveTETm7],["dominant 7th, flat 5th"]);
+  const halfDim7ChordType = new ChordType("ø7", twelveTET, [twelveTETP1, twelveTETm3, twelveTETd5, twelveTETm7], ["half diminished 7th"]);
   const m7b5ChordType = new ChordType("m7b5", twelveTET, [twelveTETP1, twelveTETm3, twelveTETd5, twelveTETm7], ["minor 7th, flat 5th"]);
   const dim7ChordType = new ChordType("dim7", twelveTET, [twelveTETP1, twelveTETm3, twelveTETd5, twelveTETd7], ["diminished 7th"]);
-  const halfDim7ChordType = new ChordType("ø7", twelveTET, [twelveTETP1, twelveTETm3, twelveTETd5, twelveTETm7], ["half diminished 7th"]);
 
   const DsMajorChord = new Chord(Ds,majorChordType);
   const DsMinorChord = new Chord(Ds, minorChordType);
   const DsMajor6Chord = new Chord(Ds,major6ChordType);
+  const DshalfDim7Chord = new Chord(Ds, halfDim7ChordType);
   const Dsm7b5Chord = new Chord(Ds, m7b5ChordType);
   const Dsdim7Chord = new Chord(Ds, dim7ChordType);
-  const DshalfDim7Chord = new Chord(Ds, halfDim7ChordType);
 
   const EbMajorChord = new Chord(Eb,majorChordType);
   const EbMinorChord = new Chord(Eb, minorChordType);
   const EbMajor6Chord = new Chord(Eb,major6ChordType);
   const Eb7b5Chord = new Chord(Eb, _7b5ChordType);
+  const EbhalfDim7Chord = new Chord(Eb, halfDim7ChordType);
   const Ebm7b5Chord = new Chord(Eb, m7b5ChordType);
   const Ebdim7Chord = new Chord(Eb, dim7ChordType);
-  const EbhalfDim7Chord = new Chord(Eb, halfDim7ChordType);
 
   const Em7b5Chord = new Chord(E, m7b5ChordType);
 
@@ -68,25 +68,24 @@ describe("class Chord", () => {
 
   const GbMinor6EquivChords: Chord[] = GbMinor6Chord.getEquivChords();
 
-
   it('toJSON, valueOf, toString', () => {
     assert.deepEqual(EbMinorChord.toJSON(), {
       name: `${Constants.E_FLAT} m`,
       root: Eb,
       chordType: minorChordType,
-      notesInChord: [Eb, Gb, Bb]
+      notes: [Eb, Gb, Bb]
     },"toJSON works and notes in Chord are flat if root is flat");
     assert.deepEqual(DsMinorChord.toJSON(), {
       name: `${Constants.D_SHARP} m`,
       root: Ds,
       chordType: minorChordType,
-      notesInChord: [Ds, Fs, As]
+      notes: [Ds, Fs, As]
     }, "toJSON works and notes in Chord are sharp if root is sharp");
     assert.deepEqual(Em7b5Chord.toJSON(), {
       name: `${Constants.E} m7b5`,
       root: E,
       chordType: m7b5ChordType,
-      notesInChord: [E, G, Bb, D]
+      notes: [E, G, Bb, D]
     }, "toJSON works and notes in Chord are flat if root is natural");
     assert.equal(EbMinorChord.valueOf(), JSON.stringify(EbMinorChord), "valueOf works");
     assert.equal(EbMinorChord.toString(), JSON.stringify(EbMinorChord), "toString works");
@@ -107,6 +106,67 @@ describe("class Chord", () => {
     );
     assert.deepEqual(
       Dsm7b5EquivChords,
+      [
+        DshalfDim7Chord, 
+        Dsm7b5Chord, 
+        EbhalfDim7Chord, 
+        Ebm7b5Chord, 
+        FsMinor6Chord,
+        GbMinor6Chord
+      ],
+      "equivalent chords identified given sharp note",
+    );
+  });
+
+  it('getEquivChordsFromArray', () => {
+    assert.deepEqual(
+      Ebm7b5Chord.getEquivChordsFromArray([
+        DsMajorChord,
+        DsMinorChord,
+        DsMajor6Chord,
+        DshalfDim7Chord,
+        Dsm7b5Chord,
+        Dsdim7Chord,
+        EbMajorChord,
+        EbMinorChord,
+        EbMajor6Chord,
+        Eb7b5Chord,
+        EbhalfDim7Chord,
+        Ebm7b5Chord,
+        Ebdim7Chord,
+        Em7b5Chord,
+        FsMinor6Chord,
+        GbMinor6Chord,
+      ]),
+      [
+        DshalfDim7Chord, 
+        Dsm7b5Chord, 
+        EbhalfDim7Chord, 
+        Ebm7b5Chord, 
+        FsMinor6Chord,
+        GbMinor6Chord
+      ],
+      "equivalent chords identified given flat note",
+    );
+    assert.deepEqual(
+      Dsm7b5Chord.getEquivChordsFromArray([
+        DsMajorChord,
+        DsMinorChord,
+        DsMajor6Chord,
+        DshalfDim7Chord,
+        Dsm7b5Chord,
+        Dsdim7Chord,
+        EbMajorChord,
+        EbMinorChord,
+        EbMajor6Chord,
+        Eb7b5Chord,
+        EbhalfDim7Chord,
+        Ebm7b5Chord,
+        Ebdim7Chord,
+        Em7b5Chord,
+        FsMinor6Chord,
+        GbMinor6Chord,
+      ]),
       [
         DshalfDim7Chord, 
         Dsm7b5Chord, 

@@ -134,9 +134,8 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
       if (!noteToFind) {
         allNotesMatch = false;
       } else {
-        const notesInKey: Note[] = key.notesInKey;
-        const noteFound: boolean = !!notesInKey.find((note) =>
-          note.isSimilar(noteToFind),
+        const noteFound: boolean = !!key.notes.find((note) =>
+          note.isEquivalent(noteToFind),
         );
         // if we didn't find the note in the key, and it's not a note to avoid, or we found the note in the key and it is a note to avoid
         if ((!noteFound && !isNoteToAvoid) || (noteFound && isNoteToAvoid)) {

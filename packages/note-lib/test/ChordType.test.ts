@@ -46,9 +46,9 @@ describe("class ChordType", () => {
     twelveTETA13,  
   } = twelveTETIntervals;
 
-  const twelveTETP5Priority2 = {...twelveTETP5, priority: 2} as Interval;
-  const twelveTETM9Priority2 = {...twelveTETM9, priority: 2} as Interval;
-  const twelveTETP11Priority3 = {...twelveTETP11, priority: 3} as Interval;
+  const twelveTETP5Priority2 = new Interval(twelveTETP5.semitones,twelveTETP5.quality, twelveTETP5.scaleDegree, twelveTETP5.aliases, 2);
+  const twelveTETM9Priority2 = new Interval(twelveTETM9.semitones,twelveTETM9.quality, twelveTETM9.scaleDegree, twelveTETM9.aliases, 2);
+  const twelveTETP11Priority3 = new Interval(twelveTETP11.semitones,twelveTETP11.quality, twelveTETP11.scaleDegree, twelveTETP11.aliases, 3);
   
   const maj9 = new ChordType("maj9", twelveTET, [twelveTETP1, twelveTETM3, twelveTETP5Priority2, twelveTETM7, twelveTETM9], ["major 9th"]);
   const maj7add9 = new ChordType("maj7add9", twelveTET, [twelveTETP1, twelveTETM3, twelveTETP5Priority2, twelveTETM7, twelveTETM9], ["major 7th, added 9th"]);
@@ -117,7 +117,7 @@ describe("class ChordType", () => {
 
   it('sharesEquivalentSemitones', () => {
     assert.equal(
-      maj7add13.sharesEquivalentSemitones(maj7add6),
+      maj7add13.sharesEquivalentSemitones(maj7add6, twelveTET.notes.length),
       true,
       "maj7add13 and maj7add6 share equivalent semitones",
     );
@@ -157,7 +157,7 @@ describe("class ChordType", () => {
     );
   });
 
-  it('includesIdenticalIntervalNames', () => {
+  it('includesIdenticalSemitones', () => {
     assert.equal(
       maj13.includesIdenticalSemitones(maj7add9),
       true,
@@ -170,9 +170,9 @@ describe("class ChordType", () => {
     );
   });
 
-  it('includesIdenticalIntervalNames', () => {
+  it('includesEquivalentSemitones', () => {
     assert.equal(
-      maj13.includesEquivalentSemitones(maj7add6),
+      maj13.includesEquivalentSemitones(maj7add6, twelveTET.notes.length),
       true,
       "maj13 includes equivalent Intervals as maj7add6",
     );

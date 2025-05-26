@@ -94,12 +94,10 @@ export class FretBoard {
   // out according to the scale given. EG. A chromatic
   // scale will always equal the output of `getNotes`
   getNotesInKey(key: Key): ScaleOnCourse[] {
-    const notesInKey = key.getNotesInKey();
     return this.getNotes().map((string) => {
       // filter out any notes that don't exist
-      // in the `notesInKey` array
       const fretNotes = string.notes.filter((fretNote) => {
-        return !!notesInKey.find((noteInKey) => fretNote.value.isSimilar(noteInKey));
+        return !!key.notes.find((noteInKey) => fretNote.value.isEquivalent(noteInKey));
       });
 
       // "tune" the notes to the given key.note. currently
