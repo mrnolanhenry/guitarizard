@@ -3,11 +3,11 @@ import { Key, Note } from "note-lib";
 import { NoteID } from "note-lib/src/Note";
 import { Base16Theme, rainbow } from "../colors/themes";
 import React, { CSSProperties } from "react";
-import { ScaleOnCourse } from "note-lib/src/ScaleOnCourse";
+import { NotesOnCourse } from "note-lib/src/NotesOnCourse";
 import { NoteFretNumberPair } from "note-lib/src/NoteFretNumberPair";
 
 interface IFretSegmentProps {
-  scaleOnCourse: ScaleOnCourse;
+  notesOnCourse: NotesOnCourse;
   fret: number;
   theme: Base16Theme;
   isRainbowMode: boolean;
@@ -235,11 +235,11 @@ const startNote = (note: Note) => {
 //    > RENDER
 //
 const FretSegment = (props: IFretSegmentProps) => {
-  const { fret, isRainbowMode, scaleOnCourse, theme, activeKey } = props;
+  const { fret, isRainbowMode, notesOnCourse, theme, activeKey } = props;
 
   // Get the note on this string (if it exists)
   const noteFretNumberPair: NoteFretNumberPair | undefined =
-    scaleOnCourse.notes.find((note) => note.fretNumber === fret);
+    notesOnCourse.notes.find((note) => note.fretNumber === fret);
 
   const note: Note | undefined = noteFretNumberPair
     ? noteFretNumberPair.value
@@ -257,7 +257,7 @@ const FretSegment = (props: IFretSegmentProps) => {
   );
 
   const backgroundStyle: CSSProperties =
-    fret <= scaleOnCourse.config.fret.start
+    fret <= notesOnCourse.config.fret.start
       ? { backgroundColor: theme.swatch.base01 }
       : {};
 

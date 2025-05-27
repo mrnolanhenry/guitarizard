@@ -3,7 +3,7 @@ import { IFretSpan } from "./interfaces/IFretSpan";
 import { Course } from "./Course";
 import { Note } from "./Note";
 
-export class ScaleOnCourse {
+export class NotesOnCourse {
   config: IFretSpan;
   course: Course;
   notes: NoteFretNumberPair[];

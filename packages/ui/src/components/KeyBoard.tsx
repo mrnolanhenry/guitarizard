@@ -3,7 +3,7 @@ import React, { CSSProperties } from "react";
 import { Key, Note, Temperament } from "note-lib";
 import { FretBoard as Fretboard } from "note-lib/src/FretBoard";
 import { Base16Theme } from "../colors/themes";
-import { ScaleOnCourse } from "note-lib/src/ScaleOnCourse";
+import { NotesOnCourse } from "note-lib/src/NotesOnCourse";
 import { TunedString } from "note-lib/src/TunedString";
 import { Grid } from "@mui/material";
 import { KeySegment } from "./KeySegment";
@@ -36,20 +36,20 @@ const KeyBoard = (props: IKeyBoardProps) => {
   const maxFretCount = getMaxFretCount();
   const columnsCount = maxFretCount * 2;
 
-  // NOLAN TODO - this is terrible lol, figure out spacing a better way, if you can
+  // NOLAN TODO - figure out spacing a better way, if you can
   let columnsRemaining = columnsCount;
 
   const stringStyle: CSSProperties = { borderColor: theme.swatch.base09 };
 
-  const allNotesOnCourses: ScaleOnCourse[] = fretBoard.getNotes();
+  const allNotesOnCourses: NotesOnCourse[] = fretBoard.getNotes();
 
-  const scalesOnCourses: ScaleOnCourse[] = fretBoard.getNotesInKey(activeKey);
+  const activeNotesOnCourses: NotesOnCourse[] = fretBoard.getNotesInKey(activeKey);
 
-  const getWidthBasedOnNeighboringNotes = (scaleOnCourse: ScaleOnCourse, fretNumber: number):number => {
+  const getWidthBasedOnNeighboringNotes = (notesOnCourse: NotesOnCourse, fretNumber: number):number => {
     let columnWidth = 3;
     if (fretNumber !== 0) {
-      const prevNote = scaleOnCourse.getNoteFromFretNumber(fretNumber - 1);
-      const nextNote = scaleOnCourse.getNoteFromFretNumber(fretNumber + 1);
+      const prevNote = notesOnCourse.getNoteFromFretNumber(fretNumber - 1);
+      const nextNote = notesOnCourse.getNoteFromFretNumber(fretNumber + 1);
       if (prevNote && prevNote.isAccidental() && nextNote && nextNote.isAccidental()) {
         columnWidth = 4;
       }
@@ -57,9 +57,9 @@ const KeyBoard = (props: IKeyBoardProps) => {
     return Math.min(columnsRemaining, columnWidth);
   };
 
-  const courses = scalesOnCourses.map((scaleOnCourse, courseIndex) => {
-    const tunedStrings: TunedString[] = scaleOnCourse.course.tunedStrings;
-    const allNotesOnCourse: ScaleOnCourse = allNotesOnCourses[courseIndex];
+  const courses = activeNotesOnCourses.map((notesOnCourse, courseIndex) => {
+    const tunedStrings: TunedString[] = notesOnCourse.course.tunedStrings;
+    const allNotesOnCourse: NotesOnCourse = allNotesOnCourses[courseIndex];
 
     return tunedStrings.map((tunedString, stringIndex) => {
       const keySegments = [...Array(maxFretCount)].map((_, i) => {      
@@ -71,7 +71,7 @@ const KeyBoard = (props: IKeyBoardProps) => {
             fret={i}
             key={`fret-segment-${courseIndex}-${stringIndex}-${i}`}
             isRainbowMode={isRainbowMode}
-            scaleOnCourse={scaleOnCourse}
+            notesOnCourse={notesOnCourse}
             shouldHighlightPiano={shouldHighlightPiano}
             theme={theme}
           />

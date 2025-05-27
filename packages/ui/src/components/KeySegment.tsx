@@ -2,13 +2,13 @@ import "./FretSegment.css";
 import { Key, Note } from "note-lib";
 import { Base16Theme, rainbow } from "../colors/themes";
 import React, { CSSProperties } from "react";
-import { ScaleOnCourse } from "note-lib/src/ScaleOnCourse";
+import { NotesOnCourse } from "note-lib/src/NotesOnCourse";
 import { lighten, darken, Grid } from "@mui/material";
 
 interface IKeySegmentProps {
-  allNotesOnCourse: ScaleOnCourse;
+  allNotesOnCourse: NotesOnCourse;
   columnsCount: number;
-  scaleOnCourse: ScaleOnCourse;
+  notesOnCourse: NotesOnCourse;
   fret: number;
   theme: Base16Theme;
   isRainbowMode: boolean;
@@ -18,10 +18,10 @@ interface IKeySegmentProps {
 }
 
 const KeySegment = (props: IKeySegmentProps) => {
-  const { allNotesOnCourse, columnsCount, fret, isRainbowMode, scaleOnCourse, shouldHighlightPiano, theme, activeKey } = props;
+  const { allNotesOnCourse, columnsCount, fret, isRainbowMode, notesOnCourse, shouldHighlightPiano, theme, activeKey } = props;
 
   // Get the note on this string (if it exists)
-  const note: Note | undefined = scaleOnCourse.getNoteFromFretNumber(fret);
+  const note: Note | undefined = notesOnCourse.getNoteFromFretNumber(fret);
 
   // Get the note on this "string" (whether it exists in the scale or not)
   const noteIgnoreScale: Note| undefined = allNotesOnCourse.getNoteFromFretNumber(fret);

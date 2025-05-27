@@ -5,7 +5,7 @@ import { FretBoard as Fretboard } from "../../../note-lib/src/FretBoard";
 import { Base16Theme } from "../colors/themes";
 import { FretSegment } from "./FretSegment";
 import { NoteSelector } from "./selectors/NoteSelector";
-import { ScaleOnCourse } from "note-lib/src/ScaleOnCourse";
+import { NotesOnCourse } from "note-lib/src/NotesOnCourse";
 import { TunedString } from "note-lib/src/TunedString";
 
 interface IFretBoardProps {
@@ -71,10 +71,10 @@ const FretBoard = (props: IFretBoardProps) => {
   const stringStyle: CSSProperties = { borderColor: theme.swatch.base09 };
   const boardStyle: CSSProperties = { backgroundColor: theme.swatch.base0F };
 
-  const scalesOnCourses: ScaleOnCourse[] = fretBoard.getNotesInKey(activeKey);
+  const activeNotesOnCourses: NotesOnCourse[] = fretBoard.getNotesInKey(activeKey);
 
-  const courses = scalesOnCourses.map((scaleOnCourse, courseIndex) => {
-    const tunedStrings: TunedString[] = scaleOnCourse.course.tunedStrings;
+  const courses = activeNotesOnCourses.map((notesOnCourse, courseIndex) => {
+    const tunedStrings: TunedString[] = notesOnCourse.course.tunedStrings;
     return tunedStrings.map((tunedString, stringIndex) => {
       // only want to return true for this if there are multiple strings in 1 course
       // and it is the last string in the course
@@ -87,7 +87,7 @@ const FretBoard = (props: IFretBoardProps) => {
             fret={i}
             key={`fret-segment-${courseIndex}-${stringIndex}-${i}`}
             isRainbowMode={isRainbowMode}
-            scaleOnCourse={scaleOnCourse}
+            notesOnCourse={notesOnCourse}
             // style={isLastStringInCourse ? lastStringStyle : {}}
             theme={theme}
           />

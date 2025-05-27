@@ -1,8 +1,7 @@
 import { Temperament } from "./Temperament";
 import { Course } from "./Course";
 import { Note } from "./Note";
-import { Scale } from "./Scale";
-import { ScaleOnCourse } from "./ScaleOnCourse";
+import { NotesOnCourse } from "./NotesOnCourse";
 import { IFretSpan } from "./interfaces/IFretSpan";
 import { NotePitch } from "./enums/NotePitch";
 import { NoteFretNumberPair } from "./NoteFretNumberPair";
@@ -67,10 +66,10 @@ export class FretBoard {
   }
 
   /**
-   * NOLAN TODO: Do some renaming of either this method or "ScaleOnCourse"
+   * NOLAN TODO: Do some renaming of either this method or "NotesOnCourse"
    * gets all notes available on each course of the Fretboard
    */
-  getNotes(): ScaleOnCourse[] {
+  getNotes(): NotesOnCourse[] {
     return this.courses.map((course, i) => {
       const config = this.fretSpan[i];
 
@@ -85,23 +84,24 @@ export class FretBoard {
         (note, offset) => new NoteFretNumberPair(note, fret.start + offset),
       );
 
-      return new ScaleOnCourse(course, config, notes);
+      return new NotesOnCourse(course, config, notes);
     });
   }
 
-  // NOLAN TODO: Do some renaming of either this method or "ScaleOnCourse"
+  // NOLAN TODO: Do some renaming of either this method or "NotesOnCourse"
   // same result as `getNotes`, but the notes are filtered
   // out according to the scale given. EG. A chromatic
   // scale will always equal the output of `getNotes`
-  getNotesInKey(key: Key): ScaleOnCourse[] {
-    return this.getNotes().map((string) => {
+  getNotesInKey(key: Key): NotesOnCourse[] {
+    return this.getNotes().map((notesOnCourse: NotesOnCourse) => {
       // filter out any notes that don't exist
-      const fretNotes = string.notes.filter((fretNote) => {
+      const fretNotes = notesOnCourse.notes.filter((fretNote) => {
         return !!key.notes.find((noteInKey) => fretNote.value.isEquivalent(noteInKey));
       });
 
-      // "tune" the notes to the given key.note. currently
-      // super dumb... makes the notes "sharp" if the
+      // "tune" the notes to the given key.note. 
+      // NOLAN TODO:
+      // currently super dumb... makes the notes "sharp" if the
       // key note is sharp lol.
       const tunedFretNotes = fretNotes.map((fretNote) => {
         if (key.tonic.pitch === NotePitch.Sharp) {
@@ -115,7 +115,7 @@ export class FretBoard {
         return fretNote;
       });
 
-      return new ScaleOnCourse(string.course, string.config, tunedFretNotes);
+      return new NotesOnCourse(notesOnCourse.course, notesOnCourse.config, tunedFretNotes);
     });
   }
 
