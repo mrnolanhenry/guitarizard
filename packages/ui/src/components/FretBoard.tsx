@@ -78,7 +78,7 @@ const FretBoard = (props: IFretBoardProps) => {
     return tunedStrings.map((tunedString, stringIndex) => {
       // only want to return true for this if there are multiple strings in 1 course
       // and it is the last string in the course
-      // const isLastStringInCourse: boolean = !!(stringIndex) && stringIndex === tunedStrings.length - 1;
+      // const isLastStringInMultiStringCourse: boolean = !!(stringIndex) && stringIndex === tunedStrings.length - 1;
       // const lastStringStyle = {paddingTop: ".5em"};
       const fretSegments = [...Array(maxFretCount)].map((_, i) => {
         return (
@@ -88,7 +88,7 @@ const FretBoard = (props: IFretBoardProps) => {
             key={`fret-segment-${courseIndex}-${stringIndex}-${i}`}
             isRainbowMode={isRainbowMode}
             notesOnCourse={notesOnCourse}
-            // style={isLastStringInCourse ? lastStringStyle : {}}
+            // style={isLastStringInMultiStringCourse ? lastStringStyle : {}}
             theme={theme}
           />
         );

@@ -235,7 +235,7 @@ const startNote = (note: Note) => {
 //    > RENDER
 //
 const FretSegment = (props: IFretSegmentProps) => {
-  const { fret, isRainbowMode, notesOnCourse, theme, activeKey } = props;
+  const { fret, isRainbowMode, notesOnCourse, style, theme, activeKey } = props;
 
   // Get the note on this string (if it exists)
   const noteFretNumberPair: NoteFretNumberPair | undefined =
@@ -262,7 +262,7 @@ const FretSegment = (props: IFretSegmentProps) => {
       : {};
 
   return (
-    <div className="fret-segment">
+    <div className="fret-segment" style={style ?? {}}>
       <div className="background" style={backgroundStyle}></div>
       <div className="inner">
         <div className="string-line" style={stringLineStyle}></div>
