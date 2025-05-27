@@ -55,9 +55,9 @@ const FretBoard = (props: IFretBoardProps) => {
         return (
           <NoteSelector
             id={course.id}
+            items={temperament.getNotesInTemperament()}
             key={course.id}
             containerClass={"tuning-peg"}
-            temperament={fretBoard.temperament}
             note={course.tunedStrings[0].tuningNote}
             onNoteSelect={(n: Note) => onTune(course.id, n)}
             shouldAutocomplete={isLargeScreen}

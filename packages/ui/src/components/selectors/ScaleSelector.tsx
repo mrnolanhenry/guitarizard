@@ -1,11 +1,12 @@
 import React from "react";
 import { FilterOptionsState } from "@mui/material";
-import { data, Scale } from "note-lib";
+import { Scale } from "note-lib";
 import { Base16Theme } from "../../colors/themes";
 import { LabeledSelector } from "./LabeledSelector";
 
 interface IScalesSelectorProps {
   activeScale: Scale;
+  items: Scale[];
   label: string;
   minWidth?: string;
   onScaleSelect: (scale: Scale) => void;
@@ -14,7 +15,7 @@ interface IScalesSelectorProps {
 }
 
 const ScaleSelector = (props: IScalesSelectorProps) => {
-  const { activeScale, label, minWidth, onScaleSelect, shouldAutocomplete, theme } = props;
+  const { activeScale, items, label, minWidth, onScaleSelect, shouldAutocomplete, theme } = props;
 
   const getSpecialFilterOptions = (
     options: Scale[],
@@ -64,7 +65,7 @@ const ScaleSelector = (props: IScalesSelectorProps) => {
       id="scale-selector"
       label={label}
       minWidth={minWidth}
-      items={data.scales}
+      items={items}
       filterOptions={getSpecialFilterOptions}
       getValue={(s: Scale) => s.name}
       getDisplay={(s: Scale) => s.name}

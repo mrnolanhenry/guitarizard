@@ -1,28 +1,28 @@
 import React from "react";
 import { Base16Theme } from "../../colors/themes";
 import { Selector } from "./Selector";
-
-export type ToolName = "scalebook" | "songbook";
+import { Tool } from "../../enums/Tool";
 
 interface IToolSelectorProps {
-  activeToolName: ToolName;
+  activeToolName: Tool;
   minWidth?: string;
-  onToolSelect: (toolName: ToolName) => void;
+  onToolSelect: (toolName: Tool) => void;
   size?: string; // "small" will set styling to smaller sizes
   theme: Base16Theme;
+  tools: Tool[];
 }
 
 const ToolSelector = (props: IToolSelectorProps) => {
-  const { activeToolName, minWidth, onToolSelect, size, theme } = props;
+  const { activeToolName, minWidth, onToolSelect, size, theme, tools } = props;
   return (
-    <Selector<ToolName>
+    <Selector<Tool>
       id="tool-selector"
-      items={["scalebook"]}
+      items={tools}
       // NOLAN TODO: Return to songbook
       // items={["scalebook", "chordbook", "songbook"]}
       minWidth={minWidth}
       activeItem={activeToolName}
-      onChange={(v: ToolName) => onToolSelect(v)}
+      onChange={(v: Tool) => onToolSelect(v)}
       shouldAutocomplete= {false}
       size={size}
       theme={theme}

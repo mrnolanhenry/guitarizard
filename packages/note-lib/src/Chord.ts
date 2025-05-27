@@ -77,7 +77,7 @@ export class Chord extends NoteCollection{
     return util.sortChordsByRoot(equivChords, this);;
   }
 
-  getDisplayName(): string {
+  private getDisplayName(): string {
     return this.root.id + " " + this.chordType.shortHand;
   }
 

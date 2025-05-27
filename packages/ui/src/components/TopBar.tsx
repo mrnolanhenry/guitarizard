@@ -1,15 +1,16 @@
 import "./TopBar.css";
 import React, { CSSProperties, useEffect } from "react";
-import { ToolSelector, ToolName } from "./selectors/ToolSelector";
+import { ToolSelector } from "./selectors/ToolSelector";
 import { Base16Theme } from "../colors/themes";
 import { ThemeSelector } from './selectors/ThemeSelector';
 import { FullscreenExitRounded as FullscreenExitRoundedIcon, FullscreenRounded as FullscreenRoundedIcon, Settings as SettingsIcon } from '@mui/icons-material';
 import { Button, Grid, IconButton, useTheme } from "@mui/material";
 import { IAppDialogState } from "./AppDialog";
 import { SettingsMenu } from "./SettingsMenu";
+import { Tool } from "../enums/Tool";
 
 interface Props {
-  activeToolName: ToolName;
+  activeToolName: Tool;
   dialogState: IAppDialogState;
   isAuthenticated: boolean;
   isDarkTheme: boolean;
@@ -19,7 +20,7 @@ interface Props {
   isSmallScreen: boolean;
   onLoginClick: () => void;
   onLogoutClick: () => void;
-  onToolSelect: (toolName: ToolName) => void;
+  onToolSelect: (toolName: Tool) => void;
   setDialogState: React.Dispatch<React.SetStateAction<IAppDialogState>>;
   setTheme: React.Dispatch<React.SetStateAction<Base16Theme>>;
   shouldHighlightPiano: boolean;
@@ -27,6 +28,7 @@ interface Props {
   toggleFullscreen: () => void;
   togglePianoHighlight: () => void;
   toggleRainbowMode: () => void;
+  tools: Tool[]
 }
 
 const TopBar = (props: Props) => {
@@ -49,6 +51,7 @@ const TopBar = (props: Props) => {
     toggleFullscreen,
     togglePianoHighlight,
     toggleRainbowMode,
+    tools,
   } = props;
 
   // NOLAN TODO - This is a poor way of making the dialog dynamic AND reload props,
@@ -135,7 +138,6 @@ const TopBar = (props: Props) => {
         </Grid>
       }
       <Grid item container className="right" xs={3} sm={7} md={5} lg={4} justifyContent="flex-end" columnSpacing={2}>
-        {/* NOLAN TODO - Bring back once we have more Tools!
         <Grid item xs={6} sm="auto">
           <ToolSelector
             activeToolName={activeToolName}
@@ -143,8 +145,9 @@ const TopBar = (props: Props) => {
             onToolSelect={onToolSelect}
             size="small"
             theme={theme}
+            tools={tools}
           />
-        </Grid> */}
+        </Grid>
         {isMediumScreen && 
           <Button
             color="secondary"

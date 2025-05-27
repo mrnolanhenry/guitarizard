@@ -1,15 +1,16 @@
 // import { AutocompleteRenderOptionState } from "@mui/material";
 import { FilterOptionsState } from "@mui/material/useAutocomplete";
-import { data, Key, Note, Temperament, util } from "note-lib";
+import { Chord, ChordType, Key, Scale, util } from "note-lib";
 // import React, { ReactNode, useState } from "react";
 import React, { useState } from "react";
 import { Base16Theme } from "../../colors/themes";
 import { LabeledSelector } from "./LabeledSelector";
+import { NoteCollection } from "note-lib/src/NoteCollection";
 
 interface IKeySearchSelectorProps {
+  allKeysOrChords: (Key | Chord)[];
   minWidth?: string;
-  updateKey: (key: Key) => void;
-  temperament: Temperament;
+  updateKey: (keyOrChord: Key | Chord) => void;
   theme: Base16Theme;
 }
 
@@ -17,22 +18,15 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
   const [searchTimeout, setSearchTimeout] = useState(
     null as ReturnType<typeof setTimeout> | null,
   );
-  const [filterOptions, setFilterOptions] = useState([] as Key[]);
+  const [filterOptions, setFilterOptions] = useState([] as (Key | Chord)[]);
 
-  const { minWidth, updateKey, temperament, theme } = props;
-
-  const allKeys: Key[] = [];
-  temperament.getNotesInTemperament().forEach((note) => {
-    data.scales.forEach((scale) => {
-      allKeys.push(new Key(note, scale));
-    });
-  });
+  const { allKeysOrChords, minWidth, updateKey, theme } = props;
 
   // Speed up search by only searching through a subset of allKeys,
   // then resetting it to allKeys when appropriate.
   // For instance, you've entered "A, B" already in the search and filtered down to 557 keys vs. the existing 2,193.
   // Now when you continue typing, e.g. "A, B, C#" you'll only filter from those 557 keys.
-  const [potentialKeys, setPotentialKeys] = useState(allKeys);
+  const [potentialKeys, setPotentialKeys] = useState(allKeysOrChords);
 
   const handleInputChange = (
     event: React.SyntheticEvent,
@@ -56,11 +50,11 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
     const shouldResetPotentialKeys: boolean = !isInsertingText;
 
     if (shouldResetPotentialKeys) {
-      setPotentialKeys(allKeys);
+      setPotentialKeys(allKeysOrChords);
     }
 
     const shouldFilterFromAllKeys: boolean = shouldResetPotentialKeys;
-    const availableKeys: Key[] = shouldFilterFromAllKeys ? allKeys : potentialKeys;
+    const availableKeys: (Key | Chord)[] = shouldFilterFromAllKeys ? allKeysOrChords : potentialKeys;
 
     setSearchTimeout(
       setTimeout(() => {
@@ -69,36 +63,41 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
     );
   };
 
+  const searchForKeysOrChords = (inputValue: string, availableKeysOrChords: (Key | Chord)[]) => {
+    const trimVal = inputValue.trim().toLowerCase();
+    // trimming each term, so it can handle inputs with lots of empty space e.g. "0,1, 2, 3, 5, , , 6, " or "A, B,C#,D, ,Eb"
+    const inputValues = trimVal
+      .split(",")
+      .map((val) => val.trim())
+      .filter((val) => !!val);
+    let filteredOptions: (Key | Chord)[] = [];
+    let filteredOptionsByDisplayName = availableKeysOrChords.filter((keyOrChord: Key | Chord) =>
+      isNameMatch(keyOrChord, trimVal)
+    );
+    filteredOptions.push(...filteredOptionsByDisplayName);
+
+    // If we didn't find any keys by display name OR our search term is less than 3 characters, 
+    // search by the notes in the key
+    if (filteredOptionsByDisplayName.length === 0 || trimVal.length < 3) {
+      let filteredOptionsByNotes = availableKeysOrChords.filter((keyOrChord: Key | Chord) =>
+        isNoteMatch(keyOrChord, inputValues)
+      );
+      filteredOptions.push(...filteredOptionsByNotes);
+    }
+    return filteredOptions;
+}
+
   const handleFilterOptions = (
     inputValue: string,
     shouldSetPotentialKeys: boolean,
-    availableKeys: Key[],
-  ): Key[] => {
+    availableKeys: (Key | Chord)[],
+  ): (Key | Chord)[] => {
     if (!inputValue) {
-      setPotentialKeys(allKeys);
+      setPotentialKeys(allKeysOrChords);
       return [];
     } else {
-      const trimVal = inputValue.trim().toLowerCase();
-      // trimming each term, so it can handle inputs with lots of empty space e.g. "0,1, 2, 3, 5, , , 6, " or "A, B,C#,D, ,Eb"
-      const inputValues = trimVal
-        .split(",")
-        .map((val) => val.trim())
-        .filter((val) => !!val);
-      let filteredOptions: Key[] = [];
-      let filteredOptionsByDisplayName = availableKeys.filter((key) =>
-        isKeyDisplayNameMatch(key, trimVal)
-      );
-      filteredOptions.push(...filteredOptionsByDisplayName);
-
-      // If we didn't find any keys by display name OR our search term is less than 3 characters, 
-      // search by the notes in the key
-      if (filteredOptionsByDisplayName.length === 0 || trimVal.length < 3) {
-        let filteredOptionsByNotes = availableKeys.filter((key) =>
-          isNoteMatch(key, inputValues)
-        );
-        filteredOptions.push(...filteredOptionsByNotes);
-      }
-      const uniqueFilteredOptions = util.sortKeysByTonicAndScale([...new Set(filteredOptions)]);
+      const filteredOptions = searchForKeysOrChords(inputValue, availableKeys);
+      const uniqueFilteredOptions = util.sortKeysByTonicAndScale([...new Set(filteredOptions as Key[])]);
 
       if (shouldSetPotentialKeys) {
         setPotentialKeys(uniqueFilteredOptions);
@@ -109,20 +108,20 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
 
   const getFilterOptions = (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _options: Key[],
+    _options: (Key | Chord)[],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _state: FilterOptionsState<Key>,
-  ): Key[] => filterOptions;
+    _state: FilterOptionsState<Key | Chord>,
+  ): (Key | Chord)[] => filterOptions;
 
-  // check a key by key name
+  // check a Key or Chord by name
   // e.g. "alg", "algerian", "Gb alg", "Gb algerian", etc.
-  const isKeyDisplayNameMatch = (key: Key, inputValue: string) => {
-    return key.name.toLowerCase().includes(inputValue);
+  const isNameMatch = (keyOrChord: Key | Chord, inputValue: string) => {
+    return keyOrChord.name.toLowerCase().includes(inputValue);
   };
   // check a key by notes in the key
   // e.g. "A", "A, B", "A, B, C#", "A, B, C#, D", "A, B, C#, D, Eb", etc.
   // OR even "A, B, C#, D, Eb, -F, -Gb" which would look for a key with A, B, C#, D, Eb, but not F or Gb
-  const isNoteMatch = (key: Key, inputValues: string[]) => {
+  const isNoteMatch = (keyOrChord: NoteCollection, inputValues: string[]) => {
     let allNotesMatch: boolean = true;
 
     inputValues.forEach((value) => {
@@ -130,11 +129,12 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
       // if the value starts with a "-", it means we want to avoid finding that note in the key
       const isNoteToAvoid: boolean = trimVal.startsWith("-");
       const noteVal = isNoteToAvoid ? trimVal.substring(1) : trimVal;
-      const noteToFind = temperament.getNoteFromID(noteVal);
+      const scaleOrChordType: Scale | ChordType = (keyOrChord as Key).scale || (keyOrChord as Chord).chordType;
+      const noteToFind = scaleOrChordType.temperament.getNoteFromID(noteVal);
       if (!noteToFind) {
         allNotesMatch = false;
       } else {
-        const noteFound: boolean = !!key.hasNote(noteToFind, true);
+        const noteFound: boolean = !!keyOrChord.hasNote(noteToFind, true);
         // if we didn't find the note in the key, and it's not a note to avoid, or we found the note in the key and it is a note to avoid
         if ((!noteFound && !isNoteToAvoid) || (noteFound && isNoteToAvoid)) {
           allNotesMatch = false;
@@ -161,14 +161,14 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
   // };
 
   return (
-    <LabeledSelector<Key>
+    <LabeledSelector<Key | Chord>
       filterOptions={getFilterOptions}
       id="key-search-selector"
       label="Search for Keys"
       minWidth={minWidth}
-      items={allKeys}
-      getValue={(k: Key) => k.name}
-      getDisplay={(k: Key) => k.name}
+      items={allKeysOrChords}
+      getValue={(k: NoteCollection) => k.name}
+      getDisplay={(k: NoteCollection) => k.name}
       onChange={updateKey}
       onInputChange={handleInputChange}
       // renderOption={renderOption}

@@ -3,7 +3,7 @@ import React, { CSSProperties, useEffect, useState } from "react";
 // IMPORTANT - must import @mui/icons-material BEFORE @mui/material or app breaks (vite doesn't like)
 import { ScreenRotation as ScreenRotationIcon } from '@mui/icons-material';
 import { Grid } from "@mui/material";
-import { Constants, Key, Note, Scale, Temperament } from "note-lib";
+import { Chord, Constants, Key, Note, Scale, Temperament } from "note-lib";
 import { Base16Theme } from "../../colors/themes";
 import { InstrumentSelector } from "../selectors/InstrumentSelector";
 import { NoteSelector } from "../selectors/NoteSelector";
@@ -21,6 +21,8 @@ interface IScalebookProps {
   activeInstrument: FrettedInstrument;
   activeKey: Key;
   activeTuning: Tuning;
+  allKeys: Key[];
+  allScales: Scale[];
   instruments: Map<string, FrettedInstrument>;
   isSmallScreen: boolean;
   isMediumScreen: boolean;
@@ -42,6 +44,8 @@ const Scalebook = (props: IScalebookProps) => {
     activeInstrument,
     activeKey,
     activeTuning,
+    allKeys,
+    allScales,
     instruments,
     isSmallScreen,
     isMediumScreen,
@@ -162,17 +166,18 @@ const Scalebook = (props: IScalebookProps) => {
         <Grid item xs={2} sm="auto" md="auto" lg="auto">
           <NoteSelector
             id="active key"
+            items={temperament.getNotesInTemperament()}
             label="Key:"
             note={activeKeyTonic}
             onNoteSelect={onKeyTonicSelect}
             shouldAutocomplete={isLargeScreen}
-            temperament={temperament}
             theme={theme}
           />
         </Grid>
         <Grid item xs={8} sm="auto" md={4} lg="auto">
           <ScaleSelector
             activeScale={activeScale}
+            items={allScales}
             label="Scale:"
             minWidth={isSmallScreen ? "14em" : "16em"}
             onScaleSelect={onScaleSelect}
@@ -191,10 +196,10 @@ const Scalebook = (props: IScalebookProps) => {
         </Grid>
         <Grid item xs={12} sm="auto" md="auto" lg="auto">
           <KeySearchSelector
+            allKeysOrChords={allKeys}
             minWidth="18em"
-            temperament={temperament}
             theme={theme}
-            updateKey={updateKey}
+            updateKey={(key: Key | Chord) => updateKey(key as Key)}
           />
         </Grid>
       </Grid>

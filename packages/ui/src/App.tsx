@@ -2,10 +2,9 @@
 import "./App.css";
 import React, { CSSProperties, useState, useEffect } from "react";
 import { themes, cloudCity, Base16Theme } from "./colors/themes";
-import { ToolName } from "./components/selectors/ToolSelector";
 import { TopBar } from "./components/TopBar";
 import { Scalebook } from "./components/tools/Scalebook";
-import { Key, Note, Scale, ChordType, Temperament, instrument, data } from "note-lib";
+import { Key, Note, Scale, ChordType, Temperament, instrument, data, Chord } from "note-lib";
 import { Tuning } from "note-lib/src/Tuning";
 import * as Constants from "note-lib/src/constants/Constants";
 import { Course } from "note-lib/src/Course";
@@ -15,10 +14,11 @@ import { Grid } from "@mui/material";
 import { getContrastRatio, ThemeProvider, useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { AppDialog, IAppDialogState } from "./components/AppDialog";
+import { Tool } from "./enums/Tool";
 
 type InstrumentMap = Map<string, FrettedInstrument>;
 
-const initInstruments = (temperament: Temperament) => {
+const initInstruments = (temperament: Temperament): InstrumentMap => {
   const A: Note = temperament.getNoteFromID(Constants.A) as Note;
   const B: Note = temperament.getNoteFromID(Constants.B) as Note;
   const C: Note = temperament.getNoteFromID(Constants.C) as Note;
@@ -93,6 +93,8 @@ const App = () => {
   // NOLAN TODO - for later use
   // const isPortrait: boolean = useMediaQuery(`(orientation: portrait)`);
 
+  const tools = [Tool.scalebook, Tool.chordbook];
+
   const twelveTET: Temperament = data.temperaments.find(
     (temperament) => temperament.name === Constants.TWELVE_TET,
   ) as Temperament;
@@ -112,10 +114,21 @@ const App = () => {
   const [isRainbowMode, setIsRainbowMode] = useState(true);
   const [shouldHighlightPiano, setShouldHighlightPiano] = useState(true);
   const [activeTemperament, setActiveTemperament] = useState(twelveTET);
-  const [activeToolName, setActiveToolName] = useState("scalebook");
+  const [activeToolName, setActiveToolName] = useState(Tool.scalebook);
   const initDialogState: IAppDialogState = { isOpen: false }
   const [dialogState, setDialogState] = useState(initDialogState);
   const [isFullscreen, setIsFullscreen] = useState(!!document.fullscreenElement);
+
+  const allKeys: Key[] = [];
+  const allChords: Chord[] = [];
+  activeTemperament.getNotesInTemperament().forEach((note) => {
+    data.scales.forEach((scale: Scale) => {
+      allKeys.push(new Key(note, scale));
+    });
+    data.chordTypes.forEach((chordType: ChordType) => {
+      allChords.push(new Chord(note, chordType));
+    });
+  });
 
   const toggleFullscreen = (): void => {
     setIsFullscreen(!isFullscreen);
@@ -235,12 +248,14 @@ const App = () => {
   let tool;
 
   switch (activeToolName) {
-    case "scalebook": {
+    case Tool.scalebook: {
       tool = (
         <Scalebook
           activeInstrument={activeInstrument}
           activeKey={activeKey}
           activeTuning={activeTuning}
+          allKeys={allKeys}
+          allScales={scales}
           temperament={activeTemperament}
           instruments={instruments}
           isSmallScreen={isSmallScreen}
@@ -259,10 +274,32 @@ const App = () => {
       );
       break;
     }
-    // case "songbook": {
-    //   tool = <div>COMING SOON</div>;
-    //   break;
-    // }
+    case Tool.chordbook: {
+      tool = (
+        <Scalebook
+          activeInstrument={activeInstrument}
+          activeKey={activeKey}
+          activeTuning={activeTuning}
+          allKeys={allKeys}
+          allScales={scales}
+          temperament={activeTemperament}
+          instruments={instruments}
+          isSmallScreen={isSmallScreen}
+          isMediumScreen={isMediumScreen}
+          isLargeScreen={isLargeScreen || isExtraLargeScreen}
+          isRainbowMode={isRainbowMode}
+          onInstrumentSelect={onInstrumentSelect}
+          onInstrumentTune={onInstrumentTune}
+          onInstrumentTuneToPreset={onInstrumentTuneToPreset}
+          onKeyTonicSelect={onKeyTonicSelect}
+          onScaleSelect={onScaleSelect}
+          shouldHighlightPiano={shouldHighlightPiano}
+          theme={theme}
+          updateKey={updateKey}
+        />
+      );
+      break;
+    }
   }
 
   const style: CSSProperties = {
@@ -275,7 +312,7 @@ const App = () => {
       <Grid container id="app" justifyContent="center" alignItems="center" style={style}>
         <Grid item xs={12}>
           <TopBar
-            activeToolName={activeToolName as ToolName}
+            activeToolName={activeToolName}
             dialogState={dialogState}
             isAuthenticated={false}
             isDarkTheme={isDarkColor(theme.swatch.base01)}
@@ -295,6 +332,7 @@ const App = () => {
             toggleFullscreen={toggleFullscreen}
             togglePianoHighlight={togglePianoHighlight}
             toggleRainbowMode={toggleRainbowMode}
+            tools={tools}
           />
         </Grid>
         <Grid item xs={12}>
