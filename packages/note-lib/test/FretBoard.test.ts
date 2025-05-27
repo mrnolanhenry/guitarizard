@@ -11,9 +11,10 @@ import { NotePitch } from "../src/enums/NotePitch";
 import { Course } from "../src/Course";
 import { IFretSpan } from "../src/interfaces/IFretSpan";
 import * as lib from "../src";
+import { Chord, ChordType, Constants, Interval } from "../src";
 
 describe("class Fretboard", () => {
-  const { Ab, A, Bb, B, C, Cs, Db, D, E, F, Fs, Gb, G } = twelveTETNotes;
+  const { Ab, A, As, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G } = twelveTETNotes;
   const {   
     twelveTETP1,
     twelveTETm2,
@@ -29,6 +30,15 @@ describe("class Fretboard", () => {
     twelveTETM7,
     twelveTETP8,  
   } = twelveTETIntervals;
+
+  const majorChordType = new ChordType("maj", twelveTET, [twelveTETP1, twelveTETM3, twelveTETP5], [Constants.MAJOR.toLocaleLowerCase()]);
+  const minorChordType = new ChordType("m", twelveTET, [twelveTETP1, twelveTETm3, twelveTETP5], [Constants.MINOR.toLocaleLowerCase()]);
+
+  const FsMajorChord = new Chord(Fs,majorChordType);
+  const FsMinorChord = new Chord(Fs, minorChordType);
+
+  const GbMajorChord = new Chord(Gb,majorChordType);
+  const GbMinorChord = new Chord(Gb, minorChordType);
 
   const noteX = new Note("X", NotePitch.Natural);
   const noteY = new Note("Y", NotePitch.Natural);
@@ -103,7 +113,7 @@ describe("class Fretboard", () => {
     ]);
   });
 
-  it('getNotesInKey', () => {
+  it('getNotesInKeyOrChord(Key)', () => {
     const courses = [
       new Course("0", [new TunedString("0", E, "metal", 0.254)]),
       new Course("1", [new TunedString("1", A, "metal", 0.3302)]),
@@ -116,13 +126,10 @@ describe("class Fretboard", () => {
       twelveTET,
       [twelveTETP1, twelveTETm2, twelveTETM2, twelveTETm3, twelveTETM3, twelveTETP4, twelveTETd5, twelveTETP5, twelveTETm6, twelveTETM6, twelveTETm7, twelveTETM7, twelveTETP8],
     );
-  
-    const noteA = new Note(lib.Constants.A, NotePitch.Natural);
-    const noteB = new Note(lib.Constants.B, NotePitch.Natural);
-    const noteFs = new Note(lib.Constants.F_SHARP, NotePitch.Sharp)
+
   
     assert.deepEqual(
-      stubbyBoard.getNotesInKey(new Key(noteA, chromatic)),
+      stubbyBoard.getNotesInKeyOrChord(new Key(A, chromatic)),
       [
         {
           course: courses[0],
@@ -152,13 +159,13 @@ describe("class Fretboard", () => {
     );
   
     assert.deepEqual(
-      stubbyBoard.getNotesInKey(new Key(noteA, chromatic)),
-      stubbyBoard.getNotesInKey(new Key(noteB,chromatic)),
+      stubbyBoard.getNotesInKeyOrChord(new Key(A, chromatic)),
+      stubbyBoard.getNotesInKeyOrChord(new Key(B,chromatic)),
       "chromatic scale does not change based on key",
     );
   
     assert.deepEqual(
-      stubbyBoard.getNotesInKey(new Key(noteA, chromatic)),
+      stubbyBoard.getNotesInKeyOrChord(new Key(A, chromatic)),
       stubbyBoard.getNotes(),
       "chromatic scale is the same as `getNotes()`",
     );
@@ -166,7 +173,7 @@ describe("class Fretboard", () => {
     const blues = new Scale("blues", twelveTET, [twelveTETP1, twelveTETm3, twelveTETP4, twelveTETd5, twelveTETP5, twelveTETm7, twelveTETP8]);
   
     assert.deepEqual(
-      stubbyBoard.getNotesInKey(new Key(noteA, blues)),
+      stubbyBoard.getNotesInKeyOrChord(new Key(A, blues)),
       [
         {
           course: courses[0],
@@ -191,7 +198,7 @@ describe("class Fretboard", () => {
     );
   
     assert.deepEqual(
-      stubbyBoard.getNotesInKey(new Key(noteFs, blues)),
+      stubbyBoard.getNotesInKeyOrChord(new Key(Fs, blues)),
       [
         {
           config: stubbyFretSpan[0],
@@ -214,6 +221,135 @@ describe("class Fretboard", () => {
         },
       ],
       "blues scale in F# works ok",
+    );
+  });
+
+  it('getNotesInKeyOrChord(Chord)', () => {
+    const courses = [
+      new Course("0", [new TunedString("0", E, "metal", 0.254)]),
+      new Course("1", [new TunedString("1", A, "metal", 0.3302)]),
+      new Course("2", [new TunedString("2", D, "metal", 0.4)]),
+    ];
+
+    const threeCourseFretSpan: IFretSpan[] = [
+      { fret: { start: 0, end: 5 } },
+      { fret: { start: 0, end: 5 } },
+      { fret: { start: 0, end: 5 } },
+    ];
+  
+    const stubbyBoard = new FretBoard(twelveTET, courses, threeCourseFretSpan);
+  
+    assert.deepEqual(
+      stubbyBoard.getNotesInKeyOrChord(FsMajorChord),
+      [
+        {
+          course: courses[0],
+          config: threeCourseFretSpan[0],
+          notes: [
+            { value: Fs, fretNumber: 2 },
+          ],
+        },
+        {
+          course: courses[1],
+          config: threeCourseFretSpan[1],
+          notes: [
+            { value: As, fretNumber: 1 },
+            { value: Cs, fretNumber: 4 },
+          ],
+        },
+        {
+          course: courses[2],
+          config: threeCourseFretSpan[2],
+          notes: [
+            { value: Fs, fretNumber: 4 },
+          ],
+        },
+      ],
+    );
+  
+    assert.deepEqual(
+      stubbyBoard.getNotesInKeyOrChord(FsMinorChord),
+      [
+        {
+          course: courses[0],
+          config: threeCourseFretSpan[0],
+          notes: [
+            { value: Fs, fretNumber: 2 },
+            { value: A, fretNumber: 5 },
+          ],
+        },
+        {
+          course: courses[1],
+          config: threeCourseFretSpan[1],
+          notes: [
+            { value: A, fretNumber: 0 },
+            { value: Cs, fretNumber: 4 },
+          ],
+        },
+        {
+          course: courses[2],
+          config: threeCourseFretSpan[2],
+          notes: [
+            { value: Fs, fretNumber: 4 },
+          ],
+        },
+      ],
+    );
+  
+    assert.deepEqual(
+      stubbyBoard.getNotesInKeyOrChord(GbMajorChord),
+      [
+        {
+          course: courses[0],
+          config: threeCourseFretSpan[0],
+          notes: [
+            { value: Gb, fretNumber: 2 },
+          ],
+        },
+        {
+          course: courses[1],
+          config: threeCourseFretSpan[1],
+          notes: [
+            { value: Bb, fretNumber: 1 },
+            { value: Db, fretNumber: 4 },
+          ],
+        },
+        {
+          course: courses[2],
+          config: threeCourseFretSpan[2],
+          notes: [
+            { value: Gb, fretNumber: 4 },
+          ],
+        },
+      ],
+    );
+    assert.deepEqual(
+      stubbyBoard.getNotesInKeyOrChord(GbMinorChord),
+      [
+        {
+          course: courses[0],
+          config: threeCourseFretSpan[0],
+          notes: [
+            { value: Gb, fretNumber: 2 },
+            { value: A, fretNumber: 5 },
+          ],
+        },
+        {
+          course: courses[1],
+          config: threeCourseFretSpan[1],
+          notes: [
+            { value: A, fretNumber: 0 },
+            { value: Db, fretNumber: 4 },
+          ],
+        },
+        {
+          course: courses[2],
+          config: threeCourseFretSpan[2],
+          notes: [
+            { value: Gb, fretNumber: 4 },
+          ],
+        },
+      ],
     );
   });
 

@@ -6,6 +6,8 @@ import { IFretSpan } from "./interfaces/IFretSpan";
 import { NotePitch } from "./enums/NotePitch";
 import { NoteFretNumberPair } from "./NoteFretNumberPair";
 import { Key } from "./Key";
+import { NoteCollection } from "./NoteCollection";
+import { Chord } from "./Chord";
 
 export class FretBoard {
   temperament: Temperament;
@@ -88,23 +90,25 @@ export class FretBoard {
     });
   }
 
-  // NOLAN TODO: Do some renaming of either this method or "NotesOnCourse"
+    // NOLAN TODO: Do some renaming of either this method or "NotesOnCourse"
   // same result as `getNotes`, but the notes are filtered
-  // out according to the scale given. EG. A chromatic
+  // out according to the scale given. e.g. A chromatic
   // scale will always equal the output of `getNotes`
-  getNotesInKey(key: Key): NotesOnCourse[] {
+  getNotesInKeyOrChord(noteCollection: NoteCollection): NotesOnCourse[] {
     return this.getNotes().map((notesOnCourse: NotesOnCourse) => {
       // filter out any notes that don't exist
-      const fretNotes = notesOnCourse.notes.filter((fretNote) => {
-        return !!key.notes.find((noteInKey) => fretNote.value.isEquivalent(noteInKey));
+      const filteredNotes = notesOnCourse.notes.filter((fretNote) => {
+        return !!noteCollection.notes.find((noteInKey) => fretNote.value.isEquivalent(noteInKey));
       });
+
+      const tonicOrRoot = (noteCollection as Chord).root || (noteCollection as Key).tonic;
 
       // "tune" the notes to the given key.note. 
       // NOLAN TODO:
-      // currently super dumb... makes the notes "sharp" if the
-      // key note is sharp lol.
-      const tunedFretNotes = fretNotes.map((fretNote) => {
-        if (key.tonic.pitch === NotePitch.Sharp) {
+      // currently super dumb... makes the notes "sharp" if the Key's tonic or Chord's root is sharp.
+      // eventually, this should be more sophisticated and take into account the actual notes in the key or chord.
+      const tunedFretNotes = filteredNotes.map((fretNote) => {
+        if (tonicOrRoot.pitch === NotePitch.Sharp) {
           const sharpNote = fretNote.value.findSharp();
 
           if (sharpNote) {
