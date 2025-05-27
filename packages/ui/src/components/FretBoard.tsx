@@ -71,7 +71,7 @@ const FretBoard = (props: IFretBoardProps) => {
   const stringStyle: CSSProperties = { borderColor: theme.swatch.base09 };
   const boardStyle: CSSProperties = { backgroundColor: theme.swatch.base0F };
 
-  const activeNotesOnCourses: NotesOnCourse[] = fretBoard.getNotesInKey(activeKey);
+  const activeNotesOnCourses: NotesOnCourse[] = fretBoard.getNotesInKeyOrChord(activeKey);
 
   const courses = activeNotesOnCourses.map((notesOnCourse, courseIndex) => {
     const tunedStrings: TunedString[] = notesOnCourse.course.tunedStrings;

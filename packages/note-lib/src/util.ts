@@ -1,68 +1,72 @@
 import { Chord } from "./Chord";
+import { ChordType } from "./ChordType";
 import { Key } from "./Key";
+import { NoteCollection } from "./NoteCollection";
+import { Scale } from "./Scale";
+
+// Given an array of Keys, sort them in ascending order by note id's
+// e.g. 'A, A#, Bb, B, C, C#, Db, D#, Eb, E, F, F#, Gb, G, G#, Ab'.
+const sortKeysByTonic = (keyArray: Key[], primaryKey?: Key): Key[] => {
+  return (sortKeysOrChords(keyArray, true, false, primaryKey) as Key[]);
+}
 
 // Given an array of Keys, sort them in ascending order by note id's
 // e.g. 'A, A#, Bb, B, C, C#, Db, D#, Eb, E, F, F#, Gb, G, G#, Ab'.
 // and then by scale name in ascending order
 // e.g. 'Aeolian, Algerian, Arabic, Armenian, Augmented, Bebop, Blues, Chromatic, Diminished, etc.
 const sortKeysByTonicAndScale = (keyArray: Key[], primaryKey?: Key): Key[] => {
-  if (keyArray.length <= 1) {
-    return keyArray;
-  }
-
-  if (!primaryKey) {
-    primaryKey = keyArray[0];
-  }
-  var ordering: any = {};
-  const sortOrder = primaryKey.scale.temperament.getSortOrderByNotes();
-  for (var i = 0; i < sortOrder.length; i++) {
-    ordering[sortOrder[i]] = i;
-  }  
-
-  keyArray.sort( function(a: Key, b: Key): number {
-    return (ordering[a.tonic.id] - ordering[b.tonic.id]) || a.scale.name.localeCompare(b.scale.name);
-  });
-
-  return keyArray;
+  return (sortKeysOrChords(keyArray, true, true, primaryKey) as Key[]);
 }
 
-// Given an array of Keys, sort them in ascending order by note id's
+// Given an array of Chords, sort them in ascending order by note id's
 // e.g. 'A, A#, Bb, B, C, C#, Db, D#, Eb, E, F, F#, Gb, G, G#, Ab'.
-const sortChordsByRoot = (chordArray: Chord[], primaryKey?: Chord): Chord[] => {
-  return sortChordsByRootAndOrChordType(chordArray, false, primaryKey);
+const sortChordsByRoot = (chordArray: Chord[], primaryChord?: Chord): Chord[] => {
+  return (sortKeysOrChords(chordArray, false, false, primaryChord) as Chord[]);
 }
 
-// Given an array of Keys, sort them in ascending order by note id's
+// Given an array of Chords, sort them in ascending order by note id's
 // e.g. 'A, A#, Bb, B, C, C#, Db, D#, Eb, E, F, F#, Gb, G, G#, Ab'.
 // and then by chordType name in ascending order
 // e.g. 'major, minor, etc.
-const sortChordsByRootAndChordType = (chordArray: Chord[], primaryKey?: Chord): Chord[] => {
-  return sortChordsByRootAndOrChordType(chordArray, true, primaryKey);
+const sortChordsByRootAndChordType = (chordArray: Chord[], primaryChord?: Chord): Chord[] => {
+  return (sortKeysOrChords(chordArray, false, true, primaryChord) as Chord[]);
 }
 
-// Given an array of Keys, sort them in ascending order by note id's
+// Given an array of Keys or Chords, sort them in ascending order by note id's
 // e.g. 'A, A#, Bb, B, C, C#, Db, D#, Eb, E, F, F#, Gb, G, G#, Ab'.
-// and then optionally by chordType name in ascending order
+// pass isSortingKeys true for Keys and false for Chords
+// and then optionally by IntervalCollection (Scale or ChordType) name in ascending order
 // e.g. 'major, minor, etc.
-const sortChordsByRootAndOrChordType = (chordArray: Chord[], shouldSortByChordType: boolean, primaryKey?: Chord): Chord[] => {
-  if (chordArray.length <= 1) {
-    return chordArray;
+const sortKeysOrChords = (noteCollections: NoteCollection[], isSortingKeys: boolean, shouldSortByIntervalCollection: boolean, primaryNoteCollection?: NoteCollection): NoteCollection[] => {
+  if (noteCollections.length <= 1) {
+    return noteCollections;
   }
 
-  if (!primaryKey) {
-    primaryKey = chordArray[0];
+  if (!primaryNoteCollection) {
+    primaryNoteCollection = noteCollections[0];
   }
   var ordering: any = {};
-  const sortOrder = primaryKey.chordType.temperament.getSortOrderByNotes();
+  const primaryIntervalCollection: Scale | ChordType  = isSortingKeys ? (primaryNoteCollection as Key).scale : (primaryNoteCollection as Chord).chordType;
+  const sortOrder = primaryIntervalCollection.temperament.getSortOrderByNotes();
   for (var i = 0; i < sortOrder.length; i++) {
     ordering[sortOrder[i]] = i;
   }  
 
-  chordArray.sort( function(a: Chord, b: Chord): number {
-    return shouldSortByChordType ? a.chordType.shortHand.localeCompare(b.chordType.shortHand) : ordering[a.root.id] - ordering[b.root.id];
-  });
-
-  return chordArray;
+  if (isSortingKeys) {
+    noteCollections.sort( function(a: NoteCollection, b: NoteCollection): number {
+      const orderByTonic = (ordering[(a as Key).tonic.id] - ordering[(b as Key).tonic.id]);
+      const orderByScaleName = (a as Key).scale.name.localeCompare((b as Key).scale.name);
+      return shouldSortByIntervalCollection ? orderByTonic || orderByScaleName : orderByTonic;  
+    });
+  }
+  else {
+    noteCollections.sort( function(a: NoteCollection, b: NoteCollection): number {
+      const orderByRoot = (ordering[(a as Chord).root.id] - ordering[(b as Chord).root.id]);
+      const orderByChordType = (a as Chord).chordType.shortHand.localeCompare((b as Chord).chordType.shortHand);
+      return shouldSortByIntervalCollection ? orderByRoot || orderByChordType : orderByRoot;  
+    });
+  }
+  return noteCollections;
 }
 
 // Given an array with numeric values, sort them in ascending order.
@@ -73,5 +77,4 @@ const sortNumericArray = (array: number[]): number[] => {
   return array;
 };
 
-
-export { sortChordsByRoot, sortChordsByRootAndChordType, sortKeysByTonicAndScale, sortNumericArray };
+export { sortChordsByRoot, sortChordsByRootAndChordType, sortKeysByTonic, sortKeysByTonicAndScale, sortNumericArray };

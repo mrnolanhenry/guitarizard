@@ -1,6 +1,7 @@
 import { Note } from "./Note";
 
 export abstract class NoteCollection {
+  abstract name: string;
   abstract notes: Note[];
   // Given a Note,
   // return true if Note matches any Notes in this NoteCollection by Note Id
