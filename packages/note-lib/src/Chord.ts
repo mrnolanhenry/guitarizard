@@ -34,15 +34,15 @@ export class Chord extends NoteCollection{
     const equivChords: Chord[] = [];
     const chordTypeArray: number[] = [];
     const chordTypeLength: number = this.chordType.intervals.length;
-
     // Fill array of intervalsBySemitones for the given chordType
     for (let i = 0; i < chordTypeLength; i++) {
-      chordTypeArray.push(this.chordType.intervals[i].semitones as number);
+      chordTypeArray.push(this.chordType.intervals[i].semitones % this.chordType.temperament.notes.length);
     }
+    util.sortNumericArray(chordTypeArray);
 
     // Loop through each note in the temperament to check for equivalent chordTypes given that note
     for (let j = 0; j < this.chordType.temperament.notes.length; j++) {
-      const noteInterval = this.chordType.temperament.getSemitonesBetweenNotes(
+      const semitonesFromRoot = this.chordType.temperament.getSemitonesBetweenNotes(
         this.root,
         this.chordType.temperament.notes[j],
       );
@@ -53,8 +53,8 @@ export class Chord extends NoteCollection{
           const newChordTypeArray: number[] = [];
           for (let l = 0; l < chordTypes[k].intervals.length; l++) {
             newChordTypeArray.push(
-              (chordTypes[k].intervals[l].semitones + noteInterval) %
-                this.chordType.temperament.notes.length,
+              (chordTypes[k].intervals[l].semitones + semitonesFromRoot) 
+              % this.chordType.temperament.notes.length,
             );
           }
 
@@ -75,6 +75,10 @@ export class Chord extends NoteCollection{
       }
     }
     return util.sortChordsByRoot(equivChords, this);;
+  }
+
+  getIntervalCollection() {
+    return this.chordType;
   }
 
   private getDisplayName(): string {

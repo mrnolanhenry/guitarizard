@@ -82,6 +82,10 @@ export class Key extends NoteCollection {
     return util.sortKeysByTonicAndScale(equivKeys, this);
   }
 
+  getIntervalCollection() {
+    return this.scale;
+  }
+
   toJSON() {
     return {
       name: this.name,

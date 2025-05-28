@@ -43,13 +43,13 @@ const {
   twelveTETA13,  
 } = twelveTETIntervals;
 
-const twelveTETP5Priority2 = new Interval(twelveTETP5.semitones,twelveTETP5.quality, twelveTETP5.scaleDegree, twelveTETP5.aliases, 2);
-const twelveTETm7Priority2 = new Interval(twelveTETm7.semitones,twelveTETm7.quality, twelveTETm7.scaleDegree, twelveTETm7.aliases, 2);
-const twelveTETM9Priority2 = new Interval(twelveTETM9.semitones,twelveTETM9.quality, twelveTETM9.scaleDegree, twelveTETM9.aliases, 2);
-const twelveTETP11Priority2 = new Interval(twelveTETP11.semitones,twelveTETP11.quality, twelveTETP11.scaleDegree, twelveTETP11.aliases, 2);
+const twelveTETP5Priority2 = new Interval(twelveTETP5.semitones, twelveTETP5.quality, twelveTETP5.scaleDegree, twelveTETP5.aliases, 2);
+const twelveTETm7Priority2 = new Interval(twelveTETm7.semitones, twelveTETm7.quality, twelveTETm7.scaleDegree, twelveTETm7.aliases, 2);
+const twelveTETM9Priority2 = new Interval(twelveTETM9.semitones, twelveTETM9.quality, twelveTETM9.scaleDegree, twelveTETM9.aliases, 2);
+const twelveTETP11Priority2 = new Interval(twelveTETP11.semitones, twelveTETP11.quality, twelveTETP11.scaleDegree, twelveTETP11.aliases, 2);
 
-const twelveTETP5Priority3 = new Interval(twelveTETP5.semitones,twelveTETP5.quality, twelveTETP5.scaleDegree, twelveTETP5.aliases, 3);
-const twelveTETP11Priority3 = new Interval(twelveTETP11.semitones,twelveTETP11.quality, twelveTETP11.scaleDegree, twelveTETP11.aliases, 3);
+const twelveTETP5Priority3 = new Interval(twelveTETP5.semitones, twelveTETP5.quality, twelveTETP5.scaleDegree, twelveTETP5.aliases, 3);
+const twelveTETP11Priority3 = new Interval(twelveTETP11.semitones, twelveTETP11.quality, twelveTETP11.scaleDegree, twelveTETP11.aliases, 3);
 
 const chordTypes = [
   new ChordType("maj", twelveTET, [twelveTETP1, twelveTETM3, twelveTETP5], [Constants.MAJOR.toLocaleLowerCase()]),

@@ -1,8 +1,11 @@
+import { IntervalCollection } from "./IntervalCollection";
 import { Note } from "./Note";
 
 export abstract class NoteCollection {
   abstract name: string;
   abstract notes: Note[];
+  abstract getIntervalCollection(): IntervalCollection;
+
   // Given a Note,
   // return true if Note matches any Notes in this NoteCollection by Note Id
   // Optionally pass true for allowEquivalents to return true if Note matches an equivalent Note 
