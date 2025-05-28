@@ -1,12 +1,13 @@
+import React from "react";
 import { Box, styled, Switch, SwitchProps } from "@mui/material";
-import { rainbow } from "../colors/themes";
+import { rainbow } from "../../colors/themes";
 
 interface IRainbowModeSwitchProps {
   isRainbowMode: boolean;
   toggleRainbowMode: () => void;
 }
 
-const RainbowSwitch = styled(({  ...props }: SwitchProps) => (
+const StyledSwitch = styled(({  ...props }: SwitchProps) => (
   <Switch {...props} />
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 ))(({ theme }) => ({
@@ -29,7 +30,7 @@ const RainbowModeSwitch = (props: IRainbowModeSwitchProps) => {
     const { isRainbowMode, toggleRainbowMode } = props;
     return (
       <Box paddingTop={1}>
-        <RainbowSwitch 
+        <StyledSwitch 
           id="rainbow-mode-switch"
           checked={isRainbowMode}
           onChange={toggleRainbowMode}

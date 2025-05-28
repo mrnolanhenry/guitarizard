@@ -6,11 +6,15 @@ import * as API from "../src/index";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 test("exposed API", function (_t) {
   assert.ok(API.Note, "expect Note");
+  assert.ok(API.IntervalQuality, "expect IntervalQuality");
+  assert.ok(API.IntervalScaleDegree, "expect IntervalScaleDegree");
+  assert.ok(API.Interval, "expect Interval");
   assert.ok(API.Temperament, "expect Temperament");
   assert.ok(API.Scale, "expect Scale");
   assert.ok(API.Key, "expect Key");
+  assert.ok(API.ChordType, "expect ChordType");
+  
   assert.ok(API.instrument.Tuning, "expect instrument.Tuning");
-
   assert.ok(API.instrument.TunedString, "expect instrument.TunedString");
   assert.ok(API.instrument.FretBoard, "expect instrument.FretBoard");
   assert.ok(API.instrument.Guitar, "expect instrument.Guitar");
@@ -26,16 +30,15 @@ test("exposed API", function (_t) {
     ),
   );
 
-  assert.equal(API.data.scales.length, 129, "expect correct scale length");
-
   assert.equal(
-    API.data.intervals.mainIntervals.length,
-    13,
-    "correct main intervals",
+    API.data.temperaments.find(
+      (temperament) => temperament.name === API.Constants.TWELVE_TET,
+      "expect twelveTET temperament",
+    ).notes.length,
+    12,
+    "correct amount of twelveTET notes",
   );
 
-  assert.ok(
-    API.data.intervals.mainIntervalsMap.P1,
-    "expect main intervals to be exposed",
-  );
+  assert.equal(API.data.scales.length, 129, "expect correct scales length");
+
 });

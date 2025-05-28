@@ -1,37 +1,36 @@
 import "./FretSegment.css";
-import { Key, Note } from "note-lib";
+import { Chord, Key, Note } from "note-lib";
 import { Base16Theme, rainbow } from "../colors/themes";
 import React, { CSSProperties } from "react";
-import { ScaleOnCourse } from "note-lib/src/ScaleOnCourse";
+import { NotesOnCourse } from "note-lib/src/NotesOnCourse";
 import { lighten, darken, Grid } from "@mui/material";
 
 interface IKeySegmentProps {
-  allNotesOnCourse: ScaleOnCourse;
+  activeKeyOrChord: Key | Chord;
+  allNotesOnCourse: NotesOnCourse;
   columnsCount: number;
-  scaleOnCourse: ScaleOnCourse;
+  notesOnCourse: NotesOnCourse;
   fret: number;
   theme: Base16Theme;
   isRainbowMode: boolean;
-  activeKey: Key;
   shouldHighlightPiano: boolean;
   style?: CSSProperties;
 }
 
 const KeySegment = (props: IKeySegmentProps) => {
-  const { allNotesOnCourse, columnsCount, fret, isRainbowMode, scaleOnCourse, shouldHighlightPiano, theme, activeKey } = props;
+  const { activeKeyOrChord, allNotesOnCourse, columnsCount, fret, isRainbowMode, notesOnCourse, shouldHighlightPiano, theme } = props;
 
   // Get the note on this string (if it exists)
-  const note: Note | undefined = scaleOnCourse.getNoteFromFretNumber(fret);
+  const note: Note | undefined = notesOnCourse.getNoteFromFretNumber(fret);
 
   // Get the note on this "string" (whether it exists in the scale or not)
   const noteIgnoreScale: Note| undefined = allNotesOnCourse.getNoteFromFretNumber(fret);
 
-  const notesInKey: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
-  const noteIsInKey = note && !!notesInKey.find((noteInKey) => noteInKey.isSimilar(note));
+  const noteIsInKey = note && activeKeyOrChord.hasNote(note);
 
   const getRainbowColor = (defaultColor: string = "#BBB") => {
     if (isRainbowMode && note && noteIsInKey) {
-      const semitones: number[] = activeKey.scale.intervals.map(
+      const semitones: number[] = activeKeyOrChord.getIntervalCollection().intervals.map(
         (interval) => interval.semitones,
       );
 
@@ -39,7 +38,7 @@ const KeySegment = (props: IKeySegmentProps) => {
         (semitone) => rainbow[semitone],
       );
 
-      const indexFound = notesInKey.findIndex((noteInKey) => noteInKey.isSimilar(note));
+      const indexFound = activeKeyOrChord.notes.findIndex((noteInKey) => noteInKey.isEquivalent(note));
       return semitoneColors[indexFound];
     }
     else {

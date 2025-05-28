@@ -1,17 +1,17 @@
 import "./FretSegment.css";
-import { Key, Note } from "note-lib";
+import { Chord, Key, Note } from "note-lib";
 import { NoteID } from "note-lib/src/Note";
 import { Base16Theme, rainbow } from "../colors/themes";
 import React, { CSSProperties } from "react";
-import { ScaleOnCourse } from "note-lib/src/ScaleOnCourse";
+import { NotesOnCourse } from "note-lib/src/NotesOnCourse";
 import { NoteFretNumberPair } from "note-lib/src/NoteFretNumberPair";
 
 interface IFretSegmentProps {
-  scaleOnCourse: ScaleOnCourse;
+  activeKeyOrChord: Key | Chord;
+  notesOnCourse: NotesOnCourse;
   fret: number;
   theme: Base16Theme;
   isRainbowMode: boolean;
-  activeKey: Key;
   style?: CSSProperties;
 }
 
@@ -19,7 +19,7 @@ const getNoteTextStyle = (
   isRainbowMode: boolean,
   theme: Base16Theme,
   note: Note | undefined,
-  activeKey: Key,
+  activeKeyOrChord: Key | Chord,
 ): CSSProperties => {
   let noteTextStyle: CSSProperties = {
     backgroundColor: theme.swatch.base00,
@@ -27,24 +27,22 @@ const getNoteTextStyle = (
   };
 
   if (isRainbowMode && note) {
-    const notes: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
-
-    const semitones: number[] = activeKey.scale.intervals.map(
-      (interval) => interval.semitones,
-    );
+    const intervalCollection = activeKeyOrChord.getIntervalCollection();
+    const semitones: number[] = intervalCollection.intervals.map(
+      (interval) => interval.semitones);
 
     const semitoneColors: string[] = semitones.map(
-      (semitone) => rainbow[semitone],
+      (semitone) => rainbow[semitone % intervalCollection.temperament.notes.length],
     );
 
-    const noteIntervalColorCombos = notes.map((n, i) => ({
-      note: n,
+    const noteIntervalColorCombos = activeKeyOrChord.notes.map((note: Note, i) => ({
+      note: note,
       semitone: semitones[i],
       semitoneColor: semitoneColors[i],
     }));
 
     const thisNoteIntervalColorCombo = noteIntervalColorCombos.find(
-      (noteIntervalColorCombo) => noteIntervalColorCombo.note.isSimilar(note),
+      (noteIntervalColorCombo) => noteIntervalColorCombo.note.isEquivalent(note),
     );
 
     if (thisNoteIntervalColorCombo) {
@@ -209,8 +207,6 @@ const stopNote = (note: Note) => {
 };
 
 const startNote = (note: Note) => {
-  console.log(note);
-
   const mitNote = findMitNote(a_440_fr3qu3ncy_list, note.id);
 
   if (mitNote) {
@@ -239,11 +235,11 @@ const startNote = (note: Note) => {
 //    > RENDER
 //
 const FretSegment = (props: IFretSegmentProps) => {
-  const { fret, isRainbowMode, scaleOnCourse, theme, activeKey } = props;
+  const { activeKeyOrChord, fret, isRainbowMode, notesOnCourse, style, theme } = props;
 
   // Get the note on this string (if it exists)
   const noteFretNumberPair: NoteFretNumberPair | undefined =
-    scaleOnCourse.notes.find((note) => note.fretNumber === fret);
+    notesOnCourse.notes.find((note) => note.fretNumber === fret);
 
   const note: Note | undefined = noteFretNumberPair
     ? noteFretNumberPair.value
@@ -257,16 +253,16 @@ const FretSegment = (props: IFretSegmentProps) => {
     isRainbowMode,
     theme,
     note,
-    activeKey,
+    activeKeyOrChord,
   );
 
   const backgroundStyle: CSSProperties =
-    fret <= scaleOnCourse.config.fret.start
+    fret <= notesOnCourse.config.fret.start
       ? { backgroundColor: theme.swatch.base01 }
       : {};
 
   return (
-    <div className="fret-segment">
+    <div className="fret-segment" style={style ?? {}}>
       <div className="background" style={backgroundStyle}></div>
       <div className="inner">
         <div className="string-line" style={stringLineStyle}></div>

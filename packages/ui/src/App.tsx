@@ -2,10 +2,9 @@
 import "./App.css";
 import React, { CSSProperties, useState, useEffect } from "react";
 import { themes, cloudCity, Base16Theme } from "./colors/themes";
-import { ToolName } from "./components/selectors/ToolSelector";
 import { TopBar } from "./components/TopBar";
 import { Scalebook } from "./components/tools/Scalebook";
-import { Key, Note, Scale, Temperament, instrument, data } from "note-lib";
+import { Key, Note, Scale, ChordType, Temperament, instrument, data, Chord } from "note-lib";
 import { Tuning } from "note-lib/src/Tuning";
 import * as Constants from "note-lib/src/constants/Constants";
 import { Course } from "note-lib/src/Course";
@@ -15,10 +14,12 @@ import { Grid } from "@mui/material";
 import { getContrastRatio, ThemeProvider, useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { AppDialog, IAppDialogState } from "./components/AppDialog";
+import { Tool } from "./enums/Tool";
+import { Chordbook } from "./components/tools/Chordbook";
 
 type InstrumentMap = Map<string, FrettedInstrument>;
 
-const initInstruments = (temperament: Temperament) => {
+const initInstruments = (temperament: Temperament): InstrumentMap => {
   const A: Note = temperament.getNoteFromID(Constants.A) as Note;
   const B: Note = temperament.getNoteFromID(Constants.B) as Note;
   const C: Note = temperament.getNoteFromID(Constants.C) as Note;
@@ -53,14 +54,14 @@ const initInstruments = (temperament: Temperament) => {
   const piano = new instrument.Piano(40, [C]);
   const ukulele = new instrument.Ukulele(20, [G, C, E, A]);
 
-  instrumentMap.set("guitar", guitar);
-  instrumentMap.set("guitar (7 string)", sevenStringGuitar);
-  instrumentMap.set("guitar (8 string)", eightStringGuitar);
-  instrumentMap.set("guitar (12 string)", twelveStringGuitar);
   instrumentMap.set("banjo", banjo);
   instrumentMap.set("bass", fourStringBass);
   instrumentMap.set("bass (5 string)", fiveStringBass);
   instrumentMap.set("bass (6 string)", sixStringBass);
+  instrumentMap.set("guitar", guitar);
+  instrumentMap.set("guitar (7 string)", sevenStringGuitar);
+  instrumentMap.set("guitar (8 string)", eightStringGuitar);
+  instrumentMap.set("guitar (12 string)", twelveStringGuitar);
   instrumentMap.set("mandolin", mandolin);
   instrumentMap.set("piano", piano);
   instrumentMap.set("ukulele", ukulele);
@@ -69,6 +70,7 @@ const initInstruments = (temperament: Temperament) => {
 
 const App = () => {
   const [theme, setTheme] = useState(cloudCity);
+  const primaryMain = theme.swatch.base0B;
   const secondaryMain = theme.swatch.base05;
 
   const isDarkColor = (color: string): boolean => {
@@ -79,6 +81,12 @@ const App = () => {
   const getContrastText = (color: string) =>  isDarkColor(color) ? '#fff' : '#111';
 
   const muiTheme = useTheme();
+  muiTheme.palette.primary = {
+    main: primaryMain,
+    light: theme.swatch.base06,
+    dark: theme.swatch.base02,
+    contrastText: getContrastText(primaryMain)
+  };
   muiTheme.palette.secondary = {
     main: secondaryMain,
     light: theme.swatch.base06,
@@ -88,22 +96,30 @@ const App = () => {
 
   const isSmallScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("sm"));
   const isMediumScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("md")) && !isSmallScreen;
-  // NOLAN TODO - isLarge, not isExtraLarge!! be careful with this mediaQuery, consider renaming
   const isLargeScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("lg")) && !isSmallScreen && !isMediumScreen;
+  const isExtraLargeScreen: boolean = useMediaQuery(muiTheme.breakpoints.down("xl")) && !isSmallScreen && !isMediumScreen && !isLargeScreen;
   // NOLAN TODO - for later use
   // const isPortrait: boolean = useMediaQuery(`(orientation: portrait)`);
+
+  const tools = [Tool.scalebook, Tool.chordbook];
 
   const twelveTET: Temperament = data.temperaments.find(
     (temperament) => temperament.name === Constants.TWELVE_TET,
   ) as Temperament;
+  const initKeyTonic: Note = twelveTET.getNoteFromID(Constants.E) as Note;
   const scales: Scale[] = data.scales;
-  const initKeyNote: Note = twelveTET.getNoteFromID(Constants.E) as Note;
   const initScale: Scale = scales.find(
-    (scale) => scale.name === Constants.MAJOR,
+    (scale) => scale.name === Constants.MAJOR.toLocaleLowerCase(),
   ) as Scale;
+  const initChordRoot: Note = twelveTET.getNoteFromID(Constants.E) as Note;
+  const chordTypes: ChordType[] = data.chordTypes;
+  const initChordType: ChordType = chordTypes.find(
+    (chordType) => chordType.shortHand === "maj",
+  ) as ChordType;
   const instrumentMap = initInstruments(twelveTET);
   const [instruments, setInstruments] = useState(instrumentMap);
-  const [activeKey, setActiveKey] = useState(new Key(initKeyNote, initScale));
+  const [activeKey, setActiveKey] = useState(new Key(initKeyTonic, initScale));
+  const [activeChord, setActiveChord] = useState(new Chord(initChordRoot, initChordType));
   const initInstrument = instruments.get("guitar") as FrettedInstrument;
   const [activeInstrument, setActiveInstrument] = useState(initInstrument);
   const [activeTuning, setActiveTuning] = useState(
@@ -112,9 +128,39 @@ const App = () => {
   const [isRainbowMode, setIsRainbowMode] = useState(true);
   const [shouldHighlightPiano, setShouldHighlightPiano] = useState(true);
   const [activeTemperament, setActiveTemperament] = useState(twelveTET);
-  const [activeToolName, setActiveToolName] = useState("scalebook");
+  const [activeToolName, setActiveToolName] = useState(Tool.scalebook);
   const initDialogState: IAppDialogState = { isOpen: false }
   const [dialogState, setDialogState] = useState(initDialogState);
+  const [isFullscreen, setIsFullscreen] = useState(!!document.fullscreenElement);
+
+  const allKeys: Key[] = [];
+  const allChords: Chord[] = [];
+  activeTemperament.getNotesInTemperament().forEach((note) => {
+    data.scales.forEach((scale: Scale) => {
+      allKeys.push(new Key(note, scale));
+    });
+    data.chordTypes.forEach((chordType: ChordType) => {
+      allChords.push(new Chord(note, chordType));
+    });
+  });
+
+  const toggleFullscreen = (): void => {
+    setIsFullscreen(!isFullscreen);
+  }
+
+  useEffect(() => {
+    const body = document.querySelector("body");
+    if (body) {
+        if (isFullscreen) {
+          body.requestFullscreen()
+            .then(() => {
+              body.style.overflow = "auto";
+            });
+        } else if (document.fullscreenElement) {
+          document.exitFullscreen();
+        }
+    }
+  }, [isFullscreen]);
 
   useEffect(() => {
     const ls_theme = localStorage.getItem("theme");
@@ -134,8 +180,28 @@ const App = () => {
     setShouldHighlightPiano(!shouldHighlightPiano);
   };
 
-  const onKeyNoteSelect = (keyNote: Note): void => {
-    setActiveKey(new Key(keyNote, activeKey.scale));
+  const updateKey = (key: Key): void => {
+    setActiveKey(new Key(key.tonic, key.scale));
+  };
+
+  const onKeyTonicSelect = (tonic: Note): void => {
+    setActiveKey(new Key(tonic, activeKey.scale));
+  };
+
+  const onScaleSelect = (scale: Scale): void => {
+    setActiveKey(new Key(activeKey.tonic, scale));
+  };
+
+  const updateChord = (chord: Chord): void => {
+    setActiveChord(new Chord(chord.root, chord.chordType));
+  };
+
+  const onChordRootSelect = (root: Note): void => {
+    setActiveChord(new Chord(root, activeChord.chordType));
+  };
+
+  const onChordTypeSelect = (chordType: ChordType): void => {
+    setActiveChord(new Chord(activeChord.root, chordType));
   };
 
   const onInstrumentSelect = (instrument: FrettedInstrument): void => {
@@ -143,14 +209,6 @@ const App = () => {
     // Reset active tuning to the last tuning set on thie instrument selected.
     const activeTuning: Tuning = checkActiveTuning(instrument);
     setActiveTuning(activeTuning);
-  };
-
-  const onScaleSelect = (scale: Scale): void => {
-    setActiveKey(new Key(activeKey.note, scale));
-  };
-
-  const updateKey = (key: Key): void => {
-    setActiveKey(new Key(key.note, key.scale));
   };
 
   const setInstrumentTuning = (courseId: string, newTuning: Note): void => {
@@ -216,22 +274,24 @@ const App = () => {
   let tool;
 
   switch (activeToolName) {
-    case "scalebook": {
+    case Tool.scalebook: {
       tool = (
         <Scalebook
           activeInstrument={activeInstrument}
           activeKey={activeKey}
           activeTuning={activeTuning}
+          allKeys={allKeys}
+          allScales={scales}
           temperament={activeTemperament}
           instruments={instruments}
           isSmallScreen={isSmallScreen}
           isMediumScreen={isMediumScreen}
-          isLargeScreen={isLargeScreen}
+          isLargeScreen={isLargeScreen || isExtraLargeScreen}
           isRainbowMode={isRainbowMode}
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}
           onInstrumentTuneToPreset={onInstrumentTuneToPreset}
-          onKeyNoteSelect={onKeyNoteSelect}
+          onKeyTonicSelect={onKeyTonicSelect}
           onScaleSelect={onScaleSelect}
           shouldHighlightPiano={shouldHighlightPiano}
           theme={theme}
@@ -240,10 +300,32 @@ const App = () => {
       );
       break;
     }
-    // case "songbook": {
-    //   tool = <div>COMING SOON</div>;
-    //   break;
-    // }
+    case Tool.chordbook: {
+      tool = (
+        <Chordbook
+          activeInstrument={activeInstrument}
+          activeChord={activeChord}
+          activeTuning={activeTuning}
+          allChords={allChords}
+          allChordTypes={chordTypes}
+          temperament={activeTemperament}
+          instruments={instruments}
+          isSmallScreen={isSmallScreen}
+          isMediumScreen={isMediumScreen}
+          isLargeScreen={isLargeScreen || isExtraLargeScreen}
+          isRainbowMode={isRainbowMode}
+          onInstrumentSelect={onInstrumentSelect}
+          onInstrumentTune={onInstrumentTune}
+          onInstrumentTuneToPreset={onInstrumentTuneToPreset}
+          onChordRootSelect={onChordRootSelect}
+          onChordTypeSelect={onChordTypeSelect}
+          shouldHighlightPiano={shouldHighlightPiano}
+          theme={theme}
+          updateChord={updateChord}
+        />
+      );
+      break;
+    }
   }
 
   const style: CSSProperties = {
@@ -256,10 +338,12 @@ const App = () => {
       <Grid container id="app" justifyContent="center" alignItems="center" style={style}>
         <Grid item xs={12}>
           <TopBar
-            activeToolName={activeToolName as ToolName}
+            activeToolName={activeToolName}
             dialogState={dialogState}
             isAuthenticated={false}
             isDarkTheme={isDarkColor(theme.swatch.base01)}
+            isFullscreen={isFullscreen}
+            isMediumScreen={isMediumScreen}
             isRainbowMode={isRainbowMode}
             isSmallScreen={isSmallScreen}
             onLoginClick={() => false}
@@ -271,8 +355,10 @@ const App = () => {
             setTheme={setTheme}
             shouldHighlightPiano={shouldHighlightPiano}
             theme={theme}
+            toggleFullscreen={toggleFullscreen}
             togglePianoHighlight={togglePianoHighlight}
             toggleRainbowMode={toggleRainbowMode}
+            tools={tools}
           />
         </Grid>
         <Grid item xs={12}>

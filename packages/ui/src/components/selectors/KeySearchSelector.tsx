@@ -7,9 +7,9 @@ import { Base16Theme } from "../../colors/themes";
 import { LabeledSelector } from "./LabeledSelector";
 
 interface IKeySearchSelectorProps {
+  allKeys: Key[];
   minWidth?: string;
   updateKey: (key: Key) => void;
-  temperament: Temperament;
   theme: Base16Theme;
 }
 
@@ -19,14 +19,7 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
   );
   const [filterOptions, setFilterOptions] = useState([] as Key[]);
 
-  const { minWidth, updateKey, temperament, theme } = props;
-
-  const allKeys: Key[] = [];
-  temperament.getNotesInTemperament().forEach((note) => {
-    data.scales.forEach((scale) => {
-      allKeys.push(new Key(note, scale));
-    });
-  });
+  const { allKeys, minWidth, updateKey, theme } = props;
 
   // Speed up search by only searching through a subset of allKeys,
   // then resetting it to allKeys when appropriate.
@@ -98,7 +91,7 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
         );
         filteredOptions.push(...filteredOptionsByNotes);
       }
-      const uniqueFilteredOptions = util.sortKeysByNoteAndScale([...new Set(filteredOptions)]);
+      const uniqueFilteredOptions = util.sortKeysByTonicAndScale([...new Set(filteredOptions)]);
 
       if (shouldSetPotentialKeys) {
         setPotentialKeys(uniqueFilteredOptions);
@@ -117,7 +110,7 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
   // check a key by key name
   // e.g. "alg", "algerian", "Gb alg", "Gb algerian", etc.
   const isKeyDisplayNameMatch = (key: Key, inputValue: string) => {
-    return key.getDisplayName().toLowerCase().includes(inputValue);
+    return key.name.toLowerCase().includes(inputValue);
   };
   // check a key by notes in the key
   // e.g. "A", "A, B", "A, B, C#", "A, B, C#, D", "A, B, C#, D, Eb", etc.
@@ -130,14 +123,11 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
       // if the value starts with a "-", it means we want to avoid finding that note in the key
       const isNoteToAvoid: boolean = trimVal.startsWith("-");
       const noteVal = isNoteToAvoid ? trimVal.substring(1) : trimVal;
-      const noteToFind = temperament.getNoteFromID(noteVal);
+      const noteToFind = key.scale.temperament.getNoteFromID(noteVal);
       if (!noteToFind) {
         allNotesMatch = false;
       } else {
-        const notesInKey: Note[] = key.scale.getNotesInKey(key.note);
-        const noteFound: boolean = !!notesInKey.find((note) =>
-          note.isSimilar(noteToFind),
-        );
+        const noteFound: boolean = !!key.hasNote(noteToFind, true);
         // if we didn't find the note in the key, and it's not a note to avoid, or we found the note in the key and it is a note to avoid
         if ((!noteFound && !isNoteToAvoid) || (noteFound && isNoteToAvoid)) {
           allNotesMatch = false;
@@ -170,11 +160,12 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
       label="Search for Keys"
       minWidth={minWidth}
       items={allKeys}
-      getValue={(k: Key) => k.getDisplayName()}
-      getDisplay={(k: Key) => k.getDisplayName()}
+      getValue={(k: Key) => k.name}
+      getDisplay={(k: Key) => k.name}
       onChange={updateKey}
       onInputChange={handleInputChange}
       // renderOption={renderOption}
+      shouldAutocomplete={true}
       theme={theme}
     />
   );

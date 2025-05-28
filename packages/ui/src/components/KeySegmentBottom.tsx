@@ -1,11 +1,13 @@
+import React from "react";
 import "./FretSegment.css";
-import { Key, Note } from "note-lib";
+import { Chord, Key, Note } from "note-lib";
 import { CSSProperties } from "react";
 import { darken, Grid, lighten } from "@mui/material";
 import { Base16Theme, rainbow } from "../colors/themes";
+import { IntervalCollection } from "note-lib/src/IntervalCollection";
 
 interface IKeySegmentBottomProps {
-  activeKey: Key;
+  activeKeyOrChord: Key | Chord;
   columnWidth: number;
   isRainbowMode: boolean;
   note: Note;
@@ -15,13 +17,12 @@ interface IKeySegmentBottomProps {
 }
 
 const KeySegmentBottom = (props: IKeySegmentBottomProps) => {
-  const { activeKey, columnWidth, isRainbowMode, note, shouldHighlightPiano, theme } = props;
-  const notesInKey: Note[] = activeKey.scale.getNotesInKey(activeKey.note);
-  const noteIsInKey = !!notesInKey.find((noteInKey) => noteInKey.isSimilar(note));
+  const { activeKeyOrChord, columnWidth, isRainbowMode, note, shouldHighlightPiano, theme } = props;
+  const noteIsInKey = activeKeyOrChord.hasNote(note);
 
   const getRainbowColor = (defaultColor: string = "#BBB") => {
     if (isRainbowMode && note && noteIsInKey) {
-      const semitones: number[] = activeKey.scale.intervals.map(
+      const semitones: number[] = activeKeyOrChord.getIntervalCollection().intervals.map(
         (interval) => interval.semitones,
       );
 
@@ -29,7 +30,7 @@ const KeySegmentBottom = (props: IKeySegmentBottomProps) => {
         (semitone) => rainbow[semitone],
       );
 
-      const indexFound = notesInKey.findIndex((noteInKey) => noteInKey.isSimilar(note));
+      const indexFound = activeKeyOrChord.notes.findIndex((noteInKey) => noteInKey.isEquivalent(note));
       return semitoneColors[indexFound];
     }
     else {

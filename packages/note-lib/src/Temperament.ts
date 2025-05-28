@@ -1,3 +1,5 @@
+import { IntervalScaleDegreeNumeric } from "./enums/IntervalScaleDegreeEnums";
+import { Interval } from "./Interval";
 import { Note, NoteID } from "./Note";
 
 /**
@@ -5,16 +7,26 @@ import { Note, NoteID } from "./Note";
  * https://en.wikipedia.org/wiki/Musical_temperament
  * https://en.wikipedia.org/wiki/Equal_temperament
  *
- * e.g. twelve-tone equal temperament, the most common in western music, divides an octave into 12 intervals.
+ * e.g. twelve-tone equal temperament (twelveTET or 12TET), the most common in western music, divides an octave into 12 intervals.
+ * It also defines notes - you might think the number of notes needs to be equal to the number of intervals
+ * but in twelveTET MORE than 12 Notes are defined (e.g. A# AND Bb).
+ * and MORE than 12 Intervals are defined (e.g. major 6th AND diminished 7th, despite the same number of semitones).
+ * INCLUDING intervals with more than 12 semitones for the purpose of chords (e.g. a 9th, 11th, and 13th).
+ * When constructing the temperament though, you would first create each note and add either the sharps or flats as aliases
+ * and THEN only pass 12 notes.
+ * 
  *
- * If you were a formal person, you'd call this a "scale".
+ * If you were a formal person, you'd call this a "scale," but that could be confused with the other use of scale
+ * as in "major" or "minor" scale.
  */
 export class Temperament {
   name: string;
+  intervals: Interval[];
   notes: Note[];
 
-  constructor(name: string, notes: Note[]) {
+  constructor(name: string, intervals: Interval[], notes: Note[]) {
     this.name = name;
+    this.intervals = intervals;
     this.notes = notes;
   }
 
@@ -78,7 +90,7 @@ export class Temperament {
     const internalNote: Note = this.getNoteFromID(fromNote.id) as Note;
 
     if (!internalNote) {
-      throw Error(`fromNote '${fromNote.id}' does not exist in temperament`);
+      throw Error(`Note '${fromNote.id}' does not exist in Temperament '${this.name}'`);
     }
 
     const notes: Note[] = [];
@@ -117,7 +129,10 @@ export class Temperament {
     return offset;
   }
 
-  getNoteInterval(fromNote: Note, toNote: Note): number {
+  /** 
+   * Given two notes, return the number of semitones between them.
+  */
+  getSemitonesBetweenNotes(fromNote: Note, toNote: Note): number {
     const fromNoteOffset = this._getRelativeNoteOffset(fromNote);
     const toNoteOffset = this._getRelativeNoteOffset(toNote);
 
@@ -134,8 +149,8 @@ export class Temperament {
    * Returns the next note in the temperament
    * given a starting note `fromNote`.
    *
-   * An optional parameter `stepsAway` allows you
-   * specify how steps to travel (default=1)
+   * An optional parameter `semitonesAway` allows you
+   * specify how many semitones (steps) to travel (default=1)
    *
    * e.g.
    *
@@ -153,14 +168,61 @@ export class Temperament {
    *  > Given Note('Ab'), this will return Note('A')
    *
    */
-  getNextNote(fromNote: Note, stepsAway: number = 1): Note {
+  getNextNote(fromNote: Note, semitonesAway: number = 1): Note {
     const offset: number = this._getRelativeNoteOffset(fromNote);
-    let index: number = (offset + stepsAway) % this.notes.length;
+    let index: number = (offset + semitonesAway) % this.notes.length;
     if (index < 0) {
       index = this.notes.length + index;
     }
     return this.notes[index];
   }
+
+  /**
+   * Given 2 Intervals, return true if they are enharmonically equivalent.
+   * e.g. a 6th and a 13th have the same number of semitones in 12TET,
+   */
+  areIntervalsEquivalent(interval1: Interval, interval2: Interval): boolean {
+    const interval1Mod = interval1.semitones % this.notes.length;
+    const interval2Mod = interval2.semitones % this.notes.length;
+    return interval1Mod === interval2Mod;
+  }
+
+    /**
+   * Given a semitone, return an Interval[].
+   * By default, it will return the first interval that matches the number of semitones.
+   * In most cases, this should suffice as long as the intervals' aliases have been set up correctly.
+   * However, if you want to find an interval with a specific scale degree,
+   * you can pass in the scale degree's number as a second parameter.
+   * e.g. for 12TET pass (2, 3) to get a diminished 3rd instead of the default major 2nd.
+   */
+    findIntervals(semitones: number, allowEquivalents: boolean = true): Interval[] {
+      return this.intervals.filter((interval) => {
+        const isExactMatch = interval.semitones === semitones;
+        const isEquivalentMatch = interval.semitones % this.notes.length === semitones % this.notes.length
+        return allowEquivalents ?  isEquivalentMatch : isExactMatch;
+      });
+    };
+
+  /**
+   * Given a semitone, return an Interval object.
+   * By default, it will return the first interval that matches the number of semitones or enharmonic equivalent.
+   * You can force this to look for an exact match (e.g. ignore a 6th when you're looking for a 13th)
+   * However, if you want to find an interval with a specific scale degree,
+   * you can pass in the scale degree's number as a second parameter.
+   * e.g. for 12TET pass (2, false, 3) to get a diminished 3rd instead of the default major 2nd.
+   */
+  findInterval(semitones: number, allowEquivalents: boolean = false, scaleDegreeNumeric?: IntervalScaleDegreeNumeric): Interval | undefined {  
+    return this.intervals.find((interval) => {
+      const isExactMatch = interval.semitones === semitones;
+      const isEquivalentMatch = interval.semitones % this.notes.length === semitones % this.notes.length;
+      let isMatch = allowEquivalents ? isEquivalentMatch : isExactMatch;
+      if (scaleDegreeNumeric) {
+        const isScaleDegreeMatch = interval.scaleDegree.numeric === scaleDegreeNumeric;
+        isMatch = isMatch && isScaleDegreeMatch;
+      }
+      return isMatch;
+    });
+  };
 
   toJSON() {
     return {

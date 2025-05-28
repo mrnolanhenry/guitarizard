@@ -1,0 +1,13 @@
+.chordbook {
+  display: flex;
+  flex-direction: column;
+}
+
+.chordbook > .settings-bar {
+  flex-grow: 1;
+  display: flex;
+}
+
+.chordbook > .settings-bar > * {
+  margin: 0.5em;
+}

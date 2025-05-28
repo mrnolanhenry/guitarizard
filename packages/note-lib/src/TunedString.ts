@@ -44,6 +44,7 @@ export class TunedString {
 
   toJSON() {
     return {
+      id: this.id,
       tuningNote: this.tuningNote,
       material: this.material,
       gauge: this.gauge,

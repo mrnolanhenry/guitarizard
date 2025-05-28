@@ -1,17 +1,18 @@
 import "./FretBoard.css";
 import React, { CSSProperties } from "react";
-import { Key, Note, Temperament } from "note-lib";
+import { Chord, Key, Note, Temperament } from "note-lib";
 import { FretBoard as Fretboard } from "../../../note-lib/src/FretBoard";
 import { Base16Theme } from "../colors/themes";
 import { FretSegment } from "./FretSegment";
 import { NoteSelector } from "./selectors/NoteSelector";
-import { ScaleOnCourse } from "note-lib/src/ScaleOnCourse";
+import { NotesOnCourse } from "note-lib/src/NotesOnCourse";
 import { TunedString } from "note-lib/src/TunedString";
 
 interface IFretBoardProps {
-  activeKey: Key;
+  activeKeyOrChord: Key | Chord;
   fretBoard: Fretboard;
   isMediumScreen: boolean;
+  isLargeScreen: boolean;
   isRainbowMode: boolean;
   onTune: (courseId: string, newTuning: Note) => void;
   showFretBar: boolean;
@@ -20,7 +21,7 @@ interface IFretBoardProps {
 }
 
 const FretBoard = (props: IFretBoardProps) => {
-  const { activeKey, fretBoard, isMediumScreen, isRainbowMode, onTune, showFretBar, temperament, theme } =
+  const { activeKeyOrChord, fretBoard, isMediumScreen, isLargeScreen, isRainbowMode, onTune, showFretBar, temperament, theme } =
     props;
   const fretBarStyle: CSSProperties = {
     backgroundColor: theme.swatch.base00,
@@ -34,7 +35,7 @@ const FretBoard = (props: IFretBoardProps) => {
       {[...Array(maxFretCount)].map((_, i) => {
         return (
           <div key={`fret-${i}`} style={fretBarStyle}>
-            {i === 0 ? "*" : i}
+            {i}
           </div>
         );
       })}
@@ -54,10 +55,12 @@ const FretBoard = (props: IFretBoardProps) => {
         return (
           <NoteSelector
             id={course.id}
+            items={temperament.getNotesInTemperament()}
             key={course.id}
-            temperament={fretBoard.temperament}
+            containerClass={"tuning-peg"}
             note={course.tunedStrings[0].tuningNote}
             onNoteSelect={(n: Note) => onTune(course.id, n)}
+            shouldAutocomplete={isLargeScreen}
             theme={theme}
           />
         );
@@ -68,27 +71,24 @@ const FretBoard = (props: IFretBoardProps) => {
   const stringStyle: CSSProperties = { borderColor: theme.swatch.base09 };
   const boardStyle: CSSProperties = { backgroundColor: theme.swatch.base0F };
 
-  const scalesOnCourses: ScaleOnCourse[] = fretBoard.getNotesInScale(
-    activeKey.scale,
-    activeKey.note,
-  );
+  const activeNotesOnCourses: NotesOnCourse[] = fretBoard.getNotesInKeyOrChord(activeKeyOrChord);
 
-  const courses = scalesOnCourses.map((scaleOnCourse, courseIndex) => {
-    const tunedStrings: TunedString[] = scaleOnCourse.course.tunedStrings;
+  const courses = activeNotesOnCourses.map((notesOnCourse, courseIndex) => {
+    const tunedStrings: TunedString[] = notesOnCourse.course.tunedStrings;
     return tunedStrings.map((tunedString, stringIndex) => {
       // only want to return true for this if there are multiple strings in 1 course
       // and it is the last string in the course
-      // const isLastStringInCourse: boolean = !!(stringIndex) && stringIndex === tunedStrings.length - 1;
+      // const isLastStringInMultiStringCourse: boolean = !!(stringIndex) && stringIndex === tunedStrings.length - 1;
       // const lastStringStyle = {paddingTop: ".5em"};
       const fretSegments = [...Array(maxFretCount)].map((_, i) => {
         return (
           <FretSegment
-            activeKey={activeKey}
+            activeKeyOrChord={activeKeyOrChord}
             fret={i}
             key={`fret-segment-${courseIndex}-${stringIndex}-${i}`}
             isRainbowMode={isRainbowMode}
-            scaleOnCourse={scaleOnCourse}
-            // style={isLastStringInCourse ? lastStringStyle : {}}
+            notesOnCourse={notesOnCourse}
+            // style={isLastStringInMultiStringCourse ? lastStringStyle : {}}
             theme={theme}
           />
         );

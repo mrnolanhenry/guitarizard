@@ -1,12 +1,12 @@
 import React from "react";
-import { Constants, Key, Note, Temperament } from "note-lib";
+import { Chord, Constants, Key, Note, Temperament } from "note-lib";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { Base16Theme } from "../colors/themes";
 import { FretBoard } from "./FretBoard";
 import { KeyBoard } from "./KeyBoard";
 
 interface IInstrumentProps {
-  activeKey: Key;
+  activeKeyOrChord: Key | Chord;
   instrument: FrettedInstrument;
   isMediumScreen: boolean;
   isLargeScreen: boolean;
@@ -18,12 +18,12 @@ interface IInstrumentProps {
 }
 
 const Instrument = (props: IInstrumentProps) => {
-  const { activeKey, instrument, isMediumScreen, isLargeScreen, isRainbowMode, onTune, shouldHighlightPiano, temperament, theme } = props;
+  const { activeKeyOrChord, instrument, isMediumScreen, isLargeScreen, isRainbowMode, onTune, shouldHighlightPiano, temperament, theme } = props;
 
   return instrument.name === Constants.PIANO ?
    (
     <KeyBoard
-      activeKey={activeKey}
+      activeKeyOrChord={activeKeyOrChord}
       fretBoard={instrument.fretBoard}
       isMediumScreen={isMediumScreen}
       isLargeScreen={isLargeScreen}
@@ -36,9 +36,10 @@ const Instrument = (props: IInstrumentProps) => {
   ) :
   (
     <FretBoard
-      activeKey={activeKey}
+      activeKeyOrChord={activeKeyOrChord}
       fretBoard={instrument.fretBoard}
       isMediumScreen={isMediumScreen}
+      isLargeScreen={isLargeScreen}
       isRainbowMode={isRainbowMode}
       onTune={onTune}
       showFretBar={true}
