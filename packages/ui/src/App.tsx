@@ -69,6 +69,7 @@ const initInstruments = (temperament: Temperament): InstrumentMap => {
 
 const App = () => {
   const [theme, setTheme] = useState(cloudCity);
+  const primaryMain = theme.swatch.base0B;
   const secondaryMain = theme.swatch.base05;
 
   const isDarkColor = (color: string): boolean => {
@@ -79,6 +80,12 @@ const App = () => {
   const getContrastText = (color: string) =>  isDarkColor(color) ? '#fff' : '#111';
 
   const muiTheme = useTheme();
+  muiTheme.palette.primary = {
+    main: primaryMain,
+    light: theme.swatch.base06,
+    dark: theme.swatch.base02,
+    contrastText: getContrastText(primaryMain)
+  };
   muiTheme.palette.secondary = {
     main: secondaryMain,
     light: theme.swatch.base06,

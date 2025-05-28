@@ -18,8 +18,6 @@ const ToolSelector = (props: IToolSelectorProps) => {
     <Selector<Tool>
       id="tool-selector"
       items={tools}
-      // NOLAN TODO: Return to songbook
-      // items={["scalebook", "chordbook", "songbook"]}
       minWidth={minWidth}
       activeItem={activeToolName}
       onChange={(v: Tool) => onToolSelect(v)}

@@ -1,10 +1,9 @@
 import "./TopBar.css";
 import React, { CSSProperties, useEffect } from "react";
-import { ToolSelector } from "./selectors/ToolSelector";
 import { Base16Theme } from "../colors/themes";
 import { ThemeSelector } from './selectors/ThemeSelector';
 import { FullscreenExitRounded as FullscreenExitRoundedIcon, FullscreenRounded as FullscreenRoundedIcon, Settings as SettingsIcon } from '@mui/icons-material';
-import { Button, Grid, IconButton, useTheme } from "@mui/material";
+import { Button, Grid, IconButton, Tab, Tabs, useTheme } from "@mui/material";
 import { IAppDialogState } from "./AppDialog";
 import { SettingsMenu } from "./SettingsMenu";
 import { Tool } from "../enums/Tool";
@@ -126,28 +125,40 @@ const TopBar = (props: Props) => {
     )
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleTabChange = (event: React.SyntheticEvent, newValue: Tool) => {
+    onToolSelect(newValue);
+  };
+
+  const tabClassStyling = {
+    "& .MuiTab-root": {
+      color: theme.swatch.base04,
+    },
+  };
+
   return (
     <Grid container className="top-bar" alignItems="center" style={style} padding={isSmallScreen ? 2 : 1}>
-      <Grid item container className="left" xs={9} sm={3} md={2} justifyContent={"flex-start"} style={leftStyle}>
+      <Grid item container className="left" xs={12} sm={4} md={5} lg={5} justifyContent={"flex-start"} style={leftStyle}>
         {logo}
         {logoSpan}
       </Grid>
-      {!isSmallScreen &&
-        <Grid item container className="center" sm={2} md={5} lg={6}>
-        {auth}
+      <Grid item container className="center" xs={7} sm={4} md={4} lg={6} columnSpacing={2}>
+        <Grid item xs={12} sm="auto">
+          <Tabs 
+            value={activeToolName} 
+            onChange={handleTabChange} 
+            aria-label="tool-select-tabs" 
+            centered={!isSmallScreen}
+            textColor="primary"
+            indicatorColor="primary"
+            sx={tabClassStyling}
+            >
+            <Tab value={Tool.scalebook} label="Find Scales" id="tab-find-scales" wrapped />
+            <Tab value={Tool.chordbook} label="Find Chords" id="tab-find-chords" wrapped />
+          </Tabs>
         </Grid>
-      }
-      <Grid item container className="right" xs={3} sm={7} md={5} lg={4} justifyContent="flex-end" columnSpacing={2}>
-        <Grid item xs={6} sm="auto">
-          <ToolSelector
-            activeToolName={activeToolName}
-            minWidth="10em"
-            onToolSelect={onToolSelect}
-            size="small"
-            theme={theme}
-            tools={tools}
-          />
-        </Grid>
+      </Grid>
+      <Grid item container className="right" xs={5} sm={4} md={3} lg={1} justifyContent="flex-end" columnSpacing={2}>
         {isMediumScreen && 
           <Button
             color="secondary"
