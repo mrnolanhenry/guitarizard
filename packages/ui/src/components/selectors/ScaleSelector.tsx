@@ -25,40 +25,13 @@ const ScaleSelector = (props: IScalesSelectorProps) => {
     if (!inputValue) {
       return options;
     } else {
-      const trimVal = inputValue.trim().toLowerCase();
-      // trimming each term, so it can handle inputs with lots of empty space e.g. "0,1, 2, 3, 5, , , 6, " or "A, B,C#,D, ,Eb"
-      const inputValues = trimVal
-        .split(",")
-        .map((val) => val.trim())
-        .filter((val) => !!val);
-
-      const filterOptions = options.filter((option) => {
-        return (
-          isScaleNameMatch(option, trimVal) ||
-          isIntervalMatch(option, inputValues)
-        );
-      });
-      return filterOptions;
+      const trimVal = inputValue.trim().toLocaleLowerCase();
+      return options.filter((option) => isNameMatch(option, trimVal));
     }
   };
 
-  const isScaleNameMatch = (scale: Scale, inputValue: string) =>
-    scale.name.toLowerCase().includes(inputValue);
-
-  const isIntervalMatch = (scale: Scale, inputValues: string[]) => {
-    let allIntervalsMatch: boolean = true;
-
-    inputValues.forEach((value) => {
-      const intervalFound: boolean = !!scale.intervals.find(
-        (interval) => interval.semitones.toString() === value.trim(),
-      );
-      if (!intervalFound) {
-        allIntervalsMatch = false;
-      }
-    });
-
-    return allIntervalsMatch;
-  };
+  const isNameMatch = (scale: Scale, inputValue: string) =>
+    scale.name.toLocaleLowerCase().includes(inputValue);
 
   return (
     <LabeledSelector<Scale>

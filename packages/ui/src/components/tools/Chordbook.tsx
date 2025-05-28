@@ -1,9 +1,9 @@
-import "./Scalebook.css";
+import "./Chordbook.css";
 import React, { CSSProperties, useEffect, useState } from "react";
 // IMPORTANT - must import @mui/icons-material BEFORE @mui/material or app breaks (vite doesn't like)
 import { ScreenRotation as ScreenRotationIcon } from '@mui/icons-material';
 import { Grid } from "@mui/material";
-import { Chord, Constants, Key, Note, Scale, Temperament } from "note-lib";
+import { Chord, ChordType, Constants, Key, Note, Scale, Temperament } from "note-lib";
 import { Base16Theme } from "../../colors/themes";
 import { InstrumentSelector } from "../selectors/InstrumentSelector";
 import { NoteSelector } from "../selectors/NoteSelector";
@@ -16,13 +16,16 @@ import { Instrument } from "../Instrument";
 import { CommonTuningSelector } from "../selectors/CommonTuningSelector";
 import { Tuning } from "note-lib/src/Tuning";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
+import { ChordTypeSelector } from "../selectors/ChordTypeSelector";
+import { ChordSearchSelector } from "../selectors/ChordSearchSelector";
+import { EquivChordSelector } from "../selectors/EquivChordSelector";
 
-interface IScalebookProps {
+interface IChordbookProps {
   activeInstrument: FrettedInstrument;
-  activeKey: Key;
+  activeChord: Chord;
   activeTuning: Tuning;
-  allKeys: Key[];
-  allScales: Scale[];
+  allChords: Chord[];
+  allChordTypes: ChordType[];
   instruments: Map<string, FrettedInstrument>;
   isSmallScreen: boolean;
   isMediumScreen: boolean;
@@ -31,21 +34,21 @@ interface IScalebookProps {
   onInstrumentSelect: (instrument: FrettedInstrument) => void;
   onInstrumentTune: (courseId: string, newTuning: Note) => void;
   onInstrumentTuneToPreset: (tuning: Tuning) => void;
-  onKeyTonicSelect: (tonic: Note) => void;
-  onScaleSelect: (scale: Scale) => void;
+  onChordRootSelect: (root: Note) => void;
+  onChordTypeSelect: (chordType: ChordType) => void;
   shouldHighlightPiano: boolean;
   temperament: Temperament;
   theme: Base16Theme;
-  updateKey: (key: Key) => void;
+  updateChord: (chord: Chord) => void;
 }
 
-const Scalebook = (props: IScalebookProps) => {
+const Chordbook = (props: IChordbookProps) => {
   const {
     activeInstrument,
-    activeKey,
+    activeChord,
     activeTuning,
-    allKeys,
-    allScales,
+    allChords,
+    allChordTypes,
     instruments,
     isSmallScreen,
     isMediumScreen,
@@ -54,12 +57,12 @@ const Scalebook = (props: IScalebookProps) => {
     onInstrumentSelect,
     onInstrumentTune,
     onInstrumentTuneToPreset,
-    onKeyTonicSelect,
-    onScaleSelect,
+    onChordRootSelect,
+    onChordTypeSelect,
     shouldHighlightPiano,
     temperament,
     theme,
-    updateKey,
+    updateChord,
   } = props;
 
   const [showInstrument, setShowInstrument] = useState(!isSmallScreen);
@@ -69,12 +72,12 @@ const Scalebook = (props: IScalebookProps) => {
   };
 
   const instrument: FrettedInstrument = activeInstrument;
-  const activeKeyTonic: Note = activeKey.tonic;
-  const activeScale: Scale = activeKey.scale;
+  const activeChordRoot: Note = activeChord.root;
+  const activeChordType: ChordType = activeChord.chordType;
 
   const instrumentComponent = instrument ? (
     <Instrument
-      activeKeyOrChord={activeKey}
+      activeKeyOrChord={activeChord}
       instrument={instrument}
       isMediumScreen={isMediumScreen}
       isLargeScreen={isLargeScreen}
@@ -94,7 +97,7 @@ const Scalebook = (props: IScalebookProps) => {
       <Grid container item paddingTop={1} paddingBottom={1}>
         <Grid item xs={3}>
           <NoteTable
-            activeKeyOrChord={activeKey}
+            activeKeyOrChord={activeChord}
             isSmallScreen={isSmallScreen}
             isRainbowMode={isRainbowMode}
             theme={theme}
@@ -102,9 +105,9 @@ const Scalebook = (props: IScalebookProps) => {
         </Grid>
         <Grid item xs={9}>
           <IntervalTable
-            intervals={activeScale.intervals}
             isSmallScreen={isSmallScreen}
             isRainbowMode={isRainbowMode}
+            intervals={activeChordType.intervals}
             temperament={temperament}
             theme={theme}
           />
@@ -114,7 +117,7 @@ const Scalebook = (props: IScalebookProps) => {
     <>
       <Grid item xs={12} paddingTop={1} paddingBottom={1}>
         <NoteTable
-          activeKeyOrChord={activeKey}
+          activeKeyOrChord={activeChord}
           isSmallScreen={isSmallScreen}
           isRainbowMode={isRainbowMode}
           theme={theme}
@@ -122,7 +125,7 @@ const Scalebook = (props: IScalebookProps) => {
       </Grid>
       <Grid item xs={12}>
         <IntervalTable
-          intervals={activeScale.intervals}
+          intervals={activeChordType.intervals}
           isSmallScreen={isSmallScreen}
           isRainbowMode={isRainbowMode}
           temperament={temperament}
@@ -133,7 +136,7 @@ const Scalebook = (props: IScalebookProps) => {
   }
 
   return (
-    <Grid container className="scalebook">
+    <Grid container className="chordbook">
       <Grid item container xs={12} className="settings-bar" justifyContent="center" paddingTop={1} paddingBottom={1} style={settingsBarStyle}>
         {showInstrument && (
           <>
@@ -165,41 +168,41 @@ const Scalebook = (props: IScalebookProps) => {
         )}
         <Grid item xs={2} sm="auto" md="auto" lg="auto">
           <NoteSelector
-            id="active key"
+            id="active chord"
             items={temperament.getNotesInTemperament()}
-            label="Key:"
-            note={activeKeyTonic}
-            onNoteSelect={onKeyTonicSelect}
+            label="Root:"
+            note={activeChordRoot}
+            onNoteSelect={onChordRootSelect}
             shouldAutocomplete={isLargeScreen}
             theme={theme}
           />
         </Grid>
         <Grid item xs={8} sm="auto" md={4} lg="auto">
-          <ScaleSelector
-            activeScale={activeScale}
-            items={allScales}
-            label="Scale:"
+          <ChordTypeSelector
+            activeChordType={activeChordType}
+            items={allChordTypes}
+            label="Chord Type:"
             minWidth={isSmallScreen ? "14em" : "16em"}
-            onScaleSelect={onScaleSelect}
+            onChordTypeSelect={onChordTypeSelect}
             shouldAutocomplete={isLargeScreen}
             theme={theme}
           />
         </Grid>
         <Grid item xs={12} sm="auto" md="auto" lg="auto">
-          <EquivKeySelector
-            activeKey={activeKey}
+          <EquivChordSelector
+            activeChord={activeChord}
             minWidth="18em"
             shouldAutocomplete={isLargeScreen}
             theme={theme}
-            updateKey={updateKey}
+            updateChord={updateChord}
           />
         </Grid>
         <Grid item xs={12} sm="auto" md="auto" lg="auto">
-          <KeySearchSelector
-            allKeys={allKeys}
+          <ChordSearchSelector
+            allChords={allChords}
             minWidth="18em"
             theme={theme}
-            updateKey={(key: Key) => updateKey(key)}
+            updateChord={(chord: Chord) => updateChord(chord)}
           />
         </Grid>
       </Grid>
@@ -219,4 +222,4 @@ const Scalebook = (props: IScalebookProps) => {
   );
 };
 
-export { Scalebook };
+export { Chordbook };

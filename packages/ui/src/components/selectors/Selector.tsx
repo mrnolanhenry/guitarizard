@@ -53,28 +53,9 @@ const Selector = <T,>(props: ISelectorProps<T>) => {
     theme,
   } = props;
 
-  // Rather annoying workaround due to issue with Material UI rendering Select before all options (derived from items var) are ready 
-  // and then comparing reference equality to activeItem.
-  // This forces Select to not be rendered until all options/items are ready
-  const defaultSelectValue: T | undefined = items.find((item: T) => {
-    return isEqual(item, activeItem);
-  });
-
   const fontSizeStyling: CSSProperties = {
     // fontSize: label ? "inherit" : "12px",
     fontSize: size === "small" ? "12px" : "inherit",
-  };
-
-  const classStyling = {
-    "& .MuiButtonBase-root": {
-      color: theme.swatch.base05,
-    },
-    "& .MuiOutlinedInput-notchedOutline": {
-      borderColor: theme.swatch.base05,
-    },
-    "& .MuiSelect-icon" : {
-      color: theme.swatch.base05,
-    }
   };
 
   const selectorStyle: CSSProperties = {

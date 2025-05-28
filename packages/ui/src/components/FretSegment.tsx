@@ -1,5 +1,5 @@
 import "./FretSegment.css";
-import { Key, Note } from "note-lib";
+import { Chord, Key, Note } from "note-lib";
 import { NoteID } from "note-lib/src/Note";
 import { Base16Theme, rainbow } from "../colors/themes";
 import React, { CSSProperties } from "react";
@@ -7,11 +7,11 @@ import { NotesOnCourse } from "note-lib/src/NotesOnCourse";
 import { NoteFretNumberPair } from "note-lib/src/NoteFretNumberPair";
 
 interface IFretSegmentProps {
+  activeKeyOrChord: Key | Chord;
   notesOnCourse: NotesOnCourse;
   fret: number;
   theme: Base16Theme;
   isRainbowMode: boolean;
-  activeKey: Key;
   style?: CSSProperties;
 }
 
@@ -19,7 +19,7 @@ const getNoteTextStyle = (
   isRainbowMode: boolean,
   theme: Base16Theme,
   note: Note | undefined,
-  activeKey: Key,
+  activeKeyOrChord: Key | Chord,
 ): CSSProperties => {
   let noteTextStyle: CSSProperties = {
     backgroundColor: theme.swatch.base00,
@@ -27,16 +27,16 @@ const getNoteTextStyle = (
   };
 
   if (isRainbowMode && note) {
-    const semitones: number[] = activeKey.scale.intervals.map(
-      (interval) => interval.semitones,
-    );
+    const intervalCollection = activeKeyOrChord.getIntervalCollection();
+    const semitones: number[] = intervalCollection.intervals.map(
+      (interval) => interval.semitones);
 
     const semitoneColors: string[] = semitones.map(
-      (semitone) => rainbow[semitone],
+      (semitone) => rainbow[semitone % intervalCollection.temperament.notes.length],
     );
 
-    const noteIntervalColorCombos = activeKey.notes.map((n, i) => ({
-      note: n,
+    const noteIntervalColorCombos = activeKeyOrChord.notes.map((note: Note, i) => ({
+      note: note,
       semitone: semitones[i],
       semitoneColor: semitoneColors[i],
     }));
@@ -235,7 +235,7 @@ const startNote = (note: Note) => {
 //    > RENDER
 //
 const FretSegment = (props: IFretSegmentProps) => {
-  const { fret, isRainbowMode, notesOnCourse, style, theme, activeKey } = props;
+  const { activeKeyOrChord, fret, isRainbowMode, notesOnCourse, style, theme } = props;
 
   // Get the note on this string (if it exists)
   const noteFretNumberPair: NoteFretNumberPair | undefined =
@@ -253,7 +253,7 @@ const FretSegment = (props: IFretSegmentProps) => {
     isRainbowMode,
     theme,
     note,
-    activeKey,
+    activeKeyOrChord,
   );
 
   const backgroundStyle: CSSProperties =

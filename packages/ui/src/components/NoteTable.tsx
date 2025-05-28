@@ -1,17 +1,18 @@
-import { Key, Note } from "note-lib";
+import { Chord, ChordType, Key, Note, Scale } from "note-lib";
 import { Base16Theme, rainbow } from "../colors/themes";
 import React, { CSSProperties } from "react";
 import { Grid } from "@mui/material";
+import { IntervalCollection } from "note-lib/src/IntervalCollection";
 
 interface INoteTableProps {
-  activeKey: Key;
+  activeKeyOrChord: Key | Chord;
   isSmallScreen: boolean;
   isRainbowMode: boolean;
   theme: Base16Theme;
 }
 
 const NoteTable = (props: INoteTableProps) => {
-  const { activeKey, isSmallScreen, isRainbowMode, theme } = props;
+  const { activeKeyOrChord, isSmallScreen, isRainbowMode, theme } = props;
   const fontSize: string = isSmallScreen ? "12px" : "inherit";
 
   const noteStyle: CSSProperties = {
@@ -29,19 +30,26 @@ const NoteTable = (props: INoteTableProps) => {
     isRainbowMode: boolean,
     noteStyle: CSSProperties,
     note: Note | null,
-    activeKey: Key,
+    activeKeyOrChord: Key | Chord,
   ): CSSProperties => {
     let noteTextStyle: CSSProperties = noteStyle;
 
     if (isRainbowMode && note) {
-      const notes: Note[] = activeKey.notes;
-      const semitones: number[] = activeKey.scale.intervals.map(
+      const notes: Note[] = activeKeyOrChord.notes;
+      const intervalCollection: Scale | ChordType = activeKeyOrChord.getIntervalCollection();
+      const semitones: number[] = intervalCollection.intervals.map(
         (interval) => interval.semitones,
       );
 
+      console.log("semitones");
+      console.log(semitones);
+
       const semitoneColors: string[] = semitones.map(
-        (semitone) => rainbow[semitone],
+        (semitone) => rainbow[semitone % intervalCollection.temperament.notes.length],
       );
+
+      console.log("semitoneColors");
+      console.log(semitoneColors);
 
       const noteIntervalColorCombos = notes.map((n, i) => ({
         note: n,
@@ -49,9 +57,15 @@ const NoteTable = (props: INoteTableProps) => {
         semitoneColor: semitoneColors[i],
       }));
 
+      console.log("noteIntervalColorCombos");
+      console.log(noteIntervalColorCombos);
+
       const thisNoteIntervalColorCombo = noteIntervalColorCombos.find(
         (noteIntervalColorCombo) => noteIntervalColorCombo.note.isEquivalent(note),
       );
+
+      console.log("thisNoteIntervalColorCombo");
+      console.log(thisNoteIntervalColorCombo);
 
       if (thisNoteIntervalColorCombo) {
         noteTextStyle = {
@@ -63,7 +77,7 @@ const NoteTable = (props: INoteTableProps) => {
     return noteTextStyle;
   };
 
-  const notes: Note[] = activeKey.notes;
+  const notes: Note[] = activeKeyOrChord.notes;
 
   const mapNotes = (findFlats: boolean): JSX.Element => {
     return (
@@ -77,7 +91,7 @@ const NoteTable = (props: INoteTableProps) => {
             isRainbowMode,
             noteStyle,
             correctNote,
-            activeKey,
+            activeKeyOrChord,
           );
 
           return (

@@ -1,6 +1,6 @@
 import "./FretBoard.css";
 import React, { CSSProperties } from "react";
-import { Key, Note, Temperament } from "note-lib";
+import { Chord, Key, Note, Temperament } from "note-lib";
 import { FretBoard as Fretboard } from "note-lib/src/FretBoard";
 import { Base16Theme } from "../colors/themes";
 import { NotesOnCourse } from "note-lib/src/NotesOnCourse";
@@ -10,7 +10,7 @@ import { KeySegment } from "./KeySegment";
 import { KeySegmentBottom } from "./KeySegmentBottom";
 
 interface IKeyBoardProps {
-  activeKey: Key;
+  activeKeyOrChord: Key | Chord;
   fretBoard: Fretboard;
   isMediumScreen: boolean;
   isLargeScreen: boolean;
@@ -22,7 +22,7 @@ interface IKeyBoardProps {
 }
 
 const KeyBoard = (props: IKeyBoardProps) => {
-  const { activeKey, fretBoard, isMediumScreen, isLargeScreen, isRainbowMode, shouldHighlightPiano, temperament, theme } =
+  const { activeKeyOrChord, fretBoard, isMediumScreen, isLargeScreen, isRainbowMode, shouldHighlightPiano, temperament, theme } =
     props;
 
   const getMaxFretCount = () => {
@@ -43,7 +43,7 @@ const KeyBoard = (props: IKeyBoardProps) => {
 
   const allNotesOnCourses: NotesOnCourse[] = fretBoard.getNotes();
 
-  const activeNotesOnCourses: NotesOnCourse[] = fretBoard.getNotesInKeyOrChord(activeKey);
+  const activeNotesOnCourses: NotesOnCourse[] = fretBoard.getNotesInKeyOrChord(activeKeyOrChord);
 
   const getWidthBasedOnNeighboringNotes = (notesOnCourse: NotesOnCourse, fretNumber: number):number => {
     let columnWidth = 3;
@@ -65,7 +65,7 @@ const KeyBoard = (props: IKeyBoardProps) => {
       const keySegments = [...Array(maxFretCount)].map((_, i) => {      
         return (
           <KeySegment
-            activeKey={activeKey}
+            activeKeyOrChord={activeKeyOrChord}
             allNotesOnCourse={allNotesOnCourses[courseIndex]}
             columnsCount={columnsCount}
             fret={i}
@@ -84,7 +84,7 @@ const KeyBoard = (props: IKeyBoardProps) => {
           columnsRemaining = columnsRemaining - columnWidth;
           return (
             <KeySegmentBottom
-              activeKey={activeKey}
+              activeKeyOrChord={activeKeyOrChord}
               columnWidth={columnWidth}
               note={note}
               key={`fret-segment-${courseIndex}-${stringIndex}-${i}`}

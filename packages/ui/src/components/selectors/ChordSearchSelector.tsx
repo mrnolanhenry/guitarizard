@@ -1,31 +1,30 @@
 // import { AutocompleteRenderOptionState } from "@mui/material";
 import { FilterOptionsState } from "@mui/material/useAutocomplete";
-import { data, Key, Note, Temperament, util } from "note-lib";
-// import React, { ReactNode, useState } from "react";
+import { data, Chord, Note, Temperament, util } from "note-lib";
 import React, { useState } from "react";
 import { Base16Theme } from "../../colors/themes";
 import { LabeledSelector } from "./LabeledSelector";
 
-interface IKeySearchSelectorProps {
-  allKeys: Key[];
+interface IChordSearchSelectorProps {
+  allChords: Chord[];
   minWidth?: string;
-  updateKey: (key: Key) => void;
+  updateChord: (chord: Chord) => void;
   theme: Base16Theme;
 }
 
-const KeySearchSelector = (props: IKeySearchSelectorProps) => {
+const ChordSearchSelector = (props: IChordSearchSelectorProps) => {
   const [searchTimeout, setSearchTimeout] = useState(
     null as ReturnType<typeof setTimeout> | null,
   );
-  const [filterOptions, setFilterOptions] = useState([] as Key[]);
+  const [filterOptions, setFilterOptions] = useState([] as Chord[]);
 
-  const { allKeys, minWidth, updateKey, theme } = props;
+  const { allChords, minWidth, updateChord, theme } = props;
 
-  // Speed up search by only searching through a subset of allKeys,
-  // then resetting it to allKeys when appropriate.
-  // For instance, you've entered "A, B" already in the search and filtered down to 557 keys vs. the existing 2,193.
-  // Now when you continue typing, e.g. "A, B, C#" you'll only filter from those 557 keys.
-  const [potentialKeys, setPotentialKeys] = useState(allKeys);
+  // Speed up search by only searching through a subset of allChords,
+  // then resetting it to allChords when appropriate.
+  // For instance, you've entered "A, B" already in the search and filtered down to 557 chords vs. the existing 2,193.
+  // Now when you continue typing, e.g. "A, B, C#" you'll only filter from those 557 chords.
+  const [potentialChords, setPotentialChords] = useState(allChords);
 
   const handleInputChange = (
     event: React.SyntheticEvent,
@@ -33,7 +32,7 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
   ) => {
     clearTimeout(searchTimeout as ReturnType<typeof setTimeout>);
 
-    // Reset potentialKeys to allKeys if not inserting text
+    // Reset potentialChords to allChords if not inserting text
     const inputEvent = event.nativeEvent as InputEvent;
     const inputType = inputEvent.inputType;
     const isInsertingText: boolean =
@@ -46,29 +45,29 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
     //   (inputType === "deleteContentBackward" || inputType === "deleteContentForward" || inputType === "deleteByCut" || inputType === "deleteContent");
 
     const isInsertingSearchModifier: boolean = inputEvent.data === "-";
-    const shouldResetPotentialKeys: boolean = !isInsertingText;
+    const shouldResetPotentialChords: boolean = !isInsertingText;
 
-    if (shouldResetPotentialKeys) {
-      setPotentialKeys(allKeys);
+    if (shouldResetPotentialChords) {
+      setPotentialChords(allChords);
     }
 
-    const shouldFilterFromAllKeys: boolean = shouldResetPotentialKeys;
-    const availableKeys: Key[] = shouldFilterFromAllKeys ? allKeys : potentialKeys;
+    const shouldFilterFromAllChords: boolean = shouldResetPotentialChords;
+    const availableChords: Chord[] = shouldFilterFromAllChords ? allChords : potentialChords;
 
     setSearchTimeout(
       setTimeout(() => {
-        setFilterOptions(handleFilterOptions(inputValue, isInsertingText && !isInsertingSearchModifier, availableKeys));
+        setFilterOptions(handleFilterOptions(inputValue, isInsertingText && !isInsertingSearchModifier, availableChords));
       }, 200),
     );
   };
 
   const handleFilterOptions = (
     inputValue: string,
-    shouldSetPotentialKeys: boolean,
-    availableKeys: Key[],
-  ): Key[] => {
+    shouldSetPotentialChords: boolean,
+    availableChords: Chord[],
+  ): Chord[] => {
     if (!inputValue) {
-      setPotentialKeys(allKeys);
+      setPotentialChords(allChords);
       return [];
     } else {
       const trimVal = inputValue.trim().toLowerCase();
@@ -77,24 +76,24 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
         .split(",")
         .map((val) => val.trim())
         .filter((val) => !!val);
-      let filteredOptions: Key[] = [];
-      let filteredOptionsByDisplayName = availableKeys.filter((key) =>
-        isKeyDisplayNameMatch(key, trimVal)
+      let filteredOptions: Chord[] = [];
+      let filteredOptionsByDisplayName = availableChords.filter((chord) =>
+        isChordDisplayNameMatch(chord, trimVal)
       );
       filteredOptions.push(...filteredOptionsByDisplayName);
 
-      // If we didn't find any keys by display name OR our search term is less than 3 characters, 
-      // search by the notes in the key
+      // If we didn't find any chords by display name OR our search term is less than 3 characters, 
+      // search by the notes in the chord
       if (filteredOptionsByDisplayName.length === 0 || trimVal.length < 3) {
-        let filteredOptionsByNotes = availableKeys.filter((key) =>
-          isNoteMatch(key, inputValues)
+        let filteredOptionsByNotes = availableChords.filter((chord) =>
+          isNoteMatch(chord, inputValues)
         );
         filteredOptions.push(...filteredOptionsByNotes);
       }
-      const uniqueFilteredOptions = util.sortKeysByTonicAndScale([...new Set(filteredOptions)]);
+      const uniqueFilteredOptions = util.sortChordsByRoot([...new Set(filteredOptions)]);
 
-      if (shouldSetPotentialKeys) {
-        setPotentialKeys(uniqueFilteredOptions);
+      if (shouldSetPotentialChords) {
+        setPotentialChords(uniqueFilteredOptions);
       }
       return uniqueFilteredOptions;
     }
@@ -102,33 +101,33 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
 
   const getFilterOptions = (
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _options: Key[],
+    _options: Chord[],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _state: FilterOptionsState<Key>,
-  ): Key[] => filterOptions;
+    _state: FilterOptionsState<Chord>,
+  ): Chord[] => filterOptions;
 
-  // check a key by key name
+  // check a chord by chord name
   // e.g. "alg", "algerian", "Gb alg", "Gb algerian", etc.
-  const isKeyDisplayNameMatch = (key: Key, inputValue: string) => {
-    return key.name.toLowerCase().includes(inputValue);
+  const isChordDisplayNameMatch = (chord: Chord, inputValue: string) => {
+    return chord.name.toLowerCase().includes(inputValue);
   };
-  // check a key by notes in the key
+  // check a chord by notes in the chord
   // e.g. "A", "A, B", "A, B, C#", "A, B, C#, D", "A, B, C#, D, Eb", etc.
-  // OR even "A, B, C#, D, Eb, -F, -Gb" which would look for a key with A, B, C#, D, Eb, but not F or Gb
-  const isNoteMatch = (key: Key, inputValues: string[]) => {
+  // OR even "A, B, C#, D, Eb, -F, -Gb" which would look for a chord with A, B, C#, D, Eb, but not F or Gb
+  const isNoteMatch = (chord: Chord, inputValues: string[]) => {
     let allNotesMatch: boolean = true;
 
     inputValues.forEach((value) => {
       const trimVal = value.trim();
-      // if the value starts with a "-", it means we want to avoid finding that note in the key
+      // if the value starts with a "-", it means we want to avoid finding that note in the chord
       const isNoteToAvoid: boolean = trimVal.startsWith("-");
       const noteVal = isNoteToAvoid ? trimVal.substring(1) : trimVal;
-      const noteToFind = key.scale.temperament.getNoteFromID(noteVal);
+      const noteToFind = chord.chordType.temperament.getNoteFromID(noteVal);
       if (!noteToFind) {
         allNotesMatch = false;
       } else {
-        const noteFound: boolean = !!key.hasNote(noteToFind, true);
-        // if we didn't find the note in the key, and it's not a note to avoid, or we found the note in the key and it is a note to avoid
+        const noteFound: boolean = !!chord.hasNote(noteToFind, true);
+        // if we didn't find the note in the chord, and it's not a note to avoid, or we found the note in the chord and it is a note to avoid
         if ((!noteFound && !isNoteToAvoid) || (noteFound && isNoteToAvoid)) {
           allNotesMatch = false;
         }
@@ -139,7 +138,7 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
   };
 
   // NOLAN TODO - not in use YET - want to replace the default "No Options" text with instructions when input is blank
-  // const renderOption = (props: React.HTMLAttributes<HTMLLIElement>, option: Key, state: AutocompleteRenderOptionState, ownerState: any): ReactNode => {
+  // const renderOption = (props: React.HTMLAttributes<HTMLLIElement>, option: Chord, state: AutocompleteRenderOptionState, ownerState: any): ReactNode => {
   // 	// console.log("renderOption props");
   // 	// console.log(props);
   // 	// console.log("renderOption state");
@@ -154,15 +153,15 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
   // };
 
   return (
-    <LabeledSelector<Key>
+    <LabeledSelector<Chord>
       filterOptions={getFilterOptions}
-      id="key-search-selector"
-      label="Search for Keys"
+      id="chord-search-selector"
+      label="Search for Chords"
       minWidth={minWidth}
-      items={allKeys}
-      getValue={(k: Key) => k.name}
-      getDisplay={(k: Key) => k.name}
-      onChange={updateKey}
+      items={allChords}
+      getValue={(k: Chord) => k.name}
+      getDisplay={(k: Chord) => k.name}
+      onChange={updateChord}
       onInputChange={handleInputChange}
       // renderOption={renderOption}
       shouldAutocomplete={true}
@@ -171,4 +170,4 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
   );
 };
 
-export { KeySearchSelector };
+export { ChordSearchSelector };

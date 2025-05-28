@@ -1,6 +1,6 @@
 import "./FretBoard.css";
 import React, { CSSProperties } from "react";
-import { Key, Note, Temperament } from "note-lib";
+import { Chord, Key, Note, Temperament } from "note-lib";
 import { FretBoard as Fretboard } from "../../../note-lib/src/FretBoard";
 import { Base16Theme } from "../colors/themes";
 import { FretSegment } from "./FretSegment";
@@ -9,7 +9,7 @@ import { NotesOnCourse } from "note-lib/src/NotesOnCourse";
 import { TunedString } from "note-lib/src/TunedString";
 
 interface IFretBoardProps {
-  activeKey: Key;
+  activeKeyOrChord: Key | Chord;
   fretBoard: Fretboard;
   isMediumScreen: boolean;
   isLargeScreen: boolean;
@@ -21,7 +21,7 @@ interface IFretBoardProps {
 }
 
 const FretBoard = (props: IFretBoardProps) => {
-  const { activeKey, fretBoard, isMediumScreen, isLargeScreen, isRainbowMode, onTune, showFretBar, temperament, theme } =
+  const { activeKeyOrChord, fretBoard, isMediumScreen, isLargeScreen, isRainbowMode, onTune, showFretBar, temperament, theme } =
     props;
   const fretBarStyle: CSSProperties = {
     backgroundColor: theme.swatch.base00,
@@ -71,7 +71,7 @@ const FretBoard = (props: IFretBoardProps) => {
   const stringStyle: CSSProperties = { borderColor: theme.swatch.base09 };
   const boardStyle: CSSProperties = { backgroundColor: theme.swatch.base0F };
 
-  const activeNotesOnCourses: NotesOnCourse[] = fretBoard.getNotesInKeyOrChord(activeKey);
+  const activeNotesOnCourses: NotesOnCourse[] = fretBoard.getNotesInKeyOrChord(activeKeyOrChord);
 
   const courses = activeNotesOnCourses.map((notesOnCourse, courseIndex) => {
     const tunedStrings: TunedString[] = notesOnCourse.course.tunedStrings;
@@ -83,7 +83,7 @@ const FretBoard = (props: IFretBoardProps) => {
       const fretSegments = [...Array(maxFretCount)].map((_, i) => {
         return (
           <FretSegment
-            activeKey={activeKey}
+            activeKeyOrChord={activeKeyOrChord}
             fret={i}
             key={`fret-segment-${courseIndex}-${stringIndex}-${i}`}
             isRainbowMode={isRainbowMode}

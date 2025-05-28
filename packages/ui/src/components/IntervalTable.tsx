@@ -4,7 +4,7 @@ import React, { CSSProperties } from "react";
 import { Grid } from "@mui/material";
 
 interface IIntervalTableProps {
-  scale: Scale;
+  intervals: Interval[];
   isSmallScreen: boolean;
   isRainbowMode: boolean;
   temperament: Temperament;
@@ -12,7 +12,7 @@ interface IIntervalTableProps {
 }
 
 const IntervalTable = (props: IIntervalTableProps) => {
-  const { scale, isSmallScreen, isRainbowMode, temperament, theme } = props;
+  const { intervals, isSmallScreen, isRainbowMode, temperament, theme } = props;
   const fontSize: string = isSmallScreen ? "12px" : "inherit";
 
   const intervalStyle: CSSProperties = {
@@ -36,7 +36,7 @@ const IntervalTable = (props: IIntervalTableProps) => {
     let intervalTextStyle: CSSProperties = intervalStyle;
 
     if (isRainbowMode) {
-      const semitoneColor: string = rainbow[interval.semitones];
+      const semitoneColor: string = rainbow[interval.semitones % temperament.notes.length];
 
       if (semitoneColor) {
         intervalTextStyle = {
@@ -73,7 +73,7 @@ const IntervalTable = (props: IIntervalTableProps) => {
   const mapIntervals = (rowLabel: string): JSX.Element => {
     return (
       <>
-        {scale.intervals.map((interval, i) => {
+        {intervals.map((interval, i) => {
           const intervalTextStyle = getIntervalTextStyle(
             isRainbowMode,
             intervalStyle,
@@ -94,7 +94,7 @@ const IntervalTable = (props: IIntervalTableProps) => {
   };
 
   const renderIntervalRow = (label: string): JSX.Element => {
-    const xsColumns: number = scale.intervals.length + 2;
+    const xsColumns: number = intervals.length + 2;
 
     return (
       <Grid item container id="intervalRow"  xs={xsColumns} sm={xsColumns - 1} lg={xsColumns - 1} columns={isSmallScreen ? xsColumns : xsColumns - 1}>

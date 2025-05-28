@@ -15,6 +15,7 @@ import { getContrastRatio, ThemeProvider, useTheme } from '@mui/material/styles'
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { AppDialog, IAppDialogState } from "./components/AppDialog";
 import { Tool } from "./enums/Tool";
+import { Chordbook } from "./components/tools/Chordbook";
 
 type InstrumentMap = Map<string, FrettedInstrument>;
 
@@ -105,14 +106,20 @@ const App = () => {
   const twelveTET: Temperament = data.temperaments.find(
     (temperament) => temperament.name === Constants.TWELVE_TET,
   ) as Temperament;
+  const initKeyTonic: Note = twelveTET.getNoteFromID(Constants.E) as Note;
   const scales: Scale[] = data.scales;
-  const initKeyNote: Note = twelveTET.getNoteFromID(Constants.E) as Note;
   const initScale: Scale = scales.find(
     (scale) => scale.name === Constants.MAJOR.toLocaleLowerCase(),
   ) as Scale;
+  const initChordRoot: Note = twelveTET.getNoteFromID(Constants.E) as Note;
+  const chordTypes: ChordType[] = data.chordTypes;
+  const initChordType: ChordType = chordTypes.find(
+    (chordType) => chordType.shortHand === "maj",
+  ) as ChordType;
   const instrumentMap = initInstruments(twelveTET);
   const [instruments, setInstruments] = useState(instrumentMap);
-  const [activeKey, setActiveKey] = useState(new Key(initKeyNote, initScale));
+  const [activeKey, setActiveKey] = useState(new Key(initKeyTonic, initScale));
+  const [activeChord, setActiveChord] = useState(new Chord(initChordRoot, initChordType));
   const initInstrument = instruments.get("guitar") as FrettedInstrument;
   const [activeInstrument, setActiveInstrument] = useState(initInstrument);
   const [activeTuning, setActiveTuning] = useState(
@@ -173,8 +180,28 @@ const App = () => {
     setShouldHighlightPiano(!shouldHighlightPiano);
   };
 
+  const updateKey = (key: Key): void => {
+    setActiveKey(new Key(key.tonic, key.scale));
+  };
+
   const onKeyTonicSelect = (tonic: Note): void => {
     setActiveKey(new Key(tonic, activeKey.scale));
+  };
+
+  const onScaleSelect = (scale: Scale): void => {
+    setActiveKey(new Key(activeKey.tonic, scale));
+  };
+
+  const updateChord = (chord: Chord): void => {
+    setActiveChord(new Chord(chord.root, chord.chordType));
+  };
+
+  const onChordRootSelect = (root: Note): void => {
+    setActiveChord(new Chord(root, activeChord.chordType));
+  };
+
+  const onChordTypeSelect = (chordType: ChordType): void => {
+    setActiveChord(new Chord(activeChord.root, chordType));
   };
 
   const onInstrumentSelect = (instrument: FrettedInstrument): void => {
@@ -182,14 +209,6 @@ const App = () => {
     // Reset active tuning to the last tuning set on thie instrument selected.
     const activeTuning: Tuning = checkActiveTuning(instrument);
     setActiveTuning(activeTuning);
-  };
-
-  const onScaleSelect = (scale: Scale): void => {
-    setActiveKey(new Key(activeKey.tonic, scale));
-  };
-
-  const updateKey = (key: Key): void => {
-    setActiveKey(new Key(key.tonic, key.scale));
   };
 
   const setInstrumentTuning = (courseId: string, newTuning: Note): void => {
@@ -283,12 +302,12 @@ const App = () => {
     }
     case Tool.chordbook: {
       tool = (
-        <Scalebook
+        <Chordbook
           activeInstrument={activeInstrument}
-          activeKey={activeKey}
+          activeChord={activeChord}
           activeTuning={activeTuning}
-          allKeys={allKeys}
-          allScales={scales}
+          allChords={allChords}
+          allChordTypes={chordTypes}
           temperament={activeTemperament}
           instruments={instruments}
           isSmallScreen={isSmallScreen}
@@ -298,11 +317,11 @@ const App = () => {
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}
           onInstrumentTuneToPreset={onInstrumentTuneToPreset}
-          onKeyTonicSelect={onKeyTonicSelect}
-          onScaleSelect={onScaleSelect}
+          onChordRootSelect={onChordRootSelect}
+          onChordTypeSelect={onChordTypeSelect}
           shouldHighlightPiano={shouldHighlightPiano}
           theme={theme}
-          updateKey={updateKey}
+          updateChord={updateChord}
         />
       );
       break;
