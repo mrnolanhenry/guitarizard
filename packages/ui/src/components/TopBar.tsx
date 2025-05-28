@@ -86,7 +86,12 @@ const TopBar = (props: Props) => {
     backgroundColor: theme.swatch.base00,
     color: theme.swatch.base04,
     borderColor: theme.swatch.base03,
+    paddingBottom: 0,
   };
+
+  if (isSmallScreen) {
+    style.paddingTop = "24px";
+  }
 
   const leftStyle: CSSProperties = {
     color: theme.swatch.base06,
