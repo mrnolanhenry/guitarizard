@@ -41,15 +41,9 @@ const NoteTable = (props: INoteTableProps) => {
         (interval) => interval.semitones,
       );
 
-      console.log("semitones");
-      console.log(semitones);
-
       const semitoneColors: string[] = semitones.map(
         (semitone) => rainbow[semitone % intervalCollection.temperament.notes.length],
       );
-
-      console.log("semitoneColors");
-      console.log(semitoneColors);
 
       const noteIntervalColorCombos = notes.map((n, i) => ({
         note: n,
@@ -57,15 +51,9 @@ const NoteTable = (props: INoteTableProps) => {
         semitoneColor: semitoneColors[i],
       }));
 
-      console.log("noteIntervalColorCombos");
-      console.log(noteIntervalColorCombos);
-
       const thisNoteIntervalColorCombo = noteIntervalColorCombos.find(
         (noteIntervalColorCombo) => noteIntervalColorCombo.note.isEquivalent(note),
       );
-
-      console.log("thisNoteIntervalColorCombo");
-      console.log(thisNoteIntervalColorCombo);
 
       if (thisNoteIntervalColorCombo) {
         noteTextStyle = {
