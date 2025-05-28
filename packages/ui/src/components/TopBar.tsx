@@ -115,7 +115,7 @@ const TopBar = (props: Props) => {
     const enterOrExitText: string = isFullscreen ? "Exit" : "Enter";
     return (
         <>
-        <span style={{paddingLeft: "8px"}}>{enterOrExitText} Full Screen</span>
+        <span style={{fontSize: ".6rem", paddingLeft: "8px"}}>{enterOrExitText} Full Screen</span>
         { isFullscreen ? 
           <FullscreenExitRoundedIcon sx={{ paddingLeft: "5px", paddingRight: "0px" }}/> 
           :
@@ -138,11 +138,11 @@ const TopBar = (props: Props) => {
 
   return (
     <Grid container className="top-bar" alignItems="center" style={style} padding={isSmallScreen ? 2 : 1}>
-      <Grid item container className="left" xs={12} sm={4} md={5} lg={5} justifyContent={"flex-start"} style={leftStyle}>
+      <Grid item container className="left" xs={12} sm={3} md={5} lg={5} justifyContent={isSmallScreen ? "center" : "flex-start"} style={leftStyle}>
         {logo}
         {logoSpan}
       </Grid>
-      <Grid item container className="center" xs={7} sm={4} md={4} lg={6} columnSpacing={2}>
+      <Grid item container className="center" xs={9} sm={4} md={4} lg={6} columnSpacing={2}>
         <Grid item xs={12} sm="auto">
           <Tabs 
             value={activeToolName} 
@@ -158,11 +158,12 @@ const TopBar = (props: Props) => {
           </Tabs>
         </Grid>
       </Grid>
-      <Grid item container className="right" xs={5} sm={4} md={3} lg={1} justifyContent="flex-end" columnSpacing={2}>
+      <Grid item container className="right" xs={3} sm={5} md={3} lg={1} justifyContent="flex-end" columnSpacing={2}>
         {isMediumScreen && 
           <Button
             color="secondary"
             onClick={toggleFullscreen}
+            size={"small"}
             sx={{paddingLeft: "0px", paddingRight:"8px", fontSize: ".8rem"}}>
             {renderFullscreenButtonDetails()}
           </Button>
