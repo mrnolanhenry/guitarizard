@@ -121,8 +121,6 @@ export class Key extends NoteCollection {
 
         // Check if arrays are equal after having sorted the newScale
         if (isIncluded) {
-          console.log("chordTypes[k]");
-          console.log(chordTypes[k]);
           const chord = new Chord(this.scale.temperament.notes[j], chordTypes[k]);
           includedChords.push(chord);
 
