@@ -137,9 +137,6 @@ const chordTypes = [
   new ChordType("add11", twelveTET, [twelveTETP1, twelveTETM3, twelveTETP5Priority2, twelveTETP11], ["major, added 11th"]),
   new ChordType("add2", twelveTET, [twelveTETP1, twelveTETM2, twelveTETM3, twelveTETP5Priority2], ["major, added 2nd", "2"]),
   new ChordType("add9", twelveTET, [twelveTETP1, twelveTETM3, twelveTETP5Priority2, twelveTETM9],["major, added 9th"]),
-
-
-  new ChordType("", twelveTET, [], []),
 ];
 
 export default chordTypes;
