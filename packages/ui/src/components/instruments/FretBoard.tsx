@@ -1,10 +1,10 @@
 import "./FretBoard.css";
 import React, { CSSProperties } from "react";
 import { Chord, Key, Note, Temperament } from "note-lib";
-import { FretBoard as Fretboard } from "../../../note-lib/src/FretBoard";
-import { Base16Theme } from "../colors/themes";
+import { FretBoard as Fretboard } from "note-lib/src/FretBoard";
+import { Base16Theme } from "../../colors/themes";
 import { FretSegment } from "./FretSegment";
-import { NoteSelector } from "./selectors/NoteSelector";
+import { NoteSelector } from "../selectors/NoteSelector";
 import { NotesOnCourse } from "note-lib/src/NotesOnCourse";
 import { TunedString } from "note-lib/src/TunedString";
 

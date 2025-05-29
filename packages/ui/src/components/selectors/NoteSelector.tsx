@@ -1,7 +1,7 @@
 import React from "react";
 import { Note, Temperament } from "note-lib";
 import { Base16Theme } from "../../colors/themes";
-import { LabeledSelector } from "./LabeledSelector";
+import { LabeledSelector } from "../common/selectors/LabeledSelector";
 
 interface INoteSelectorProps {
   id: string;

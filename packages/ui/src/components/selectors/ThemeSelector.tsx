@@ -1,6 +1,6 @@
 import React from "react";
 import { themes, Base16Theme } from "../../colors/themes";
-import { Selector } from "./Selector";
+import { Selector } from "../common/selectors/Selector";
 
 interface IThemeSelectorProps {
   activeTheme: Base16Theme;

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
-import { Base16Theme } from '../colors/themes';
+import { Base16Theme } from '../../colors/themes';
 
 interface IHtmlTooltipProps {
     backgroundColor?: string;

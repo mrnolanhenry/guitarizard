@@ -1,24 +1,24 @@
 import "./Chordbook.css";
 import React, { CSSProperties, useEffect, useState } from "react";
 // IMPORTANT - must import @mui/icons-material BEFORE @mui/material or app breaks (vite doesn't like)
-import { ScreenRotation as ScreenRotationIcon } from '@mui/icons-material';
-import { Grid } from "@mui/material";
+import { Help as HelpIcon, ScreenRotation as ScreenRotationIcon } from '@mui/icons-material';
+import { Button, Divider, Grid, IconButton, SxProps } from "@mui/material";
 import { Chord, ChordType, Constants, Key, Note, Scale, Temperament } from "note-lib";
 import { Base16Theme } from "../../colors/themes";
 import { InstrumentSelector } from "../selectors/InstrumentSelector";
 import { NoteSelector } from "../selectors/NoteSelector";
-import { ScaleSelector } from "../selectors/ScaleSelector";
-import { EquivKeySelector } from "../selectors/EquivKeySelector";
-import { KeySearchSelector } from "../selectors/KeySearchSelector";
 import { IntervalTable } from "../IntervalTable";
 import { NoteTable } from "../NoteTable";
-import { Instrument } from "../Instrument";
+import { Instrument } from "../instruments/Instrument";
 import { CommonTuningSelector } from "../selectors/CommonTuningSelector";
 import { Tuning } from "note-lib/src/Tuning";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { ChordTypeSelector } from "../selectors/ChordTypeSelector";
 import { ChordSearchSelector } from "../selectors/ChordSearchSelector";
-import { EquivChordSelector } from "../selectors/EquivChordSelector";
+import { ChordSelector } from "../selectors/ChordSelector";
+import { KeySelector } from "../selectors/KeySelector";
+import { IAppDialogState } from "../AppDialog";
+import { ChordSearchHelpMenu } from "../ChordSearchHelpMenu";
 
 interface IChordbookProps {
   activeInstrument: FrettedInstrument;
@@ -26,16 +26,20 @@ interface IChordbookProps {
   activeTuning: Tuning;
   allChords: Chord[];
   allChordTypes: ChordType[];
+  dialogState: IAppDialogState;
   instruments: Map<string, FrettedInstrument>;
   isSmallScreen: boolean;
   isMediumScreen: boolean;
   isLargeScreen: boolean;
+  isExtraLargeScreen: boolean;
   isRainbowMode: boolean;
   onInstrumentSelect: (instrument: FrettedInstrument) => void;
   onInstrumentTune: (courseId: string, newTuning: Note) => void;
   onInstrumentTuneToPreset: (tuning: Tuning) => void;
   onChordRootSelect: (root: Note) => void;
   onChordTypeSelect: (chordType: ChordType) => void;
+  onClickGoToInclusiveKey: (key: Key) => void;
+  setDialogState: React.Dispatch<React.SetStateAction<IAppDialogState>>
   shouldHighlightPiano: boolean;
   temperament: Temperament;
   theme: Base16Theme;
@@ -49,16 +53,20 @@ const Chordbook = (props: IChordbookProps) => {
     activeTuning,
     allChords,
     allChordTypes,
+    dialogState,
     instruments,
     isSmallScreen,
     isMediumScreen,
     isLargeScreen,
+    isExtraLargeScreen,
     isRainbowMode,
     onInstrumentSelect,
     onInstrumentTune,
     onInstrumentTuneToPreset,
     onChordRootSelect,
     onChordTypeSelect,
+    onClickGoToInclusiveKey,
+    setDialogState,
     shouldHighlightPiano,
     temperament,
     theme,
@@ -74,13 +82,21 @@ const Chordbook = (props: IChordbookProps) => {
   const instrument: FrettedInstrument = activeInstrument;
   const activeChordRoot: Note = activeChord.root;
   const activeChordType: ChordType = activeChord.chordType;
+  const keysThatIncludeThisChord = activeChord.getInclusiveKeys();
+  const initInclusiveKey = keysThatIncludeThisChord[0];
+  const [activeInclusiveKey, setActiveInclusiveKey] = useState(initInclusiveKey);
+  useEffect(() => setActiveInclusiveKey(initInclusiveKey), [activeChord]);
+
+  const updateInclusiveKey = (key: Key) => {
+    setActiveInclusiveKey(key);
+  }
 
   const instrumentComponent = instrument ? (
     <Instrument
       activeKeyOrChord={activeChord}
       instrument={instrument}
       isMediumScreen={isMediumScreen}
-      isLargeScreen={isLargeScreen}
+      isLargeScreen={isLargeScreen || isExtraLargeScreen}
       isRainbowMode={isRainbowMode}
       onTune={onInstrumentTune}
       shouldHighlightPiano={shouldHighlightPiano}
@@ -135,83 +151,188 @@ const Chordbook = (props: IChordbookProps) => {
     </>
   }
 
+  const renderInstrumentSelectors = () => {
+    return (
+      <>
+        <Grid item className="selectorParent" xs="auto" sm={12} md="auto" marginBottom={isSmallScreen || isMediumScreen ? 2 : 0}>
+          <InstrumentSelector
+            activeInstrument={activeInstrument}
+            instruments={instruments}
+            label="Instrument:"
+            minWidth={isSmallScreen ? "8em" : "12em"}
+            onInstrumentSelect={onInstrumentSelect}
+            shouldAutocomplete={isLargeScreen || isExtraLargeScreen}
+            theme={theme}
+          />
+        </Grid>
+        {activeInstrument.name !== Constants.PIANO && (
+          <Grid item className="selectorParent" xs="auto" sm={12} md="auto">
+            <CommonTuningSelector
+              activeInstrument={activeInstrument}
+              activeTuning={activeTuning}
+              label="Common Tunings:"
+              minWidth={isSmallScreen ? "8em" : "10em"}
+              onCommonTuningSelect={onInstrumentTuneToPreset}
+              shouldAutocomplete={isLargeScreen || isExtraLargeScreen}
+              theme={theme}
+            />
+          </Grid>
+        )}
+      </>
+    );
+  }
+
+  const renderDivider = (dividerText: string) => {
+    let style: SxProps = {
+        width:"100%",
+        fontSize: ".75rem",
+        "&::before, &::after": {
+          borderColor: theme.swatch.base05,
+        }
+    };
+    if(!dividerText) {
+      style = {...style, backgroundColor: theme.swatch.base05}
+    }
+    return (
+      <Divider sx={style}>
+        {dividerText}
+      </Divider>
+    )
+  }
+
+  const renderChordSearchHelp = () => {
+    return <ChordSearchHelpMenu />;
+  }
+
   return (
     <Grid container className="chordbook">
-      <Grid item container xs={12} className="settings-bar" justifyContent="center" paddingTop={1} paddingBottom={1} style={settingsBarStyle}>
-        {showInstrument && (
-          <>
-            <Grid item xs={5} sm={5} md="auto" lg="auto">
-              <InstrumentSelector
-                activeInstrument={activeInstrument}
-                instruments={instruments}
-                label="Instrument:"
-                minWidth={isSmallScreen ? "8em" : "12em"}
-                onInstrumentSelect={onInstrumentSelect}
-                shouldAutocomplete={isLargeScreen}
-                theme={theme}
-              />
-            </Grid>
-            {activeInstrument.name !== Constants.PIANO && (
-              <Grid item xs={5} sm={5} md="auto" lg="auto">
-                <CommonTuningSelector
-                  activeInstrument={activeInstrument}
-                  activeTuning={activeTuning}
-                  label="Common Tunings:"
-                  minWidth={isSmallScreen ? "8em" : "10em"}
-                  onCommonTuningSelect={onInstrumentTuneToPreset}
-                  shouldAutocomplete={isLargeScreen}
-                  theme={theme}
-                />
-              </Grid>
-            )}
-          </>
-        )}
-        <Grid item xs={2} sm="auto" md="auto" lg="auto">
-          <NoteSelector
-            id="active chord"
-            items={temperament.getNotesInTemperament()}
-            label="Root:"
-            note={activeChordRoot}
-            onNoteSelect={onChordRootSelect}
-            shouldAutocomplete={isLargeScreen}
-            theme={theme}
-          />
-        </Grid>
-        <Grid item xs={8} sm="auto" md={4} lg="auto">
-          <ChordTypeSelector
-            activeChordType={activeChordType}
-            items={allChordTypes}
-            label="Chord Type:"
-            minWidth={isSmallScreen ? "14em" : "16em"}
-            onChordTypeSelect={onChordTypeSelect}
-            shouldAutocomplete={isLargeScreen}
-            theme={theme}
-          />
-        </Grid>
-        <Grid item xs={12} sm="auto" md="auto" lg="auto">
-          <EquivChordSelector
-            activeChord={activeChord}
-            minWidth="18em"
-            shouldAutocomplete={isLargeScreen}
-            theme={theme}
-            updateChord={updateChord}
-          />
-        </Grid>
-        <Grid item xs={12} sm="auto" md="auto" lg="auto">
-          <ChordSearchSelector
-            allChords={allChords}
-            minWidth="18em"
-            theme={theme}
-            updateChord={(chord: Chord) => updateChord(chord)}
-          />
-        </Grid>
-      </Grid>
-      {isSmallScreen && 
-        <Grid container item xs={12} justifyContent="center" alignContent="center" paddingBottom={2}>
+      {!showInstrument && 
+        <Grid container item xs={12} justifyContent="center" alignContent="center" paddingTop={2} paddingBottom={2}>
           <span>Rotate Screen to Show Instrument </span>
           <ScreenRotationIcon sx={{ paddingLeft: "5px", paddingRight: "5px" }}/>
         </Grid>
       }
+      {showInstrument && <Grid item container xs={12} sm={5} md={6} lg={4} id="instrumentSettings" className="settings-bar" justifyContent="flex-start" alignContent="flex-start" paddingTop={0} paddingBottom={0} style={settingsBarStyle}>
+        <Grid item container xs={12}>
+          {renderDivider("Current Instrument:")}
+        </Grid>
+        <Grid item container xs={12}>
+        {renderInstrumentSelectors()}
+        </Grid>
+      </Grid>
+      }
+              {/* <Divider 
+            orientation="vertical"
+            variant="fullWidth"
+            sx={{
+              borderColor: theme.swatch.base05,
+              "&::before, &::after": {
+                borderColor: theme.swatch.base05,
+              }
+            }}
+          /> */}
+      <Grid item container xs={12} sm={7} md={6} lg={8} id="searchChordSettings" className="settings-bar" justifyContent="center" alignContent="flex-start" paddingTop={0} paddingBottom={0} style={settingsBarStyle}>
+        <Grid item container xs={12}>
+          {renderDivider("Chord Search:")}
+        </Grid>
+        <Grid item container justifyContent={isLargeScreen || isExtraLargeScreen ? "flex-start" : "center"} xs={12}>
+          <Grid item className="selectorParent" xs={10} sm={10} md={10} lg={8}>
+            <ChordSearchSelector
+              allChords={allChords}
+              minWidth="14em"
+              theme={theme}
+              updateChord={updateChord}
+            />
+          </Grid>
+          <Grid item className="selectorParent" xs={2} sm={2} md={2} lg={1} alignContent="center">
+            <div 
+              id="helpButtonChordSearch" 
+              aria-label="settings-button" 
+              onClick={() => setDialogState({
+                ...dialogState, 
+                isOpen: true, 
+                title: "Searching for Chords", 
+                content: renderChordSearchHelp()
+                })}>
+              <IconButton color="secondary">
+                <HelpIcon />
+              </IconButton>
+            </div>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item container xs={12} sm={5} md={6} lg={4} id="currentChordSettings" className="settings-bar" justifyContent={isSmallScreen ? "center" : "flex-start"} alignContent="flex-start" paddingTop={0} paddingBottom={1} style={settingsBarStyle}>
+        <Grid item container xs={12}>
+          {renderDivider("Current Chord:")}
+        </Grid>
+        <Grid item container xs={12} justifyContent={isSmallScreen ? "center" : "flex-start"}>
+          <Grid item className="selectorParent" xs="auto" sm={12} md="auto" marginBottom={isSmallScreen || isMediumScreen ? 2 : 0}>
+            <NoteSelector
+              id="active chord"
+              items={temperament.getNotesInTemperament()}
+              label="Root:"
+              note={activeChordRoot}
+              onNoteSelect={onChordRootSelect}
+              shouldAutocomplete={isLargeScreen || isExtraLargeScreen}
+              theme={theme}
+            />
+          </Grid>
+          <Grid item className="selectorParent" xs="auto" sm={12} md="auto">
+            <ChordTypeSelector
+              activeChordType={activeChordType}
+              items={allChordTypes}
+              label="Chord Type:"
+              minWidth={"11em"}
+              onChordTypeSelect={onChordTypeSelect}
+              shouldAutocomplete={isLargeScreen || isExtraLargeScreen}
+              theme={theme}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid item container xs={12} sm={7} md={6} lg={8} id="aboutChordSettings" className="settings-bar" justifyContent="flex-start" alignContent="flex-start" paddingTop={0} paddingBottom={1} style={settingsBarStyle}>
+        <Grid item container xs={12}>
+          {renderDivider("About this Chord:")}
+        </Grid>
+        <Grid item container xs={12} alignItems="center">
+          <Grid item className="selectorParent" xs={12} sm={12} md={12} lg="auto" marginBottom={!isExtraLargeScreen ? 2 : 0}>
+            <ChordSelector
+              activeChord={activeChord}
+              id="equiv-chord-selector"
+              items={activeChord.getEquivChords()}
+              label="Equivalent Chords:"
+              minWidth="11em"
+              onChange={updateChord}
+              shouldAutocomplete={isLargeScreen || isExtraLargeScreen}
+              theme={theme}
+            />
+          </Grid>
+          <Grid item className="selectorParent" xs={9} sm={9} md={9} lg={5}>
+            <KeySelector
+              activeKey={activeInclusiveKey}
+              id="inclusive-key-selector"
+              items={keysThatIncludeThisChord}
+              label="Keys including this Chord:"
+              minWidth="14em"
+              onChange={(key: Key) => {updateInclusiveKey(key)}}
+              shouldAutocomplete={isLargeScreen || isExtraLargeScreen}
+              theme={theme}
+            />
+          </Grid>
+          <Grid item className="selectorParent" xs={3} sm={3} md={3} lg={3}>
+            <div 
+              id="helpButtonChordSearch" 
+              aria-label="settings-button" 
+              onClick={() => onClickGoToInclusiveKey(activeInclusiveKey)}>
+              <Button size="small" color="secondary" sx={{
+                backgroundColor: theme.swatch.base00
+               }}>
+                Go to Key
+              </Button>
+            </div>
+          </Grid>
+        </Grid>
+      </Grid>
       {showInstrument && 
         <Grid item xs={12} paddingBottom={1}>
           {instrumentComponent}

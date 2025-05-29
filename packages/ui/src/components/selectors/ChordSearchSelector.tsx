@@ -3,7 +3,7 @@ import { FilterOptionsState } from "@mui/material/useAutocomplete";
 import { data, Chord, Note, Temperament, util } from "note-lib";
 import React, { useState } from "react";
 import { Base16Theme } from "../../colors/themes";
-import { LabeledSelector } from "./LabeledSelector";
+import { LabeledSelector } from "../common/selectors/LabeledSelector";
 
 interface IChordSearchSelectorProps {
   allChords: Chord[];
@@ -155,6 +155,7 @@ const ChordSearchSelector = (props: IChordSearchSelectorProps) => {
   return (
     <LabeledSelector<Chord>
       filterOptions={getFilterOptions}
+      freeSolo={true}
       id="chord-search-selector"
       label="Search for Chords"
       minWidth={minWidth}
@@ -163,8 +164,10 @@ const ChordSearchSelector = (props: IChordSearchSelectorProps) => {
       getDisplay={(k: Chord) => k.name}
       onChange={updateChord}
       onInputChange={handleInputChange}
+      placeholder={"Search by name or notes ('A, Bb, D, E, F#')"}
       // renderOption={renderOption}
       shouldAutocomplete={true}
+      showSearchIcon={true}
       theme={theme}
     />
   );

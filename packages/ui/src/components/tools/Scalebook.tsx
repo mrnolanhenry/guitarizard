@@ -8,11 +8,11 @@ import { Base16Theme } from "../../colors/themes";
 import { InstrumentSelector } from "../selectors/InstrumentSelector";
 import { NoteSelector } from "../selectors/NoteSelector";
 import { ScaleSelector } from "../selectors/ScaleSelector";
-import { EquivKeySelector } from "../selectors/EquivKeySelector";
+import { KeySelector } from "../selectors/KeySelector";
 import { KeySearchSelector } from "../selectors/KeySearchSelector";
 import { IntervalTable } from "../IntervalTable";
 import { NoteTable } from "../NoteTable";
-import { Instrument } from "../Instrument";
+import { Instrument } from "../instruments/Instrument";
 import { CommonTuningSelector } from "../selectors/CommonTuningSelector";
 import { Tuning } from "note-lib/src/Tuning";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
@@ -186,12 +186,15 @@ const Scalebook = (props: IScalebookProps) => {
           />
         </Grid>
         <Grid item xs={12} sm="auto" md="auto" lg="auto">
-          <EquivKeySelector
+          <KeySelector
             activeKey={activeKey}
+            id="equiv-key-selector"
+            items={activeKey.getEquivKeys()}
+            label="Equivalent Keys:"
             minWidth="18em"
+            onChange={updateKey}
             shouldAutocomplete={isLargeScreen}
             theme={theme}
-            updateKey={updateKey}
           />
         </Grid>
         <Grid item xs={12} sm="auto" md="auto" lg="auto">

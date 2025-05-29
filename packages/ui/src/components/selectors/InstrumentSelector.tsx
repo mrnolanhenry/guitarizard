@@ -1,7 +1,7 @@
 import React from "react";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { Base16Theme } from "../../colors/themes";
-import { LabeledSelector } from "./LabeledSelector";
+import { LabeledSelector } from "../common/selectors/LabeledSelector";
 
 interface IInstrumentSelectorProps {
   activeInstrument: FrettedInstrument;

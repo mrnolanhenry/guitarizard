@@ -1,7 +1,7 @@
 import "./FretSegment.css";
 import { Chord, Key, Note } from "note-lib";
 import { NoteID } from "note-lib/src/Note";
-import { Base16Theme, rainbow } from "../colors/themes";
+import { Base16Theme, rainbow } from "../../colors/themes";
 import React, { CSSProperties } from "react";
 import { NotesOnCourse } from "note-lib/src/NotesOnCourse";
 import { NoteFretNumberPair } from "note-lib/src/NoteFretNumberPair";

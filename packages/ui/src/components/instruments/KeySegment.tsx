@@ -1,6 +1,6 @@
 import "./FretSegment.css";
 import { Chord, Key, Note } from "note-lib";
-import { Base16Theme, rainbow } from "../colors/themes";
+import { Base16Theme, rainbow } from "../../colors/themes";
 import React, { CSSProperties } from "react";
 import { NotesOnCourse } from "note-lib/src/NotesOnCourse";
 import { lighten, darken, Grid } from "@mui/material";
@@ -30,12 +30,13 @@ const KeySegment = (props: IKeySegmentProps) => {
 
   const getRainbowColor = (defaultColor: string = "#BBB") => {
     if (isRainbowMode && note && noteIsInKey) {
+      const intervalCollection = activeKeyOrChord.getIntervalCollection();
       const semitones: number[] = activeKeyOrChord.getIntervalCollection().intervals.map(
         (interval) => interval.semitones,
       );
 
       const semitoneColors: string[] = semitones.map(
-        (semitone) => rainbow[semitone],
+        (semitone) => rainbow[semitone % intervalCollection.temperament.notes.length],
       );
 
       const indexFound = activeKeyOrChord.notes.findIndex((noteInKey) => noteInKey.isEquivalent(note));
