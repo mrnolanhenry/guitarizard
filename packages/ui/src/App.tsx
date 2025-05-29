@@ -308,6 +308,7 @@ const App = () => {
           activeTuning={activeTuning}
           allChords={allChords}
           allChordTypes={chordTypes}
+          dialogState={dialogState}
           temperament={activeTemperament}
           instruments={instruments}
           isSmallScreen={isSmallScreen}
@@ -319,6 +320,7 @@ const App = () => {
           onInstrumentTuneToPreset={onInstrumentTuneToPreset}
           onChordRootSelect={onChordRootSelect}
           onChordTypeSelect={onChordTypeSelect}
+          setDialogState={setDialogState}
           shouldHighlightPiano={shouldHighlightPiano}
           theme={theme}
           updateChord={updateChord}

@@ -2,7 +2,7 @@ import "./Chordbook.css";
 import React, { CSSProperties, useEffect, useState } from "react";
 // IMPORTANT - must import @mui/icons-material BEFORE @mui/material or app breaks (vite doesn't like)
 import { Help as HelpIcon, ScreenRotation as ScreenRotationIcon } from '@mui/icons-material';
-import { Divider, Grid, SxProps } from "@mui/material";
+import { Divider, Grid, IconButton, SxProps } from "@mui/material";
 import { Chord, ChordType, Constants, Key, Note, Scale, Temperament } from "note-lib";
 import { Base16Theme } from "../../colors/themes";
 import { InstrumentSelector } from "../selectors/InstrumentSelector";
@@ -17,6 +17,7 @@ import { ChordTypeSelector } from "../selectors/ChordTypeSelector";
 import { ChordSearchSelector } from "../selectors/ChordSearchSelector";
 import { ChordSelector } from "../selectors/ChordSelector";
 import { KeySelector } from "../selectors/KeySelector";
+import { IAppDialogState } from "../AppDialog";
 
 interface IChordbookProps {
   activeInstrument: FrettedInstrument;
@@ -24,6 +25,7 @@ interface IChordbookProps {
   activeTuning: Tuning;
   allChords: Chord[];
   allChordTypes: ChordType[];
+  dialogState: IAppDialogState;
   instruments: Map<string, FrettedInstrument>;
   isSmallScreen: boolean;
   isMediumScreen: boolean;
@@ -34,6 +36,7 @@ interface IChordbookProps {
   onInstrumentTuneToPreset: (tuning: Tuning) => void;
   onChordRootSelect: (root: Note) => void;
   onChordTypeSelect: (chordType: ChordType) => void;
+  setDialogState: React.Dispatch<React.SetStateAction<IAppDialogState>>
   shouldHighlightPiano: boolean;
   temperament: Temperament;
   theme: Base16Theme;
@@ -47,6 +50,7 @@ const Chordbook = (props: IChordbookProps) => {
     activeTuning,
     allChords,
     allChordTypes,
+    dialogState,
     instruments,
     isSmallScreen,
     isMediumScreen,
@@ -57,6 +61,7 @@ const Chordbook = (props: IChordbookProps) => {
     onInstrumentTuneToPreset,
     onChordRootSelect,
     onChordTypeSelect,
+    setDialogState,
     shouldHighlightPiano,
     temperament,
     theme,
@@ -183,6 +188,42 @@ const Chordbook = (props: IChordbookProps) => {
     )
   }
 
+  const renderChordSearchHelp = () => {
+    return (
+      <Grid container className="chord-search-help" alignItems="center">
+        <Grid container item padding={1}>
+          <Grid container borderBottom={1} marginBottom={2}>
+            <span>Searching by Name:</span>
+          </Grid>
+          <Grid container alignItems="center" paddingLeft={2} paddingRight={2}>
+            <Grid item xs={12} sm={12}>
+              <p>
+                <p>You can search for chords directly by name, using either full names, abbreviations, or symbols.</p>
+                <p style={{marginLeft: "1.5rem"}}>Example 1: <i>"G°7," "Gdim7," "G diminished 7th,"</i> or <i>"G diminished seventh"</i></p>
+                <p style={{marginLeft: "1.5rem"}}>Example 2: <i>"Ebm", "E♭min,"</i> or <i>"Eb minor"</i></p>
+              </p>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid container item padding={1}>
+          <Grid container borderBottom={1} marginBottom={2}>
+              <span>Searching by Notes:</span>
+          </Grid>
+          <Grid container alignItems="center" paddingLeft={2} paddingRight={2}>
+            <Grid item xs={12} sm={12}>
+              <p>
+                <p>You can search for chords by typing each note in the chord, separated by commas.</p>
+                <p style={{marginLeft: "1.5rem"}}>Example 1: <i>"A, F#, Db, C"</i></p>
+                <p>You can also specify notes that are specifically NOT in the chord you're looking for, by adding a <i>"-"</i> before the note.</p>
+                <p style={{marginLeft: "1.5rem"}}>Example 2: <i>"A, F#, -G, Db, C"</i> will return chords that include A, F#, Db, and C, but does not include G.</p>
+              </p>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    );
+  }
+
   return (
     <Grid container className="chordbook">
       {showInstrument && <Grid item container xs={12} sm={5} md={6} lg={4} id="instrumentSettings" className="settings-bar" justifyContent="flex-start" alignContent="flex-start" paddingTop={0} paddingBottom={0} style={settingsBarStyle}>
@@ -218,7 +259,19 @@ const Chordbook = (props: IChordbookProps) => {
             />
           </Grid>
           <Grid item className="selectorParent" xs={2} sm={2} md={2} lg={1} alignContent="center">
-            <HelpIcon />
+            <div 
+              id="helpButtonChordSearch" 
+              aria-label="settings-button" 
+              onClick={() => setDialogState({
+                ...dialogState, 
+                isOpen: true, 
+                title: "Searching for Chords", 
+                content: renderChordSearchHelp()
+                })}>
+              <IconButton color="secondary">
+                <HelpIcon />
+              </IconButton>
+            </div>
           </Grid>
         </Grid>
       </Grid>
