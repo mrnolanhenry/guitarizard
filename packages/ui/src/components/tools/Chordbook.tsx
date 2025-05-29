@@ -83,7 +83,9 @@ const Chordbook = (props: IChordbookProps) => {
   const activeChordRoot: Note = activeChord.root;
   const activeChordType: ChordType = activeChord.chordType;
   const keysThatIncludeThisChord = activeChord.getInclusiveKeys();
-  const [activeInclusiveKey, setActiveInclusiveKey] = useState(keysThatIncludeThisChord[0]);
+  const initInclusiveKey = keysThatIncludeThisChord[0];
+  const [activeInclusiveKey, setActiveInclusiveKey] = useState(initInclusiveKey);
+  useEffect(() => setActiveInclusiveKey(initInclusiveKey), [activeChord]);
 
   const updateInclusiveKey = (key: Key) => {
     setActiveInclusiveKey(key);

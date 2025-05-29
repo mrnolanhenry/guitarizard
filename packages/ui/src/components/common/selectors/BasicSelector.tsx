@@ -62,7 +62,7 @@ const BasicSelector = <T,>(props: IBasicSelectorProps<T>) => {
   // This forces Select to not be rendered until all options/items are ready
   const defaultSelectValue: T | undefined = items.find((item: T) => {
     return isEqual(item, activeItem);
-  });
+  }) ?? items[0];
 
   const classStyling = {
     "& .MuiButtonBase-root": {
