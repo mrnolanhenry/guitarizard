@@ -30,12 +30,13 @@ const KeySegment = (props: IKeySegmentProps) => {
 
   const getRainbowColor = (defaultColor: string = "#BBB") => {
     if (isRainbowMode && note && noteIsInKey) {
+      const intervalCollection = activeKeyOrChord.getIntervalCollection();
       const semitones: number[] = activeKeyOrChord.getIntervalCollection().intervals.map(
         (interval) => interval.semitones,
       );
 
       const semitoneColors: string[] = semitones.map(
-        (semitone) => rainbow[semitone],
+        (semitone) => rainbow[semitone % intervalCollection.temperament.notes.length],
       );
 
       const indexFound = activeKeyOrChord.notes.findIndex((noteInKey) => noteInKey.isEquivalent(note));
