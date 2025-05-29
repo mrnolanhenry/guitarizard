@@ -143,7 +143,17 @@ const TopBar = (props: Props) => {
 
   return (
     <Grid container className="top-bar" alignItems="center" style={style} padding={isSmallScreen ? 2 : 1}>
-      <Grid item container className="left" xs={12} sm={3} md={5} lg={5} justifyContent={isSmallScreen ? "center" : "flex-start"} style={leftStyle}>
+      <Grid 
+        item 
+        container 
+        className="left" 
+        xs={12} 
+        sm={3} 
+        md={5} 
+        lg={5} 
+        justifyContent={isSmallScreen ? "center" : "flex-start"}
+        paddingBottom={isSmallScreen ? 1 : 0} 
+        style={leftStyle}>
         {logo}
         {logoSpan}
       </Grid>
@@ -182,7 +192,7 @@ const TopBar = (props: Props) => {
             title: "Settings", 
             content: renderSettingsMenu()
             })}>
-          <IconButton color="secondary">
+          <IconButton sx={{marginBottom: "2px"}} color="secondary">
             <SettingsIcon />
           </IconButton>
         </div>

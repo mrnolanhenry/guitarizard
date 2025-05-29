@@ -3,11 +3,15 @@
   flex-direction: column;
 }
 
-.chordbook > .settings-bar {
+.chordbook .settings-bar {
   flex-grow: 1;
   display: flex;
 }
 
-.chordbook > .settings-bar > * {
-  margin: 0.5em;
+.chordbook .settings-bar > * {
+  margin: 0.4em;
+}
+
+.chordbook .selectorParent {
+  padding: 0 0.4em 0 0.4em;
 }

@@ -156,6 +156,7 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
   return (
     <LabeledSelector<Key>
       filterOptions={getFilterOptions}
+      freeSolo={true}
       id="key-search-selector"
       label="Search for Keys"
       minWidth={minWidth}
@@ -164,8 +165,10 @@ const KeySearchSelector = (props: IKeySearchSelectorProps) => {
       getDisplay={(k: Key) => k.name}
       onChange={updateKey}
       onInputChange={handleInputChange}
+      placeholder={"Search by name or notes ('A, Bb, D, E, F#')"}
       // renderOption={renderOption}
       shouldAutocomplete={true}
+      showSearchIcon={true}
       theme={theme}
     />
   );

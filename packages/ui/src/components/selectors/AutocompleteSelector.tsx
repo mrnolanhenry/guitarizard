@@ -11,10 +11,12 @@ import {
   AutocompleteInputChangeReason,
   AutocompleteRenderOptionState,
   FilterOptionsState,
+  InputAdornment,
   InputLabelProps,
   TextField,
 } from "@mui/material";
 import { render } from "react-dom";
+import { Search as SearchIcon } from "@mui/icons-material";
 
 // Example styling
 // https://stackoverflow.com/questions/58984406/setting-text-color-outline-and-padding-on-material-ui-autocomplete-component
@@ -24,11 +26,13 @@ interface IAutocompleteSelectorProps<T> {
   items: T[]; // list of items for the select
   activeItem?: T; // what is the active item?
   fontSizeStyling: CSSProperties;
+  freeSolo?: boolean;
   inputLabelProps: Partial<InputLabelProps>
   label?: string;
   minWidth?: string;
   onChange: (item: T) => void; // callback for user changes
   onInputChange?: (event: React.SyntheticEvent, value: string) => void; // callback for user input changes
+  placeholder?: string;
   getValue?: (item: T) => string; // given an item, what is the option value? // NOLAN TODO: Remove if this remains unused
   getDisplay: (item: T) => string; // given an item, what should we display?
   filterOptions?: (options: T[], state: FilterOptionsState<T>) => T[]; // special handling to filter options
@@ -38,6 +42,7 @@ interface IAutocompleteSelectorProps<T> {
     state: AutocompleteRenderOptionState,
     ownerState: unknown,
   ) => ReactNode;
+  showSearchIcon?: boolean;
   style: CSSProperties;
   size?: string; // "small" will set styling to smaller sizes
   theme: Base16Theme; // what theme should this component be?
@@ -47,6 +52,7 @@ const AutocompleteSelector = <T,>(props: IAutocompleteSelectorProps<T>) => {
   const {
     activeItem,
     filterOptions,
+    freeSolo,
     fontSizeStyling,
     getDisplay,
     id,
@@ -56,7 +62,9 @@ const AutocompleteSelector = <T,>(props: IAutocompleteSelectorProps<T>) => {
     minWidth,
     onChange,
     onInputChange,
+    placeholder,
     renderOption,
+    showSearchIcon,
     size,
     style,
     theme,
@@ -83,6 +91,17 @@ const AutocompleteSelector = <T,>(props: IAutocompleteSelectorProps<T>) => {
       ...fontSizeStyling,
     },
   };
+
+  let customInputParentProps = {};
+
+  if (showSearchIcon) {
+    customInputParentProps = {...customInputParentProps, 
+      startAdornment: ( 
+        <InputAdornment sx={{ color: theme.swatch.base05}} position="start">
+          <SearchIcon /> 
+        </InputAdornment> )
+    }
+  }
 
   const menuItemProps = {
     sx: {
@@ -198,12 +217,15 @@ const AutocompleteSelector = <T,>(props: IAutocompleteSelectorProps<T>) => {
         ...inputProps,
         ...customInputProps,
       },
+      ...customInputParentProps,
     };
+
     return (
       <TextField
         {...params}
         InputLabelProps={inputLabelProps}
         InputProps={allInputProps}
+        placeholder={placeholder ?? ""}
         label={label ?? ""}
         SelectProps={selectProps}
         // NOLAN TODO: try again at rendering a TextField with select = {true} instead of rendering a BasicSelector component
@@ -233,16 +255,17 @@ const AutocompleteSelector = <T,>(props: IAutocompleteSelectorProps<T>) => {
           trim: true,
         })
       }
+      freeSolo={freeSolo ?? false}
       // fullWidth
       inputValue={inputVal}
-      onChange={onChangeValue}
+      onChange={(e, val, _reason, _details) => onChangeValue(e, val as T, _reason, _details)}
       onInputChange={onInputChangeValue}
       handleHomeEndKeys
       id={id}
       isOptionEqualToValue={(option, value) => isEqual(option, value)}
       ListboxProps={listBoxProps}
       options={items}
-      getOptionLabel={(option) => getDisplay(option)}
+      getOptionLabel={(option) => getDisplay(option as T)}
       size="small"
       sx={{
         ...style,

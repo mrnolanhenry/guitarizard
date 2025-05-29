@@ -17,10 +17,12 @@ interface ISelectorProps<T> {
   id: string;
   items: T[]; // list of items for the select
   activeItem?: T; // what is the active item?
+  freeSolo?: boolean;
   label?: string;
   minWidth?: string;
   onChange: (item: T) => void; // callback for user changes
   onInputChange?: (event: React.SyntheticEvent, value: string) => void; // callback for user input changes
+  placeholder?: string;
   getValue?: (item: T) => string; // given an item, what is the option value? // NOLAN TODO: Remove if this remains unused
   getDisplay?: (item: T) => string; // given an item, what should we display?
   filterOptions?: (options: T[], state: FilterOptionsState<T>) => T[]; // special handling to filter options
@@ -31,6 +33,7 @@ interface ISelectorProps<T> {
     ownerState: unknown,
   ) => ReactNode;
   shouldAutocomplete: boolean;
+  showSearchIcon?: boolean;
   size?: string; // "small" will set styling to smaller sizes
   theme: Base16Theme; // what theme should this component be?
 }
@@ -39,6 +42,7 @@ const Selector = <T,>(props: ISelectorProps<T>) => {
   const {
     activeItem,
     filterOptions,
+    freeSolo,
     getDisplay,
     getValue,
     id,
@@ -47,8 +51,10 @@ const Selector = <T,>(props: ISelectorProps<T>) => {
     minWidth,
     onChange,
     onInputChange,
+    placeholder,
     renderOption,
     shouldAutocomplete,
+    showSearchIcon,
     size,
     theme,
   } = props;
@@ -89,6 +95,7 @@ const Selector = <T,>(props: ISelectorProps<T>) => {
         id={id}
         items={items}
         filterOptions={filterOptions}
+        freeSolo={freeSolo}
         fontSizeStyling={fontSizeStyling}
         getValue={getValue}
         getDisplay={display}
@@ -98,7 +105,9 @@ const Selector = <T,>(props: ISelectorProps<T>) => {
         activeItem={activeItem}
         onChange={onChange}
         onInputChange={onInputChange}
+        placeholder={placeholder}
         renderOption={renderOption}
+        showSearchIcon={showSearchIcon}
         style={selectorStyle}
         size={size}
         theme={theme}

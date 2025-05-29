@@ -10,6 +10,7 @@ interface ILabeledSelectorProps<T> {
   activeItem?: T;
   containerClass?: string;
   filterOptions?: (options: T[], state: FilterOptionsState<T>) => T[]; // special handling to filter options
+  freeSolo?: boolean;
   getValue?: (item: T) => string;
   getDisplay?: (item: T) => string;
   id: string;
@@ -18,6 +19,7 @@ interface ILabeledSelectorProps<T> {
   minWidth?: string;
   onChange: (item: T) => void; // callback for user changes
   onInputChange?: (event: React.SyntheticEvent, value: string) => void; // callback for user input changes
+  placeholder?: string;
   renderOption?: (
     props: React.HTMLAttributes<HTMLLIElement>,
     option: T,
@@ -26,6 +28,7 @@ interface ILabeledSelectorProps<T> {
     ownerState: any,
   ) => ReactNode;
   shouldAutocomplete: boolean;
+  showSearchIcon?: boolean;
   size?: string; // "small" will set styling to smaller sizes
   theme: Base16Theme;
 }
@@ -35,6 +38,7 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
     activeItem,
     containerClass,
     filterOptions,
+    freeSolo,
     getDisplay,
     getValue,
     id,
@@ -43,8 +47,10 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
     minWidth,
     onChange,
     onInputChange,
+    placeholder,
     renderOption,
     shouldAutocomplete,
+    showSearchIcon,
     size,
     theme,
   } = props;
@@ -60,6 +66,7 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
         id={id}
         items={items}
         filterOptions={filterOptions}
+        freeSolo={freeSolo}
         getValue={getValue}
         getDisplay={getDisplay}
         label={label}
@@ -67,8 +74,10 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
         activeItem={activeItem}
         onChange={onChange}
         onInputChange={onInputChange}
+        placeholder={placeholder}
         renderOption={renderOption}
         shouldAutocomplete={shouldAutocomplete}
+        showSearchIcon={showSearchIcon}
         size={size}
         theme={theme}
       />
