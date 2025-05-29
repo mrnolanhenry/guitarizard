@@ -1,6 +1,6 @@
 import React from "react";
 import { Base16Theme } from "../../colors/themes";
-import { Selector } from "./Selector";
+import { Selector } from "../common/selectors/Selector";
 import { Tool } from "../../enums/Tool";
 
 interface IToolSelectorProps {

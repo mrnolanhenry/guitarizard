@@ -4,7 +4,7 @@ import { data, Key, Note, Temperament, util } from "note-lib";
 // import React, { ReactNode, useState } from "react";
 import React, { useState } from "react";
 import { Base16Theme } from "../../colors/themes";
-import { LabeledSelector } from "./LabeledSelector";
+import { LabeledSelector } from "../common/selectors/LabeledSelector";
 
 interface IKeySearchSelectorProps {
   allKeys: Key[];

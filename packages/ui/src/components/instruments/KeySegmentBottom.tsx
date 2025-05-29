@@ -3,7 +3,7 @@ import "./FretSegment.css";
 import { Chord, Key, Note } from "note-lib";
 import { CSSProperties } from "react";
 import { darken, Grid, lighten } from "@mui/material";
-import { Base16Theme, rainbow } from "../colors/themes";
+import { Base16Theme, rainbow } from "../../colors/themes";
 import { IntervalCollection } from "note-lib/src/IntervalCollection";
 
 interface IKeySegmentBottomProps {

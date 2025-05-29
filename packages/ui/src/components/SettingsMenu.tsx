@@ -52,7 +52,7 @@ const SettingsMenu = (props: Props) => {
       </Grid>
       <Grid container item padding={1}>
         <Grid container borderBottom={1} marginBottom={2}>
-            <span>Scalebook Settings:</span>
+            <span>Scale Finder/Chord Finder Settings:</span>
         </Grid>
         <Grid container alignItems="center" paddingLeft={2} paddingRight={2}>
           <Grid item xs={12} sm={6}>

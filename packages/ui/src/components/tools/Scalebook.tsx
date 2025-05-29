@@ -12,7 +12,7 @@ import { KeySelector } from "../selectors/KeySelector";
 import { KeySearchSelector } from "../selectors/KeySearchSelector";
 import { IntervalTable } from "../IntervalTable";
 import { NoteTable } from "../NoteTable";
-import { Instrument } from "../Instrument";
+import { Instrument } from "../instruments/Instrument";
 import { CommonTuningSelector } from "../selectors/CommonTuningSelector";
 import { Tuning } from "note-lib/src/Tuning";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";

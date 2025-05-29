@@ -1,6 +1,6 @@
 import "./FretSegment.css";
 import { Chord, Key, Note } from "note-lib";
-import { Base16Theme, rainbow } from "../colors/themes";
+import { Base16Theme, rainbow } from "../../colors/themes";
 import React, { CSSProperties } from "react";
 import { NotesOnCourse } from "note-lib/src/NotesOnCourse";
 import { lighten, darken, Grid } from "@mui/material";

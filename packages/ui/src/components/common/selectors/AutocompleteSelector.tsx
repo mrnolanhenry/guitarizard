@@ -4,7 +4,7 @@ import Autocomplete, {
   AutocompleteRenderInputParams,
   createFilterOptions,
 } from "@mui/material/Autocomplete";
-import { Base16Theme } from "../../colors/themes";
+import { Base16Theme } from "../../../colors/themes";
 import {
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
@@ -103,20 +103,20 @@ const AutocompleteSelector = <T,>(props: IAutocompleteSelectorProps<T>) => {
     }
   }
 
-  const menuItemProps = {
-    sx: {
-      "&.menu-item-selected": {
-        backgroundColor: theme.swatch.base01,
-      },
-      "&:hover": {
-        backgroundColor: theme.swatch.base05,
-        color: theme.swatch.base00,
-      },
-      backgroundColor: theme.swatch.base00,
-      color: theme.swatch.base05,
-      ...fontSizeStyling,
-    },
-  };
+  // const menuItemProps = {
+  //   sx: {
+  //     "&.menu-item-selected": {
+  //       backgroundColor: theme.swatch.base01,
+  //     },
+  //     "&:hover": {
+  //       backgroundColor: theme.swatch.base05,
+  //       color: theme.swatch.base00,
+  //     },
+  //     backgroundColor: theme.swatch.base00,
+  //     color: theme.swatch.base05,
+  //     ...fontSizeStyling,
+  //   },
+  // };
 
   const listBoxProps = {
     sx: {

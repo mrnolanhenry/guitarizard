@@ -1,7 +1,7 @@
 import React from "react";
 import { Chord, Constants, Key, Note, Temperament } from "note-lib";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
-import { Base16Theme } from "../colors/themes";
+import { Base16Theme } from "../../colors/themes";
 import { FretBoard } from "./FretBoard";
 import { KeyBoard } from "./KeyBoard";
 

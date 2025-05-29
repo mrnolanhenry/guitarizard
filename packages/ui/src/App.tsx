@@ -204,6 +204,11 @@ const App = () => {
     setActiveChord(new Chord(activeChord.root, chordType));
   };
 
+  const onClickGoToInclusiveKey = (key: Key) => {
+    updateKey(key);
+    setActiveToolName(Tool.scalebook);
+  };
+
   const onInstrumentSelect = (instrument: FrettedInstrument): void => {
     setActiveInstrument(instrument);
     // Reset active tuning to the last tuning set on thie instrument selected.
@@ -313,8 +318,10 @@ const App = () => {
           instruments={instruments}
           isSmallScreen={isSmallScreen}
           isMediumScreen={isMediumScreen}
-          isLargeScreen={isLargeScreen || isExtraLargeScreen}
+          isLargeScreen={isLargeScreen}
+          isExtraLargeScreen={isExtraLargeScreen}
           isRainbowMode={isRainbowMode}
+          onClickGoToInclusiveKey={onClickGoToInclusiveKey}
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}
           onInstrumentTuneToPreset={onInstrumentTuneToPreset}

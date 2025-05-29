@@ -1,6 +1,6 @@
 import React, { ReactNode, CSSProperties } from "react";
 import { isEqual } from "lodash";
-import { Base16Theme } from "../../colors/themes";
+import { Base16Theme } from "../../../colors/themes";
 import {
   AutocompleteRenderOptionState,
   FilterOptionsState,

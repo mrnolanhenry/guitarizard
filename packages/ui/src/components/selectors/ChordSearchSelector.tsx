@@ -3,7 +3,7 @@ import { FilterOptionsState } from "@mui/material/useAutocomplete";
 import { data, Chord, Note, Temperament, util } from "note-lib";
 import React, { useState } from "react";
 import { Base16Theme } from "../../colors/themes";
-import { LabeledSelector } from "./LabeledSelector";
+import { LabeledSelector } from "../common/selectors/LabeledSelector";
 
 interface IChordSearchSelectorProps {
   allChords: Chord[];

@@ -1,6 +1,6 @@
 import React from "react";
 import { Base16Theme } from "../../colors/themes";
-import { LabeledSelector } from "./LabeledSelector";
+import { LabeledSelector } from "../common/selectors/LabeledSelector";
 import { Tuning } from "note-lib/src/Tuning";
 import * as Constants from "note-lib/src/constants/Constants";
 import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";

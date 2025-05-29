@@ -1,5 +1,5 @@
 import { Selector } from "./Selector";
-import { Base16Theme } from "../../colors/themes";
+import { Base16Theme } from "../../../colors/themes";
 import {
   AutocompleteRenderOptionState,
   FilterOptionsState,
