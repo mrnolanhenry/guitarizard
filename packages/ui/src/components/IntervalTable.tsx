@@ -57,12 +57,12 @@ const IntervalTable = (props: IIntervalTableProps) => {
         return interval.semitones.toString();
       case "Short:":
         return interval.shortHand;
-      case "Long:":
+      case "Full name:":
         return interval.nameOrdinal;
       case "Short (Alt):":
         var aliasFound: Interval = temperament.findIntervals(interval.semitones, false)[1];
         return (aliasFound && aliasFound.shortHand) ? aliasFound.shortHand : "";
-      case "Long (Alt):":
+      case "Full name (Alt):":
         var aliasFound: Interval = temperament.findIntervals(interval.semitones, false)[1];
         return (aliasFound && aliasFound.nameOrdinal) ? aliasFound.nameOrdinal : "";
       default:
@@ -120,19 +120,17 @@ const IntervalTable = (props: IIntervalTableProps) => {
   const renderIntervalData = (isSmallScreen: boolean, label: string): JSX.Element  => isSmallScreen ? renderIntervalColumn(label) : renderIntervalRow(label);
   const renderIntervalDataTable = (isSmallScreen: boolean) => {
     return isSmallScreen ?
-      <Grid container item columns={8}>
-        <Grid item xs={2}>{renderIntervalData(isSmallScreen, "Semitones:")}</Grid>
-        <Grid item xs={1}>{renderIntervalData(isSmallScreen, "Short:")}</Grid>
-        <Grid item xs={2}>{renderIntervalData(isSmallScreen, "Long:")}</Grid>
-        <Grid item xs={1}>{renderIntervalData(isSmallScreen, "Short (Alt):")}</Grid>
-        <Grid item xs={2}>{renderIntervalData(isSmallScreen, "Long (Alt):")}</Grid>
+      <Grid container item>
+        <Grid item xs={4}>{renderIntervalData(isSmallScreen, "Semitones:")}</Grid>
+        <Grid item xs={4}>{renderIntervalData(isSmallScreen, "Short:")}</Grid>
+        <Grid item xs={4}>{renderIntervalData(isSmallScreen, "Short (Alt):")}</Grid>
       </Grid> :
       <>
         {renderIntervalData(isSmallScreen, "Semitones:")}
         {renderIntervalData(isSmallScreen, "Short:")}
-        {renderIntervalData(isSmallScreen, "Long:")}
+        {renderIntervalData(isSmallScreen, "Full name:")}
         {renderIntervalData(isSmallScreen, "Short (Alt):")}
-        {renderIntervalData(isSmallScreen, "Long (Alt):")}
+        {renderIntervalData(isSmallScreen, "Full name (Alt):")}
       </> 
       
   }

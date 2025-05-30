@@ -113,11 +113,11 @@ const Chordbook = (props: IChordbookProps) => {
     <></>
   );
 
-  const renderNoteAndIntervalTable = (isSmallScreen: boolean) => {
+  const renderNoteAndIntervalTable = () => {
     return isSmallScreen ? 
     <>
-      <Grid container item paddingTop={1} paddingBottom={1}>
-        <Grid item xs={3}>
+      <Grid container item xs={12} paddingTop={1} paddingBottom={1}>
+        <Grid item xs={5}>
           <NoteTable
             activeKeyOrChord={activeChord}
             isSmallScreen={isSmallScreen}
@@ -125,7 +125,7 @@ const Chordbook = (props: IChordbookProps) => {
             theme={theme}
           />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={7}>
           <IntervalTable
             intervals={activeChordType.intervals}
             isSmallScreen={isSmallScreen}
@@ -223,7 +223,7 @@ const Chordbook = (props: IChordbookProps) => {
   const renderChordSelectors = () => {
     return (
       <>
-        <Grid item className="selectorParent" xs="auto" sm={12} md="auto" marginBottom={isSmallScreen || isMediumScreen ? 2 : 0}>
+        <Grid item className="selectorParent" xs={3} sm={12} md="auto" marginBottom={isSmallScreen || isMediumScreen ? 2 : 0}>
           <NoteSelector
             id="active chord"
             items={temperament.getNotesInTemperament()}
@@ -234,7 +234,7 @@ const Chordbook = (props: IChordbookProps) => {
             theme={theme}
           />
         </Grid>
-        <Grid item className="selectorParent" xs="auto" sm={12} md="auto">
+        <Grid item className="selectorParent" xs={9} sm={12} md="auto">
           <ChordTypeSelector
             activeChordType={activeChordType}
             items={allChordTypes}
@@ -360,7 +360,7 @@ const Chordbook = (props: IChordbookProps) => {
           {instrumentComponent}
         </Grid>
       }
-      {renderNoteAndIntervalTable(isSmallScreen)}
+      {renderNoteAndIntervalTable()}
     </Grid>
   );
 };
