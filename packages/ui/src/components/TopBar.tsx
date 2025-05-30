@@ -7,6 +7,7 @@ import { Button, Grid, IconButton, Tab, Tabs, useTheme } from "@mui/material";
 import { IAppDialogState } from "./AppDialog";
 import { SettingsMenu } from "./SettingsMenu";
 import { Tool } from "../enums/Tool";
+import { HtmlTooltip } from "./common/HtmlTooltip";
 
 interface Props {
   activeToolName: Tool;
@@ -183,19 +184,21 @@ const TopBar = (props: Props) => {
             {renderFullscreenButtonDetails()}
           </Button>
         }
-        <div 
-          id="settings-button" 
-          aria-label="settings-button" 
-          onClick={() => setDialogState({
-            ...dialogState, 
-            isOpen: true, 
-            title: "Settings", 
-            content: renderSettingsMenu()
-            })}>
-          <IconButton sx={{marginBottom: "2px"}} color="secondary">
-            <SettingsIcon />
-          </IconButton>
-        </div>
+        <HtmlTooltip showTooltip={true} theme={theme} title="Settings">
+          <div 
+            id="settings-button" 
+            aria-label="Settings" 
+            onClick={() => setDialogState({
+              ...dialogState, 
+              isOpen: true, 
+              title: "Settings", 
+              content: renderSettingsMenu()
+              })}>
+            <IconButton sx={{marginBottom: "2px"}} color="secondary">
+              <SettingsIcon />
+            </IconButton>
+          </div>
+        </HtmlTooltip>
       </Grid>
     </Grid>
   );
