@@ -3,11 +3,15 @@
   flex-direction: column;
 }
 
-.scalebook > .settings-bar {
+.scalebook .settings-bar {
   flex-grow: 1;
   display: flex;
 }
 
-.scalebook > .settings-bar > * {
-  margin: 0.5em;
+.scalebook .settings-bar > * {
+  margin: 0.4em;
+}
+
+.scalebook .selectorParent {
+  padding: 0 0.4em 0 0.4em;
 }

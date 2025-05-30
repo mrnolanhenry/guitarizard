@@ -209,6 +209,11 @@ const App = () => {
     setActiveToolName(Tool.scalebook);
   };
 
+  const onClickGoToIncludedChord = (chord: Chord) => {
+    updateChord(chord);
+    setActiveToolName(Tool.chordbook);
+  };
+
   const onInstrumentSelect = (instrument: FrettedInstrument): void => {
     setActiveInstrument(instrument);
     // Reset active tuning to the last tuning set on thie instrument selected.
@@ -287,18 +292,22 @@ const App = () => {
           activeTuning={activeTuning}
           allKeys={allKeys}
           allScales={scales}
+          dialogState={dialogState}
           temperament={activeTemperament}
           instruments={instruments}
           isSmallScreen={isSmallScreen}
           isMediumScreen={isMediumScreen}
-          isLargeScreen={isLargeScreen || isExtraLargeScreen}
+          isLargeScreen={isLargeScreen}
+          isExtraLargeScreen={isExtraLargeScreen}
           isRainbowMode={isRainbowMode}
+          onClickGoToIncludedChord={onClickGoToIncludedChord}
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}
           onInstrumentTuneToPreset={onInstrumentTuneToPreset}
           onKeyTonicSelect={onKeyTonicSelect}
           onScaleSelect={onScaleSelect}
           shouldHighlightPiano={shouldHighlightPiano}
+          setDialogState={setDialogState}
           theme={theme}
           updateKey={updateKey}
         />
@@ -321,12 +330,12 @@ const App = () => {
           isLargeScreen={isLargeScreen}
           isExtraLargeScreen={isExtraLargeScreen}
           isRainbowMode={isRainbowMode}
+          onChordRootSelect={onChordRootSelect}
+          onChordTypeSelect={onChordTypeSelect}
           onClickGoToInclusiveKey={onClickGoToInclusiveKey}
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}
           onInstrumentTuneToPreset={onInstrumentTuneToPreset}
-          onChordRootSelect={onChordRootSelect}
-          onChordTypeSelect={onChordTypeSelect}
           setDialogState={setDialogState}
           shouldHighlightPiano={shouldHighlightPiano}
           theme={theme}
