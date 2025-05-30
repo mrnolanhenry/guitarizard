@@ -160,7 +160,7 @@ const Scalebook = (props: IScalebookProps) => {
   const renderInstrumentSelectors = () => {
     return (
       <>
-        <Grid item className="selectorParent" xs="auto" sm={12} md="auto" marginBottom={isSmallScreen || isMediumScreen ? 2 : 0}>
+        <Grid item className="selectorParent" xs="auto" sm={12} md={6} marginBottom={isSmallScreen || isMediumScreen ? 2 : 0}>
           <InstrumentSelector
             activeInstrument={activeInstrument}
             instruments={instruments}
@@ -172,7 +172,7 @@ const Scalebook = (props: IScalebookProps) => {
           />
         </Grid>
         {activeInstrument.name !== Constants.PIANO && (
-          <Grid item className="selectorParent" xs="auto" sm={12} md="auto">
+          <Grid item className="selectorParent" xs="auto" sm={12} md={6}>
             <CommonTuningSelector
               activeInstrument={activeInstrument}
               activeTuning={activeTuning}
@@ -223,7 +223,7 @@ const Scalebook = (props: IScalebookProps) => {
   const renderKeySelectors = () => {
     return (
       <>
-        <Grid item className="selectorParent" xs={3} sm={12} md="auto" marginBottom={isSmallScreen || isMediumScreen ? 2 : 0}>
+        <Grid item className="selectorParent" xs={3} sm={12} md={3} marginBottom={isSmallScreen || isMediumScreen ? 2 : 0}>
           <NoteSelector
             id="active key"
             items={temperament.getNotesInTemperament()}
@@ -234,7 +234,7 @@ const Scalebook = (props: IScalebookProps) => {
             theme={theme}
           />
         </Grid>
-        <Grid item className="selectorParent" xs={9} sm={12} md="auto">
+        <Grid item className="selectorParent" xs={9} sm={12} md={9}>
           <ScaleSelector
             activeScale={activeScale}
             items={allScales}
