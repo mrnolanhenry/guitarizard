@@ -13,7 +13,7 @@ interface INoteTableProps {
 
 const NoteTable = (props: INoteTableProps) => {
   const { activeKeyOrChord, isSmallScreen, isRainbowMode, theme } = props;
-  const fontSize: string = isSmallScreen ? "12px" : "inherit";
+  const fontSize: string = isSmallScreen ? "12px" : "14px";
 
   const noteStyle: CSSProperties = {
     backgroundColor: theme.swatch.base00,

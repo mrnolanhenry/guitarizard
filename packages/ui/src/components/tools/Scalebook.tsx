@@ -19,6 +19,7 @@ import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { KeyOrChordSearchHelpMenu } from "../KeyOrChordSearchHelpMenu";
 import { IAppDialogState } from "../AppDialog";
 import { ChordSelector } from "../selectors/ChordSelector";
+import { HtmlTooltip } from "../common/HtmlTooltip";
 
 interface IScalebookProps {
   activeInstrument: FrettedInstrument;
@@ -87,9 +88,14 @@ const Scalebook = (props: IScalebookProps) => {
   const [activeIncludedChord, setActiveIncludedChord] = useState(initIncludedChord);
   useEffect(() => setActiveIncludedChord(initIncludedChord), [activeKey]);
   
-    const updateIncludedChord = (chord: Chord) => {
-      setActiveIncludedChord(chord);
-    }
+  const updateIncludedChord = (chord: Chord) => {
+    setActiveIncludedChord(chord);
+  }
+
+  const goToButtonStyle: SxProps = {
+    backgroundColor: theme.swatch.base00,
+    width: "100%",
+  }
 
   const instrumentComponent = instrument ? (
     <Instrument
@@ -194,19 +200,21 @@ const Scalebook = (props: IScalebookProps) => {
             />
         </Grid>
         <Grid item className="selectorParent" xs={2} sm={2} md={2} lg={1} alignContent="center">
-          <div 
-            id="helpButtonKeySearch" 
-            aria-label="settings-button" 
-            onClick={() => setDialogState({
-              ...dialogState, 
-              isOpen: true, 
-              title: "Searching for Chords", 
-              content: renderKeySearchHelp()
-              })}>
-            <IconButton color="secondary">
-              <HelpIcon />
-            </IconButton>
-          </div>
+          <HtmlTooltip showTooltip={true} theme={theme} title="How to search for keys">
+            <div 
+              id="helpButtonKeySearch" 
+              aria-label="Click for information on how to search for keys"
+              onClick={() => setDialogState({
+                ...dialogState, 
+                isOpen: true, 
+                title: "Searching for Chords", 
+                content: renderKeySearchHelp()
+                })}>
+              <IconButton color="secondary">
+                <HelpIcon />
+              </IconButton>
+            </div>
+          </HtmlTooltip>
         </Grid>
         </>
     )
@@ -268,17 +276,17 @@ const Scalebook = (props: IScalebookProps) => {
             theme={theme}
           />
         </Grid>
-        <Grid item className="selectorParent" xs={3} sm={4} md={4} lg={3}>
-          <div 
-            id="helpButtonChordSearch" 
-            aria-label="settings-button" 
-            onClick={() => onClickGoToIncludedChord(activeIncludedChord)}>
-            <Button size="small" color="secondary" sx={{
-              backgroundColor: theme.swatch.base00
-              }}>
-              Go to Chord
-            </Button>
-          </div>
+        <Grid item className="selectorParent" xs={3} sm={4} md={4} lg={2}>
+          <HtmlTooltip showTooltip={true} theme={theme} title="Go to selected chord">
+            <div 
+              id="helpButtonChordSearch" 
+              aria-label="Go to selected chord" 
+              onClick={() => onClickGoToIncludedChord(activeIncludedChord)}>
+              <Button size="small"  color="secondary" sx={goToButtonStyle}>
+                Go to Chord
+              </Button>
+            </div>
+          </HtmlTooltip>
         </Grid>
       </>
     )

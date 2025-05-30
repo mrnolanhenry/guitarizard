@@ -19,6 +19,7 @@ import { ChordSelector } from "../selectors/ChordSelector";
 import { KeySelector } from "../selectors/KeySelector";
 import { IAppDialogState } from "../AppDialog";
 import { KeyOrChordSearchHelpMenu } from "../KeyOrChordSearchHelpMenu";
+import { HtmlTooltip } from "../common/HtmlTooltip";
 
 interface IChordbookProps {
   activeInstrument: FrettedInstrument;
@@ -89,6 +90,11 @@ const Chordbook = (props: IChordbookProps) => {
 
   const updateInclusiveKey = (key: Key) => {
     setActiveInclusiveKey(key);
+  }
+
+  const goToButtonStyle: SxProps = {
+    backgroundColor: theme.swatch.base00,
+    width: "100%",
   }
 
   const instrumentComponent = instrument ? (
@@ -194,19 +200,21 @@ const Chordbook = (props: IChordbookProps) => {
           />
         </Grid>
         <Grid item className="selectorParent" xs={2} sm={2} md={2} lg={1} alignContent="center">
-          <div 
-            id="helpButtonChordSearch" 
-            aria-label="settings-button" 
-            onClick={() => setDialogState({
-              ...dialogState, 
-              isOpen: true, 
-              title: "Searching for Chords", 
-              content: renderChordSearchHelp()
-              })}>
-            <IconButton color="secondary">
-              <HelpIcon />
-            </IconButton>
-          </div>
+          <HtmlTooltip showTooltip={true} theme={theme} title="How to search for chords">
+            <div 
+              id="helpButtonChordSearch" 
+              aria-label="Click for information on how to search for chords"
+              onClick={() => setDialogState({
+                ...dialogState, 
+                isOpen: true, 
+                title: "Searching for Chords", 
+                content: renderChordSearchHelp()
+                })}>
+              <IconButton color="secondary">
+                <HelpIcon />
+              </IconButton>
+            </div>
+          </HtmlTooltip>
         </Grid>
         </>
     )
@@ -268,17 +276,17 @@ const Chordbook = (props: IChordbookProps) => {
             theme={theme}
           />
         </Grid>
-        <Grid item className="selectorParent" xs={3} sm={3} md={3} lg={3}>
-          <div 
-            id="helpButtonChordSearch" 
-            aria-label="settings-button" 
-            onClick={() => onClickGoToInclusiveKey(activeInclusiveKey)}>
-            <Button size="small" color="secondary" sx={{
-              backgroundColor: theme.swatch.base00
-              }}>
-              Go to Key
-            </Button>
-          </div>
+        <Grid item className="selectorParent" xs={3} sm={3} md={3} lg={2}>
+          <HtmlTooltip showTooltip={true} theme={theme} title="Go to selected key">
+            <div 
+              id="helpButtonChordSearch" 
+              aria-label="Go to selected key" 
+              onClick={() => onClickGoToInclusiveKey(activeInclusiveKey)}>
+              <Button size="small" color="secondary" sx={goToButtonStyle}>
+                Go to Key
+              </Button>
+            </div>
+          </HtmlTooltip>
         </Grid>
       </>
     )

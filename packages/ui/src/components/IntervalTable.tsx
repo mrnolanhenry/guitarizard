@@ -13,7 +13,7 @@ interface IIntervalTableProps {
 
 const IntervalTable = (props: IIntervalTableProps) => {
   const { intervals, isSmallScreen, isRainbowMode, temperament, theme } = props;
-  const fontSize: string = isSmallScreen ? "12px" : "inherit";
+  const fontSize: string = isSmallScreen ? "12px" : "14px";
 
   const intervalStyle: CSSProperties = {
     backgroundColor: theme.swatch.base00,
