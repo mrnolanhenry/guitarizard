@@ -19,7 +19,7 @@ import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { KeyOrChordSearchHelpMenu } from "../KeyOrChordSearchHelpMenu";
 import { IAppDialogState } from "../AppDialog";
 import { ChordSelector } from "../selectors/ChordSelector";
-import { HtmlTooltip } from "../common/HtmlTooltip";
+import { CustomTooltip } from "../common/CustomTooltip";
 
 interface IScalebookProps {
   activeInstrument: FrettedInstrument;
@@ -200,7 +200,7 @@ const Scalebook = (props: IScalebookProps) => {
             />
         </Grid>
         <Grid item className="selectorParent" xs={2} sm={2} md={2} lg={1} alignContent="center">
-          <HtmlTooltip showTooltip={true} theme={theme} title="How to search for keys">
+          <CustomTooltip showTooltip={true} theme={theme} title="How to search for keys">
             <div 
               id="helpButtonKeySearch" 
               aria-label="Click for information on how to search for keys"
@@ -214,7 +214,7 @@ const Scalebook = (props: IScalebookProps) => {
                 <HelpIcon />
               </IconButton>
             </div>
-          </HtmlTooltip>
+          </CustomTooltip>
         </Grid>
         </>
     )
@@ -277,7 +277,7 @@ const Scalebook = (props: IScalebookProps) => {
           />
         </Grid>
         <Grid item className="selectorParent" xs={3} sm={4} md={4} lg={2}>
-          <HtmlTooltip showTooltip={true} theme={theme} title="Go to selected chord">
+          <CustomTooltip showTooltip={true} theme={theme} title="Go to selected chord">
             <div 
               id="helpButtonChordSearch" 
               aria-label="Go to selected chord" 
@@ -286,7 +286,7 @@ const Scalebook = (props: IScalebookProps) => {
                 Go to Chord
               </Button>
             </div>
-          </HtmlTooltip>
+          </CustomTooltip>
         </Grid>
       </>
     )

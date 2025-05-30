@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import { Base16Theme } from '../../colors/themes';
 
-interface IHtmlTooltipProps {
+interface ICustomTooltipProps {
     backgroundColor?: string;
     children: React.ReactElement;
     showTooltip: boolean;
@@ -23,9 +23,9 @@ const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-const HtmlTooltip = (props: IHtmlTooltipProps) => {
+const CustomTooltip = (props: ICustomTooltipProps) => {
     const { children, showTooltip, title } = props;
     return showTooltip ? <StyledTooltip title={title}>{children}</StyledTooltip> : <>{children}</>;
 }
 
-export {HtmlTooltip};
+export {CustomTooltip};
