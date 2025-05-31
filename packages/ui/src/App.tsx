@@ -204,14 +204,16 @@ const App = () => {
     setActiveChord(new Chord(activeChord.root, chordType));
   };
 
-  const onClickGoToInclusiveKey = (key: Key) => {
+  const onClickGoToKey = (key: Key) => {
     updateKey(key);
     setActiveToolName(Tool.scalebook);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const onClickGoToIncludedChord = (chord: Chord) => {
+  const onClickGoToChord = (chord: Chord) => {
     updateChord(chord);
     setActiveToolName(Tool.chordbook);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const onInstrumentSelect = (instrument: FrettedInstrument): void => {
@@ -300,7 +302,8 @@ const App = () => {
           isLargeScreen={isLargeScreen}
           isExtraLargeScreen={isExtraLargeScreen}
           isRainbowMode={isRainbowMode}
-          onClickGoToIncludedChord={onClickGoToIncludedChord}
+          onClickGoToChord={onClickGoToChord}
+          onClickGoToKey={onClickGoToKey}
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}
           onInstrumentTuneToPreset={onInstrumentTuneToPreset}
@@ -332,7 +335,8 @@ const App = () => {
           isRainbowMode={isRainbowMode}
           onChordRootSelect={onChordRootSelect}
           onChordTypeSelect={onChordTypeSelect}
-          onClickGoToInclusiveKey={onClickGoToInclusiveKey}
+          onClickGoToChord={onClickGoToChord}
+          onClickGoToKey={onClickGoToKey}
           onInstrumentSelect={onInstrumentSelect}
           onInstrumentTune={onInstrumentTune}
           onInstrumentTuneToPreset={onInstrumentTuneToPreset}

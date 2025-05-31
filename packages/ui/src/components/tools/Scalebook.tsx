@@ -19,7 +19,7 @@ import { FrettedInstrument } from "note-lib/src/instruments/FrettedInstrument";
 import { KeyOrChordSearchHelpMenu } from "../KeyOrChordSearchHelpMenu";
 import { IAppDialogState } from "../AppDialog";
 import { ChordSelector } from "../selectors/ChordSelector";
-import { HtmlTooltip } from "../common/HtmlTooltip";
+import { CustomTooltip } from "../common/CustomTooltip";
 
 interface IScalebookProps {
   activeInstrument: FrettedInstrument;
@@ -34,7 +34,8 @@ interface IScalebookProps {
   isLargeScreen: boolean;
   isExtraLargeScreen: boolean;
   isRainbowMode: boolean;
-  onClickGoToIncludedChord: (chord: Chord) => void;
+  onClickGoToChord: (chord: Chord) => void;
+  onClickGoToKey: (key: Key) => void;
   onInstrumentSelect: (instrument: FrettedInstrument) => void;
   onInstrumentTune: (courseId: string, newTuning: Note) => void;
   onInstrumentTuneToPreset: (tuning: Tuning) => void;
@@ -61,7 +62,8 @@ const Scalebook = (props: IScalebookProps) => {
     isLargeScreen,
     isExtraLargeScreen,
     isRainbowMode,
-    onClickGoToIncludedChord,
+    onClickGoToChord,
+    onClickGoToKey,
     onInstrumentSelect,
     onInstrumentTune,
     onInstrumentTuneToPreset,
@@ -84,10 +86,17 @@ const Scalebook = (props: IScalebookProps) => {
   const activeKeyTonic: Note = activeKey.tonic;
   const activeScale: Scale = activeKey.scale;
   const chordsInKey = activeKey.getIncludedChords();
+  const initEquivKey = activeKey;
+  const [activeEquivKey, setActiveEquivKey] = useState(initEquivKey);
+  useEffect(() => setActiveIncludedChord(initIncludedChord), [activeKey]);
   const initIncludedChord = chordsInKey[0];
   const [activeIncludedChord, setActiveIncludedChord] = useState(initIncludedChord);
   useEffect(() => setActiveIncludedChord(initIncludedChord), [activeKey]);
-  
+
+  const updateEquivKey = (key: Key) => {
+    setActiveEquivKey(key);
+  }
+
   const updateIncludedChord = (chord: Chord) => {
     setActiveIncludedChord(chord);
   }
@@ -113,11 +122,11 @@ const Scalebook = (props: IScalebookProps) => {
     <></>
   );
 
-  const renderNoteAndIntervalTable = (isSmallScreen: boolean) => {
+  const renderNoteAndIntervalTable = () => {
     return isSmallScreen ? 
     <>
-      <Grid container item paddingTop={1} paddingBottom={1}>
-        <Grid item xs={3}>
+      <Grid container item xs={12} paddingTop={1} paddingBottom={1} justifyContent="center">
+        <Grid item xs={5}>
           <NoteTable
             activeKeyOrChord={activeKey}
             isSmallScreen={isSmallScreen}
@@ -125,7 +134,7 @@ const Scalebook = (props: IScalebookProps) => {
             theme={theme}
           />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={7}>
           <IntervalTable
             intervals={activeScale.intervals}
             isSmallScreen={isSmallScreen}
@@ -160,7 +169,7 @@ const Scalebook = (props: IScalebookProps) => {
   const renderInstrumentSelectors = () => {
     return (
       <>
-        <Grid item className="selectorParent" xs="auto" sm={12} md="auto" marginBottom={isSmallScreen || isMediumScreen ? 2 : 0}>
+        <Grid item className="selectorParent" xs="auto" sm={12} md={6} marginBottom={isSmallScreen || isMediumScreen ? 2 : 0}>
           <InstrumentSelector
             activeInstrument={activeInstrument}
             instruments={instruments}
@@ -172,7 +181,7 @@ const Scalebook = (props: IScalebookProps) => {
           />
         </Grid>
         {activeInstrument.name !== Constants.PIANO && (
-          <Grid item className="selectorParent" xs="auto" sm={12} md="auto">
+          <Grid item className="selectorParent" xs="auto" sm={12} md={6}>
             <CommonTuningSelector
               activeInstrument={activeInstrument}
               activeTuning={activeTuning}
@@ -191,7 +200,7 @@ const Scalebook = (props: IScalebookProps) => {
   const renderKeySearchSelector = () => {
     return (
       <>
-        <Grid item className="selectorParent" xs={10} sm={10} md={10} lg={8}>
+        <Grid item className="selectorParent" xs={10} sm={10} md={8} lg={11}>
           <KeySearchSelector
               allKeys={allKeys}
               minWidth="14em"
@@ -199,8 +208,8 @@ const Scalebook = (props: IScalebookProps) => {
               updateKey={(key: Key) => updateKey(key)}
             />
         </Grid>
-        <Grid item className="selectorParent" xs={2} sm={2} md={2} lg={1} alignContent="center">
-          <HtmlTooltip showTooltip={true} theme={theme} title="How to search for keys">
+        <Grid item className="selectorParent" xs={2} sm={2} md={1} lg={1} alignContent="center">
+          <CustomTooltip showTooltip={true} theme={theme} title="How to search for keys">
             <div 
               id="helpButtonKeySearch" 
               aria-label="Click for information on how to search for keys"
@@ -214,7 +223,7 @@ const Scalebook = (props: IScalebookProps) => {
                 <HelpIcon />
               </IconButton>
             </div>
-          </HtmlTooltip>
+          </CustomTooltip>
         </Grid>
         </>
     )
@@ -223,7 +232,7 @@ const Scalebook = (props: IScalebookProps) => {
   const renderKeySelectors = () => {
     return (
       <>
-        <Grid item className="selectorParent" xs="auto" sm={12} md="auto" marginBottom={isSmallScreen || isMediumScreen ? 2 : 0}>
+        <Grid item className="selectorParent" xs={3} sm={12} md={3} marginBottom={isSmallScreen || isMediumScreen ? 2 : 0}>
           <NoteSelector
             id="active key"
             items={temperament.getNotesInTemperament()}
@@ -234,7 +243,7 @@ const Scalebook = (props: IScalebookProps) => {
             theme={theme}
           />
         </Grid>
-        <Grid item className="selectorParent" xs="auto" sm={12} md="auto">
+        <Grid item className="selectorParent" xs={9} sm={12} md={9}>
           <ScaleSelector
             activeScale={activeScale}
             items={allScales}
@@ -252,19 +261,31 @@ const Scalebook = (props: IScalebookProps) => {
   const renderAboutKeySelectors = () => {
     return (
       <>
-        <Grid item className="selectorParent" xs={12} sm={12} md={12} lg="auto" marginBottom={!isExtraLargeScreen ? 2 : 0}>
+        <Grid item className="selectorParent" xs={9} sm={8} md={8} lg={7} marginBottom={2}>
           <KeySelector
-            activeKey={activeKey}
+            activeKey={activeEquivKey}
             id="equiv-key-selector"
             items={activeKey.getEquivKeys()}
             label="Equivalent Keys:"
-            minWidth="11em"
-            onChange={updateKey}
+            minWidth="12em"
+            onChange={(key: Key) => {updateEquivKey(key)}}
             shouldAutocomplete={isLargeScreen || isExtraLargeScreen}
             theme={theme}
           />
         </Grid>
-        <Grid item className="selectorParent" xs={9} sm={8} md={8} lg={5}>
+        <Grid item className="selectorParent" xs={3} sm={4} md={4} lg={3} marginBottom={2}>
+          <CustomTooltip showTooltip={true} theme={theme} title="Go to selected key">
+            <div 
+              id="goToEquivKey" 
+              aria-label="Go to selected key" 
+              onClick={() => onClickGoToKey(activeEquivKey)}>
+              <Button size="small"  color="secondary" sx={goToButtonStyle}>
+                Go to Key
+              </Button>
+            </div>
+          </CustomTooltip>
+        </Grid>
+        <Grid item className="selectorParent" xs={9} sm={8} md={8} lg={7}>
           <ChordSelector
             activeChord={activeIncludedChord}
             id="inclusive-key-selector"
@@ -276,17 +297,17 @@ const Scalebook = (props: IScalebookProps) => {
             theme={theme}
           />
         </Grid>
-        <Grid item className="selectorParent" xs={3} sm={4} md={4} lg={2}>
-          <HtmlTooltip showTooltip={true} theme={theme} title="Go to selected chord">
+        <Grid item className="selectorParent" xs={3} sm={4} md={4} lg={3}>
+          <CustomTooltip showTooltip={true} theme={theme} title="Go to selected chord">
             <div 
-              id="helpButtonChordSearch" 
+              id="goToChord" 
               aria-label="Go to selected chord" 
-              onClick={() => onClickGoToIncludedChord(activeIncludedChord)}>
-              <Button size="small"  color="secondary" sx={goToButtonStyle}>
+              onClick={() => onClickGoToChord(activeIncludedChord)}>
+              <Button size="small" color="secondary" sx={goToButtonStyle}>
                 Go to Chord
               </Button>
             </div>
-          </HtmlTooltip>
+          </CustomTooltip>
         </Grid>
       </>
     )
@@ -322,7 +343,7 @@ return (
           <ScreenRotationIcon sx={{ paddingLeft: "5px", paddingRight: "5px" }}/>
         </Grid>
       }
-      {showInstrument && <Grid item container xs={12} sm={5} md={6} lg={4} id="instrumentSettings" className="settings-bar" justifyContent="flex-start" alignContent="flex-start" paddingTop={0} paddingBottom={0} style={settingsBarStyle}>
+      {showInstrument && <Grid item container xs={12} sm={6} md={6} lg={4} id="instrumentSettings" className="settings-bar" justifyContent="flex-start" alignContent="flex-start" paddingTop={0} paddingBottom={0} style={settingsBarStyle}>
         <Grid item container xs={12}>
           {renderDivider("Current Instrument:")}
         </Grid>
@@ -331,15 +352,7 @@ return (
         </Grid>
       </Grid>
       }
-      <Grid item container xs={12} sm={7} md={6} lg={8} id="searchKeySettings" className="settings-bar" justifyContent="center" alignContent="flex-start" paddingTop={0} paddingBottom={0} style={settingsBarStyle}>
-        <Grid item container xs={12}>
-          {renderDivider("Key Search:")}
-        </Grid>
-        <Grid item container justifyContent={isLargeScreen || isExtraLargeScreen ? "flex-start" : "center"} xs={12}>
-          {renderKeySearchSelector()}
-        </Grid>
-      </Grid>
-      <Grid item container xs={12} sm={5} md={6} lg={4} id="currentKeySettings" className="settings-bar" justifyContent={isSmallScreen ? "center" : "flex-start"} alignContent="flex-start" paddingTop={0} paddingBottom={1} style={settingsBarStyle}>
+      <Grid item container xs={12} sm={6} md={6} lg={3} id="currentKeySettings" className="settings-bar" justifyContent={isSmallScreen ? "center" : "flex-start"} alignContent="flex-start" paddingTop={0} paddingBottom={1} style={settingsBarStyle}>
         <Grid item container xs={12}>
           {renderDivider("Current Key:")}
         </Grid>
@@ -347,20 +360,30 @@ return (
           {renderKeySelectors()}
         </Grid>
       </Grid>
-      <Grid item container xs={12} sm={7} md={6} lg={8} id="aboutKeySettings" className="settings-bar" justifyContent="flex-start" alignContent="flex-start" paddingTop={0} paddingBottom={1} style={settingsBarStyle}>
+      <Grid item container xs={12} sm={12} md={12} lg={5} id="searchKeySettings" className="settings-bar" justifyContent="center" alignContent="flex-start" paddingTop={0} paddingBottom={2} style={settingsBarStyle}>
         <Grid item container xs={12}>
-          {renderDivider("About this Key:")}
+          {renderDivider("Key Search:")}
         </Grid>
-        <Grid item container xs={12} alignItems="center">
-          {renderAboutKeySelectors()}
+        <Grid item container justifyContent="center" xs={12}>
+          {renderKeySearchSelector()}
         </Grid>
       </Grid>
       {showInstrument && 
-        <Grid item xs={12} paddingBottom={1}>
+        <Grid item xs={12} paddingBottom={2}>
           {instrumentComponent}
         </Grid>
       }
-      {renderNoteAndIntervalTable(isSmallScreen)}
+      <Grid item container xs={12} sm={12} md={12} lg={12} id="aboutKeySettings" className="settings-bar" justifyContent="center" alignContent="flex-start" paddingTop={0} paddingBottom={1} style={settingsBarStyle}>
+        <Grid item container xs={12}>
+          {renderDivider("About this Key:")}
+        </Grid>
+        <Grid item container xs={12} paddingBottom={2}>
+          {renderNoteAndIntervalTable()}
+        </Grid>
+        <Grid item container xs={12} sm={8} md={7} lg={6} justifyContent="center" alignItems="center" paddingBottom={2}>
+          {renderAboutKeySelectors()}
+        </Grid>
+      </Grid>
     </Grid>
   );
 };

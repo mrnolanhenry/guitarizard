@@ -7,7 +7,7 @@ import { Button, Grid, IconButton, Tab, Tabs, useTheme } from "@mui/material";
 import { IAppDialogState } from "./AppDialog";
 import { SettingsMenu } from "./SettingsMenu";
 import { Tool } from "../enums/Tool";
-import { HtmlTooltip } from "./common/HtmlTooltip";
+import { CustomTooltip } from "./common/CustomTooltip";
 
 interface Props {
   activeToolName: Tool;
@@ -180,11 +180,11 @@ const TopBar = (props: Props) => {
             color="secondary"
             onClick={toggleFullscreen}
             size={"small"}
-            sx={{paddingLeft: "0px", paddingRight:"8px", fontSize: ".8rem"}}>
+            sx={{paddingLeft: "0px", paddingRight:"8px", fontSize: ".8rem", marginBottom: "2px"}}>
             {renderFullscreenButtonDetails()}
           </Button>
         }
-        <HtmlTooltip showTooltip={true} theme={theme} title="Settings">
+        <CustomTooltip showTooltip={true} theme={theme} title="Settings">
           <div 
             id="settings-button" 
             aria-label="Settings" 
@@ -198,7 +198,7 @@ const TopBar = (props: Props) => {
               <SettingsIcon />
             </IconButton>
           </div>
-        </HtmlTooltip>
+        </CustomTooltip>
       </Grid>
     </Grid>
   );
