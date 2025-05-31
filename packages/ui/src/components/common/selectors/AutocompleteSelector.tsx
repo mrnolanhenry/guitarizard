@@ -127,19 +127,19 @@ const AutocompleteSelector = <T,>(props: IAutocompleteSelectorProps<T>) => {
         backgroundColor: theme.swatch.base01,
       },
       "& .MuiAutocomplete-option.Mui-selected:hover": {
-        backgroundColor: theme.swatch.base05,
+        backgroundColor: theme.swatch.base0B,
         color: theme.swatch.base00,
       },
       "& .MuiAutocomplete-option[aria-selected='true']:hover": {
-        backgroundColor: theme.swatch.base05,
+        backgroundColor: theme.swatch.base0B,
         color: theme.swatch.base00,
       },
       "& .MuiAutocomplete-option.Mui-focused": {
-        backgroundColor: theme.swatch.base05,
+        backgroundColor: theme.swatch.base0B,
         color: theme.swatch.base00,
       },
       "& .MuiAutocomplete-option[aria-selected='true'].Mui-focused": {
-        backgroundColor: theme.swatch.base05,
+        backgroundColor: theme.swatch.base0B,
         color: theme.swatch.base00,
       },
       backgroundColor: theme.swatch.base00,
