@@ -274,10 +274,10 @@ const Scalebook = (props: IScalebookProps) => {
           />
         </Grid>
         <Grid item className="selectorParent" xs={3} sm={4} md={4} lg={3} marginBottom={2}>
-          <CustomTooltip showTooltip={true} theme={theme} title="Go to selected key">
+          <CustomTooltip showTooltip={true} theme={theme} title={`Go to equivalent key: ${activeEquivKey.name}`}>
             <div 
               id="goToEquivKey" 
-              aria-label="Go to selected key" 
+              aria-label={`Go to equivalent key: ${activeEquivKey.name}`} 
               onClick={() => onClickGoToKey(activeEquivKey)}>
               <Button size="small"  color="secondary" sx={goToButtonStyle}>
                 Go to Key
@@ -298,10 +298,10 @@ const Scalebook = (props: IScalebookProps) => {
           />
         </Grid>
         <Grid item className="selectorParent" xs={3} sm={4} md={4} lg={3}>
-          <CustomTooltip showTooltip={true} theme={theme} title="Go to selected chord">
+          <CustomTooltip showTooltip={true} theme={theme} title={`Go to chord: ${activeIncludedChord.name}`}>
             <div 
               id="goToChord" 
-              aria-label="Go to selected chord" 
+              aria-label={`Go to chord: ${activeIncludedChord.name}`} 
               onClick={() => onClickGoToChord(activeIncludedChord)}>
               <Button size="small" color="secondary" sx={goToButtonStyle}>
                 Go to Chord

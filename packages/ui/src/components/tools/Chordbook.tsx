@@ -274,10 +274,10 @@ const Chordbook = (props: IChordbookProps) => {
           />
         </Grid>
         <Grid item className="selectorParent" xs={3} sm={4} md={4} lg={3}  marginBottom={2}>
-          <CustomTooltip showTooltip={true} theme={theme} title="Go to selected chord">
+          <CustomTooltip showTooltip={true} theme={theme} title={`Go to equivalent chord: ${activeEquivChord.name}`}>
             <div 
               id="goToEquivChord" 
-              aria-label="Go to selected chord" 
+              aria-label={`Go to equivalent chord: ${activeEquivChord.name}`}
               onClick={() => onClickGoToChord(activeEquivChord)}>
               <Button size="small" color="secondary" sx={goToButtonStyle}>
                 Go to Chord
@@ -298,10 +298,10 @@ const Chordbook = (props: IChordbookProps) => {
           />
         </Grid>
         <Grid item className="selectorParent" xs={3} sm={4} md={4} lg={3}>
-          <CustomTooltip showTooltip={true} theme={theme} title="Go to selected key">
+          <CustomTooltip showTooltip={true} theme={theme} title={`Go to key: ${activeInclusiveKey.name}`}>
             <div 
               id="helpButtonChordSearch" 
-              aria-label="Go to selected key" 
+              aria-label={`Go to key: ${activeInclusiveKey.name}`}
               onClick={() => onClickGoToKey(activeInclusiveKey)}>
               <Button size="small" color="secondary" sx={goToButtonStyle}>
                 Go to Key
