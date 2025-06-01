@@ -377,7 +377,7 @@ return (
         <Grid item container xs={12}>
           {renderDivider("About this Key:")}
         </Grid>
-        <Grid item container xs={12} paddingBottom={2}>
+        <Grid item container xs={12} lg={Math.max(activeKey.notes.length + 1, 6)} paddingBottom={2}>
           {renderNoteAndIntervalTable()}
         </Grid>
         <Grid item container xs={12} sm={8} md={7} lg={6} justifyContent="center" alignItems="center" paddingBottom={2}>
