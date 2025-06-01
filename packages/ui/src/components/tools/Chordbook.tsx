@@ -375,7 +375,7 @@ const Chordbook = (props: IChordbookProps) => {
       }
       <Grid item container xs={12} sm={12} md={12} lg={12} id="aboutKeySettings" className="settings-bar" justifyContent="center" alignContent="flex-start" paddingTop={0} paddingBottom={1} style={settingsBarStyle}>
         <Grid item container xs={12}>
-          {renderDivider("About this Key:")}
+          {renderDivider("About this Chord:")}
         </Grid>
         <Grid item container xs={12} paddingBottom={2}>
           {renderNoteAndIntervalTable()}
