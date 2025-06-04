@@ -120,14 +120,13 @@ const TopBar = (props: Props) => {
   const renderFullscreenButtonDetails = () => {
     const enterOrExitText: string = isFullscreen ? "Exit" : "Enter";
     return (
-        <>
-        <span style={{fontSize: ".6rem", paddingLeft: "8px"}}>{enterOrExitText} Full Screen</span>
+        <CustomTooltip showTooltip={true} title={`${enterOrExitText} Full Screen`} theme={theme}>
         { isFullscreen ? 
-          <FullscreenExitRoundedIcon sx={{ paddingLeft: "5px", paddingRight: "0px" }}/> 
+          <FullscreenExitRoundedIcon sx={{ paddingLeft: "0px", paddingRight: "0px" }}/> 
           :
-          <FullscreenRoundedIcon sx={{ paddingLeft: "5px", paddingRight: "0px" }}/>
+          <FullscreenRoundedIcon sx={{ paddingLeft: "0px", paddingRight: "0px" }}/>
          }
-        </>
+        </CustomTooltip>
     )
   }
 
@@ -180,7 +179,7 @@ const TopBar = (props: Props) => {
             color="secondary"
             onClick={toggleFullscreen}
             size={"small"}
-            sx={{paddingLeft: "0px", paddingRight:"8px", fontSize: ".8rem", marginBottom: "2px"}}>
+            sx={{paddingLeft: "0px", paddingRight:"0px", fontSize: ".8rem", marginBottom: "2px"}}>
             {renderFullscreenButtonDetails()}
           </Button>
         }
