@@ -377,6 +377,11 @@ const Chordbook = (props: IChordbookProps) => {
         <Grid item container xs={12}>
           {renderDivider("About this Chord:")}
         </Grid>
+        <Grid item container xs={12} justifyContent="center">
+          <p style={{fontSize: "1.25rem"}}>
+            {activeChord.name}
+          </p>
+        </Grid>
         <Grid item container xs={12} lg={Math.max(activeChord.notes.length + 1, 6)} paddingBottom={2}>
           {renderNoteAndIntervalTable()}
         </Grid>

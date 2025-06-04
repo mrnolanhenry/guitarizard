@@ -88,7 +88,7 @@ const Scalebook = (props: IScalebookProps) => {
   const chordsInKey = activeKey.getIncludedChords();
   const initEquivKey = activeKey;
   const [activeEquivKey, setActiveEquivKey] = useState(initEquivKey);
-  useEffect(() => setActiveIncludedChord(initIncludedChord), [activeKey]);
+  useEffect(() => setActiveEquivKey(initEquivKey), [activeKey]);
   const initIncludedChord = chordsInKey[0];
   const [activeIncludedChord, setActiveIncludedChord] = useState(initIncludedChord);
   useEffect(() => setActiveIncludedChord(initIncludedChord), [activeKey]);
@@ -376,6 +376,11 @@ return (
       <Grid item container xs={12} sm={12} md={12} lg={12} id="aboutKeySettings" className="settings-bar" justifyContent="center" alignContent="flex-start" paddingTop={0} paddingBottom={1} style={settingsBarStyle}>
         <Grid item container xs={12}>
           {renderDivider("About this Key:")}
+        </Grid>
+        <Grid item container xs={12} justifyContent="center">
+          <p style={{fontSize: "1.25rem"}}>
+            {activeKey.name}
+          </p>
         </Grid>
         <Grid item container xs={12} lg={Math.max(activeKey.notes.length + 1, 6)} paddingBottom={2}>
           {renderNoteAndIntervalTable()}
