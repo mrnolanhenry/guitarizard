@@ -6,13 +6,17 @@ const {
   twelveTETP1,
   twelveTETm2,
   twelveTETM2,
+  twelveTETA2,
   twelveTETm3,
   twelveTETM3,
+  twelveTETd4,
   twelveTETP4,
   twelveTETd5,
+  twelveTETA4,
   twelveTETP5,
   twelveTETm6,
   twelveTETM6,
+  twelveTETd7,
   twelveTETm7,
   twelveTETM7,
   twelveTETP8,  
@@ -49,6 +53,8 @@ const scales = [
 
   new Scale(Constants.ALTERED, twelveTET, [twelveTETP1, twelveTETm2, twelveTETm3, twelveTETM3, twelveTETd5, twelveTETm6, twelveTETm7, twelveTETP8]),
   // altered scale AKA super Locrian AKA Locrian b4
+
+  new Scale(Constants.ALTERED_DOUBLE_FLAT_SEVENTH, twelveTET, [twelveTETP1, twelveTETm2, twelveTETm3, twelveTETd4, twelveTETd5, twelveTETm6, twelveTETd7, twelveTETP8]),
 
   new Scale(Constants.ALTERED_DORIAN, twelveTET, [twelveTETP1, twelveTETM2, twelveTETm3, twelveTETd5, twelveTETP5, twelveTETM6, twelveTETm7, twelveTETP8]),
   // ukranian dorian AKA ukranian minor AKA dorian #4 AKA Romanian minor AKA altered Dorian
@@ -209,6 +215,8 @@ const scales = [
   ),
   // ukranian dorian AKA ukranian minor AKA dorian #4 AKA Romanian minor AKA altered Dorian
 
+  new Scale(Constants.DORIAN_FLAT_SECOND, twelveTET, [twelveTETP1, twelveTETm2, twelveTETm3, twelveTETP4, twelveTETP5, twelveTETM6, twelveTETm7, twelveTETP8]),
+
   new Scale(
     Constants.DOUBLE_HARMONIC_MAJOR,
     twelveTET,
@@ -356,7 +364,7 @@ const scales = [
   new Scale(
     Constants.LYDIAN_SHARP_SECOND,
     twelveTET,
-    [twelveTETP1, twelveTETm3, twelveTETM3, twelveTETd5, twelveTETP5, twelveTETM6, twelveTETM7, twelveTETP8],
+    [twelveTETP1, twelveTETA2, twelveTETM3, twelveTETA4, twelveTETP5, twelveTETM6, twelveTETM7, twelveTETP8],
   ),
   new Scale(Constants.LYDIAN_AUGMENTED, twelveTET, [twelveTETP1, twelveTETM2, twelveTETM3, twelveTETd5, twelveTETm6, twelveTETM6, twelveTETM7, twelveTETP8]),
 
@@ -370,10 +378,13 @@ const scales = [
   new Scale(Constants.LYDIAN_FLAT_THIRD, twelveTET, [twelveTETP1, twelveTETM2, twelveTETm3, twelveTETd5, twelveTETP5, twelveTETM6, twelveTETM7, twelveTETP8]),
   // lydian diminshed AKA lydian b3
 
+  new Scale(Constants.LYDIAN_FLAT_SEVENTH, twelveTET, [twelveTETP1, twelveTETM2, twelveTETM3, twelveTETA4, twelveTETP5, twelveTETM6, twelveTETm7, twelveTETP8]),
+  // lydian b7 AKA overtone
+
   new Scale(Constants.LYDIAN_DIMINISHED, twelveTET, [twelveTETP1, twelveTETM2, twelveTETm3, twelveTETd5, twelveTETP5, twelveTETM6, twelveTETM7, twelveTETP8]),
   // lydian diminshed AKA lydian b3
 
-  new Scale(Constants.LYDIAN_MINOR, twelveTET, [twelveTETP1, twelveTETM2, twelveTETM3, twelveTETd5, twelveTETP5, twelveTETm6, twelveTETm7, twelveTETP8]),
+  new Scale(Constants.LYDIAN_MINOR, twelveTET, [twelveTETP1, twelveTETM2, twelveTETM3, twelveTETA4, twelveTETP5, twelveTETm6, twelveTETm7, twelveTETP8]),
 
   new Scale(Constants.MAJOR.toLocaleLowerCase(), twelveTET, [twelveTETP1, twelveTETM2, twelveTETM3, twelveTETP4, twelveTETP5, twelveTETM6, twelveTETM7, twelveTETP8]),
   // ethiopian (a raray) AKA ethiopian araray AKA major scale AKA ionian
@@ -478,6 +489,8 @@ const scales = [
   // oriental AKA maybe oriental (b)
 
   new Scale(Constants.OVERTONE, twelveTET, [twelveTETP1, twelveTETM2, twelveTETM3, twelveTETd5, twelveTETP5, twelveTETM6, twelveTETm7, twelveTETP8]),
+  // overtone AKA lydian b7 
+  
   new Scale(Constants.PELOG, twelveTET, [twelveTETP1, twelveTETm2, twelveTETm3, twelveTETP5, twelveTETm6, twelveTETP8]),
   new Scale(Constants.PELOG_TWO, twelveTET, [twelveTETP1, twelveTETm2, twelveTETm3, twelveTETP5, twelveTETm7, twelveTETP8]),
   new Scale(Constants.PENTATONIC_BLUES, twelveTET, [twelveTETP1, twelveTETm3, twelveTETP4, twelveTETd5, twelveTETP5, twelveTETm7, twelveTETP8]),
@@ -505,6 +518,8 @@ const scales = [
     [twelveTETP1, twelveTETm2, twelveTETM3, twelveTETd5, twelveTETM6, twelveTETm7, twelveTETP8],
   ),
 
+  new Scale(Constants.PURVI_THETA, twelveTET, [twelveTETP1, twelveTETm2, twelveTETM3, twelveTETA4, twelveTETP5, twelveTETm6, twelveTETM7, twelveTETP8]),
+
   new Scale(Constants.ROMANIAN_MINOR, twelveTET, [twelveTETP1, twelveTETM2, twelveTETm3, twelveTETd5, twelveTETP5, twelveTETM6, twelveTETm7, twelveTETP8]),
   // ukranian dorian AKA ukranian minor AKA dorian #4 AKA Romanian minor AKA altered Dorian
 
@@ -518,6 +533,8 @@ const scales = [
 
   new Scale(Constants.SUPER_LOCRIAN, twelveTET, [twelveTETP1, twelveTETm2, twelveTETm3, twelveTETM3, twelveTETd5, twelveTETm6, twelveTETm7, twelveTETP8]),
   // super Locrian AKA altered scale AKA Locrian b4
+
+  new Scale(Constants.TODI_THETA, twelveTET, [twelveTETP1, twelveTETm2, twelveTETm3, twelveTETA4, twelveTETP5, twelveTETm6, twelveTETM7, twelveTETP8]),
 
   new Scale(Constants.UKRAINIAN_DORIAN, twelveTET, [twelveTETP1, twelveTETM2, twelveTETm3, twelveTETd5, twelveTETP5, twelveTETM6, twelveTETm7, twelveTETP8]),
   // ukranian dorian AKA ukranian minor AKA dorian #4 AKA Romanian minor AKA altered Dorian

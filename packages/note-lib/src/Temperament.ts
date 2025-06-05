@@ -187,13 +187,8 @@ export class Temperament {
     return interval1Mod === interval2Mod;
   }
 
-    /**
-   * Given a semitone, return an Interval[].
-   * By default, it will return the first interval that matches the number of semitones.
-   * In most cases, this should suffice as long as the intervals' aliases have been set up correctly.
-   * However, if you want to find an interval with a specific scale degree,
-   * you can pass in the scale degree's number as a second parameter.
-   * e.g. for 12TET pass (2, 3) to get a diminished 3rd instead of the default major 2nd.
+  /**
+   * Given a semitone, return an Interval[] of all those intervals that have that number of semitones
    */
     findIntervals(semitones: number, allowEquivalents: boolean = true): Interval[] {
       return this.intervals.filter((interval) => {
@@ -208,7 +203,7 @@ export class Temperament {
    * By default, it will return the first interval that matches the number of semitones or enharmonic equivalent.
    * You can force this to look for an exact match (e.g. ignore a 6th when you're looking for a 13th)
    * However, if you want to find an interval with a specific scale degree,
-   * you can pass in the scale degree's number as a second parameter.
+   * you can pass in the scale degree's number as a third parameter.
    * e.g. for 12TET pass (2, false, 3) to get a diminished 3rd instead of the default major 2nd.
    */
   findInterval(semitones: number, allowEquivalents: boolean = false, scaleDegreeNumeric?: IntervalScaleDegreeNumeric): Interval | undefined {  
