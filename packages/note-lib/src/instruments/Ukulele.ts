@@ -1,18 +1,21 @@
-import { twelveTET } from "../data/temperaments/twelveTET";
+import { twelveTET, twelveTETNotes } from "../data/temperaments/twelveTET";
 import { FretBoard } from "../FretBoard";
 import { TunedString } from "../TunedString";
 import { Note } from "../Note";
 import { Course } from "../Course";
 import { FrettedInstrument } from "./FrettedInstrument";
 import * as Constants from "../constants/Constants";
+import { Tuning } from "../Tuning";
+
+const { A, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs, Ab } = twelveTETNotes;
 
 export class Ukulele extends FrettedInstrument {
   name: string;
   fretBoard: FretBoard;
-
+  commonTunings: Tuning[];
+  standardTuning: Tuning;
   constructor(fretCount: number, tuning: Note[]) {
     super();
-    this.name = Constants.UKULELE;
 
     const courses: Course[] = [
       new Course("G-1", [new TunedString("G-1", tuning[0], "nylon", 0.11)]),
@@ -23,6 +26,15 @@ export class Ukulele extends FrettedInstrument {
 
     const fretSpan = this.getDefaultFretSpan(fretCount, tuning);
 
+    const commonTunings = [
+      new Tuning("standard", [G, C, E, A]),
+      new Tuning("D", [A, D, Fs, B]),
+      new Tuning("baritone", [D, G, B, E]),
+    ];
+
+    this.name = Constants.UKULELE;
     this.fretBoard = new FretBoard(twelveTET, courses, fretSpan);
+    this.commonTunings = commonTunings;
+    this.standardTuning = commonTunings[0];
   }
 }

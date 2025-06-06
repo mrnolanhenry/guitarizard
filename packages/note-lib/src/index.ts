@@ -6,9 +6,10 @@ import * as utilFunctions from "./util";
 import { TunedString } from "./TunedString";
 import { Tuning } from "./Tuning";
 import { FretBoard } from "./FretBoard";
-import { Guitar } from "./instruments/Guitar";
+import { Guitar, GuitarType } from "./instruments/Guitar";
 import { Banjo } from "./instruments/Banjo";
-import { Bass } from "./instruments/Bass";
+import { Bass, BassType } from "./instruments/Bass";
+import { Mandola } from "./instruments/Mandola";
 import { Mandolin } from "./instruments/Mandolin";
 import { Piano } from "./instruments/Piano";
 import { Ukulele } from "./instruments/Ukulele";
@@ -36,9 +37,12 @@ export const instrument = {
   Tuning,
   Banjo,
   Bass,
+  BassType,
   FretBoard,
   FrettedInstrument,
   Guitar,
+  GuitarType,
+  Mandola,
   Mandolin,
   Piano,
   Ukulele,

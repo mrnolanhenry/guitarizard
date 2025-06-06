@@ -1,12 +1,12 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { Note } from "../../src";
-import { twelveTET } from "../../src/data/temperaments/twelveTET";
+import { twelveTET, twelveTETNotes } from "../../src/data/temperaments/twelveTET";
 import { Piano } from "../../src/instruments/Piano";
 import { Tuning } from "../../src/Tuning";
 
 describe("class Piano", () => {
-  const C: Note = twelveTET.getNoteFromID("C");
+  const { A, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs, Ab } = twelveTETNotes;
   const defaultPiano = new Piano(20, [C]);
 
   it('init', () => {
@@ -26,20 +26,20 @@ describe("class Piano", () => {
     );
   });
 
-  it('getCommonTunings', () => {
+  it('commonTunings', () => {
     assert.deepEqual(
-      defaultPiano.getCommonTunings(),
+      defaultPiano.commonTunings,
       [
-        new Tuning("piano", "standard", [C]),
+        new Tuning("standard", [C]),
       ],
       "common tunings found",
     );
   });
 
-  it('getStandardTuning', () => {
+  it('standardTuning', () => {
     assert.deepEqual(
-      defaultPiano.getStandardTuning(),
-      new Tuning("piano", "standard", [C]),
+      defaultPiano.standardTuning,
+      new Tuning("standard", [C]),
       "standard tuning found",
     );
   });

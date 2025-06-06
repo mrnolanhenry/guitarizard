@@ -5,6 +5,7 @@ export const TWELVE_TET: string = "twelveTET";
 export const BANJO: string = "banjo";
 export const BASS: string = "bass";
 export const GUITAR: string = "guitar";
+export const MANDOLA: string = "mandola";
 export const MANDOLIN: string = "mandolin";
 export const PIANO: string = "piano";
 export const UKULELE: string = "ukulele";

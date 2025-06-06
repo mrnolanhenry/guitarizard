@@ -39,6 +39,6 @@ test("exposed API", function (_t) {
     "correct amount of twelveTET notes",
   );
 
-  assert.equal(API.data.scales.length, 129, "expect correct scales length");
+  assert.equal(API.data.scales.length, 134, "expect correct scales length");
 
 });

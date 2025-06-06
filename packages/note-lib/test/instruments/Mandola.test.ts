@@ -4,10 +4,11 @@ import { Note } from "../../src";
 import { twelveTET, twelveTETNotes } from "../../src/data/temperaments/twelveTET";
 import { Mandolin } from "../../src/instruments/Mandolin";
 import { Tuning } from "../../src/Tuning";
+import { Mandola } from "../../src/instruments/Mandola";
 
 describe("class Mandolin", () => {
   const { A, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs, Ab } = twelveTETNotes;
-  const defaultMandolin = new Mandolin(17, [G, D, A, E]);
+  const defaultMandolin = new Mandola(19, [C, G, D, A]);
 
   it('init', () => {
     assert.ok(defaultMandolin);
@@ -26,15 +27,9 @@ describe("class Mandolin", () => {
     assert.deepEqual(
       defaultMandolin.commonTunings,
       [
-        new Tuning("standard", [G, D, A, E]),
-        new Tuning("Cajun", [F, C, G, D]),
-        new Tuning("open G", [G, D, G, B]),
-        new Tuning("cross G", [G, D, G, D]),
-        new Tuning("Gee-Dad", [G, D, A, D]),
-        new Tuning("open D", [D, D, A, D]),
-        new Tuning("high bass", [A, D, A, E]),
-        new Tuning("cross A", [A, E, A, E]),
-        new Tuning("open A", [A, E, A, Cs]),
+        new Tuning("standard", [C, G, D, A]),
+        new Tuning("F-C-G-C", [F, C, G, C]),
+        new Tuning("D-A-E-A", [D, A, E, A]),
       ],
       "common tunings found",
     );
@@ -43,7 +38,7 @@ describe("class Mandolin", () => {
   it('standardTuning', () => {
     assert.deepEqual(
       defaultMandolin.standardTuning,
-      new Tuning("standard", [G, D, A, E]),
+      new Tuning("standard", [C, G, D, A]),
       "standard tuning found",
     );
   });

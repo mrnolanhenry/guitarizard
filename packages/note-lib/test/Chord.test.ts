@@ -46,27 +46,41 @@ describe("class Chord", () => {
   const _7b5ChordType = new ChordType("7b5", twelveTET, [twelveTETP1, twelveTETM3, twelveTETd5, twelveTETm7],["dominant 7th, flat 5th"]);
   const halfDim7ChordType = new ChordType("ø7", twelveTET, [twelveTETP1, twelveTETm3, twelveTETd5, twelveTETm7], ["half diminished 7th"]);
   const m7b5ChordType = new ChordType("m7b5", twelveTET, [twelveTETP1, twelveTETm3, twelveTETd5, twelveTETm7], ["minor 7th, flat 5th"]);
+  const dimChordType = new ChordType("dim", twelveTET, [twelveTETP1, twelveTETm3, twelveTETd5], ["diminished"]);
   const dim7ChordType = new ChordType("dim7", twelveTET, [twelveTETP1, twelveTETm3, twelveTETd5, twelveTETd7], ["diminished 7th"]);
+  const _11ChordType = new ChordType("11", twelveTET, [twelveTETP1, twelveTETM3, twelveTETP5, twelveTETm7, twelveTETM9, twelveTETP11],["dominant 11th"]);
+  const major11ChordType = new ChordType("maj11", twelveTET, [twelveTETP1, twelveTETM3, twelveTETP5Priority2, twelveTETM7, twelveTETM9Priority2, twelveTETP11], ["major 11th"]);
+  const minor11ChordType = new ChordType("m11", twelveTET, [twelveTETP1, twelveTETm3, twelveTETP5Priority2, twelveTETm7, twelveTETM9Priority2, twelveTETP11], ["minor 11th"]);
   const _13ChordType = new ChordType("13", twelveTET, [twelveTETP1, twelveTETM3, twelveTETP5Priority2, twelveTETm7, twelveTETM9Priority2, twelveTETP11Priority3, twelveTETM13], ["dominant 13th"]);
   const minor13ChordType = new ChordType("m13", twelveTET, [twelveTETP1, twelveTETm3, twelveTETP5Priority2, twelveTETm7, twelveTETM9Priority2, twelveTETP11Priority3, twelveTETM13], ["minor 13th"]);
   const major13ChordType = new ChordType("maj13", twelveTET, [twelveTETP1, twelveTETM3, twelveTETP5Priority2, twelveTETM7, twelveTETM9Priority2, twelveTETP11Priority3, twelveTETM13], ["major 13th"]);
-  const major13s11ChordType =   new ChordType("maj13#11", twelveTET, [twelveTETP1, twelveTETM3, twelveTETP5, twelveTETM7, twelveTETM9, twelveTETA11, twelveTETM13], ["major 13th, sharp 11th"]);
+  const major9s11ChordType = new ChordType("maj9#11", twelveTET, [twelveTETP1, twelveTETM3, twelveTETP5, twelveTETM7, twelveTETM9, twelveTETA11], ["major 9th, sharp 11th", "maj9(#11)"]);
+  const major7add9s11ChordType = new ChordType("maj7add9#11", twelveTET, [twelveTETP1, twelveTETM3, twelveTETP5, twelveTETM7, twelveTETM9, twelveTETA11], ["major 7th, added 9th, sharp 11th"]);
+  const major13s11ChordType = new ChordType("maj13#11", twelveTET, [twelveTETP1, twelveTETM3, twelveTETP5, twelveTETM7, twelveTETM9, twelveTETA11, twelveTETM13], ["major 13th, sharp 11th"]);
+  const majorDim5ChordType = new ChordType("-5", twelveTET, [twelveTETP1, twelveTETM3, twelveTETd5], ["major, diminished 5th"]);
 
+  const AMajorDim5Chord = new Chord(A, majorDim5ChordType);
+
+  const AsMinor11Chord = new Chord(As, minor11ChordType);
   const AsMinor13Chord = new Chord(As, minor13ChordType);
+  const BbMinor11Chord = new Chord(Bb, minor11ChordType);
   const BbMinor13Chord = new Chord(Bb, minor13ChordType);
 
+  const CsMajor9s11Chord = new Chord(Cs, major9s11ChordType);
+  const CsMajor7add9s11Chord = new Chord(Cs, major7add9s11ChordType);
   const CsMajor13s11Chord = new Chord(Cs, major13s11ChordType);
+  const DbMajor9s11Chord = new Chord(Db, major9s11ChordType);
+  const DbMajor7add9s11Chord = new Chord(Db, major7add9s11ChordType);
   const DbMajor13s11Chord = new Chord(Db, major13s11ChordType);
-
-  const GsMajor13Chord = new Chord(Gs, major13ChordType);
-  const AbMajor13Chord = new Chord(Ab, major13ChordType);
 
   const DsMajorChord = new Chord(Ds,majorChordType);
   const DsMinorChord = new Chord(Ds, minorChordType);
   const DsMajor6Chord = new Chord(Ds,major6ChordType);
   const DshalfDim7Chord = new Chord(Ds, halfDim7ChordType);
   const Dsm7b5Chord = new Chord(Ds, m7b5ChordType);
+  const DsDimChord = new Chord(Ds, dimChordType);
   const Dsdim7Chord = new Chord(Ds, dim7ChordType);
+  const Ds11Chord = new Chord(Ds, _11ChordType);
   const Ds13Chord = new Chord(Ds, _13ChordType);
 
   const EbMajorChord = new Chord(Eb,majorChordType);
@@ -75,13 +89,56 @@ describe("class Chord", () => {
   const Eb7b5Chord = new Chord(Eb, _7b5ChordType);
   const EbhalfDim7Chord = new Chord(Eb, halfDim7ChordType);
   const Ebm7b5Chord = new Chord(Eb, m7b5ChordType);
+  const EbDimChord = new Chord(Eb, dimChordType);
   const Ebdim7Chord = new Chord(Eb, dim7ChordType);
+  const Eb11Chord = new Chord(Eb, _11ChordType);
   const Eb13Chord = new Chord(Eb, _13ChordType);
 
   const Em7b5Chord = new Chord(E, m7b5ChordType);
 
+  const FMinor11Chord = new Chord(F, minor11ChordType);
+
+  const FsMinorChord = new Chord(Fs, minorChordType);
   const FsMinor6Chord = new Chord(Fs, minor6ChordType);
+  const GbMinorChord = new Chord(Gb, minorChordType);
   const GbMinor6Chord = new Chord(Gb, minor6ChordType);
+
+  const GsMajor13Chord = new Chord(Gs, major13ChordType);
+  const AbMajor13Chord = new Chord(Ab, major13ChordType);
+
+  // Slash Chords
+  const AMajorDim5SlashFsChord = AMajorDim5Chord.getSlashChord(Fs);
+  const AMajorDim5SlashGbChord = AMajorDim5Chord.getSlashChord(Gb);
+
+  const AsMinor11SlashGChord = AsMinor11Chord.getSlashChord(G);
+  const BbMinor11SlashGChord = BbMinor11Chord.getSlashChord(G);
+
+  const CsMajor7add9s11SlashBbChord = CsMajor7add9s11Chord.getSlashChord(Bb);
+  const CsMajor7add9s11SlashAsChord = CsMajor7add9s11Chord.getSlashChord(As);
+  const CsMajor9s11SlashBbChord = CsMajor9s11Chord.getSlashChord(Bb);
+  const CsMajor9s11SlashAsChord = CsMajor9s11Chord.getSlashChord(As);
+  const DbMajor7add9s11SlashBbChord = DbMajor7add9s11Chord.getSlashChord(Bb);
+  const DbMajor7add9s11SlashAsChord = DbMajor7add9s11Chord.getSlashChord(As);
+  const DbMajor9s11SlashBbChord = DbMajor9s11Chord.getSlashChord(Bb);
+  const DbMajor9s11SlashAsChord = DbMajor9s11Chord.getSlashChord(As);
+
+  const DsDimSlashCsChord = DsDimChord.getSlashChord(Cs);
+  const DsDimSlashDbChord = DsDimChord.getSlashChord(Db);
+  const Ds11SlashCChord = Ds11Chord.getSlashChord(C);
+  const EbDimSlashCsChord = EbDimChord.getSlashChord(Cs);
+  const EbDimSlashDbChord = EbDimChord.getSlashChord(Db);
+  const Eb11SlashCChord = Eb11Chord.getSlashChord(C);
+
+  const FMinor11SlashDbChord = FMinor11Chord.getSlashChord(Db);
+  const FMinor11SlashCsChord = FMinor11Chord.getSlashChord(Cs);
+
+  const FsMinorSlashEbChord = FsMinorChord.getSlashChord(Eb);
+  const FsMinorSlashDsChord = FsMinorChord.getSlashChord(Ds);
+  const GbMinorSlashEbChord = GbMinorChord.getSlashChord(Eb);
+  const GbMinorSlashDsChord = GbMinorChord.getSlashChord(Ds);
+
+  const GsMajor11SlashFChord = new Chord(Gs, major11ChordType).getSlashChord(F);
+  const AbMajor11SlashFChord = new Chord(Ab, major11ChordType).getSlashChord(F);
 
   // ---- Arrange Keys and Scales ----
   const aeolianScale = scales.find((scale: Scale) => scale.name === Constants.AEOLIAN);
@@ -358,37 +415,73 @@ describe("class Chord", () => {
     assert.deepEqual(
       Ebm7b5Chord.getEquivChords(),
       [
+        AMajorDim5SlashGbChord,
+        AMajorDim5SlashFsChord,
+        DsDimSlashDbChord,
+        DsDimSlashCsChord,
         DshalfDim7Chord, 
         Dsm7b5Chord, 
+        EbDimSlashDbChord,
+        EbDimSlashCsChord,
         EbhalfDim7Chord, 
         Ebm7b5Chord, 
+        FsMinorSlashEbChord,
+        FsMinorSlashDsChord,
         FsMinor6Chord,
-        GbMinor6Chord
+        GbMinorSlashEbChord,
+        GbMinorSlashDsChord,
+        GbMinor6Chord,
       ],
       "equivalent chords identified given flat note",
     );
     assert.deepEqual(
       Dsm7b5Chord.getEquivChords(),
       [
+        AMajorDim5SlashGbChord,
+        AMajorDim5SlashFsChord,
+        DsDimSlashDbChord,
+        DsDimSlashCsChord,
         DshalfDim7Chord, 
         Dsm7b5Chord, 
+        EbDimSlashDbChord,
+        EbDimSlashCsChord,
         EbhalfDim7Chord, 
         Ebm7b5Chord, 
+        FsMinorSlashEbChord,
+        FsMinorSlashDsChord,
         FsMinor6Chord,
-        GbMinor6Chord
+        GbMinorSlashEbChord,
+        GbMinorSlashDsChord,
+        GbMinor6Chord,
       ],
       "equivalent chords identified given sharp note",
     );
     assert.deepEqual(
       Eb13Chord.getEquivChords(),
       [
+        AsMinor11SlashGChord,
         AsMinor13Chord,
+        BbMinor11SlashGChord,
         BbMinor13Chord,
+        CsMajor9s11SlashBbChord,
+        CsMajor9s11SlashAsChord,
+        CsMajor7add9s11SlashBbChord,
+        CsMajor7add9s11SlashAsChord,
         CsMajor13s11Chord,
+        DbMajor9s11SlashBbChord,
+        DbMajor9s11SlashAsChord,
+        DbMajor7add9s11SlashBbChord,
+        DbMajor7add9s11SlashAsChord,
         DbMajor13s11Chord,
+        Ds11SlashCChord,
         Ds13Chord,
+        Eb11SlashCChord,
         Eb13Chord,
+        FMinor11SlashDbChord,
+        FMinor11SlashCsChord,
+        GsMajor11SlashFChord,
         GsMajor13Chord,
+        AbMajor11SlashFChord,
         AbMajor13Chord,
       ],
       "equivalent chords found for chord with compound intervals",
@@ -398,12 +491,18 @@ describe("class Chord", () => {
   it('getEquivChordsFromArray', () => {
     assert.deepEqual(
       Ebm7b5Chord.getEquivChordsFromArray([
+        AMajorDim5SlashGbChord,
+        AMajorDim5SlashFsChord,
+        DsDimSlashDbChord,
+        DsDimSlashCsChord,
         DsMajorChord,
         DsMinorChord,
         DsMajor6Chord,
         DshalfDim7Chord,
         Dsm7b5Chord,
         Dsdim7Chord,
+        EbDimSlashDbChord,
+        EbDimSlashCsChord,
         EbMajorChord,
         EbMinorChord,
         EbMajor6Chord,
@@ -412,27 +511,47 @@ describe("class Chord", () => {
         Ebm7b5Chord,
         Ebdim7Chord,
         Em7b5Chord,
+        FsMinorSlashEbChord,
+        FsMinorSlashDsChord,
         FsMinor6Chord,
+        GbMinorSlashEbChord,
+        GbMinorSlashDsChord,
         GbMinor6Chord,
       ]),
       [
+        AMajorDim5SlashGbChord,
+        AMajorDim5SlashFsChord,
+        DsDimSlashDbChord,
+        DsDimSlashCsChord,
         DshalfDim7Chord, 
         Dsm7b5Chord, 
+        EbDimSlashDbChord,
+        EbDimSlashCsChord,
         EbhalfDim7Chord, 
         Ebm7b5Chord, 
+        FsMinorSlashEbChord,
+        FsMinorSlashDsChord,
         FsMinor6Chord,
-        GbMinor6Chord
+        GbMinorSlashEbChord,
+        GbMinorSlashDsChord,
+        GbMinor6Chord,
       ],
       "equivalent chords identified given flat note",
     );
     assert.deepEqual(
       Dsm7b5Chord.getEquivChordsFromArray([
+        AMajorDim5SlashGbChord,
+        AMajorDim5SlashFsChord,
+        DsDimSlashDbChord,
+        DsDimSlashCsChord,
         DsMajorChord,
         DsMinorChord,
         DsMajor6Chord,
         DshalfDim7Chord,
         Dsm7b5Chord,
         Dsdim7Chord,
+        EbDimSlashDbChord,
+        EbDimSlashCsChord,
         EbMajorChord,
         EbMinorChord,
         EbMajor6Chord,
@@ -441,16 +560,30 @@ describe("class Chord", () => {
         Ebm7b5Chord,
         Ebdim7Chord,
         Em7b5Chord,
+        FsMinorSlashEbChord,
+        FsMinorSlashDsChord,
         FsMinor6Chord,
+        GbMinorSlashEbChord,
+        GbMinorSlashDsChord,
         GbMinor6Chord,
       ]),
       [
+        AMajorDim5SlashGbChord,
+        AMajorDim5SlashFsChord,
+        DsDimSlashDbChord,
+        DsDimSlashCsChord,
         DshalfDim7Chord, 
         Dsm7b5Chord, 
+        EbDimSlashDbChord,
+        EbDimSlashCsChord,
         EbhalfDim7Chord, 
         Ebm7b5Chord, 
+        FsMinorSlashEbChord,
+        FsMinorSlashDsChord,
         FsMinor6Chord,
-        GbMinor6Chord
+        GbMinorSlashEbChord,
+        GbMinorSlashDsChord,
+        GbMinor6Chord,
       ],
       "equivalent chords identified given sharp note",
     );

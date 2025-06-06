@@ -19,6 +19,8 @@ import { Chordbook } from "./components/tools/Chordbook";
 
 type InstrumentMap = Map<string, FrettedInstrument>;
 
+const { Banjo, Bass, BassType, Guitar, GuitarType, Mandola, Mandolin, Piano, Ukulele } = instrument;
+
 const initInstruments = (temperament: Temperament): InstrumentMap => {
   const A: Note = temperament.getNoteFromID(Constants.A) as Note;
   const B: Note = temperament.getNoteFromID(Constants.B) as Note;
@@ -29,30 +31,18 @@ const initInstruments = (temperament: Temperament): InstrumentMap => {
   const G: Note = temperament.getNoteFromID(Constants.G) as Note;
 
   const instrumentMap: InstrumentMap = new Map();
-  const guitar = new instrument.Guitar(21, [E, A, D, G, B, E]);
-  const sevenStringGuitar = new instrument.Guitar(21, [B, E, A, D, G, B, E]);
-  const eightStringGuitar = new instrument.Guitar(21, [
-    Fs,
-    B,
-    E,
-    A,
-    D,
-    G,
-    B,
-    E,
-  ]);
-  const twelveStringGuitar = new instrument.Guitar(
-    21,
-    [E, A, D, G, B, E],
-    true,
-  );
-  const banjo = new instrument.Banjo(21, [G, D, G, B, D]);
-  const fourStringBass = new instrument.Bass(21, [E, A, D, G]);
-  const fiveStringBass = new instrument.Bass(21, [B, E, A, D, G]);
-  const sixStringBass = new instrument.Bass(21, [B, E, A, D, G, C]);
-  const mandolin = new instrument.Mandolin(17, [G, D, A, E]);
-  const piano = new instrument.Piano(40, [C]);
-  const ukulele = new instrument.Ukulele(20, [G, C, E, A]);
+  const guitar = new Guitar(21, [E, A, D, G, B, E], GuitarType.SIX_STRING);
+  const sevenStringGuitar = new Guitar(21, [B, E, A, D, G, B, E], GuitarType.SEVEN_STRING);
+  const eightStringGuitar = new Guitar(21, [Fs, B, E, A, D, G, B, E], GuitarType.EIGHT_STRING);
+  const twelveStringGuitar = new Guitar(21, [E, A, D, G, B, E], GuitarType.TWELVE_STRING, true);
+  const banjo = new Banjo(21, [G, D, G, B, D]);
+  const fourStringBass = new Bass(21, [E, A, D, G], BassType.FOUR_STRING);
+  const fiveStringBass = new Bass(21, [B, E, A, D, G], BassType.FIVE_STRING);
+  const sixStringBass = new Bass(21, [B, E, A, D, G, C], BassType.SIX_STRING);
+  const mandola = new Mandola(19, [C, G, D, A]);
+  const mandolin = new Mandolin(17, [G, D, A, E]);
+  const piano = new Piano(40, [C]);
+  const ukulele = new Ukulele(20, [G, C, E, A]);
 
   instrumentMap.set("banjo", banjo);
   instrumentMap.set("bass", fourStringBass);
@@ -62,6 +52,7 @@ const initInstruments = (temperament: Temperament): InstrumentMap => {
   instrumentMap.set("guitar (7 string)", sevenStringGuitar);
   instrumentMap.set("guitar (8 string)", eightStringGuitar);
   instrumentMap.set("guitar (12 string)", twelveStringGuitar);
+  instrumentMap.set("mandola", mandola);
   instrumentMap.set("mandolin", mandolin);
   instrumentMap.set("piano", piano);
   instrumentMap.set("ukulele", ukulele);
@@ -123,7 +114,7 @@ const App = () => {
   const initInstrument = instruments.get("guitar") as FrettedInstrument;
   const [activeInstrument, setActiveInstrument] = useState(initInstrument);
   const [activeTuning, setActiveTuning] = useState(
-    initInstrument.getStandardTuning(),
+    initInstrument.standardTuning,
   );
   const [isRainbowMode, setIsRainbowMode] = useState(true);
   const [shouldHighlightPiano, setShouldHighlightPiano] = useState(true);
@@ -132,17 +123,32 @@ const App = () => {
   const initDialogState: IAppDialogState = { isOpen: false }
   const [dialogState, setDialogState] = useState(initDialogState);
   const [isFullscreen, setIsFullscreen] = useState(!!document.fullscreenElement);
+  const [allKeys, setAllKeys] = useState<Key[]>([]);
+  const [allChords, setAllChords] = useState<Chord[]>([]);
 
-  const allKeys: Key[] = [];
-  const allChords: Chord[] = [];
-  activeTemperament.getNotesInTemperament().forEach((note) => {
-    data.scales.forEach((scale: Scale) => {
-      allKeys.push(new Key(note, scale));
+  useEffect(() => {
+    const {keys, chords} = getAllKeysAndChords(activeTemperament);
+    setAllKeys(keys);
+    setAllChords(chords);
+  }, [activeTemperament]);
+
+  const getAllKeysAndChords = (temperament: Temperament): {keys: Key[], chords: Chord[] } => {
+    let keys: Key[] = [];
+    let chords: Chord[] = [];
+    temperament.getNotesInTemperament().forEach((note) => {
+      data.scales.forEach((scale: Scale) => {
+        keys.push(new Key(note, scale));
+      });
+      data.chordTypes.forEach((chordType: ChordType) => {
+        const newChord = new Chord(note, chordType);
+        chords.push(newChord);
+        newChord.getSlashChords().forEach((slashChord: Chord) => {
+          chords.push(slashChord);
+        });
+      });
     });
-    data.chordTypes.forEach((chordType: ChordType) => {
-      allChords.push(new Chord(note, chordType));
-    });
-  });
+    return {keys, chords};
+  }
 
   const toggleFullscreen = (): void => {
     setIsFullscreen(!isFullscreen);
@@ -244,7 +250,7 @@ const App = () => {
     const tuningNotes: Note[] = instrument.fretBoard.courses.map(
       (course) => course.tunedStrings[0].tuningNote,
     );
-    const commonTunings: Tuning[] = instrument.getCommonTunings();
+    const commonTunings: Tuning[] = instrument.commonTunings;
     const commonTuningMatch: Tuning | undefined = commonTunings.find(
       (tuning) => {
         let isMatch: boolean = true;
@@ -258,7 +264,7 @@ const App = () => {
     );
     return (
       commonTuningMatch ??
-      new Tuning(instrument.name, Constants.CUSTOM, tuningNotes)
+      new Tuning(Constants.CUSTOM, tuningNotes)
     );
   };
 

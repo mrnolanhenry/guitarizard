@@ -6,12 +6,11 @@ import { twelveTETNotes } from "../src/data/temperaments";
 describe("class Tuning", () => {
   const { A, B, D, G, E } = twelveTETNotes;
   const standardGuitarNoteOrder = [ E, A, D, G, B, E ];
-  const standardGuitarTuning = new Tuning("guitar", "standard", standardGuitarNoteOrder);
+  const standardGuitarTuning = new Tuning("standard", standardGuitarNoteOrder);
 
   it('toJSON, valueOf, toString', () => {
     assert.deepEqual(standardGuitarTuning.toJSON(), {
       id: "standard",
-      instrument: "guitar",
       notes: standardGuitarNoteOrder,
     });
     assert.equal(

@@ -1,10 +1,20 @@
 import { FretBoard } from "../FretBoard";
-import { twelveTET } from "../data/temperaments/twelveTET";
+import { twelveTET, twelveTETNotes } from "../data/temperaments/twelveTET";
 import { TunedString } from "../TunedString";
 import { Note } from "../Note";
 import { FrettedInstrument } from "./FrettedInstrument";
 import { Course } from "../Course";
 import * as Constants from "../constants/Constants";
+import { Tuning } from "../Tuning";
+
+export enum GuitarType {
+  SIX_STRING = "",
+  SEVEN_STRING = " (7 string)",
+  EIGHT_STRING = " (8 string)",
+  TWELVE_STRING = " (12 string)",
+}
+
+const { A, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs, Ab } = twelveTETNotes;
 
 const getCourses = (tuning: Note[], isDoubledStrings: boolean): Course[] => {
   const courseCount: number = tuning.length;
@@ -113,36 +123,82 @@ const getCourses = (tuning: Note[], isDoubledStrings: boolean): Course[] => {
   }
 };
 
-const getInstrumentName = (
-  tuning: Note[],
-  isDoubledStrings: boolean,
-): string => {
-  const courseCount: number = tuning.length;
-  if (courseCount === 6) {
-    if (!isDoubledStrings) {
-      return Constants.GUITAR;
-    } else {
-      return `${Constants.GUITAR} (${courseCount * 2} string)`;
-    }
-  } else {
-    return `${Constants.GUITAR} (${courseCount} string)`;
+const getCommonTunings = (guitarType: GuitarType) => {
+  switch(guitarType) {
+    case GuitarType.SIX_STRING:
+      return [
+        new Tuning("standard", [E, A, D, G, B, E]),
+        new Tuning("drop D", [D, A, D, G, B, E]),
+        new Tuning("half step down", [Eb, Ab, Db, Gb, Bb, Eb]),
+        new Tuning("whole step down", [D, G, C, F, A, D]),
+        new Tuning("open D", [D, A, D, Fs, A, D]),
+        new Tuning("DADGAD", [D, A, D, G, A, D]),
+        new Tuning("open G", [D, G, D, G, B, D]),
+        new Tuning("open E", [E, B, E, Gs, B, E]),
+        new Tuning("open A", [E, A, E, A, Cs, E]),
+        new Tuning("new standard", [C, G, D, A, E, G]),
+        new Tuning("all fifths", [C, G, D, A, E, B]),
+        new Tuning("open C", [C, G, C, G, C, E]),
+        new Tuning("open C (C5)", [C, G, C, G, G, E]),
+        new Tuning("open C (repetitive)", [C, E, G, C, E, G]),
+        new Tuning("drop C", [C, G, C, F, A, D]),
+        new Tuning("open B", [B, Fs, B, Fs, B, Ds]),
+        new Tuning("open F", [F, A, C, F, C, F]),
+    ]
+    case GuitarType.SEVEN_STRING: 
+      return [
+        new Tuning("standard", [B, E, A, D, G, B, E]),
+        new Tuning("half step down", [Bb, Eb, Ab, Db, Gb, Bb, Eb]),
+        new Tuning("whole step down", [A, D, G, C, F, A, D]),
+      ]
+    case GuitarType.EIGHT_STRING:
+      return [
+        new Tuning("standard", [Fs, B, E, A, D, G, B, E]),
+        new Tuning("half step down", [F, Bb, Eb, Ab, Db, Gb, Bb, Eb]),
+        new Tuning("whole step down", [E, A, D, G, C, F, A, D]),
+      ]
+    case GuitarType.TWELVE_STRING:
+      return [
+        new Tuning("standard", [E, A, D, G, B, E]),
+        new Tuning("drop D", [D, A, D, G, B, E]),
+        new Tuning("half step down", [Eb, Ab, Db, Gb, Bb, Eb]),
+        new Tuning("whole step down", [D, G, C, F, A, D]),
+        new Tuning("open D", [D, A, D, Fs, A, D]),
+        new Tuning("DADGAD", [D, A, D, G, A, D]),
+        new Tuning("open G", [D, G, D, G, B, D]),
+        new Tuning("open E", [E, B, E, Gs, B, E]),
+        new Tuning("open A", [E, A, E, A, Cs, E]),
+        new Tuning("new standard", [C, G, D, A, E, G]),
+        new Tuning("all fifths", [C, G, D, A, E, B]),
+        new Tuning("open C", [C, G, C, G, C, E]),
+        new Tuning("open C (C5)", [C, G, C, G, G, E]),
+        new Tuning("open C (repetitive)", [C, E, G, C, E, G]),
+        new Tuning("drop C", [C, G, C, F, A, D]),
+        new Tuning("open B", [B, Fs, B, Fs, B, Ds]),
+        new Tuning("open F", [F, A, C, F, C, F]),
+      ]
   }
-};
+}
 
 export class Guitar extends FrettedInstrument {
   name: string;
   fretBoard: FretBoard;
+  commonTunings: Tuning[];
+  standardTuning: Tuning;
   constructor(
     fretCount: number,
     tuning: Note[],
+    guitarType: GuitarType,
     isDoubledStrings: boolean = false,
   ) {
     super();
-    const instrumentName = getInstrumentName(tuning, isDoubledStrings);
     const courses = getCourses(tuning, isDoubledStrings);
     const fretSpan = this.getDefaultFretSpan(fretCount, tuning);
+    const commonTunings = getCommonTunings(guitarType);
 
-    this.name = instrumentName;
+    this.name = Constants.GUITAR + guitarType;
     this.fretBoard = new FretBoard(twelveTET, courses, fretSpan);
+    this.commonTunings = commonTunings;
+    this.standardTuning = commonTunings[0];
   }
 }

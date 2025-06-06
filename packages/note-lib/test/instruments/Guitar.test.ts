@@ -1,25 +1,16 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { Note } from "../../src";
-import { twelveTET } from "../../src/data/temperaments/twelveTET";
-import { Guitar } from "../../src/instruments/Guitar";
+import { twelveTET, twelveTETNotes } from "../../src/data/temperaments/twelveTET";
+import { Guitar, GuitarType } from "../../src/instruments/Guitar";
 import { Tuning } from "../../src/Tuning";
 
 describe("class Guitar", () => {
-  const A: Note = twelveTET.getNoteFromID("A");
-  const B: Note = twelveTET.getNoteFromID("B");
-  const C: Note = twelveTET.getNoteFromID("C");
-  const Cs: Note = twelveTET.getNoteFromID("C#");
-  const D: Note = twelveTET.getNoteFromID("D");
-  const E: Note = twelveTET.getNoteFromID("E");
-  const F: Note = twelveTET.getNoteFromID("F");
-  const Fs: Note = twelveTET.getNoteFromID("F#");
-  const G: Note = twelveTET.getNoteFromID("G");
-  const Gs: Note = twelveTET.getNoteFromID("G#");
-  const defaultGuitar = new Guitar(21, [E, A, D, G, B, E]);
-  const sevenStringGuitar = new Guitar(21, [B, E, A, D, G, B, E]);
-  const eightStringGuitar = new Guitar(21, [Fs, B, E, A, D, G, B, E]);
-  const twelveStringGuitar = new Guitar(21, [E, A, D, G, B, E], true);
+  const { A, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs, Ab } = twelveTETNotes;
+  const defaultGuitar = new Guitar(21, [E, A, D, G, B, E], GuitarType.SIX_STRING);
+  const sevenStringGuitar = new Guitar(21, [B, E, A, D, G, B, E], GuitarType.SEVEN_STRING);
+  const eightStringGuitar = new Guitar(21, [Fs, B, E, A, D, G, B, E], GuitarType.EIGHT_STRING);
+  const twelveStringGuitar = new Guitar(21, [E, A, D, G, B, E], GuitarType.TWELVE_STRING, true);
 
   it('init', () => {
     assert.ok(defaultGuitar);
@@ -77,72 +68,98 @@ describe("class Guitar", () => {
     );
   });
 
-  it('getCommonTunings', () => {
+  it('commonTunings', () => {
     assert.deepEqual(
-      defaultGuitar.getCommonTunings(),
+      defaultGuitar.commonTunings,
       [
-        new Tuning("guitar", "standard", [E, A, D, G, B, E]),
-        new Tuning("guitar", "drop D", [D, A, D, G, B, E]),
-        new Tuning("guitar", "open D", [D, A, D, Fs, A, D]),
-        new Tuning("guitar", "DADGAD", [D, A, D, G, A, D]),
-        new Tuning("guitar", "open G", [D, G, D, G, B, D]),
-        new Tuning("guitar", "open E", [E, B, E, Gs, B, E]),
-        new Tuning("guitar", "open A", [E, A, E, A, Cs, E]),
-        new Tuning("guitar", "drop C", [C, G, C, F, A, D]),
+        new Tuning("standard", [E, A, D, G, B, E]),
+        new Tuning("drop D", [D, A, D, G, B, E]),
+        new Tuning("half step down", [Eb, Ab, Db, Gb, Bb, Eb]),
+        new Tuning("whole step down", [D, G, C, F, A, D]),
+        new Tuning("open D", [D, A, D, Fs, A, D]),
+        new Tuning("DADGAD", [D, A, D, G, A, D]),
+        new Tuning("open G", [D, G, D, G, B, D]),
+        new Tuning("open E", [E, B, E, Gs, B, E]),
+        new Tuning("open A", [E, A, E, A, Cs, E]),
+        new Tuning("new standard", [C, G, D, A, E, G]),
+        new Tuning("all fifths", [C, G, D, A, E, B]),
+        new Tuning("open C", [C, G, C, G, C, E]),
+        new Tuning("open C (C5)", [C, G, C, G, G, E]),
+        new Tuning("open C (repetitive)", [C, E, G, C, E, G]),
+        new Tuning("drop C", [C, G, C, F, A, D]),
+        new Tuning("open B", [B, Fs, B, Fs, B, Ds]),
+        new Tuning("open F", [F, A, C, F, C, F]),
       ],
       "common tunings found",
     );
   
     assert.deepEqual(
-      sevenStringGuitar.getCommonTunings(),
-      [new Tuning("guitar (7 string)", "standard", [B, E, A, D, G, B, E])],
+      sevenStringGuitar.commonTunings,
+      [
+        new Tuning("standard", [B, E, A, D, G, B, E]),
+        new Tuning("half step down", [Bb, Eb, Ab, Db, Gb, Bb, Eb]),
+        new Tuning("whole step down", [A, D, G, C, F, A, D]),
+      ],
       "common tunings found - 7 string",
     );
   
     assert.deepEqual(
-      eightStringGuitar.getCommonTunings(),
-      [new Tuning("guitar (8 string)", "standard", [Fs, B, E, A, D, G, B, E])],
+      eightStringGuitar.commonTunings,
+      [
+        new Tuning("standard", [Fs, B, E, A, D, G, B, E]),
+        new Tuning("half step down", [F, Bb, Eb, Ab, Db, Gb, Bb, Eb]),
+        new Tuning("whole step down", [E, A, D, G, C, F, A, D]),
+    ],
       "common tunings found - 8 string",
     );
   
     assert.deepEqual(
-      twelveStringGuitar.getCommonTunings(),
+      twelveStringGuitar.commonTunings,
       [
-        new Tuning("guitar (12 string)", "standard", [E, A, D, G, B, E]),
-        new Tuning("guitar (12 string)", "drop D", [D, A, D, G, B, E]),
-        new Tuning("guitar (12 string)", "open D", [D, A, D, Fs, A, D]),
-        new Tuning("guitar (12 string)", "DADGAD", [D, A, D, G, A, D]),
-        new Tuning("guitar (12 string)", "open G", [D, G, D, G, B, D]),
-        new Tuning("guitar (12 string)", "open E", [E, B, E, Gs, B, E]),
-        new Tuning("guitar (12 string)", "open A", [E, A, E, A, Cs, E]),
-        new Tuning("guitar (12 string)", "drop C", [C, G, C, F, A, D]),
+        new Tuning("standard", [E, A, D, G, B, E]),
+        new Tuning("drop D", [D, A, D, G, B, E]),
+        new Tuning("half step down", [Eb, Ab, Db, Gb, Bb, Eb]),
+        new Tuning("whole step down", [D, G, C, F, A, D]),
+        new Tuning("open D", [D, A, D, Fs, A, D]),
+        new Tuning("DADGAD", [D, A, D, G, A, D]),
+        new Tuning("open G", [D, G, D, G, B, D]),
+        new Tuning("open E", [E, B, E, Gs, B, E]),
+        new Tuning("open A", [E, A, E, A, Cs, E]),
+        new Tuning("new standard", [C, G, D, A, E, G]),
+        new Tuning("all fifths", [C, G, D, A, E, B]),
+        new Tuning("open C", [C, G, C, G, C, E]),
+        new Tuning("open C (C5)", [C, G, C, G, G, E]),
+        new Tuning("open C (repetitive)", [C, E, G, C, E, G]),
+        new Tuning("drop C", [C, G, C, F, A, D]),
+        new Tuning("open B", [B, Fs, B, Fs, B, Ds]),
+        new Tuning("open F", [F, A, C, F, C, F]),
       ],
       "common tunings found - 12 string",
     );
   });
 
-  it('getStandardTuning', () => {
+  it('standardTuning', () => {
     assert.deepEqual(
-      defaultGuitar.getStandardTuning(),
-      new Tuning("guitar", "standard", [E, A, D, G, B, E]),
+      defaultGuitar.standardTuning,
+      new Tuning("standard", [E, A, D, G, B, E]),
       "standard tuning found",
     );
   
     assert.deepEqual(
-      sevenStringGuitar.getStandardTuning(),
-      new Tuning("guitar (7 string)", "standard", [B, E, A, D, G, B, E]),
+      sevenStringGuitar.standardTuning,
+      new Tuning("standard", [B, E, A, D, G, B, E]),
       "standard tuning found - 7 string",
     );
   
     assert.deepEqual(
-      eightStringGuitar.getStandardTuning(),
-      new Tuning("guitar (8 string)", "standard", [Fs, B, E, A, D, G, B, E]),
+      eightStringGuitar.standardTuning,
+      new Tuning("standard", [Fs, B, E, A, D, G, B, E]),
       "standard tuning found - 8 string",
     );
   
     assert.deepEqual(
-      twelveStringGuitar.getStandardTuning(),
-      new Tuning("guitar (12 string)", "standard", [E, A, D, G, B, E]),
+      twelveStringGuitar.standardTuning,
+      new Tuning("standard", [E, A, D, G, B, E]),
       "standard tuning found - 12 string",
     );
   });

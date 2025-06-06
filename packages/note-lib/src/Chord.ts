@@ -24,6 +24,7 @@ export class Chord extends NoteCollection{
 
   // Return equivalent chords if you were to transpose into other notes & chordTypes
   // e.g. the E m7b5 chord is exactly the same series of notes as the G m6 chord (and E dim7 chord), just with a different note designated as the root.
+  // NOTE: this will also return slash chords, e.g. C7/E, C7/F#, etc.
   getEquivChords(): Chord[] {
     const equivChords: Chord[] = [];
     const chordTypeArray: number[] = [];
@@ -36,33 +37,29 @@ export class Chord extends NoteCollection{
 
     // Loop through each note in the temperament to check for equivalent chordTypes given that note
     for (let j = 0; j < this.chordType.temperament.notes.length; j++) {
-      const semitonesFromRoot = this.chordType.temperament.getSemitonesBetweenNotes(
-        this.root,
-        this.chordType.temperament.notes[j],
-      );
       // Loop through each chordType and create an array of intervalsBySemitones that we adjust by the interval between the respective root notes
       for (let k = 0; k < chordTypes.length; k++) {
-        // This if check is only here to speed up function - testing dropped from ~71ms to ~47ms
-        if (chordTypeLength === chordTypes[k].intervals.length) {
-          const newChordTypeArray: number[] = [];
-          for (let l = 0; l < chordTypes[k].intervals.length; l++) {
-            newChordTypeArray.push(
-              (chordTypes[k].intervals[l].semitones + semitonesFromRoot) 
-              % this.chordType.temperament.notes.length,
-            );
-          }
-
-          util.sortNumericArray(newChordTypeArray);
-
-          // Check if arrays are equal after having sorted the newChordType
-          if (isEqual(chordTypeArray, newChordTypeArray)) {
-            const chord = new Chord(this.chordType.temperament.notes[j], chordTypes[k]);
-            equivChords.push(chord);
-
+        const newChord = new Chord(this.chordType.temperament.notes[j], chordTypes[k]);
+        if (chordTypeLength === chordTypes[k].intervals.length || chordTypeLength - chordTypes[k].intervals.length === 1) {
+          if(newChord.sharesEquivalentNotes(this)) {
+            equivChords.push(newChord);
             const aliasNotes = this.chordType.temperament.notes[j].aliasNotes;
             aliasNotes.forEach((aliasNote) => {
                 const aliasChord = new Chord(aliasNote, chordTypes[k]);
                 equivChords.push(aliasChord);
+            });
+          }
+          else {
+            const newSlashChords = newChord.getSlashChords();
+            newSlashChords.forEach((slashChord) => {
+              if(slashChord.sharesEquivalentNotes(this)) {
+                equivChords.push(slashChord);
+                const aliasNotes = slashChord.root.aliasNotes;
+                aliasNotes.forEach((aliasNote) => {
+                  const aliasSlashChord = new Chord(aliasNote, slashChord.chordType);
+                  equivChords.push(aliasSlashChord);
+                });
+              }
             });
           }
         }
@@ -132,6 +129,39 @@ export class Chord extends NoteCollection{
     return keys.filter((key: Key) => {
       return this.isInKey(key);
     });
+  }
+
+  // Get the slash chord versions of this chord for each note in the temperament
+  // e.g. return C7/A, C7/A#, C7/Bb, C7/B, C7/C#, C7/ Db, etc. if this chord is C7 
+  // NOTE this will avoid returning a C7/C chord in the array
+  getSlashChords(): Chord[] {
+    let slashChords = []
+    const root = this.root;
+    const chordType = this.chordType;
+    const temperament = chordType.temperament;
+     temperament.notes.forEach((note: Note) => {
+      if(!root.isEquivalent(note)) {
+        slashChords.push(this.getSlashChord(note));
+        const aliasNotes = note.aliasNotes;
+        aliasNotes.forEach((aliasNote: Note) => {
+          slashChords.push(this.getSlashChord(aliasNote));
+        });
+      }
+    })
+    return slashChords;
+  }
+
+  // Given a Note
+  // Get the slash chord version of this chord
+  // e.g. return C7/E if this chord is C7 and you pass E note as parameter
+  getSlashChord(slashNote: Note): Chord {
+    const root = this.root;
+    const chordType = this.chordType;
+    const temperament = chordType.temperament;
+    const slashInterval = temperament.findInterval(temperament.getSemitonesBetweenNotes(root, slashNote));
+    const slashIntervalArray = Array.from(new Set([slashInterval, ...chordType.intervals]));
+    const slashChordType = new ChordType(chordType.shortHand + "/" + slashNote.id, temperament, slashIntervalArray);
+    return new Chord(root, slashChordType);
   }
 
   // Given a Key,

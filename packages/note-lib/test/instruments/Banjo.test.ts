@@ -1,18 +1,13 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { Note } from "../../src";
-import { twelveTET } from "../../src/data/temperaments/twelveTET";
+import { twelveTET, twelveTETNotes } from "../../src/data/temperaments/twelveTET";
 import { Banjo } from "../../src/instruments/Banjo";
 import { Tuning } from "../../src/Tuning";
 
 describe("class Banjo", () => {
-  const A: Note = twelveTET.getNoteFromID("A");
-  const B: Note = twelveTET.getNoteFromID("B");
-  const C: Note = twelveTET.getNoteFromID("C");
-  const D: Note = twelveTET.getNoteFromID("D");
-  const E: Note = twelveTET.getNoteFromID("E");
-  const Fs: Note = twelveTET.getNoteFromID("F#");
-  const G: Note = twelveTET.getNoteFromID("G");
+  const { A, Bb, B, C, Cs, Db, D, Ds, Eb, E, F, Fs, Gb, G, Gs, Ab } = twelveTETNotes;
+
   const defaultBanjo = new Banjo(21, [G, D, G, B, D]);
 
   it('init', () => {
@@ -32,25 +27,25 @@ describe("class Banjo", () => {
     );
   });
 
-  it('getCommonTunings', () => {
+  it('commonTunings', () => {
     assert.deepEqual(
-      defaultBanjo.getCommonTunings(),
+      defaultBanjo.commonTunings,
       [
-        new Tuning("banjo", "standard", [G, D, G, B, D]),
-        new Tuning("banjo", "double C", [G, C, G, C, D]),
-        new Tuning("banjo", "drop C", [G, C, G, B, D]),
-        new Tuning("banjo", "D", [Fs, D, Fs, A, D]),
-        new Tuning("banjo", "G modal", [G, D, G, C, D]),
-        new Tuning("banjo", "guitar", [G, D, G, B, E]),
+        new Tuning("standard", [G, D, G, B, D]),
+        new Tuning("double C", [G, C, G, C, D]),
+        new Tuning("drop C", [G, C, G, B, D]),
+        new Tuning("D", [Fs, D, Fs, A, D]),
+        new Tuning("G modal", [G, D, G, C, D]),
+        new Tuning("guitar", [G, D, G, B, E]),
       ],
       "common tunings found",
     );
   });
 
-  it('getStandardTuning', () => {
+  it('standardTuning', () => {
     assert.deepEqual(
-      defaultBanjo.getStandardTuning(),
-      new Tuning("banjo", "standard", [G, D, G, B, D]),
+      defaultBanjo.standardTuning,
+      new Tuning("standard", [G, D, G, B, D]),
       "standard tuning found",
     );
   });
