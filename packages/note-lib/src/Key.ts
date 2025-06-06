@@ -107,33 +107,84 @@ export class Key extends NoteCollection {
       );
       // Loop through each scale and create an array of intervalsBySemitones that we adjust by the interval between the key notes
       for (let k = 0; k < chordTypes.length; k++) {
-        const newChordArray: number[] = [];
-        for (let l = 0; l < chordTypes[k].intervals.length; l++) {
-          newChordArray.push(
-            (chordTypes[k].intervals[l].semitones + semitonesFromTonic) %
-              this.scale.temperament.notes.length,
-          );
-        }
-
-        util.sortNumericArray(newChordArray);
+        const newChord = new Chord(this.scale.temperament.notes[j], chordTypes[k]);
         
-        const isIncluded = newChordArray.every((semitone) => scaleArray.includes(semitone));
-
         // Check if arrays are equal after having sorted the newScale
-        if (isIncluded) {
-          const chord = new Chord(this.scale.temperament.notes[j], chordTypes[k]);
-          includedChords.push(chord);
-
+        if (this.includesChord(newChord)) {
+          includedChords.push(newChord);
           const aliasNotes = this.scale.temperament.notes[j].aliasNotes;
           aliasNotes.forEach((aliasNote) => {
               const aliasChord = new Chord(aliasNote, chordTypes[k]);
               includedChords.push(aliasChord);
           });
         }
+        else {
+          const newSlashChords = newChord.getSlashChords();
+          newSlashChords.forEach((slashChord) => {
+            if(slashChord.includesEquivalentNotes(this)) {
+              includedChords.push(slashChord);
+              const aliasNotes = slashChord.root.aliasNotes;
+              aliasNotes.forEach((aliasNote) => {
+                const aliasSlashChord = new Chord(aliasNote, slashChord.chordType);
+                includedChords.push(aliasSlashChord);
+              });
+            }
+          });
+        }
       }
     }
     return util.sortChordsByRoot(includedChords);
   }
+
+  // // Return Chords that include equivalent Notes as this Chord's notes
+  // getIncludedChords(): Chord[] {
+  //   const includedChords: Chord[] = [];
+  //   const scaleArray: number[] = [];
+  //   const scaleLength: number = this.scale.intervals.length;
+
+  //   // Fill array of intervalsBySemitones for the given scale
+  //   for (let i = 0; i < scaleLength; i++) {
+  //     scaleArray.push(this.scale.intervals[i].semitones as number);
+  //   }
+
+  //   // Remove last semitone, which should be the duplicate '12' note in a twelveTET system, for example.
+  //   scaleArray.pop();
+
+  //   // Loop through each note in the temperament to check for equivalent scales given that note
+  //   for (let j = 0; j < this.scale.temperament.notes.length; j++) {
+  //     const semitonesFromTonic = this.scale.temperament.getSemitonesBetweenNotes(
+  //       this.tonic,
+  //       this.scale.temperament.notes[j],
+  //     );
+  //     // Loop through each scale and create an array of intervalsBySemitones that we adjust by the interval between the key notes
+  //     for (let k = 0; k < chordTypes.length; k++) {
+  //       const newChordArray: number[] = [];
+  //       for (let l = 0; l < chordTypes[k].intervals.length; l++) {
+  //         newChordArray.push(
+  //           (chordTypes[k].intervals[l].semitones + semitonesFromTonic) %
+  //             this.scale.temperament.notes.length,
+  //         );
+  //       }
+
+  //       util.sortNumericArray(newChordArray);
+        
+  //       const isIncluded = newChordArray.every((semitone) => scaleArray.includes(semitone));
+
+  //       // Check if arrays are equal after having sorted the newScale
+  //       if (isIncluded) {
+  //         const chord = new Chord(this.scale.temperament.notes[j], chordTypes[k]);
+  //         includedChords.push(chord);
+
+  //         const aliasNotes = this.scale.temperament.notes[j].aliasNotes;
+  //         aliasNotes.forEach((aliasNote) => {
+  //             const aliasChord = new Chord(aliasNote, chordTypes[k]);
+  //             includedChords.push(aliasChord);
+  //         });
+  //       }
+  //     }
+  //   }
+  //   return util.sortChordsByRoot(includedChords);
+  // }
 
   // Given an array of Chords to filter,
   // Return Chords that include equivalent Notes as this Chord's notes
