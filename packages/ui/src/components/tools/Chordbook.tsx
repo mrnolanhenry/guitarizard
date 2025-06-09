@@ -266,7 +266,7 @@ const Chordbook = (props: IChordbookProps) => {
       <>
         <Grid item className="selectorParent" xs={9} sm={8} md={8} lg={7} marginBottom={2}>
           <ChordSelector
-            activeChord={activeChord}
+            activeChord={activeEquivChord}
             groupBy={groupChordsBy}
             id="equiv-chord-selector"
             items={activeChord.getEquivChords()}
