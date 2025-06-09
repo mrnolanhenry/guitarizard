@@ -45,7 +45,7 @@ const FretBoard = (props: IFretBoardProps) => {
   const tuningPegsStyle: CSSProperties = {
     backgroundColor: theme.swatch.base07,
     color: theme.swatch.base04,
-    borderColor: theme.swatch.base03,
+    borderColor: theme.swatch.base04,
     boxShadow: "2px 0px " + theme.swatch.base07,
   };
 

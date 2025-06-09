@@ -28,6 +28,7 @@ interface IScalebookProps {
   allKeys: Key[];
   allScales: Scale[];
   dialogState: IAppDialogState;
+  groupChordsBy: (chord: Chord) => string;
   instruments: Map<string, FrettedInstrument>;
   isSmallScreen: boolean;
   isMediumScreen: boolean;
@@ -56,6 +57,7 @@ const Scalebook = (props: IScalebookProps) => {
     allKeys,
     allScales,
     dialogState,
+    groupChordsBy,
     instruments,
     isSmallScreen,
     isMediumScreen,
@@ -288,6 +290,7 @@ const Scalebook = (props: IScalebookProps) => {
         <Grid item className="selectorParent" xs={9} sm={8} md={8} lg={7}>
           <ChordSelector
             activeChord={activeIncludedChord}
+            groupBy={groupChordsBy}
             id="inclusive-key-selector"
             items={chordsInKey}
             label="Chords included in this Key:"

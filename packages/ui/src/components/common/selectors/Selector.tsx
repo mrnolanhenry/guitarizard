@@ -18,6 +18,7 @@ interface ISelectorProps<T> {
   items: T[]; // list of items for the select
   activeItem?: T; // what is the active item?
   freeSolo?: boolean;
+  groupBy?: (item: T) => string; // group items by this function
   label?: string;
   minWidth?: string;
   onChange: (item: T) => void; // callback for user changes
@@ -45,6 +46,7 @@ const Selector = <T,>(props: ISelectorProps<T>) => {
     freeSolo,
     getDisplay,
     getValue,
+    groupBy,
     id,
     items,
     label,
@@ -99,6 +101,7 @@ const Selector = <T,>(props: ISelectorProps<T>) => {
         fontSizeStyling={fontSizeStyling}
         getValue={getValue}
         getDisplay={display}
+        groupBy={groupBy}
         inputLabelProps={inputLabelProps}
         label={label}
         minWidth={minWidth}

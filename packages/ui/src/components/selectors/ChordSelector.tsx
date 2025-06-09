@@ -5,6 +5,7 @@ import { LabeledSelector } from "../common/selectors/LabeledSelector";
 
 interface IChordSelectorProps {
   activeChord: Chord;
+  groupBy?: (chord: Chord) => string;
   id: string;
   items: Chord[];
   label: string;
@@ -15,13 +16,14 @@ interface IChordSelectorProps {
 }
 
 const ChordSelector = (props: IChordSelectorProps) => {
-  const { activeChord, id, items, label, minWidth, shouldAutocomplete, onChange, theme } = props;
+  const { activeChord, groupBy, id, items, label, minWidth, shouldAutocomplete, onChange, theme } = props;
 
   return (
     <LabeledSelector<Chord>
       activeItem={activeChord}
       getValue={(k: Chord) => k.name}
       getDisplay={(k: Chord) => k.name}
+      groupBy={groupBy}
       id={id}
       items={items}
       label={label}

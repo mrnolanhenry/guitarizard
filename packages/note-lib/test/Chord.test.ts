@@ -376,6 +376,52 @@ describe("class Chord", () => {
     AbJapaneseTaishikicho,
     AbMajorKey
   ];
+
+  const Ebm7b5EquivChords = [
+    DshalfDim7Chord, 
+    Dsm7b5Chord, 
+    EbhalfDim7Chord, 
+    Ebm7b5Chord, 
+    FsMinor6Chord,
+    GbMinor6Chord,
+    AMajorDim5SlashGbChord,
+    AMajorDim5SlashFsChord,
+    DsDimSlashDbChord,
+    DsDimSlashCsChord,
+    EbDimSlashDbChord,
+    EbDimSlashCsChord,
+    FsMinorSlashEbChord,
+    FsMinorSlashDsChord,
+    GbMinorSlashEbChord,
+    GbMinorSlashDsChord,
+  ];
+
+  const Eb13EquivChords = [
+    AsMinor13Chord,
+    BbMinor13Chord,
+    CsMajor13s11Chord,
+    DbMajor13s11Chord,
+    Ds13Chord,
+    Eb13Chord,
+    GsMajor13Chord,
+    AbMajor13Chord,
+    AsMinor11SlashGChord,
+    BbMinor11SlashGChord,
+    CsMajor9s11SlashBbChord,
+    CsMajor9s11SlashAsChord,
+    CsMajor7add9s11SlashBbChord,
+    CsMajor7add9s11SlashAsChord,
+    DbMajor9s11SlashBbChord,
+    DbMajor9s11SlashAsChord,
+    DbMajor7add9s11SlashBbChord,
+    DbMajor7add9s11SlashAsChord,
+    Ds11SlashCChord,
+    Eb11SlashCChord,
+    FMinor11SlashDbChord,
+    FMinor11SlashCsChord,
+    GsMajor11SlashFChord,
+    AbMajor11SlashFChord,
+  ];
   
   const lotsOfKeys = DbMajor13s11InclusiveKeys.concat([
     DAeolian,
@@ -393,19 +439,22 @@ describe("class Chord", () => {
       name: `${Constants.E_FLAT} m`,
       root: Eb,
       chordType: minorChordType,
-      notes: [Eb, Gb, Bb]
+      notes: [Eb, Gb, Bb],
+      isSlashChord: false,
     },"toJSON works and notes in Chord are flat if root is flat");
     assert.deepEqual(DsMinorChord.toJSON(), {
       name: `${Constants.D_SHARP} m`,
       root: Ds,
       chordType: minorChordType,
-      notes: [Ds, Fs, As]
+      notes: [Ds, Fs, As],
+      isSlashChord: false,
     }, "toJSON works and notes in Chord are sharp if root is sharp");
     assert.deepEqual(Em7b5Chord.toJSON(), {
       name: `${Constants.E} m7b5`,
       root: E,
       chordType: m7b5ChordType,
-      notes: [E, G, Bb, D]
+      notes: [E, G, Bb, D],
+      isSlashChord: false,
     }, "toJSON works and notes in Chord are flat if root is natural");
     assert.equal(EbMinorChord.valueOf(), JSON.stringify(EbMinorChord), "valueOf works");
     assert.equal(EbMinorChord.toString(), JSON.stringify(EbMinorChord), "toString works");
@@ -414,76 +463,17 @@ describe("class Chord", () => {
   it('getEquivChords', () => {
     assert.deepEqual(
       Ebm7b5Chord.getEquivChords(),
-      [
-        AMajorDim5SlashGbChord,
-        AMajorDim5SlashFsChord,
-        DsDimSlashDbChord,
-        DsDimSlashCsChord,
-        DshalfDim7Chord, 
-        Dsm7b5Chord, 
-        EbDimSlashDbChord,
-        EbDimSlashCsChord,
-        EbhalfDim7Chord, 
-        Ebm7b5Chord, 
-        FsMinorSlashEbChord,
-        FsMinorSlashDsChord,
-        FsMinor6Chord,
-        GbMinorSlashEbChord,
-        GbMinorSlashDsChord,
-        GbMinor6Chord,
-      ],
+      Ebm7b5EquivChords,
       "equivalent chords identified given flat note",
     );
     assert.deepEqual(
       Dsm7b5Chord.getEquivChords(),
-      [
-        AMajorDim5SlashGbChord,
-        AMajorDim5SlashFsChord,
-        DsDimSlashDbChord,
-        DsDimSlashCsChord,
-        DshalfDim7Chord, 
-        Dsm7b5Chord, 
-        EbDimSlashDbChord,
-        EbDimSlashCsChord,
-        EbhalfDim7Chord, 
-        Ebm7b5Chord, 
-        FsMinorSlashEbChord,
-        FsMinorSlashDsChord,
-        FsMinor6Chord,
-        GbMinorSlashEbChord,
-        GbMinorSlashDsChord,
-        GbMinor6Chord,
-      ],
+      Ebm7b5EquivChords,
       "equivalent chords identified given sharp note",
     );
     assert.deepEqual(
       Eb13Chord.getEquivChords(),
-      [
-        AsMinor11SlashGChord,
-        AsMinor13Chord,
-        BbMinor11SlashGChord,
-        BbMinor13Chord,
-        CsMajor9s11SlashBbChord,
-        CsMajor9s11SlashAsChord,
-        CsMajor7add9s11SlashBbChord,
-        CsMajor7add9s11SlashAsChord,
-        CsMajor13s11Chord,
-        DbMajor9s11SlashBbChord,
-        DbMajor9s11SlashAsChord,
-        DbMajor7add9s11SlashBbChord,
-        DbMajor7add9s11SlashAsChord,
-        DbMajor13s11Chord,
-        Ds11SlashCChord,
-        Ds13Chord,
-        Eb11SlashCChord,
-        Eb13Chord,
-        FMinor11SlashDbChord,
-        FMinor11SlashCsChord,
-        GsMajor11SlashFChord,
-        GsMajor13Chord,
-        AbMajor11SlashFChord,
-        AbMajor13Chord,
-      ],
+      Eb13EquivChords,
       "equivalent chords found for chord with compound intervals",
     );
   });

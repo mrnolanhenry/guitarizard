@@ -3,23 +3,25 @@ import { ChordType } from "./ChordType";
 
 import chordTypes from "./data/chordTypes";
 import * as util from "./util";
-import isEqual from "lodash/isEqual";
 import { NotePitch } from "./enums/NotePitch";
 import { NoteCollection } from "./NoteCollection";
 import { Key } from "./Key";
 import scales from "./data/scales";
+import { Interval } from "./Interval";
 
 export class Chord extends NoteCollection{
   name: string;
   root: Note;
   chordType: ChordType;
   notes: Note[];
+  isSlashChord: boolean;
   constructor(root: Note, chordType: ChordType) {
     super();
     this.root = root;
     this.chordType = chordType;
     this.name = this.getDisplayName();
     this.notes = this.getNotesInChord();
+    this.isSlashChord = this.checkIsSlashChord();
   }
 
   // Return equivalent chords if you were to transpose into other notes & chordTypes
@@ -158,10 +160,19 @@ export class Chord extends NoteCollection{
     const root = this.root;
     const chordType = this.chordType;
     const temperament = chordType.temperament;
-    const slashInterval = temperament.findInterval(temperament.getSemitonesBetweenNotes(root, slashNote));
+    const intervalFound = temperament.findInterval(temperament.getSemitonesBetweenNotes(root, slashNote));
+    const slashInterval = new Interval(intervalFound.semitones, intervalFound.quality, intervalFound.scaleDegree, intervalFound.aliases, intervalFound.priority, true);
     const slashIntervalArray = Array.from(new Set([slashInterval, ...chordType.intervals]));
     const slashChordType = new ChordType(chordType.shortHand + "/" + slashNote.id, temperament, slashIntervalArray);
     return new Chord(root, slashChordType);
+  }
+
+  getSlashNote(): Note | null {
+    const slashIntervalIndex = this.chordType.intervals.findIndex((interval) => interval.isSlashNote);
+    if (slashIntervalIndex !== -1) {
+      return this.notes[slashIntervalIndex];
+    }
+    return null;
   }
 
   // Given a Key,
@@ -180,6 +191,11 @@ export class Chord extends NoteCollection{
     return this.root.id + " " + this.chordType.shortHand;
   }
 
+  // return whether this chord is a slash chord, e.g. C7/E
+  private checkIsSlashChord(): boolean {
+    return this.chordType.intervals.some((interval) => interval.isSlashNote);
+  };
+
   getFullNames(): string[] {
     return this.chordType.names.map((name) => this.root.id + " " + name);
   }
@@ -190,6 +206,7 @@ export class Chord extends NoteCollection{
       root: this.root,
       chordType: this.chordType,
       notes: this.notes,
+      isSlashChord: this.isSlashChord,
     };
   }
 

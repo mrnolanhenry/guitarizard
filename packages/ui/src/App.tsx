@@ -289,6 +289,10 @@ const App = () => {
     setInstrumentTuningToPreset(tuning);
   };
 
+  const groupByRegularOrSlashChords = (chord: Chord): string => {
+    return chord.isSlashChord ? 'Slash Chords' : 'Regular Chords'
+  }
+
   let tool;
 
   switch (activeToolName) {
@@ -301,6 +305,7 @@ const App = () => {
           allKeys={allKeys}
           allScales={scales}
           dialogState={dialogState}
+          groupChordsBy={groupByRegularOrSlashChords}
           temperament={activeTemperament}
           instruments={instruments}
           isSmallScreen={isSmallScreen}
@@ -332,7 +337,7 @@ const App = () => {
           allChords={allChords}
           allChordTypes={chordTypes}
           dialogState={dialogState}
-          temperament={activeTemperament}
+          groupChordsBy={groupByRegularOrSlashChords}
           instruments={instruments}
           isSmallScreen={isSmallScreen}
           isMediumScreen={isMediumScreen}
@@ -348,6 +353,7 @@ const App = () => {
           onInstrumentTuneToPreset={onInstrumentTuneToPreset}
           setDialogState={setDialogState}
           shouldHighlightPiano={shouldHighlightPiano}
+          temperament={activeTemperament}
           theme={theme}
           updateChord={updateChord}
         />

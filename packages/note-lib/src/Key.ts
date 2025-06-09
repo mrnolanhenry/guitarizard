@@ -109,7 +109,7 @@ export class Key extends NoteCollection {
       for (let k = 0; k < chordTypes.length; k++) {
         const newChord = new Chord(this.scale.temperament.notes[j], chordTypes[k]);
         
-        // Check if arrays are equal after having sorted the newScale
+        // Check if this scale includes notes of new chord after having sorted the newScale
         if (this.includesChord(newChord)) {
           includedChords.push(newChord);
           const aliasNotes = this.scale.temperament.notes[j].aliasNotes;
@@ -118,19 +118,17 @@ export class Key extends NoteCollection {
               includedChords.push(aliasChord);
           });
         }
-        else {
-          const newSlashChords = newChord.getSlashChords();
-          newSlashChords.forEach((slashChord) => {
-            if(slashChord.includesEquivalentNotes(this)) {
-              includedChords.push(slashChord);
-              const aliasNotes = slashChord.root.aliasNotes;
-              aliasNotes.forEach((aliasNote) => {
-                const aliasSlashChord = new Chord(aliasNote, slashChord.chordType);
-                includedChords.push(aliasSlashChord);
-              });
-            }
-          });
-        }
+        const newSlashChords = newChord.getSlashChords();
+        newSlashChords.forEach((slashChord) => {
+          if(this.includesEquivalentNotes(slashChord)) {
+            includedChords.push(slashChord);
+            const aliasNotes = slashChord.root.aliasNotes;
+            aliasNotes.forEach((aliasNote) => {
+              const aliasSlashChord = new Chord(aliasNote, slashChord.chordType);
+              includedChords.push(aliasSlashChord);
+            });
+          }
+        });
       }
     }
     return util.sortChordsByRoot(includedChords);

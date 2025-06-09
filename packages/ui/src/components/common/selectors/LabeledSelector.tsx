@@ -13,6 +13,7 @@ interface ILabeledSelectorProps<T> {
   freeSolo?: boolean;
   getValue?: (item: T) => string;
   getDisplay?: (item: T) => string;
+  groupBy?: (item: T) => string; // group items by this function
   id: string;
   items: T[];
   label?: string;
@@ -41,6 +42,7 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
     freeSolo,
     getDisplay,
     getValue,
+    groupBy,
     id,
     items,
     label,
@@ -69,6 +71,7 @@ const LabeledSelector = <T,>(props: ILabeledSelectorProps<T>) => {
         freeSolo={freeSolo}
         getValue={getValue}
         getDisplay={getDisplay}
+        groupBy={groupBy}
         label={label}
         minWidth={minWidth}
         activeItem={activeItem}

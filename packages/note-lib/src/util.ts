@@ -61,9 +61,17 @@ const sortKeysOrChords = (keysOrChords: Key[] | Chord[], isSortingKeys: boolean,
   }
   else {
     keysOrChords.sort(function(a: Key | Chord, b: Key | Chord): number {
-      const orderByRoot = (ordering[(a as Chord).root.id] - ordering[(b as Chord).root.id]);
-      const orderByChordType = (a as Chord).chordType.shortHand.localeCompare((b as Chord).chordType.shortHand);
-      return shouldSortByIntervalCollection ? orderByRoot || orderByChordType : orderByRoot;  
+      if ((a as Chord).isSlashChord === (b as Chord).isSlashChord) {
+        const orderByRoot = (ordering[(a as Chord).root.id] - ordering[(b as Chord).root.id]);
+        const orderByChordType = (a as Chord).chordType.shortHand.localeCompare((b as Chord).chordType.shortHand);
+        return shouldSortByIntervalCollection ? orderByRoot || orderByChordType : orderByRoot; 
+      }
+      else if ((a as Chord).isSlashChord) {
+        return 1;
+      }
+      else {
+        return -1
+      }
     });
   }
   return keysOrChords;

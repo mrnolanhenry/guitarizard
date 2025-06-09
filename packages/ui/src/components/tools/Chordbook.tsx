@@ -28,6 +28,7 @@ interface IChordbookProps {
   allChords: Chord[];
   allChordTypes: ChordType[];
   dialogState: IAppDialogState;
+  groupChordsBy: (chord: Chord) => string;
   instruments: Map<string, FrettedInstrument>;
   isSmallScreen: boolean;
   isMediumScreen: boolean;
@@ -56,6 +57,7 @@ const Chordbook = (props: IChordbookProps) => {
     allChords,
     allChordTypes,
     dialogState,
+    groupChordsBy,
     instruments,
     isSmallScreen,
     isMediumScreen,
@@ -203,6 +205,7 @@ const Chordbook = (props: IChordbookProps) => {
         <Grid item className="selectorParent" xs={10} sm={10} md={8} lg={11}>
           <ChordSearchSelector
             allChords={allChords}
+            groupBy={groupChordsBy}
             minWidth="14em"
             theme={theme}
             updateChord={updateChord}
@@ -264,6 +267,7 @@ const Chordbook = (props: IChordbookProps) => {
         <Grid item className="selectorParent" xs={9} sm={8} md={8} lg={7} marginBottom={2}>
           <ChordSelector
             activeChord={activeChord}
+            groupBy={groupChordsBy}
             id="equiv-chord-selector"
             items={activeChord.getEquivChords()}
             label="Equivalent Chords:"

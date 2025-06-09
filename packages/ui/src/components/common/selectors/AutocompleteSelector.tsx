@@ -10,9 +10,11 @@ import {
   AutocompleteChangeReason,
   AutocompleteInputChangeReason,
   AutocompleteRenderOptionState,
+  darken,
   FilterOptionsState,
   InputAdornment,
   InputLabelProps,
+  lighten,
   TextField,
 } from "@mui/material";
 import { render } from "react-dom";
@@ -35,6 +37,7 @@ interface IAutocompleteSelectorProps<T> {
   placeholder?: string;
   getValue?: (item: T) => string; // given an item, what is the option value? // NOLAN TODO: Remove if this remains unused
   getDisplay: (item: T) => string; // given an item, what should we display?
+  groupBy?: (item: T) => string;
   filterOptions?: (options: T[], state: FilterOptionsState<T>) => T[]; // special handling to filter options
   renderOption?: (
     props: React.HTMLAttributes<HTMLLIElement>,
@@ -55,6 +58,7 @@ const AutocompleteSelector = <T,>(props: IAutocompleteSelectorProps<T>) => {
     freeSolo,
     fontSizeStyling,
     getDisplay,
+    groupBy,
     id,
     inputLabelProps,
     items,
@@ -141,6 +145,11 @@ const AutocompleteSelector = <T,>(props: IAutocompleteSelectorProps<T>) => {
       "& .MuiAutocomplete-option[aria-selected='true'].Mui-focused": {
         backgroundColor: theme.swatch.base0B,
         color: theme.swatch.base00,
+      },
+      "& .MuiAutocomplete-groupLabel": {
+        backgroundColor: darken(theme.swatch.base0B, .6),
+        color: lighten(theme.swatch.base00, .8),
+        fontSize: ".75rem",
       },
       backgroundColor: theme.swatch.base00,
       color: theme.swatch.base05,
@@ -257,6 +266,7 @@ const AutocompleteSelector = <T,>(props: IAutocompleteSelectorProps<T>) => {
       }
       freeSolo={freeSolo ?? false}
       // fullWidth
+      groupBy={groupBy}
       inputValue={inputVal}
       onChange={(e, val, _reason, _details) => onChangeValue(e, val as T, _reason, _details)}
       onInputChange={onInputChangeValue}

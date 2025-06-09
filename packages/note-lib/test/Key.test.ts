@@ -174,6 +174,79 @@ describe("class Key", () => {
 
   const AbMajor13Chord = new Chord(Ab, major13ChordType);
 
+  // Slash Chords
+  const AMajorChordSlashDb = AMajorChord.getSlashChord(Db);
+  const AMajorChordSlashCs = AMajorChord.getSlashChord(Cs);
+  const AMajorChordSlashD = AMajorChord.getSlashChord(D);
+  const AMajorChordSlashE = AMajorChord.getSlashChord(E);
+  const AMajorChordSlashAb = AMajorChord.getSlashChord(Ab);
+  const AMajorChordSlashGs = AMajorChord.getSlashChord(Gs);
+  const A5ChordSlashDb = A5Chord.getSlashChord(Db);
+  const A5ChordSlashCs = A5Chord.getSlashChord(Cs);
+  const A5ChordSlashD = A5Chord.getSlashChord(D);
+  const A5ChordSlashE = A5Chord.getSlashChord(E);
+  const A5ChordSlashAb = A5Chord.getSlashChord(Ab);
+  const A5ChordSlashGs = A5Chord.getSlashChord(Gs);
+  const AMajor7ChordSlashDb = AMajor7Chord.getSlashChord(Db);
+  const AMajor7ChordSlashCs = AMajor7Chord.getSlashChord(Cs);
+  const AMajor7ChordSlashD = AMajor7Chord.getSlashChord(D);
+  const AMajor7ChordSlashE = AMajor7Chord.getSlashChord(E);
+  const AMajor7ChordSlashAb = AMajor7Chord.getSlashChord(Ab);
+  const AMajor7ChordSlashGs = AMajor7Chord.getSlashChord(Gs);
+  const ASus4ChordSlashDb = ASus4Chord.getSlashChord(Db);
+  const ASus4ChordSlashCs = ASus4Chord.getSlashChord(Cs);
+  const ASus4ChordSlashD = ASus4Chord.getSlashChord(D);
+  const ASus4ChordSlashE = ASus4Chord.getSlashChord(E);
+  const ASus4ChordSlashAb = ASus4Chord.getSlashChord(Ab);
+  const ASus4ChordSlashGs = ASus4Chord.getSlashChord(Gs);
+  const AAdd4ChordSlashDb = AAdd4Chord.getSlashChord(Db);
+  const AAdd4ChordSlashCs = AAdd4Chord.getSlashChord(Cs);
+  const AAdd4ChordSlashD = AAdd4Chord.getSlashChord(D);
+  const AAdd4ChordSlashE = AAdd4Chord.getSlashChord(E);
+  const AAdd4ChordSlashAb = AAdd4Chord.getSlashChord(Ab);
+  const AAdd4ChordSlashGs = AAdd4Chord.getSlashChord(Gs);
+  const AAdd11ChordSlashDb = AAdd11Chord.getSlashChord(Db);
+  const AAdd11ChordSlashCs = AAdd11Chord.getSlashChord(Cs);
+  const AAdd11ChordSlashD = AAdd11Chord.getSlashChord(D);
+  const AAdd11ChordSlashE = AAdd11Chord.getSlashChord(E);
+  const AAdd11ChordSlashAb = AAdd11Chord.getSlashChord(Ab);
+  const AAdd11ChordSlashGs = AAdd11Chord.getSlashChord(Gs);
+
+  const CsMinorChordSlashA = CsMinorChord.getSlashChord(A);
+  const CsMinorChordSlashD = CsMinorChord.getSlashChord(D);
+  const CsMinorChordSlashE = CsMinorChord.getSlashChord(E);
+  const CsMinorChordSlashAb = CsMinorChord.getSlashChord(Ab);
+  const CsMinorChordSlashGs = CsMinorChord.getSlashChord(Gs);
+  const Cs5ChordSlashA = Cs5Chord.getSlashChord(A);
+  const Cs5ChordSlashD = Cs5Chord.getSlashChord(D);
+  const Cs5ChordSlashE = Cs5Chord.getSlashChord(E);
+  const Cs5ChordSlashAb = Cs5Chord.getSlashChord(Ab);
+  const Cs5ChordSlashGs = Cs5Chord.getSlashChord(Gs);
+
+  const DbMinorChordSlashA = DbMinorChord.getSlashChord(A);
+  const DbMinorChordSlashD = DbMinorChord.getSlashChord(D);
+  const DbMinorChordSlashE = DbMinorChord.getSlashChord(E);
+  const DbMinorChordSlashAb = DbMinorChord.getSlashChord(Ab);
+  const DbMinorChordSlashGs = DbMinorChord.getSlashChord(Gs);
+  const Db5ChordSlashA = Db5Chord.getSlashChord(A);
+  const Db5ChordSlashD = Db5Chord.getSlashChord(D);
+  const Db5ChordSlashE = Db5Chord.getSlashChord(E);
+  const Db5ChordSlashAb = Db5Chord.getSlashChord(Ab);
+  const Db5ChordSlashGs = Db5Chord.getSlashChord(Gs);
+
+  const D5ChordSlashA = D5Chord.getSlashChord(A);
+  const D5ChordSlashDb = D5Chord.getSlashChord(Db);
+  const D5ChordSlashCs = D5Chord.getSlashChord(Cs);
+  const D5ChordSlashE = D5Chord.getSlashChord(E);
+  const D5ChordSlashAb = D5Chord.getSlashChord(Ab);
+  const D5ChordSlashGs = D5Chord.getSlashChord(Gs);
+  const DSus2ChordSlashA = DSus2Chord.getSlashChord(A);
+  const DSus2ChordSlashDb = DSus2Chord.getSlashChord(Db);
+  const DSus2ChordSlashCs = DSus2Chord.getSlashChord(Cs);
+  const DSus2ChordSlashE = DSus2Chord.getSlashChord(E);
+  const DSus2ChordSlashAb = DSus2Chord.getSlashChord(Ab);
+  const DSus2ChordSlashGs = DSus2Chord.getSlashChord(Gs);
+
   const DbBalineseIncludedChords = [ 
     AMajorChord,
     A5Chord,
@@ -187,6 +260,74 @@ describe("class Key", () => {
     Db5Chord,
     D5Chord,
     DSus2Chord,
+    AMajorChordSlashDb,
+    AMajorChordSlashCs,
+    AMajorChordSlashD,
+    AMajorChordSlashE,
+    AMajorChordSlashAb,
+    AMajorChordSlashGs,
+    A5ChordSlashDb,
+    A5ChordSlashCs,
+    A5ChordSlashD,
+    A5ChordSlashE,
+    A5ChordSlashAb,
+    A5ChordSlashGs,
+    AMajor7ChordSlashDb,
+    AMajor7ChordSlashCs,
+    AMajor7ChordSlashD,
+    AMajor7ChordSlashE,
+    AMajor7ChordSlashAb,
+    AMajor7ChordSlashGs,
+    ASus4ChordSlashDb,
+    ASus4ChordSlashCs,
+    ASus4ChordSlashD,
+    ASus4ChordSlashE,
+    ASus4ChordSlashAb,
+    ASus4ChordSlashGs,
+    AAdd4ChordSlashDb,
+    AAdd4ChordSlashCs,
+    AAdd4ChordSlashD,
+    AAdd4ChordSlashE,
+    AAdd4ChordSlashAb,
+    AAdd4ChordSlashGs,
+    AAdd11ChordSlashDb,
+    AAdd11ChordSlashCs,
+    AAdd11ChordSlashD,
+    AAdd11ChordSlashE,
+    AAdd11ChordSlashAb,
+    AAdd11ChordSlashGs,
+    CsMinorChordSlashA,
+    CsMinorChordSlashD,
+    CsMinorChordSlashE,
+    CsMinorChordSlashAb,
+    CsMinorChordSlashGs,
+    Cs5ChordSlashA,
+    Cs5ChordSlashD,
+    Cs5ChordSlashE,
+    Cs5ChordSlashAb,
+    Cs5ChordSlashGs,
+    DbMinorChordSlashA,
+    DbMinorChordSlashD,
+    DbMinorChordSlashE,
+    DbMinorChordSlashAb,
+    DbMinorChordSlashGs,
+    Db5ChordSlashA,
+    Db5ChordSlashD,
+    Db5ChordSlashE,
+    Db5ChordSlashAb,
+    Db5ChordSlashGs,
+    D5ChordSlashA,
+    D5ChordSlashDb,
+    D5ChordSlashCs,
+    D5ChordSlashE,
+    D5ChordSlashAb,
+    D5ChordSlashGs,
+    DSus2ChordSlashA,
+    DSus2ChordSlashDb,
+    DSus2ChordSlashCs,
+    DSus2ChordSlashE,
+    DSus2ChordSlashAb,
+    DSus2ChordSlashGs,
   ];
 
   const lotsOfChords = DbBalineseIncludedChords.concat([

@@ -7,6 +7,7 @@ import { LabeledSelector } from "../common/selectors/LabeledSelector";
 
 interface IChordSearchSelectorProps {
   allChords: Chord[];
+  groupBy?: (chord: Chord) => string;
   minWidth?: string;
   updateChord: (chord: Chord) => void;
   theme: Base16Theme;
@@ -18,7 +19,7 @@ const ChordSearchSelector = (props: IChordSearchSelectorProps) => {
   );
   const [filterOptions, setFilterOptions] = useState([] as Chord[]);
 
-  const { allChords, minWidth, updateChord, theme } = props;
+  const { allChords, groupBy, minWidth, updateChord, theme } = props;
 
   // Speed up search by only searching through a subset of allChords,
   // then resetting it to allChords when appropriate.
@@ -162,6 +163,7 @@ const ChordSearchSelector = (props: IChordSearchSelectorProps) => {
       items={allChords}
       getValue={(k: Chord) => k.name}
       getDisplay={(k: Chord) => k.name}
+      groupBy={groupBy}
       onChange={updateChord}
       onInputChange={handleInputChange}
       placeholder={"Search by name or notes ('A, Bb, D, E, F#')"}

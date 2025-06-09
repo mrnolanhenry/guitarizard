@@ -86,7 +86,7 @@ const TopBar = (props: Props) => {
   const style: CSSProperties = {
     backgroundColor: theme.swatch.base00,
     color: theme.swatch.base04,
-    borderColor: theme.swatch.base03,
+    borderColor: theme.swatch.base04,
     paddingBottom: 0,
   };
 

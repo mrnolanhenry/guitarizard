@@ -18,13 +18,15 @@ export class Interval {
   scaleDegree: IntervalScaleDegree; // Describes the interval's function in a scale or chord (e.g., "root", "third", "fifth").
   aliases: Interval[]; // Aliases are other intervals that are enharmonically equivalent to this interval
   priority: number; // Priority is used to determine the importance of the interval in a chord, with higher numbers indicating less important intervals - could also apply to scales
+  isSlashNote: boolean; // Indicates if the interval corresponds to the slash note (e.g., C/E, where E is the slash note) within a chord.
 
-  constructor(semitones: number, quality: IntervalQuality, scaleDegree: IntervalScaleDegree, aliases?: Interval[], priority: number = 1) {
+  constructor(semitones: number, quality: IntervalQuality, scaleDegree: IntervalScaleDegree, aliases?: Interval[], priority: number = 1, isSlashNote: boolean = false) {
     this.semitones = semitones;
     this.quality = quality;
     this.scaleDegree = scaleDegree;
     this.aliases = aliases ?? [];
     this.priority = priority;
+    this.isSlashNote = isSlashNote;
 
     this.name = this.getFullNameSpelledOut();
     this.nameOrdinal = this.getFullNameOrdinal();
